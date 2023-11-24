@@ -1,7 +1,7 @@
+import { Config } from './../config/api.config';
 import { Company } from './../models/company';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_CONFIG } from '../config/api.config';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,6 +12,6 @@ export class CompanyService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Company[]> {
-    return this.http.get<Company[]>(`${API_CONFIG.baseUrl}/company`);
+    return this.http.get<Company[]>(`${Config.webApiUrl}/company`);
   }
 }

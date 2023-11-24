@@ -2,7 +2,7 @@ import { Person } from '../models/person';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API_CONFIG } from '../config/api.config';
+import { Config } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -12,22 +12,22 @@ export class PersonService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Person[]> {
-    return this.http.get<Person[]>(`${API_CONFIG.baseUrl}/person`)
+    return this.http.get<Person[]>(`${Config.webApiUrl}/person`)
   }
 
   findById(id: any): Observable<Person> {
-    return this.http.get<Person>(`${API_CONFIG.baseUrl}/person/${id}`);
+    return this.http.get<Person>(`${Config.webApiUrl}/person/${id}`);
   }
 
   create(person: Person): Observable<Person> {
-    return this.http.post<Person>(`${API_CONFIG.baseUrl}/person`, person);
+    return this.http.post<Person>(`${Config.webApiUrl}/person`, person);
   }
 
   update(person: Person): Observable<Person> {
-    return this.http.put<Person>(`${API_CONFIG.baseUrl}/clientes/${person.id}`, person);
+    return this.http.put<Person>(`${Config.webApiUrl}/clientes/${person.id}`, person);
   }
 
   delete(id: any): Observable<Person> {
-    return this.http.delete<Person>(`${API_CONFIG.baseUrl}/clientes/${id}`);
+    return this.http.delete<Person>(`${Config.webApiUrl}/clientes/${id}`);
   }
 }
