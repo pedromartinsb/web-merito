@@ -1,3 +1,6 @@
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from './../../services/auth.service';
+import { StorageService } from './../../services/storage.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -9,6 +12,9 @@ import { Router } from '@angular/router';
 export class NavComponent implements OnInit {
 
   constructor(
+    private storageService: StorageService,
+    private authService: AuthService,
+    private toast: ToastrService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -16,7 +22,10 @@ export class NavComponent implements OnInit {
   }
 
   logout() {
-    this.router.navigate(['login'])
+    this.authService.logout();
+    this.storageService.clean();
+    this.toast.info('Logout realizado com sucesso', 'Logout');
+    this.router.navigate(['login']);
   }
 
   isAuthenticated() {

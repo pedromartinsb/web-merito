@@ -1,3 +1,4 @@
+import { HttpRequestInterceptor } from './_helpers/http.interceptor';
 import { HeaderComponent } from './components/header/header.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -35,6 +36,7 @@ import { PersonUpdateComponent } from './components/person/person-update/person-
 import { PersonDeleteComponent } from './components/person/person-delete/person-delete.component';
 import { CompanyListComponent } from './components/company/company-list/company-list.component';
 import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { AppointmentListComponent } from './components/appointment/appointment-l
     PersonDeleteComponent,
     CompanyListComponent,
     AppointmentListComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,7 +80,7 @@ import { AppointmentListComponent } from './components/appointment/appointment-l
       progressBar: true
     }),
   ],
-  providers: [],
+  providers: [HttpRequestInterceptor],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,5 @@
+import { AuthGuard } from './auth/auth.guard';
+import { LoginComponent } from './components/login/login.component';
 import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
 import { CompanyListComponent } from './components/company/company-list/company-list.component';
 import { PersonDeleteComponent } from './components/person/person-delete/person-delete.component';
@@ -10,8 +12,9 @@ import { HomeComponent } from './components/home/home.component';
 import { PersonUpdateComponent } from './components/person/person-update/person-update.component';
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   {
-    path: '', component: NavComponent, children: [
+    path: '', component: NavComponent, canActivate: [AuthGuard], children: [
       { path: 'home', component: HomeComponent },
 
       { path: 'appointment', component: AppointmentListComponent },
