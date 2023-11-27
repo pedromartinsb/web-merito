@@ -1,4 +1,4 @@
-import { HttpRequestInterceptor } from './_helpers/http.interceptor';
+import { AuthInterceptorProvider } from './_helpers/auth.interceptor';
 import { HeaderComponent } from './components/header/header.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -80,7 +80,7 @@ import { LoginComponent } from './components/login/login.component';
       progressBar: true
     }),
   ],
-  providers: [HttpRequestInterceptor],
+  providers: [AuthInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

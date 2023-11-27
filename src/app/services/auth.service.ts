@@ -1,6 +1,8 @@
+import { Login } from './../models/login';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Config } from '../config/api.config';
 
 const httpOptions = {
@@ -11,32 +13,35 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
+
+  jwtService: JwtHelperService = new JwtHelperService();
+
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(
-      `${Config.webApiUrl}/auth/signin`,
-      {
-        username,
-        password,
-      },
-      httpOptions
-    );
+  authenticate(username: string, password: string) {
+    return this.http.post<Login>(`${Config.webApiUrl}/auth/signin`,
+    {
+      username,
+      password,
+    },
+    {
+      observe: 'response'
+    })
   }
 
-  register(username: string, email: string, password: string): Observable<any> {
-    return this.http.post(
-      `${Config.webApiUrl}/auth/signup`,
-      {
-        username,
-        email,
-        password,
-      },
-      httpOptions
-    );
+  successfulLogin(authToken: string) {
+    localStorage.setItem('token', authToken);
   }
 
-  logout(): Observable<any> {
-    return this.http.post(`${Config.webApiUrl}/auth/signout`, { }, httpOptions);
+  isAuthenticated() {
+    let token = localStorage.getItem('token');
+    if(token != null) {
+      return !this.jwtService.isTokenExpired(token);
+    }
+    return false
+  }
+
+  logout() {
+    localStorage.clear();
   }
 }

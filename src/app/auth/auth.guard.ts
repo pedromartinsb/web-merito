@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { StorageService } from './../services/storage.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
@@ -7,10 +8,10 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private storageService: StorageService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    let authenticated = this.storageService.isLoggedIn();
+    let authenticated = this.authService.isAuthenticated();
 
     if(authenticated) {
       return true;

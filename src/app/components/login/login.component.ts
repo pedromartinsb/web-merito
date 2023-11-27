@@ -1,8 +1,8 @@
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { StorageService } from './../../services/storage.service';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { Login } from 'src/app/models/login';
 
 @Component({
   selector: 'app-login',
@@ -19,38 +19,32 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
 
+  login: Login = {
+    username: '',
+    token: ''
+  };
+
   constructor(
     private authService: AuthService,
-    private storageService: StorageService,
     private router: Router,
     private toast: ToastrService,
   ) { }
 
-  ngOnInit(): void {
-    if (this.storageService.isLoggedIn()) {
-      this.isLoggedIn = true;
-      this.roles = this.storageService.getUser().roles;
-    }
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
     const { username, password } = this.form;
 
-    console.log("username: " + username)
-
-    this.authService.login(username, password).subscribe({
+    this.authService.authenticate(username, password).subscribe({
       next: data => {
-        this.storageService.saveUser(data);
-
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.roles = this.storageService.getUser().roles;
+        this.login = data.body;
+        this.authService.successfulLogin(this.login.token);
         this.router.navigate(['']);
         this.toast.success('Login realizado com sucesso', 'Login');
       },
       error: err => {
+        this.toast.error('Usuário e/ou senha inválidos');
         this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
       }
     });
   }
