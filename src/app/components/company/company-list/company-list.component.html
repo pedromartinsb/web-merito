@@ -13,15 +13,25 @@
 
      <table mat-table [dataSource]="dataSource">
 
-        <ng-container matColumnDef="id">
-           <th mat-header-cell *matHeaderCellDef> ID </th>
-           <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-        </ng-container>
-
         <ng-container matColumnDef="name">
            <th mat-header-cell *matHeaderCellDef> Nome </th>
            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
+
+        <ng-container matColumnDef="companyType">
+          <th mat-header-cell *matHeaderCellDef> Tipo </th>
+          <td mat-cell *matCellDef="let element"> {{returnCompanyType(element.companyType)}} </td>
+       </ng-container>
+
+       <ng-container matColumnDef="holding">
+        <th mat-header-cell *matHeaderCellDef> Grupo de Empresa </th>
+        <td mat-cell *matCellDef="let element"> {{element.holding.name}} </td>
+     </ng-container>
+
+       <ng-container matColumnDef="segment">
+        <th mat-header-cell *matHeaderCellDef> Segmento </th>
+        <td mat-cell *matCellDef="let element"> {{element.holding.segment.name}} </td>
+     </ng-container>
 
         <!-- <ng-container matColumnDef="person">
            <th mat-header-cell *matHeaderCellDef> Pessoa </th>

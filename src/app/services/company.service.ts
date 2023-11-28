@@ -14,4 +14,12 @@ export class CompanyService {
   findAll(): Observable<Company[]> {
     return this.http.get<Company[]>(`${Config.webApiUrl}/company`);
   }
+
+  findById(id: any): Observable<Company> {
+    return this.http.get<Company>(`${Config.webApiUrl}/company/${id}`);
+  }
+
+  create(company: Company): Observable<Company> {
+    return this.http.post<Company>(`${Config.webApiUrl}/company`, company);
+  }
 }

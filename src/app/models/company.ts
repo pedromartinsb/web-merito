@@ -1,10 +1,9 @@
 export interface Company {
   id?: string;
   name: string;
-  companyType: string;
+  companyType: number;
 
-  holding: any;
-  departments: any;
+  holdingId: any;
 
   createdAt: string;
   updatedAt: string;

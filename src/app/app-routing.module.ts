@@ -1,3 +1,4 @@
+import { CompanyCreateComponent } from './components/company/company-create/company-create.component';
 import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
@@ -27,6 +28,12 @@ const routes: Routes = [
       },
 
       { path: 'company', component: CompanyListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'company/create', component: CompanyCreateComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'

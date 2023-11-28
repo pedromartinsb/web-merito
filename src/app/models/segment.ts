@@ -1,11 +1,6 @@
-import { Segment } from "./segment";
-
-export interface Holding {
+export interface Segment {
   id?: string;
   name: string;
-
-  segment: Segment;
-
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

@@ -14,7 +14,7 @@ export class CompanyListComponent implements OnInit {
   ELEMENT_DATA: Company[] = [];
   FILTERED_DATA: Company[] = [];
 
-  displayedColumns: string[] = ['id', 'name', 'acoes'];
+  displayedColumns: string[] = ['name', 'companyType', 'holding', 'segment', 'acoes'];
   dataSource = new MatTableDataSource<Company>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -38,6 +38,16 @@ export class CompanyListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  returnCompanyType(companyType: any): string {
+    if(companyType == 'HEADQUARTERS') {
+      return 'MATRIZ'
+    } else if(companyType == 'FILIAL') {
+      return 'FILIAL'
+    } else {
+      return 'NENHUMA'
+    }
   }
 
 }
