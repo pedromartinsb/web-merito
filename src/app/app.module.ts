@@ -38,6 +38,7 @@ import { CompanyListComponent } from './components/company/company-list/company-
 import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
 import { LoginComponent } from './components/login/login.component';
 import { CompanyCreateComponent } from './components/company/company-create/company-create.component';
+import { CompanyReadComponent } from './components/company/company-read/company-read.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { CompanyCreateComponent } from './components/company/company-create/comp
     AppointmentListComponent,
     LoginComponent,
     CompanyCreateComponent,
+    CompanyReadComponent,
   ],
   imports: [
     BrowserModule,

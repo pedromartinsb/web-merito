@@ -1,3 +1,4 @@
+import { CompanyReadComponent } from './components/company/company-read/company-read.component';
 import { CompanyCreateComponent } from './components/company/company-create/company-create.component';
 import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './components/login/login.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
     path: '', component: NavComponent, children: [
       { path: 'home', component: HomeComponent },
 
+      // APPOINTMENT
       {
         path: 'appointment', component: AppointmentListComponent,
         canActivate: [AuthGuard],
@@ -27,6 +29,7 @@ const routes: Routes = [
         }
       },
 
+      // COMPANY
       { path: 'company', component: CompanyListComponent,
         canActivate: [AuthGuard],
         data: {
@@ -39,7 +42,14 @@ const routes: Routes = [
           role: 'ROLE_ADMIN'
         }
       },
+      { path: 'company/read/:id', component: CompanyReadComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
 
+      // PERSON
       { path: 'person', component: PersonListComponent },
       { path: 'person/create', component: PersonCreateComponent },
       { path: 'person/update/:id', component: PersonUpdateComponent },
