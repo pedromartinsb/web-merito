@@ -17,11 +17,11 @@ export class LoginComponent implements OnInit {
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
-  roles: string[] = [];
 
   login: Login = {
     username: '',
-    token: ''
+    token: '',
+    roles: [],
   };
 
   constructor(
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.authService.authenticate(username, password).subscribe({
       next: data => {
         this.login = data.body;
-        this.authService.successfulLogin(this.login.token);
+        this.authService.successfulLogin(this.login.token, this.login.roles);
         this.router.navigate(['']);
         this.toast.success('Login realizado com sucesso', 'Login');
       },

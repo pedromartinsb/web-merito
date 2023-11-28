@@ -15,10 +15,11 @@ export class NavComponent implements OnInit {
     private storageService: StorageService,
     private authService: AuthService,
     private toast: ToastrService,
-    private router: Router) { }
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
-    this.router.navigate(['home'])
+    this.router.navigate(['home']);
   }
 
   logout() {
@@ -31,4 +32,12 @@ export class NavComponent implements OnInit {
   isAuthenticated() {
     return true
   }
+
+  // checkRoleAccess(): void {
+  //   const userRole = this.authService.getRole();
+
+  //   if(this.route.data.indexOf(userRole) === -1) {
+  //     this.canAccess = false;
+  //   }
+  // }
 }

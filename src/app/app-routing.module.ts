@@ -13,13 +13,25 @@ import { PersonUpdateComponent } from './components/person/person-update/person-
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+
   {
-    path: '', component: NavComponent, canActivate: [AuthGuard], children: [
+    path: '', component: NavComponent, children: [
       { path: 'home', component: HomeComponent },
 
-      { path: 'appointment', component: AppointmentListComponent },
+      {
+        path: 'appointment', component: AppointmentListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_USER'
+        }
+      },
 
-      { path: 'company', component: CompanyListComponent },
+      { path: 'company', component: CompanyListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
 
       { path: 'person', component: PersonListComponent },
       { path: 'person/create', component: PersonCreateComponent },

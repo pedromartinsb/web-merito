@@ -5,14 +5,12 @@ import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Config } from '../config/api.config';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+
+  roleAs: string[] = [];
 
   jwtService: JwtHelperService = new JwtHelperService();
 
@@ -29,8 +27,10 @@ export class AuthService {
     })
   }
 
-  successfulLogin(authToken: string) {
+  successfulLogin(authToken: string, role: string[]) {
     localStorage.setItem('token', authToken);
+    this.roleAs = role;
+    localStorage.setItem('role', JSON.stringify(this.roleAs));
   }
 
   isAuthenticated() {
@@ -43,5 +43,10 @@ export class AuthService {
 
   logout() {
     localStorage.clear();
+  }
+
+  getRole() {
+    this.roleAs = JSON.parse(localStorage.getItem('role'));
+    return this.roleAs;
   }
 }

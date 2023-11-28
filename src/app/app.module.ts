@@ -37,6 +37,7 @@ import { PersonDeleteComponent } from './components/person/person-delete/person-
 import { CompanyListComponent } from './components/company/company-list/company-list.component';
 import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
 import { LoginComponent } from './components/login/login.component';
+import { CompanyCreateComponent } from './components/company/company-create/company-create.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { LoginComponent } from './components/login/login.component';
     CompanyListComponent,
     AppointmentListComponent,
     LoginComponent,
+    CompanyCreateComponent,
   ],
   imports: [
     BrowserModule,
