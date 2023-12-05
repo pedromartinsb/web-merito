@@ -1,10 +1,21 @@
 <mat-drawer-container class="container" autosize>
    <mat-drawer #drawer class="sidenav" mode="side">
       <img src="assets/img/side-image.svg" alt="Imagem de navegação">
+
       <mat-nav-list class="nav-list">
         <a mat-list-item routerLink="home">
           <i class="material-icons">home</i>
           Home
+        </a>
+
+        <a mat-list-item routerLink="company">
+          <i class="material-icons">check_circle</i>
+          Tabela de Avaliação
+        </a>
+
+        <a mat-list-item routerLink="task">
+          <i class="material-icons">add_task</i>
+          Tarefas
         </a>
 
         <a mat-list-item routerLink="company">
@@ -14,12 +25,17 @@
 
         <a mat-list-item routerLink="company">
           <i class="material-icons">person_add</i>
-          Cadastros
+          Colaborador
         </a>
 
         <a mat-list-item routerLink="company">
-          <i class="material-icons">add_task</i>
-          Tarefas
+          <i class="material-icons">badge</i>
+          Função
+        </a>
+
+        <a mat-list-item routerLink="company">
+          <i class="material-icons">support_agent</i>
+          Atribuição
         </a>
 
         <a mat-list-item routerLink="company">

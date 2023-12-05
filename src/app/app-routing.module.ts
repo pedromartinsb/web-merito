@@ -14,6 +14,7 @@ import { HomeComponent } from './components/home/home.component';
 import { PersonUpdateComponent } from './components/person/person-update/person-update.component';
 import { DepartmentListComponent } from './components/department/department-list/department-list.component';
 import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
+import { TaskListComponent } from './components/task/task-list/task-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -60,6 +61,9 @@ const routes: Routes = [
       { path: 'person/create', component: PersonCreateComponent },
       { path: 'person/update/:id', component: PersonUpdateComponent },
       { path: 'person/delete/:id', component: PersonDeleteComponent },
+
+      // TASK
+      { path: 'task', component: TaskListComponent }
     ]
   }
 ];

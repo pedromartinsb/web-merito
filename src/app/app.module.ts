@@ -41,6 +41,7 @@ import { CompanyCreateComponent } from './components/company/company-create/comp
 import { CompanyReadComponent } from './components/company/company-read/company-read.component';
 import { DepartmentListComponent } from './components/department/department-list/department-list.component';
 import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
+import { TaskListComponent } from './components/task/task-list/task-list.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { DepartmentPersonListComponent } from './components/department/departmen
     CompanyReadComponent,
     DepartmentListComponent,
     DepartmentPersonListComponent,
+    TaskListComponent,
   ],
   imports: [
     BrowserModule,
