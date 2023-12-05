@@ -15,6 +15,7 @@ import { PersonUpdateComponent } from './components/person/person-update/person-
 import { DepartmentListComponent } from './components/department/department-list/department-list.component';
 import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
 import { TaskListComponent } from './components/task/task-list/task-list.component';
+import { AssignmentListComponent } from './components/assignment/assignment-list/assignment-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -30,6 +31,11 @@ const routes: Routes = [
         data: {
           role: 'ROLE_USER'
         }
+      },
+
+      // ASSIGNMENT
+      {
+        path: 'assignment', component: AssignmentListComponent,
       },
 
       // COMPANY
