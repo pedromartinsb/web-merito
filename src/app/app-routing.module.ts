@@ -12,6 +12,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { PersonUpdateComponent } from './components/person/person-update/person-update.component';
+import { DepartmentListComponent } from './components/department/department-list/department-list.component';
+import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -48,6 +50,10 @@ const routes: Routes = [
           role: 'ROLE_ADMIN'
         }
       },
+
+      // DEPARTMENT
+      { path: 'department/company/:idCompany', component: DepartmentListComponent },
+      { path: 'department/company/:idCompany/person', component: DepartmentPersonListComponent },
 
       // PERSON
       { path: 'person', component: PersonListComponent },

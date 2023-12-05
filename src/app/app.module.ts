@@ -39,6 +39,8 @@ import { AppointmentListComponent } from './components/appointment/appointment-l
 import { LoginComponent } from './components/login/login.component';
 import { CompanyCreateComponent } from './components/company/company-create/company-create.component';
 import { CompanyReadComponent } from './components/company/company-read/company-read.component';
+import { DepartmentListComponent } from './components/department/department-list/department-list.component';
+import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { CompanyReadComponent } from './components/company/company-read/company-
     LoginComponent,
     CompanyCreateComponent,
     CompanyReadComponent,
+    DepartmentListComponent,
+    DepartmentPersonListComponent,
   ],
   imports: [
     BrowserModule,
