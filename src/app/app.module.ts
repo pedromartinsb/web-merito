@@ -43,6 +43,7 @@ import { DepartmentListComponent } from './components/department/department-list
 import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
 import { TaskListComponent } from './components/task/task-list/task-list.component';
 import { AssignmentListComponent } from './components/assignment/assignment-list/assignment-list.component';
+import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { AssignmentListComponent } from './components/assignment/assignment-list
     DepartmentPersonListComponent,
     TaskListComponent,
     AssignmentListComponent,
+    AppointmentCreateComponent,
   ],
   imports: [
     BrowserModule,

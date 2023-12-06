@@ -12,6 +12,10 @@ export class DepartmentService {
 
   constructor(private http: HttpClient) { }
 
+  findAll(): Observable<Department[]> {
+    return this.http.get<Department[]>(`${Config.webApiUrl}/department`);
+  }
+
   findAllByCompany(idCompany: string): Observable<Department[]> {
     return this.http.get<Department[]>(`${Config.webApiUrl}/department/company/${idCompany}`);
   }

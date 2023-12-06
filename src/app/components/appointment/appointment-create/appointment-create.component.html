@@ -1,0 +1,55 @@
+<div class="container mat-elevation-z8">
+
+  <form class="form">
+
+    <h1 class="fullWidth">Tabela de Avaliação</h1>
+    <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Empresas">
+
+    <mat-form-field class="fullWidth" appearance="outline">
+      <mat-label>Unidade</mat-label>
+      <mat-select
+        [(ngModel)]="companyId"
+        name="holding"
+        [formControl]="company"
+        required>
+      <mat-option *ngFor="let company of companies" value="{{ company.id }}">{{ company.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="fullWidth" appearance="outline">
+      <mat-label>Departamento</mat-label>
+      <mat-select
+        [(ngModel)]="departmentId"
+        name="holding"
+        [formControl]="department"
+        required>
+      <mat-option *ngFor="let department of departments" value="{{ department.id }}">{{ department.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="fullWidth" appearance="outline">
+      <mat-label>Função</mat-label>
+      <mat-select
+        [(ngModel)]="sectorId"
+        name="holding"
+        [formControl]="sector"
+        required>
+      <mat-option *ngFor="let sector of sectors" value="{{ sector.id }}">{{ sector.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="fullWidth" appearance="outline">
+      <mat-label>Profissional</mat-label>
+      <mat-select
+        [(ngModel)]="personId"
+        name="holding"
+        [formControl]="person"
+        required>
+      <mat-option *ngFor="let person of persons" value="{{ person.id }}">{{ person.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button routerLink="../" class="fullWidth mat-elevation-z4" mat-stroked-button color="warn">Pesquisar</button>
+  </form>
+
+</div>

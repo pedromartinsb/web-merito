@@ -16,6 +16,7 @@ import { DepartmentListComponent } from './components/department/department-list
 import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
 import { TaskListComponent } from './components/task/task-list/task-list.component';
 import { AssignmentListComponent } from './components/assignment/assignment-list/assignment-list.component';
+import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,17 +26,28 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
 
       // APPOINTMENT
+      // {
+      //   path: 'appointment', component: AppointmentListComponent,
+      //   canActivate: [AuthGuard],
+      //   data: {
+      //     role: 'ROLE_USER'
+      //   }
+      // },
       {
-        path: 'appointment', component: AppointmentListComponent,
+        path: 'appointment', component: AppointmentCreateComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_USER'
+          role: 'ROLE_ADMIN'
         }
       },
 
       // ASSIGNMENT
       {
         path: 'assignment', component: AssignmentListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
       },
 
       // COMPANY
@@ -59,17 +71,52 @@ const routes: Routes = [
       },
 
       // DEPARTMENT
-      { path: 'department/company/:idCompany', component: DepartmentListComponent },
-      { path: 'department/company/:idCompany/person', component: DepartmentPersonListComponent },
+      { path: 'department/company/:idCompany', component: DepartmentListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'department/company/:idCompany/person', component: DepartmentPersonListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
 
       // PERSON
-      { path: 'person', component: PersonListComponent },
-      { path: 'person/create', component: PersonCreateComponent },
-      { path: 'person/update/:id', component: PersonUpdateComponent },
-      { path: 'person/delete/:id', component: PersonDeleteComponent },
+      { path: 'person', component: PersonListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'person/create', component: PersonCreateComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'person/update/:id', component: PersonUpdateComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'person/delete/:id', component: PersonDeleteComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
 
       // TASK
-      { path: 'task', component: TaskListComponent }
+      { path: 'task', component: TaskListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      }
     ]
   }
 ];
