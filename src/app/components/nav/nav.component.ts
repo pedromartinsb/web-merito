@@ -29,10 +29,6 @@ export class NavComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
-  isAuthenticated() {
-    return true
-  }
-
   // checkRoleAccess(): void {
   //   const userRole = this.authService.getRole();
 

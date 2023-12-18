@@ -26,6 +26,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { ToastrModule } from 'ngx-toastr';
 
 import { NavComponent } from './components/nav/nav.component';
@@ -44,6 +46,7 @@ import { DepartmentPersonListComponent } from './components/department/departmen
 import { TaskListComponent } from './components/task/task-list/task-list.component';
 import { AssignmentListComponent } from './components/assignment/assignment-list/assignment-list.component';
 import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -88,6 +91,9 @@ import { AppointmentCreateComponent } from './components/appointment/appointment
     MatIconModule,
     MatListModule,
     MatCardModule,
+    MatTabsModule,
+    MatGridListModule,
+    MatDialogModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       closeButton: true,

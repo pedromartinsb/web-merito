@@ -16,7 +16,19 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.checkUserLogin(route, state);
+    // return this.checkUserLogin(route, state);
+
+    // TODO: alterar essa chamada
+    let authenticated = this.authService.isAuthenticated();
+
+    if(authenticated) {
+      return true;
+    } else {
+      this.toast.error('Usuário não está logado no sistema.');
+      this.router.navigate(['login']);
+      return false
+    }
+
   }
 
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
@@ -40,7 +52,8 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
+    this.toast.error('Usuário não logado no sistema.');
     return false;
   }
 
