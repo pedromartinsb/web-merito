@@ -39,8 +39,7 @@ import { PersonDeleteComponent } from './components/person/person-delete/person-
 import { CompanyListComponent } from './components/company/company-list/company-list.component';
 import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
 import { LoginComponent } from './components/login/login.component';
-import { CompanyCreateComponent } from './components/company/company-create/company-create.component';
-import { CompanyReadComponent } from './components/company/company-read/company-read.component';
+import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 import { DepartmentListComponent } from './components/department/department-list/department-list.component';
 import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
 import { TaskListComponent } from './components/task/task-list/task-list.component';
@@ -68,8 +67,7 @@ import { HoldingFormComponent } from './components/holding/holding-form/holding-
     AppointmentListComponent,
     LoginComponent,
     CompanyListComponent,
-    CompanyCreateComponent,
-    CompanyReadComponent,
+    CompanyFormComponent,
     ResponsibilityListComponent,
     ResponsibilityFormComponent,
     DepartmentListComponent,

@@ -1,5 +1,4 @@
-import { CompanyReadComponent } from './components/company/company-read/company-read.component';
-import { CompanyCreateComponent } from './components/company/company-create/company-create.component';
+import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { CompanyListComponent } from './components/company/company-list/company-list.component';
@@ -62,13 +61,13 @@ const routes: Routes = [
           role: 'ROLE_ADMIN'
         }
       },
-      { path: 'company/create', component: CompanyCreateComponent,
+      { path: 'company/create', component: CompanyFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'
         }
       },
-      { path: 'company/read/:id', component: CompanyReadComponent,
+      { path: 'company/edit/:id', component: CompanyFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'

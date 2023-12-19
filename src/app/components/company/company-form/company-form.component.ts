@@ -1,0 +1,114 @@
+import { CompanyService } from '../../../services/company.service';
+import { ToastrService } from 'ngx-toastr';
+import { FormControl, Validators } from '@angular/forms';
+import { HoldingService } from '../../../services/holding.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Holding } from '../../../models/holding';
+import { Component, OnInit } from '@angular/core';
+import { Company, CompanyType } from 'src/app/models/company';
+
+@Component({
+  selector: 'app-company-form',
+  templateUrl: './company-form.component.html',
+  styleUrls: ['./company-form.component.css']
+})
+export class CompanyFormComponent implements OnInit {
+
+  holdings: Holding[] = [];
+
+  company: Company = {
+    name: '',
+    companyType: CompanyType[0],
+    holdingId: '',
+    holding: null,
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: '',
+  };
+
+  companyId: string;
+
+  name:        FormControl = new FormControl(null, Validators.minLength(3));
+  holding:     FormControl = new FormControl(null, [Validators.required]);
+  companyType: FormControl = new FormControl(null, [Validators.required]);
+
+  companyTypeList: CompanyType[];
+
+  constructor(
+    private companyService: CompanyService,
+    private holdingService: HoldingService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toast: ToastrService,
+  ) { }
+
+  ngOnInit(): void {
+    this.companyId = this.route.snapshot.params['id'];
+    if (this.companyId) {
+      this.loadCompany();
+    }
+    this.findAllHolding();
+  }
+
+  openCompanyForm(): void {
+    if (this.companyId) {
+      this.updateCompany();
+    } else {
+      this.createCompany();
+    }
+  }
+  
+  private createCompany(): void {
+    this.companyService.create(this.company).subscribe({
+      next: () => {
+        this.toast.success('Holding cadastrada com sucesso', 'Cadastro');
+        this.router.navigate(['holding']);
+      },
+      error: (ex) => {
+        this.handleErrors(ex);
+      },
+    });
+  }
+  
+  private updateCompany(): void {
+    this.companyService.update(this.companyId, this.company).subscribe({
+      next: () => {
+        this.toast.success('Empresa atualizada com sucesso', 'Atualização');
+        this.router.navigate(['company']);
+      },
+      error: (ex) => {
+        this.handleErrors(ex);
+      },
+    });
+  }
+
+  findAllHolding(): void {
+    this.holdingService.findAll().subscribe(response => {
+      this.holdings = response;
+      if(this.companyId) this.holding.setValue(response.find(h => h.id === this.company.holding.id));                 
+    });    
+  }
+
+  loadCompany(): void {
+    this.companyService.findById(this.companyId).subscribe((response: Company) => {
+      this.company = response;
+      this.company.companyType = CompanyType[response.companyType as keyof typeof CompanyType];
+      this.companyType.setValue(this.company.companyType);   
+    });
+  }
+
+  private handleErrors(ex: any): void {
+    if (ex.error.errors) {
+      ex.error.errors.forEach(element => {
+        this.toast.error(element.message);
+      });
+    } else {
+      this.toast.error(ex.error.message);
+    }
+  }
+
+  validateFields(): boolean {
+    return this.name.valid;
+  }
+
+}
