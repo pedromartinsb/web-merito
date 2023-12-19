@@ -48,7 +48,7 @@ import { AssignmentListComponent } from './components/assignment/assignment-list
 import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ResponsibilityListComponent } from './components/responsibility/responsibility-list/responsibility-list.component';
-import { ResponsibilityCreateComponent } from './components/responsibility/responsibility-create/responsibility-create.component';
+import { ResponsibilityFormComponent } from './components/responsibility/responsibility-form/responsibility-form.component';
 import { DeleteConfirmationModalComponent } from './components/delete/delete-confirmation-modal';
 
 @NgModule({
@@ -67,7 +67,7 @@ import { DeleteConfirmationModalComponent } from './components/delete/delete-con
     CompanyCreateComponent,
     CompanyReadComponent,
     ResponsibilityListComponent,
-    ResponsibilityCreateComponent,
+    ResponsibilityFormComponent,
     DepartmentListComponent,
     DepartmentPersonListComponent,
     TaskListComponent,

@@ -17,7 +17,7 @@ import { TaskListComponent } from './components/task/task-list/task-list.compone
 import { AssignmentListComponent } from './components/assignment/assignment-list/assignment-list.component';
 import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
 import { ResponsibilityListComponent } from './components/responsibility/responsibility-list/responsibility-list.component';
-import { ResponsibilityCreateComponent } from './components/responsibility/responsibility-create/responsibility-create.component';
+import { ResponsibilityFormComponent } from './components/responsibility/responsibility-form/responsibility-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -120,7 +120,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'responsibility/create', component: ResponsibilityCreateComponent,
+        path: 'responsibility/create', component: ResponsibilityFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'
@@ -128,7 +128,7 @@ const routes: Routes = [
       },
       {
         path: 'responsibility/create/:id',
-        component: ResponsibilityCreateComponent,
+        component: ResponsibilityFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'

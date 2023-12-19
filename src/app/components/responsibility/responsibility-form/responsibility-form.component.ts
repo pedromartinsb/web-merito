@@ -1,4 +1,4 @@
-import { ResponsibilityService } from './../../../services/responsibility.service';
+import { ResponsibilityService } from '../../../services/responsibility.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,11 +6,11 @@ import { Component, OnInit } from '@angular/core';
 import { Responsibility } from 'src/app/models/responsibility';
 
 @Component({
-  selector: 'app-responsibility-create',
-  templateUrl: './responsibility-create.component.html',
-  styleUrls: ['./responsibility-create.component.css']
+  selector: 'app-responsibility-form',
+  templateUrl: './responsibility-form.component.html',
+  styleUrls: ['./responsibility-form.component.css']
 })
-export class ResponsibilityCreateComponent implements OnInit {
+export class ResponsibilityFormComponent implements OnInit {
 
 
   responsibility: Responsibility = {
@@ -41,9 +41,9 @@ export class ResponsibilityCreateComponent implements OnInit {
     });
   }
 
-  create(): void {
+  openResponsibilityForm(): void {
     if (this.responsibilityId) {
-      this.update();
+      this.updateResponsibility();
     } else {
       this.createResponsibility();
     }
@@ -61,7 +61,7 @@ export class ResponsibilityCreateComponent implements OnInit {
     });
   }
   
-  private update(): void {
+  private updateResponsibility(): void {
     this.responsibilityService.update(this.responsibilityId, this.responsibility).subscribe({
       next: () => {
         this.toast.success('Responsabilidade atualizada com sucesso', 'Atualização');
