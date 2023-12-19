@@ -126,6 +126,14 @@ const routes: Routes = [
           role: 'ROLE_ADMIN'
         }
       },
+      {
+        path: 'responsibility/create/:id',
+        component: ResponsibilityCreateComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
 
       // TASK
       { path: 'task', component: TaskListComponent,

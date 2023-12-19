@@ -34,3 +34,9 @@ mat-radio-group {
   justify-content: space-around;
   margin-bottom: 1rem;
 }
+
+.mat-column-actions {
+  width: 40px;
+  text-align: center;
+  font-weight: bold;
+}

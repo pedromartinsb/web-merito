@@ -22,4 +22,12 @@ export class ResponsibilityService {
   create(responsibility: Responsibility): Observable<Responsibility> {
     return this.http.post<Responsibility>(`${Config.webApiUrl}/responsibility`, responsibility);
   }
+
+  update(id: string, responsibility: Responsibility): Observable<Responsibility> {
+    return this.http.post<Responsibility>(`${Config.webApiUrl}/responsibility/${id}`, responsibility);
+  }
+
+  delete(id: string): Observable<Responsibility> {
+    return this.http.delete<Responsibility>(`${Config.webApiUrl}/responsibility/${id}`);
+  }
 }

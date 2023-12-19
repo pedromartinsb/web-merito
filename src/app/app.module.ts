@@ -49,6 +49,7 @@ import { AppointmentCreateComponent } from './components/appointment/appointment
 import { MatDialogModule } from '@angular/material/dialog';
 import { ResponsibilityListComponent } from './components/responsibility/responsibility-list/responsibility-list.component';
 import { ResponsibilityCreateComponent } from './components/responsibility/responsibility-create/responsibility-create.component';
+import { DeleteConfirmationModalComponent } from './components/delete/delete-confirmation-modal';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { ResponsibilityCreateComponent } from './components/responsibility/respo
     TaskListComponent,
     AssignmentListComponent,
     AppointmentCreateComponent,
+    DeleteConfirmationModalComponent
   ],
   imports: [
     BrowserModule,
