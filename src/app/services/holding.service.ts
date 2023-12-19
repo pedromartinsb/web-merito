@@ -14,4 +14,20 @@ export class HoldingService {
   findAll(): Observable<Holding[]> {
     return this.http.get<Holding[]>(`${Config.webApiUrl}/holding`);
   }
+
+  findById(id: any): Observable<Holding> {
+    return this.http.get<Holding>(`${Config.webApiUrl}/holding/${id}`);
+  }
+
+  create(holding: Holding): Observable<Holding> {
+    return this.http.post<Holding>(`${Config.webApiUrl}/holding`, holding);
+  }
+
+  update(id: string, holding: Holding): Observable<Holding> {
+    return this.http.post<Holding>(`${Config.webApiUrl}/holding/${id}`, holding);
+  }
+
+  delete(id: string): Observable<Holding> {
+    return this.http.delete<Holding>(`${Config.webApiUrl}/holding/${id}`);
+  }
 }

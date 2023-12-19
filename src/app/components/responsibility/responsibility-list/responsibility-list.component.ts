@@ -46,7 +46,7 @@ export class ResponsibilityListComponent implements OnInit {
   }
 
   editResponsibility(responsibilityId: string): void {    
-    this.router.navigate(['responsibility', 'create', responsibilityId]);
+    this.router.navigate(['responsibility', 'edit', responsibilityId]);
   }
 
   openDeleteConfirmationModal(responsibilityId: string): void {

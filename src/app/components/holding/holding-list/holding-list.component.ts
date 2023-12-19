@@ -1,5 +1,5 @@
-import { SegmentService } from './../../../services/segment.service';
-import { Segment } from './../../../models/segment';
+import { HoldingService } from './../../../services/holding.service';
+import { Holding } from './../../../models/holding';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -8,22 +8,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../delete/delete-confirmation-modal';
 
 @Component({
-  selector: 'app-segment-list',
-  templateUrl: './segment-list.component.html',
-  styleUrls: ['./segment-list.component.css']
+  selector: 'app-holding-list',
+  templateUrl: './holding-list.component.html',
+  styleUrls: ['./holding-list.component.css']
 })
-export class SegmentListComponent implements OnInit {
+export class HoldingListComponent implements OnInit {
 
-  ELEMENT_DATA: Segment[] = [];
-  FILTERED_DATA: Segment[] = [];
+  ELEMENT_DATA: Holding[] = [];
+  FILTERED_DATA: Holding[] = [];
 
-  displayedColumns: string[] = ['name', 'actions'];
-  dataSource = new MatTableDataSource<Segment>(this.ELEMENT_DATA);
+  displayedColumns: string[] = ['name', 'segment', 'actions'];
+  dataSource = new MatTableDataSource<Holding>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
-    private segmentService: SegmentService,
+    private holdingService: HoldingService,
     private router: Router,
     private dialog: MatDialog
   ) { }
@@ -33,9 +33,9 @@ export class SegmentListComponent implements OnInit {
   }
 
   findAll(): void {
-    this.segmentService.findAll().subscribe(response => {
+    this.holdingService.findAll().subscribe(response => {
       this.ELEMENT_DATA = response;
-      this.dataSource = new MatTableDataSource<Segment>(response);
+      this.dataSource = new MatTableDataSource<Holding>(response);
       this.dataSource.paginator = this.paginator;
     });
   }
@@ -45,17 +45,17 @@ export class SegmentListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  editSegment(segmentId: string): void {    
-    this.router.navigate(['segment', 'edit', segmentId]);
+  editHolding(holdingId: string): void {    
+    this.router.navigate(['holding', 'edit', holdingId]);
   }
 
-  openDeleteConfirmationModal(segmentId: string): void {
+  openDeleteConfirmationModal(holdingId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
     
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar este segmento?';
+    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar este grupo de empresa?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
-      this.deleteSegment(segmentId);
+      this.deleteHolding(holdingId);
 
       dialogRef.close();
     });
@@ -65,8 +65,8 @@ export class SegmentListComponent implements OnInit {
     });
   }
 
-  deleteSegment(segmentId: string): void {
-    this.segmentService.delete(segmentId).subscribe(() => {
+  deleteHolding(holdingId: string): void {
+    this.holdingService.delete(holdingId).subscribe(() => {
       this.findAll();
     });
   }

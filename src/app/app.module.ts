@@ -52,6 +52,8 @@ import { ResponsibilityFormComponent } from './components/responsibility/respons
 import { DeleteConfirmationModalComponent } from './components/delete/delete-confirmation-modal';
 import { SegmentListComponent } from './components/segment/segment-list/segment-list.component';
 import { SegmentFormComponent } from './components/segment/segment-form/segment-form.component';
+import { HoldingListComponent } from './components/holding/holding-list/holding-list.component';
+import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,8 @@ import { SegmentFormComponent } from './components/segment/segment-form/segment-
     AppointmentCreateComponent,
     SegmentListComponent,
     SegmentFormComponent,
+    HoldingListComponent,
+    HoldingFormComponent,
     DeleteConfirmationModalComponent
   ],
   imports: [

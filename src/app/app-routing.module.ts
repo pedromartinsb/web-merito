@@ -20,6 +20,8 @@ import { ResponsibilityListComponent } from './components/responsibility/respons
 import { ResponsibilityFormComponent } from './components/responsibility/responsibility-form/responsibility-form.component';
 import { SegmentFormComponent } from './components/segment/segment-form/segment-form.component';
 import { SegmentListComponent } from './components/segment/segment-list/segment-list.component';
+import { HoldingListComponent } from './components/holding/holding-list/holding-list.component';
+import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -129,7 +131,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'responsibility/create/:id',
+        path: 'responsibility/edit/:id',
         component: ResponsibilityFormComponent,
         canActivate: [AuthGuard],
         data: {
@@ -153,8 +155,32 @@ const routes: Routes = [
         }
       },
       {
-        path: 'segment/create/:id',
+        path: 'segment/edit/:id',
         component: SegmentFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+
+      // HOLDING
+      {
+        path: 'holding', component: HoldingListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_USER'
+        }
+      },
+      {
+        path: 'holding/create', component: HoldingFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      {
+        path: 'holding/edit/:id',
+        component: HoldingFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'
