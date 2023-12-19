@@ -18,6 +18,8 @@ import { AssignmentListComponent } from './components/assignment/assignment-list
 import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
 import { ResponsibilityListComponent } from './components/responsibility/responsibility-list/responsibility-list.component';
 import { ResponsibilityFormComponent } from './components/responsibility/responsibility-form/responsibility-form.component';
+import { SegmentFormComponent } from './components/segment/segment-form/segment-form.component';
+import { SegmentListComponent } from './components/segment/segment-list/segment-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -129,6 +131,30 @@ const routes: Routes = [
       {
         path: 'responsibility/create/:id',
         component: ResponsibilityFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+
+      // SEGMENT
+      {
+        path: 'segment', component: SegmentListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_USER'
+        }
+      },
+      {
+        path: 'segment/create', component: SegmentFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      {
+        path: 'segment/create/:id',
+        component: SegmentFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'

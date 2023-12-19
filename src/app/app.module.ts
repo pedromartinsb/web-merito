@@ -50,6 +50,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ResponsibilityListComponent } from './components/responsibility/responsibility-list/responsibility-list.component';
 import { ResponsibilityFormComponent } from './components/responsibility/responsibility-form/responsibility-form.component';
 import { DeleteConfirmationModalComponent } from './components/delete/delete-confirmation-modal';
+import { SegmentListComponent } from './components/segment/segment-list/segment-list.component';
+import { SegmentFormComponent } from './components/segment/segment-form/segment-form.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,8 @@ import { DeleteConfirmationModalComponent } from './components/delete/delete-con
     TaskListComponent,
     AssignmentListComponent,
     AppointmentCreateComponent,
+    SegmentListComponent,
+    SegmentFormComponent,
     DeleteConfirmationModalComponent
   ],
   imports: [
