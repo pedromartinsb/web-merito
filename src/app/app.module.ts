@@ -47,6 +47,8 @@ import { TaskListComponent } from './components/task/task-list/task-list.compone
 import { AssignmentListComponent } from './components/assignment/assignment-list/assignment-list.component';
 import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ResponsibilityListComponent } from './components/responsibility/responsibility-list/responsibility-list.component';
+import { ResponsibilityCreateComponent } from './components/responsibility/responsibility-create/responsibility-create.component';
 
 @NgModule({
   declarations: [
@@ -58,11 +60,13 @@ import { MatDialogModule } from '@angular/material/dialog';
     PersonCreateComponent,
     PersonUpdateComponent,
     PersonDeleteComponent,
-    CompanyListComponent,
     AppointmentListComponent,
     LoginComponent,
+    CompanyListComponent,
     CompanyCreateComponent,
     CompanyReadComponent,
+    ResponsibilityListComponent,
+    ResponsibilityCreateComponent,
     DepartmentListComponent,
     DepartmentPersonListComponent,
     TaskListComponent,

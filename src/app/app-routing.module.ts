@@ -2,7 +2,6 @@ import { CompanyReadComponent } from './components/company/company-read/company-
 import { CompanyCreateComponent } from './components/company/company-create/company-create.component';
 import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './components/login/login.component';
-import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
 import { CompanyListComponent } from './components/company/company-list/company-list.component';
 import { PersonDeleteComponent } from './components/person/person-delete/person-delete.component';
 import { PersonCreateComponent } from './components/person/person-create/person-create.component';
@@ -17,6 +16,8 @@ import { DepartmentPersonListComponent } from './components/department/departmen
 import { TaskListComponent } from './components/task/task-list/task-list.component';
 import { AssignmentListComponent } from './components/assignment/assignment-list/assignment-list.component';
 import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
+import { ResponsibilityListComponent } from './components/responsibility/responsibility-list/responsibility-list.component';
+import { ResponsibilityCreateComponent } from './components/responsibility/responsibility-create/responsibility-create.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -104,6 +105,22 @@ const routes: Routes = [
         }
       },
       { path: 'person/delete/:id', component: PersonDeleteComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+
+      // RESPONSIBILITY
+      {
+        path: 'responsibility', component: ResponsibilityListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_USER'
+        }
+      },
+      {
+        path: 'responsibility/create', component: ResponsibilityCreateComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'
