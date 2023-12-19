@@ -14,7 +14,10 @@ export class ResponsibilityFormComponent implements OnInit {
 
 
   responsibility: Responsibility = {
-    name: ''
+    name: '',
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: '',
   };
 
   responsibilityId: string;
