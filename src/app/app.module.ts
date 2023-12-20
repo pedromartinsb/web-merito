@@ -56,6 +56,8 @@ import { HoldingListComponent } from './components/holding/holding-list/holding-
 import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
 import { DepartmentFormComponent } from './components/department/department-form/department-form.component';
 import { AssignmentFormComponent } from './components/assignment/assignment-form/assignment-form.component';
+import { GoalListComponent } from './components/goal/goal-list/goal-list.component';
+import { GoalFormComponent } from './components/goal/goal-form/goal-form.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,8 @@ import { AssignmentFormComponent } from './components/assignment/assignment-form
     CompanyFormComponent,
     ResponsibilityListComponent,
     ResponsibilityFormComponent,
+    GoalListComponent,
+    GoalFormComponent,
     DepartmentListComponent,
     DepartmentFormComponent,
     DepartmentPersonListComponent,

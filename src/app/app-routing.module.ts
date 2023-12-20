@@ -23,6 +23,8 @@ import { HoldingListComponent } from './components/holding/holding-list/holding-
 import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
 import { DepartmentFormComponent } from './components/department/department-form/department-form.component';
 import { AssignmentFormComponent } from './components/assignment/assignment-form/assignment-form.component';
+import { GoalListComponent } from './components/goal/goal-list/goal-list.component';
+import { GoalFormComponent } from './components/goal/goal-form/goal-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -151,6 +153,30 @@ const routes: Routes = [
       {
         path: 'responsibility/edit/:id',
         component: ResponsibilityFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+
+      // GOAL
+      {
+        path: 'goal', component: GoalListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_USER'
+        }
+      },
+      {
+        path: 'goal/create', component: GoalFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      {
+        path: 'goal/edit/:id',
+        component: GoalFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'
