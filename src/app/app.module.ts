@@ -55,6 +55,7 @@ import { SegmentFormComponent } from './components/segment/segment-form/segment-
 import { HoldingListComponent } from './components/holding/holding-list/holding-list.component';
 import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
 import { DepartmentFormComponent } from './components/department/department-form/department-form.component';
+import { AssignmentFormComponent } from './components/assignment/assignment-form/assignment-form.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { DepartmentFormComponent } from './components/department/department-form
     DepartmentPersonListComponent,
     TaskListComponent,
     AssignmentListComponent,
+    AssignmentFormComponent,
     AppointmentCreateComponent,
     SegmentListComponent,
     SegmentFormComponent,

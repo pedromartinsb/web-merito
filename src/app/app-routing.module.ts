@@ -22,6 +22,7 @@ import { SegmentListComponent } from './components/segment/segment-list/segment-
 import { HoldingListComponent } from './components/holding/holding-list/holding-list.component';
 import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
 import { DepartmentFormComponent } from './components/department/department-form/department-form.component';
+import { AssignmentFormComponent } from './components/assignment/assignment-form/assignment-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -40,15 +41,6 @@ const routes: Routes = [
       // },
       {
         path: 'appointment', component: AppointmentCreateComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN'
-        }
-      },
-
-      // ASSIGNMENT
-      {
-        path: 'assignment', component: AssignmentListComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'
@@ -95,6 +87,26 @@ const routes: Routes = [
         }
       },
       { path: 'department/company/:idCompany/person', component: DepartmentPersonListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+
+      // ASSIGNMENT
+      { path: 'assignment', component: AssignmentListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'assignment/create', component: AssignmentFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'assignment/edit/:id', component: AssignmentFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'
