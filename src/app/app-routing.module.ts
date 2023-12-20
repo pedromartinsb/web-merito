@@ -21,6 +21,7 @@ import { SegmentFormComponent } from './components/segment/segment-form/segment-
 import { SegmentListComponent } from './components/segment/segment-list/segment-list.component';
 import { HoldingListComponent } from './components/holding/holding-list/holding-list.component';
 import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
+import { DepartmentFormComponent } from './components/department/department-form/department-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -81,6 +82,18 @@ const routes: Routes = [
           role: 'ROLE_ADMIN'
         }
       },
+      { path: 'department/company/:idCompany/create', component: DepartmentFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'department/company/:idCompany/edit/:id', component: DepartmentFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
       { path: 'department/company/:idCompany/person', component: DepartmentPersonListComponent,
         canActivate: [AuthGuard],
         data: {
@@ -101,13 +114,7 @@ const routes: Routes = [
           role: 'ROLE_ADMIN'
         }
       },
-      { path: 'person/update/:id', component: PersonUpdateComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN'
-        }
-      },
-      { path: 'person/delete/:id', component: PersonDeleteComponent,
+      { path: 'person/edit/:id', component: PersonUpdateComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'

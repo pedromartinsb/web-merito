@@ -1,86 +1,123 @@
-<mat-drawer-container class="container" autosize>
-   <mat-drawer #drawer class="sidenav" mode="side">
+<mat-sidenav-container class="container" autosize>
+   <mat-sidenav #sidenav class="sidenav" mode="side">
       <img src="assets/img/side-image.svg" alt="Imagem de navegação">
 
       <mat-nav-list class="nav-list">
-        <a mat-list-item routerLink="home">
-          <i class="material-icons">home</i>
-          Home
-        </a>
+        <mat-list-item>
+          <a mat-list-item routerLink="home">
+            <i class="material-icons">home</i>
+            Home
+          </a>
+        </mat-list-item>
 
-        <a mat-list-item routerLink="appointment">
-          <i class="material-icons">check_circle</i>
-          Tabela de Avaliação
-        </a>
+        <mat-list-item>
+          <a mat-list-item routerLink="appointment">
+            <i class="material-icons">check_circle</i>
+            Tabela de Avaliação
+          </a>
+        </mat-list-item>
 
-        <a mat-list-item routerLink="task">
-          <i class="material-icons">add_task</i>
-          Tarefas
-        </a>
+        <mat-list-item>
+          <a mat-list-item routerLink="task">
+            <i class="material-icons">add_task</i>
+            Tarefas
+          </a>
+        </mat-list-item>
 
-        <a mat-list-item routerLink="company">
-          <i class="material-icons">apartment</i>
-          Unidades
-        </a>
+        
+        <mat-expansion-panel class="nav-list">
+          <mat-expansion-panel-header class="expansion-header">
+            <i class="material-icons">edit_note</i>
+            Cadastros
+          </mat-expansion-panel-header>
+          <mat-nav-list class="nav-list">
+            <mat-list-item>
+              <a mat-list-item routerLink="company">
+                <i class="material-icons">apartment</i>
+                Unidades
+              </a>
+            </mat-list-item>
+            
+            <mat-list-item>
+              <a mat-list-item routerLink="person">
+                <i class="material-icons">person_add</i>
+                Colaborador
+              </a>
+            </mat-list-item>
 
-        <a mat-list-item routerLink="person">
-          <i class="material-icons">person_add</i>
-          Colaborador
-        </a>
+            <mat-list-item>
+              <a mat-list-item routerLink="responsibility">
+                <i class="material-icons">assignment_ind</i>
+                Responsabilidades
+              </a>
+            </mat-list-item>
+    
+            <mat-list-item>
+              <a mat-list-item routerLink="segment">
+                <i class="material-icons">account_tree</i>
+                Segmentos
+              </a>
+            </mat-list-item>
+    
+            <mat-list-item>
+              <a mat-list-item routerLink="holding">
+                <i class="material-icons">group_work</i>
+                Grupos de Empresa
+              </a>
+            </mat-list-item>
+          </mat-nav-list>
+        </mat-expansion-panel>
 
-        <a mat-list-item routerLink="">
-          <i class="material-icons">badge</i>
-          Funções
-        </a>
+        <mat-list-item>
+          <a mat-list-item routerLink="">
+            <i class="material-icons">badge</i>
+            Funções
+          </a>
+        </mat-list-item>
 
-        <a mat-list-item routerLink="assignment">
-          <i class="material-icons">support_agent</i>
-          Atribuições
-        </a>
+        <mat-list-item>
+          <a mat-list-item routerLink="assignment">
+            <i class="material-icons">support_agent</i>
+            Atribuições
+          </a>
+        </mat-list-item>
 
-        <a mat-list-item routerLink="responsibility">
-          <i class="material-icons">assignment_ind</i>
-          Responsabilidades
-        </a>
+        <mat-list-item>
+          <a mat-list-item routerLink="company">
+            <i class="material-icons">pie_chart</i>
+            Relatórios
+          </a>
+        </mat-list-item>
 
-        <a mat-list-item routerLink="segment">
-          <i class="material-icons">account_tree</i>
-          Segmentos
-        </a>
+        <mat-list-item>
+          <a mat-list-item routerLink="company">
+            <i class="material-icons">folder_open</i>
+            Documentos
+          </a>
+        </mat-list-item>
 
-        <a mat-list-item routerLink="holding">
-          <i class="material-icons">group_work</i>
-          Grupos de Empresa
-        </a>
+        <mat-list-item>
+          <a mat-list-item routerLink="company">
+            <i class="material-icons">create_new_folder</i>
+            Adicionar Documentos
+          </a>
+        </mat-list-item>
 
-        <a mat-list-item routerLink="company">
-          <i class="material-icons">pie_chart</i>
-          Relatórios
-        </a>
-
-        <a mat-list-item routerLink="company">
-          <i class="material-icons">folder_open</i>
-          Documentos
-        </a>
-
-        <a mat-list-item routerLink="company">
-          <i class="material-icons">create_new_folder</i>
-          Adicionar Documentos
-        </a>
-
-        <a mat-list-item (click)="logout()">
-          <i class="material-icons">logout</i>
-          Logout
-        </a>
+        <mat-list-item>
+          <a mat-list-item (click)="logout()">
+            <i class="material-icons">logout</i>
+            Logout
+          </a>
+        </mat-list-item>
       </mat-nav-list>
-   </mat-drawer>
+   </mat-sidenav>
 
    <div class="sidenav-content">
       <app-header></app-header>
-      <button class="menu mat-elevation-z8" (click)="drawer.toggle()" mat-icon-button>
+      <button class="menu mat-elevation-z8" (click)="sidenav.toggle()" mat-icon-button>
          <mat-icon>menu</mat-icon>
       </button>
       <router-outlet></router-outlet>
    </div>
 
-</mat-drawer-container>
+</mat-sidenav-container>

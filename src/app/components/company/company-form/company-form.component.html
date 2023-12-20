@@ -23,6 +23,7 @@
       <mat-label>Selecione um Grupo de Empresa</mat-label>
       <mat-select
         [(ngModel)]="company.holding"
+        (ngModelChange)="selectHolding()"
         name="holding"
         [formControl]="holding"
         required>
@@ -37,8 +38,8 @@
         name="companyType"
         [formControl]="companyType"
         required>
-        <mat-option value="HEADQUARTERS">MATRIZ</mat-option>
-        <mat-option value="FILIAL">FILIAL</mat-option>
+        <mat-option value=1>MATRIZ</mat-option>
+        <mat-option value=2>FILIAL</mat-option>
       </mat-select>
     </mat-form-field>
 

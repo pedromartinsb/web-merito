@@ -18,7 +18,7 @@ export class CompanyFormComponent implements OnInit {
 
   company: Company = {
     name: '',
-    companyType: CompanyType[0],
+    companyType: 0,
     holdingId: '',
     holding: null,
     createdAt: '',
@@ -61,8 +61,8 @@ export class CompanyFormComponent implements OnInit {
   private createCompany(): void {
     this.companyService.create(this.company).subscribe({
       next: () => {
-        this.toast.success('Holding cadastrada com sucesso', 'Cadastro');
-        this.router.navigate(['holding']);
+        this.toast.success('Empresa cadastrada com sucesso', 'Cadastro');
+        this.router.navigate(['company']);
       },
       error: (ex) => {
         this.handleErrors(ex);
@@ -92,7 +92,7 @@ export class CompanyFormComponent implements OnInit {
   loadCompany(): void {
     this.companyService.findById(this.companyId).subscribe((response: Company) => {
       this.company = response;
-      this.company.companyType = CompanyType[response.companyType as keyof typeof CompanyType];
+      this.company.companyType = response.companyType;
       this.companyType.setValue(this.company.companyType);   
     });
   }
@@ -109,6 +109,10 @@ export class CompanyFormComponent implements OnInit {
 
   validateFields(): boolean {
     return this.name.valid;
+  }
+
+  selectHolding() {
+    this.company.holdingId = this.company.holding.id;
   }
 
 }

@@ -3,7 +3,7 @@ import { Holding } from "./holding";
 export interface Company {
   id?: string;
   name: string;
-  companyType: CompanyType;
+  companyType: number;
 
   holdingId: any;
   holding: Holding;
@@ -14,6 +14,6 @@ export interface Company {
 }
 
 export enum CompanyType {
-  HEADQUARTERS = 'HEADQUARTERS',
-  FILIAL = 'FILIAL'
+  HEADQUARTERS = 1,
+  FILIAL = 2
 }

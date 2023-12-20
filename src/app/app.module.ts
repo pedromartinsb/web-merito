@@ -29,6 +29,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ToastrModule } from 'ngx-toastr';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { NavComponent } from './components/nav/nav.component';
 import { PersonListComponent } from './components/person/person-list/person-list.component';
@@ -53,6 +54,7 @@ import { SegmentListComponent } from './components/segment/segment-list/segment-
 import { SegmentFormComponent } from './components/segment/segment-form/segment-form.component';
 import { HoldingListComponent } from './components/holding/holding-list/holding-list.component';
 import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
+import { DepartmentFormComponent } from './components/department/department-form/department-form.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +73,7 @@ import { HoldingFormComponent } from './components/holding/holding-form/holding-
     ResponsibilityListComponent,
     ResponsibilityFormComponent,
     DepartmentListComponent,
+    DepartmentFormComponent,
     DepartmentPersonListComponent,
     TaskListComponent,
     AssignmentListComponent,
@@ -106,6 +109,7 @@ import { HoldingFormComponent } from './components/holding/holding-form/holding-
     MatTabsModule,
     MatGridListModule,
     MatDialogModule,
+    MatExpansionModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       closeButton: true,
