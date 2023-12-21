@@ -85,15 +85,13 @@ export class CompanyFormComponent implements OnInit {
   findAllHolding(): void {
     this.holdingService.findAll().subscribe(response => {
       this.holdings = response;
-      if(this.companyId) this.holding.setValue(response.find(h => h.id === this.company.holding.id));                 
+      if(this.companyId) this.holding.setValue(response.find(h => h.id === this.company.holding.id));
     });    
   }
 
   loadCompany(): void {
     this.companyService.findById(this.companyId).subscribe((response: Company) => {
-      this.company = response;
-      this.company.companyType = response.companyType;
-      this.companyType.setValue(this.company.companyType);   
+      this.company = response;       
     });
   }
 
@@ -112,7 +110,7 @@ export class CompanyFormComponent implements OnInit {
   }
 
   selectHolding() {
-    this.company.holdingId = this.company.holding.id;
+    if (this.company.holding && this.company.holding.id) this.company.holdingId = this.company.holding.id;
   }
 
 }

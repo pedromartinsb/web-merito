@@ -24,7 +24,7 @@ export class HoldingService {
   }
 
   update(id: string, holding: Holding): Observable<Holding> {
-    return this.http.post<Holding>(`${Config.webApiUrl}/holding/${id}`, holding);
+    return this.http.put<Holding>(`${Config.webApiUrl}/holding/${id}`, holding);
   }
 
   delete(id: string): Observable<Holding> {

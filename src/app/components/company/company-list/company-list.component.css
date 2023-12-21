@@ -35,6 +35,10 @@ mat-radio-group {
   margin-bottom: 1rem;
 }
 
+.mat-cell {
+  cursor: pointer;
+}
+
 .mat-column-actions {
   width: 80px;
   text-align: center;

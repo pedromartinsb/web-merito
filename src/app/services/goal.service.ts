@@ -24,7 +24,7 @@ export class GoalService {
   }
 
   update(id: string, goal: Goal): Observable<Goal> {
-    return this.http.post<Goal>(`${Config.webApiUrl}/goal/${id}`, goal);
+    return this.http.put<Goal>(`${Config.webApiUrl}/goal/${id}`, goal);
   }
 
   delete(id: string): Observable<Goal> {

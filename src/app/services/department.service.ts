@@ -33,7 +33,7 @@ export class DepartmentService {
   }
 
   update(id: string, department: Department): Observable<Department> {
-    return this.http.post<Department>(`${Config.webApiUrl}/department/${id}`, department);
+    return this.http.put<Department>(`${Config.webApiUrl}/department/${id}`, department);
   }
 
   delete(id: string): Observable<Department> {

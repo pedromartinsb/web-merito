@@ -24,7 +24,7 @@ export class SegmentService {
   }
 
   update(id: string, segment: Segment): Observable<Segment> {
-    return this.http.post<Segment>(`${Config.webApiUrl}/segment/${id}`, segment);
+    return this.http.put<Segment>(`${Config.webApiUrl}/segment/${id}`, segment);
   }
 
   delete(id: string): Observable<Segment> {

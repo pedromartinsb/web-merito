@@ -33,10 +33,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 
 import { NavComponent } from './components/nav/nav.component';
 import { PersonListComponent } from './components/person/person-list/person-list.component';
-import { PersonCreateComponent } from './components/person/person-create/person-create.component';
+import { PersonFormComponent } from './components/person/person-form/person-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PersonUpdateComponent } from './components/person/person-update/person-update.component';
-import { PersonDeleteComponent } from './components/person/person-delete/person-delete.component';
 import { CompanyListComponent } from './components/company/company-list/company-list.component';
 import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
 import { LoginComponent } from './components/login/login.component';
@@ -58,6 +56,9 @@ import { DepartmentFormComponent } from './components/department/department-form
 import { AssignmentFormComponent } from './components/assignment/assignment-form/assignment-form.component';
 import { GoalListComponent } from './components/goal/goal-list/goal-list.component';
 import { GoalFormComponent } from './components/goal/goal-form/goal-form.component';
+import { TaskFormComponent } from './components/task/task-form/task-form.component';
+import { RoutineListComponent } from './components/routine/routine-list/routine-list.component';
+import { RoutineFormComponent } from './components/routine/routine-form/routine-form.component';
 
 @NgModule({
   declarations: [
@@ -66,9 +67,7 @@ import { GoalFormComponent } from './components/goal/goal-form/goal-form.compone
     NavComponent,
     HeaderComponent,
     PersonListComponent,
-    PersonCreateComponent,
-    PersonUpdateComponent,
-    PersonDeleteComponent,
+    PersonFormComponent,
     AppointmentListComponent,
     LoginComponent,
     CompanyListComponent,
@@ -81,6 +80,9 @@ import { GoalFormComponent } from './components/goal/goal-form/goal-form.compone
     DepartmentFormComponent,
     DepartmentPersonListComponent,
     TaskListComponent,
+    TaskFormComponent,
+    RoutineListComponent,
+    RoutineFormComponent,
     AssignmentListComponent,
     AssignmentFormComponent,
     AppointmentCreateComponent,

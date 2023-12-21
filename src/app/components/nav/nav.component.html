@@ -11,16 +11,9 @@
         </mat-list-item>
 
         <mat-list-item>
-          <a mat-list-item routerLink="appointment">
+          <a mat-list-item routerLink="appointment" [disabled]="true">
             <i class="material-icons">check_circle</i>
             Tabela de Avaliação
-          </a>
-        </mat-list-item>
-
-        <mat-list-item>
-          <a mat-list-item routerLink="task">
-            <i class="material-icons">add_task</i>
-            Tarefas
           </a>
         </mat-list-item>
 
@@ -47,8 +40,8 @@
 
             <mat-list-item>
               <a mat-list-item routerLink="responsibility">
-                <i class="material-icons">assignment_ind</i>
-                Responsabilidades
+                <i class="material-icons">badge</i>
+                Funções
               </a>
             </mat-list-item>
 
@@ -79,32 +72,39 @@
                 Grupos de Empresa
               </a>
             </mat-list-item>
+
+            <mat-list-item>
+              <a mat-list-item routerLink="task">
+                <i class="material-icons">add_task</i>
+                Tarefas
+              </a>
+            </mat-list-item>
+
+            <mat-list-item>
+              <a mat-list-item routerLink="routine">
+                <i class="material-icons">event_available</i>
+                Rotinas
+              </a>
+            </mat-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
 
         <mat-list-item>
-          <a mat-list-item routerLink="">
-            <i class="material-icons">badge</i>
-            Funções
-          </a>
-        </mat-list-item>
-
-        <mat-list-item>
-          <a mat-list-item routerLink="company">
+          <a mat-list-item routerLink="company" [disabled]="true">
             <i class="material-icons">pie_chart</i>
             Relatórios
           </a>
         </mat-list-item>
 
         <mat-list-item>
-          <a mat-list-item routerLink="company">
+          <a mat-list-item routerLink="company" [disabled]="true">
             <i class="material-icons">folder_open</i>
             Documentos
           </a>
         </mat-list-item>
 
         <mat-list-item>
-          <a mat-list-item routerLink="company">
+          <a mat-list-item routerLink="company" [disabled]="true">
             <i class="material-icons">create_new_folder</i>
             Adicionar Documentos
           </a>

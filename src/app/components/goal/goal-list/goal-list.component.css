@@ -35,8 +35,26 @@ mat-radio-group {
   margin-bottom: 1rem;
 }
 
+.mat-cell {
+  cursor: pointer;
+}
+
 .mat-column-actions {
-  width: 40px;
+  width: 80px;
   text-align: center;
   font-weight: bold;
+}
+
+.mat-cell-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-cell-wrapper button {
+  width: 48px;
+  height: 48px;
+}
+
+a {
+  cursor: pointer;
 }

@@ -24,7 +24,7 @@ export class ResponsibilityService {
   }
 
   update(id: string, responsibility: Responsibility): Observable<Responsibility> {
-    return this.http.post<Responsibility>(`${Config.webApiUrl}/responsibility/${id}`, responsibility);
+    return this.http.put<Responsibility>(`${Config.webApiUrl}/responsibility/${id}`, responsibility);
   }
 
   delete(id: string): Observable<Responsibility> {

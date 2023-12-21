@@ -1,5 +1,5 @@
-import { TaskService } from './../../../services/task.service';
-import { Task } from './../../../models/task';
+import { RoutineService } from './../../../services/routine.service';
+import { Routine } from './../../../models/routine';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -8,26 +8,27 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../delete/delete-confirmation-modal';
 
 @Component({
-  selector: 'app-task-list',
-  templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.css']
+  selector: 'app-routine-list',
+  templateUrl: './routine-list.component.html',
+  styleUrls: ['./routine-list.component.css']
 })
-export class TaskListComponent implements OnInit {
+export class RoutineListComponent implements OnInit {
 
-  ELEMENT_DATA: Task[] = [];
-  FILTERED_DATA: Task[] = [];
+  ELEMENT_DATA: Routine[] = [];
+  FILTERED_DATA: Routine[] = [];
 
-  displayedColumns: string[] = ['name', 'routine', 'person', 'actions'];
-  dataSource = new MatTableDataSource<Task>(this.ELEMENT_DATA);
+  displayedColumns: string[] = ['name', 'task', 'person', 'actions'];
+  dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
-    private taskService: TaskService,
+    private routineService: RoutineService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
   ) {
-    this.dataSource = new MatTableDataSource<Task>(this.ELEMENT_DATA);
+    this.dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
    }
 
   ngOnInit(): void {
@@ -35,10 +36,10 @@ export class TaskListComponent implements OnInit {
   }
 
   findAll(): void {
-    this.taskService.findAll().subscribe(response => {
+    this.routineService.findAll().subscribe(response => {
       if (response) {
         this.ELEMENT_DATA = response;
-        this.dataSource = new MatTableDataSource<Task>(response);
+        this.dataSource = new MatTableDataSource<Routine>(response);
         this.dataSource.paginator = this.paginator;
       }
     });
@@ -51,17 +52,17 @@ export class TaskListComponent implements OnInit {
     }
   }
 
-  editTask(taskId: string): void {
-    this.router.navigate(['task', 'edit', taskId]);
+  editRoutine(routineId: string): void {    
+    this.router.navigate(['routine', 'edit', routineId]);
   }
 
-  openDeleteConfirmationModal(taskId: string): void {
+  openDeleteConfirmationModal(routineId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
     
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar esta atividade?';
+    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar esta rotina?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
-      this.deleteTask(taskId);
+      this.deleteRoutine(routineId);
 
       dialogRef.close();
     });
@@ -71,8 +72,8 @@ export class TaskListComponent implements OnInit {
     });
   }
 
-  deleteTask(taskId: string): void {
-    this.taskService.delete(taskId).subscribe(() => {
+  deleteRoutine(routineId: string): void {
+    this.routineService.delete(routineId).subscribe(() => {
       this.findAll();
     });
   }
