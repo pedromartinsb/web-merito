@@ -85,7 +85,7 @@ export class RoutineFormComponent implements OnInit {
 
   openRoutineForm(): void {
     if (this.routine.person) this.routine.personId = this.routine.person.id;
-    if (this.routine.tasks.length > 0) this.routine.taskId = this.routine.tasks[0].id;
+    if (this.routine.tasks && this.routine.tasks.length > 0) this.routine.taskId = this.routine.tasks[0].id;
     if (this.routineId) {
       this.updateRoutine();
     } else {

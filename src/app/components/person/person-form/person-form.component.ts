@@ -13,6 +13,7 @@ import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { Department } from 'src/app/models/department';
 import { Responsibility } from 'src/app/models/responsibility';
 import { finalize } from 'rxjs';
+import { Role } from 'src/app/models/role';
 
 @Component({
   selector: 'app-person-form',
@@ -30,7 +31,7 @@ export class PersonFormComponent implements OnInit {
   user: User = {
     username: '',
     email: '',
-    role: [],
+    roles: null,
     password: ''
   }
 
@@ -46,7 +47,7 @@ export class PersonFormComponent implements OnInit {
   person: Person = {
     name: '',
     cpf: '',
-    personType: 1,
+    personType: 'EMPLOYEE',
 
     departments: null,
     departmentsId: '',
@@ -67,9 +68,9 @@ export class PersonFormComponent implements OnInit {
   }
 
   roleLabels = [
-    {label: "Usuário", value: "ROLE_USERS"},
-    {label: "Admin", value: "ROLE_ADMIN"},
-    {label: "Moderador", value: "ROLE_MODERADOR"}
+    {label: "Usuário", value: {name: "ROLE_USERS"}},
+    {label: "Admin", value: {name: "ROLE_ADMIN"}},
+    {label: "Moderador", value: {name: "ROLE_MODERADOR"}}
   ];
 
   personId: string;
@@ -205,10 +206,10 @@ export class PersonFormComponent implements OnInit {
   }
 
   addRole(role: any): void {
-    if (this.person.user.role.includes(role)) {
-      this.person.user.role.splice(this.person.user.role.indexOf(role), 1);
+    if (this.person.user.roles.includes(role)) {
+      this.person.user.roles.splice(this.person.user.roles.indexOf(role), 1);
     } else {
-      this.person.user.role.push(role);
+      this.person.user.roles.push(role);
     }
   }
 
@@ -228,7 +229,7 @@ export class PersonFormComponent implements OnInit {
   }
 
   getRoleLabel(value: string): string | undefined {
-    const matchingRole = this.roleLabels.find(role => role.value === value);
+    const matchingRole = this.roleLabels.find(role => role.value.name === value);
     return matchingRole ? matchingRole.label : undefined;
   }
 

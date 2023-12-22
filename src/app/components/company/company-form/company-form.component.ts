@@ -19,7 +19,7 @@ export class CompanyFormComponent implements OnInit {
 
   company: Company = {
     name: '',
-    companyType: 0,
+    companyType: 'HEADQUARTERS',
     holdingId: '',
     holding: null,
     createdAt: '',
@@ -33,7 +33,10 @@ export class CompanyFormComponent implements OnInit {
   holding:     FormControl = new FormControl(null, [Validators.required]);
   companyType: FormControl = new FormControl(null, [Validators.required]);
 
-  companyTypeList: CompanyType[];
+  companyTypeLabels = [
+    {label: "Matriz", value: "HEADQUARTERS"},
+    {label: "Filial", value: "FILIAL"},
+  ];
 
   constructor(
     private companyService: CompanyService,

@@ -1,5 +1,6 @@
 import { Department } from "./department";
 import { Responsibility } from "./responsibility";
+import { Role } from "./role";
 import { Routine } from "./routine";
 import { Task } from "./task";
 
@@ -20,7 +21,7 @@ export interface Person {
   tasks: Task[];
   taskId: string;
 
-  routine: Routine;
+  routine: Routine[];
   routineId: string;
 
   createdAt: string;
@@ -31,7 +32,7 @@ export interface Person {
 export interface User {
   username: string;
   email: string;
-  role: string[];
+  roles: Role[];
   password: string;
 }
 

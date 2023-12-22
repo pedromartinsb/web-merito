@@ -38,8 +38,7 @@
         name="companyType"
         [formControl]="companyType"
         required>
-        <mat-option value=1>MATRIZ</mat-option>
-        <mat-option value=2>FILIAL</mat-option>
+        <mat-option *ngFor="let companyType of companyTypeLabels" [value]="companyType.value">{{companyType.label}}</mat-option>
       </mat-select>
     </mat-form-field>
 
