@@ -5,7 +5,7 @@ export interface Routine {
   id?: string;
   name: string;
 
-  tasks: string[];
+  tasks: Task[];
   taskId: string;
 
   person: Person;

@@ -2,7 +2,7 @@
 
   <form class="form">
 
-    <h1 class="fullWidth">{{ routineId ? 'Editar' : 'Cadastrar' }} Rotinas</h1>
+    <h1 class="fullWidth">{{ routineId ? 'Editar Rotina: ' + routine.name : 'Cadastrar Rotina' }}</h1>
 
     <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Rotinas">
 
@@ -20,6 +20,16 @@
     </mat-form-field>
 
     <mat-form-field class="fullWidth" appearance="outline">
+      <mat-label>Selecione a pessoa</mat-label>
+      <mat-select
+        [(ngModel)]="routine.person"
+        name="person"
+        [formControl]="person">
+        <mat-option *ngFor="let person of persons" [value]="person">{{ person.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="fullWidth" appearance="outline">
       <mat-label>Selecione as Tarefas</mat-label>
       <mat-select
         [(ngModel)]="routine.tasks"
@@ -28,16 +38,6 @@
         required
         multiple>
         <mat-option *ngFor="let task of tasks" [value]="task.id">{{ task.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>    
-
-    <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Selecione a pessoa</mat-label>
-      <mat-select
-        [(ngModel)]="routine.person"
-        name="person"
-        [formControl]="person">
-        <mat-option *ngFor="let person of persons" [value]="person">{{ person.name }}</mat-option>
       </mat-select>
     </mat-form-field>
 

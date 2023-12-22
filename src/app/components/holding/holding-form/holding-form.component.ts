@@ -18,6 +18,7 @@ export class HoldingFormComponent implements OnInit {
 
   holding: Holding = {
     name: '',
+    segment: null,
     segmentId: '',    
     createdAt: '',
     updatedAt: '',
@@ -48,6 +49,10 @@ export class HoldingFormComponent implements OnInit {
   findAllSegments(): void {
     this.segmentService.findAll().subscribe(response => {
       this.segments = response;
+      if (this.holdingId) {
+        this.segment.setValue(response.find(s => s.id === this.holding.segment.id));
+        this.holding.segmentId = this.holding.segment.id;
+      }
     });
   }
 

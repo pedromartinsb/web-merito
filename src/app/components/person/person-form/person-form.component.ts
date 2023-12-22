@@ -12,6 +12,7 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { Department } from 'src/app/models/department';
 import { Responsibility } from 'src/app/models/responsibility';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-person-form',
@@ -47,7 +48,9 @@ export class PersonFormComponent implements OnInit {
     cpf: '',
     personType: 1,
 
+    departments: null,
     departmentsId: '',
+    responsibility: null,
     responsibilityId: '',
 
     user: this.user,
@@ -55,7 +58,7 @@ export class PersonFormComponent implements OnInit {
 
     tasks: null, 
     taskId: '',
-    routines: null, 
+    routine: null, 
     routineId: '',
 
     createdAt: '',
@@ -107,7 +110,12 @@ export class PersonFormComponent implements OnInit {
     this.personId = this.route.snapshot.params['id'];
     if (this.personId) {
       this.loadPerson();
+    } else {
+      this.loadList();
     }
+  }
+
+  loadList() {
     this.findAllDepartments();
     this.findAllResponsibilities();
     this.findAllTasks();
@@ -115,14 +123,25 @@ export class PersonFormComponent implements OnInit {
   }
 
   findAllDepartments(): void {
-    this.departmentService.findAll().subscribe(response => {
+    this.departmentService.findAll().subscribe((response: Department[]) => {
       this.departments = response;
+      if (this.personId) {
+        let tempDepartmentList: Department[];        
+        this.departments.forEach(department => {
+          tempDepartmentList.push(this.person.departments.find(t => t.id === department.id));
+        });
+        this.department.setValue(tempDepartmentList);
+      }
     });
   }
 
   findAllResponsibilities(): void {
-    this.responsibilityService.findAll().subscribe(response => {
+    this.responsibilityService.findAll().subscribe((response: Responsibility[]) => {
       this.responsibilities = response;
+      if (this.personId) {
+        this.responsibility.setValue(response.find(s => s.id === this.person.responsibility.id));
+        this.person.responsibilityId = this.person.responsibility.id;
+      }
     });
   }
 
@@ -139,7 +158,11 @@ export class PersonFormComponent implements OnInit {
   }
 
   loadPerson(): void {
-    this.personService.findById(this.personId).subscribe(response => {
+    this.personService.findById(this.personId).pipe(
+      finalize(() => {
+        this.loadList();
+      })
+    ).subscribe(response => {
       this.person = response;
     });
   }

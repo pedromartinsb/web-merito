@@ -55,14 +55,25 @@ export class RoutineFormComponent implements OnInit {
   }
 
   findAllTasks(): void {
-    this.taskService.findAll().subscribe(response => {
+    this.taskService.findAll().subscribe((response: Task[]) => {
       this.tasks = response;
+      if (this.routineId) {
+        let tempTaskList: Task[];
+        this.tasks.forEach(task => {
+          tempTaskList.push(this.routine.tasks.find(t => t.id === task.id));
+        });
+        this.task.setValue(tempTaskList);
+      }
     });
   }
 
   findAllPersons(): void {
     this.personService.findAll().subscribe(response => {
       this.persons = response;
+      if (this.routineId) {
+        this.person.setValue(response.find(p => p.id === this.routine.person.id));
+        this.routine.personId = this.routine.person.id;
+      }
     });
   }
 
@@ -74,7 +85,7 @@ export class RoutineFormComponent implements OnInit {
 
   openRoutineForm(): void {
     if (this.routine.person) this.routine.personId = this.routine.person.id;
-    if (this.routine.tasks.length > 0) this.routine.taskId = this.routine.tasks[0];
+    if (this.routine.tasks.length > 0) this.routine.taskId = this.routine.tasks[0].id;
     if (this.routineId) {
       this.updateRoutine();
     } else {

@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Holding } from '../../../models/holding';
 import { Component, OnInit } from '@angular/core';
 import { Company, CompanyType } from 'src/app/models/company';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-company-form',
@@ -46,8 +47,30 @@ export class CompanyFormComponent implements OnInit {
     this.companyId = this.route.snapshot.params['id'];
     if (this.companyId) {
       this.loadCompany();
+    } else {
+      this.findAllHolding();
     }
-    this.findAllHolding();
+  }
+
+  findAllHolding(): void {
+    this.holdingService.findAll().subscribe((response: Holding[]) => {
+      this.holdings = response;
+      if(this.companyId) {
+        this.holding.setValue(response.find(h => h.id === this.company.holding.id));
+        this.company.holdingId = this.company.holding.id;
+      }
+    });    
+  }
+
+  loadCompany(): void {
+    this.companyService.findById(this.companyId).pipe(
+      finalize(() => {
+        this.findAllHolding();
+        this.companyType.setValue(this.company.companyType);
+      })
+    ).subscribe((response: Company) => {
+      this.company = response;       
+    });
   }
 
   openCompanyForm(): void {
@@ -79,19 +102,6 @@ export class CompanyFormComponent implements OnInit {
       error: (ex) => {
         this.handleErrors(ex);
       },
-    });
-  }
-
-  findAllHolding(): void {
-    this.holdingService.findAll().subscribe(response => {
-      this.holdings = response;
-      if(this.companyId) this.holding.setValue(response.find(h => h.id === this.company.holding.id));
-    });    
-  }
-
-  loadCompany(): void {
-    this.companyService.findById(this.companyId).subscribe((response: Company) => {
-      this.company = response;       
     });
   }
 

@@ -2,7 +2,7 @@
 
   <form class="form">
 
-    <h1 class="fullWidth">{{ taskId ? 'Editar' : 'Cadastrar' }} Atividades</h1>
+    <h1 class="fullWidth">{{ taskId ? 'Editar Atividade: ' + task.name : 'Cadastrar Atividade' }}</h1>
 
     <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Atividades">
 
@@ -31,7 +31,7 @@
     </mat-form-field>
     
 
-    <mat-form-field class="fullWidth" appearance="outline">
+    <mat-form-field class="fullWidth" appearance="outline" *ngIf="false">
       <mat-label>Selecione as pessoas</mat-label>
       <mat-select
         [(ngModel)]="personsSelected"

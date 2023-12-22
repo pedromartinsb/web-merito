@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Goal } from 'src/app/models/goal';
 import { PersonService } from 'src/app/services/person.service';
 import { Person } from 'src/app/models/person';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-goal-form',
@@ -18,6 +19,7 @@ export class GoalFormComponent implements OnInit {
 
   goal: Goal = {
     name: '',
+    person: null,
     personId: '',
     createdAt: '',
     updatedAt: '',
@@ -41,18 +43,27 @@ export class GoalFormComponent implements OnInit {
     this.goalId = this.route.snapshot.params['id'];
     if (this.goalId) {
       this.loadGoal();
+    } else {
+      this.findAllPersons();
     }
-    this.findAllPersons();
   }
 
   findAllPersons(): void {
-    this.personService.findAll().subscribe(response => {
+    this.personService.findAll().subscribe((response: Person[]) => {
       this.persons = response;
+      if (this.goalId) {
+        this.person.setValue(response.find(p => p.id === this.goal.person.id));
+        this.goal.personId = this.goal.person.id;
+      }
     });
   }
 
   loadGoal(): void {
-    this.goalService.findById(this.goalId).subscribe(response => {
+    this.goalService.findById(this.goalId).pipe(
+      finalize(() => {
+        this.findAllPersons();
+      })
+    ).subscribe((response: Goal) => {
       this.goal = response;
     });
   }
