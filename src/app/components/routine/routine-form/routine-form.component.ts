@@ -23,7 +23,7 @@ export class RoutineFormComponent implements OnInit {
     name: '',
     tasks: null, 
     taskId: '',
-    persons: null, 
+    person: null, 
     personId: '',     
     createdAt: '',
     updatedAt: '',
@@ -73,6 +73,8 @@ export class RoutineFormComponent implements OnInit {
   }
 
   openRoutineForm(): void {
+    if (this.routine.person) this.routine.personId = this.routine.person.id;
+    if (this.routine.tasks.length > 0) this.routine.taskId = this.routine.tasks[0];
     if (this.routineId) {
       this.updateRoutine();
     } else {

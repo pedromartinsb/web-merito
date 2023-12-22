@@ -17,7 +17,7 @@ export class GoalListComponent implements OnInit {
   ELEMENT_DATA: Goal[] = [];
   FILTERED_DATA: Goal[] = [];
 
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name', 'person', 'actions'];
   dataSource = new MatTableDataSource<Goal>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

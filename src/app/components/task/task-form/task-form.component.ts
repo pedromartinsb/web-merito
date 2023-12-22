@@ -83,7 +83,7 @@ export class TaskFormComponent implements OnInit {
     this.taskService.create(this.task).subscribe({
       next: () => {
         this.toast.success('Atividade cadastrada com sucesso', 'Cadastro');
-        this.router.navigate(['task']);
+        this.router.navigate(['../'], { relativeTo: this.route });
       },
       error: (ex) => {
         this.handleErrors(ex);
@@ -95,7 +95,7 @@ export class TaskFormComponent implements OnInit {
     this.taskService.update(this.taskId, this.task).subscribe({
       next: () => {
         this.toast.success('Atividade atualizada com sucesso', 'Atualização');
-        this.router.navigate(['task']);
+        this.router.navigate(['../'], { relativeTo: this.route });
       },
       error: (ex) => {
         this.handleErrors(ex);

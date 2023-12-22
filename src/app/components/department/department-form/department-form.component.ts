@@ -63,7 +63,7 @@ export class DepartmentFormComponent implements OnInit {
     this.departmentService.create(this.department).subscribe({
       next: () => {
         this.toast.success('Departamento cadastrado com sucesso', 'Cadastro');
-        this.router.navigate(['../']);
+        this.router.navigate(['../'], { relativeTo: this.route });
       },
       error: (ex) => {
         this.handleErrors(ex);
@@ -75,7 +75,7 @@ export class DepartmentFormComponent implements OnInit {
     this.departmentService.update(this.departmentId, this.department).subscribe({
       next: () => {
         this.toast.success('Departamento atualizado com sucesso', 'Atualização');
-        this.router.navigate(['../']);
+        this.router.navigate(['../'], { relativeTo: this.route });
       },
       error: (ex) => {
         this.handleErrors(ex);

@@ -19,6 +19,17 @@
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
     </mat-form-field>
 
+    <mat-form-field class="fullWidth" appearance="outline">
+      <mat-label>Selecione uma Pessoa</mat-label>
+      <mat-select
+        [(ngModel)]="goal.personId"
+        name="person"
+        [formControl]="person"
+        required>
+      <mat-option *ngFor="let person of persons" value="{{ person.id }}">{{ person.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <button (click)="openGoalForm()" [disabled]="!validateFields()" class="fullWidth mat-elevation-z4" mat-flat-button color="primary">
       {{ goalId ? 'Salvar' : 'Cadastrar' }}
     </button>

@@ -27,17 +27,16 @@
         [formControl]="task"
         required
         multiple>
-        <mat-option *ngFor="let task of tasks" [value]="task">{{ task.name }}</mat-option>
+        <mat-option *ngFor="let task of tasks" [value]="task.id">{{ task.name }}</mat-option>
       </mat-select>
     </mat-form-field>    
 
     <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Selecione as pessoas</mat-label>
+      <mat-label>Selecione a pessoa</mat-label>
       <mat-select
-        [(ngModel)]="routine.persons"
+        [(ngModel)]="routine.person"
         name="person"
-        [formControl]="person"
-        multiple>
+        [formControl]="person">
         <mat-option *ngFor="let person of persons" [value]="person">{{ person.name }}</mat-option>
       </mat-select>
     </mat-form-field>

@@ -5,10 +5,10 @@ export interface Routine {
   id?: string;
   name: string;
 
-  tasks: Task[];
+  tasks: string[];
   taskId: string;
 
-  persons: Person[];
+  person: Person;
   personId: string;
 
   createdAt: string;

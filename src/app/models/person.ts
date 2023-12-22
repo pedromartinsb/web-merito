@@ -6,7 +6,7 @@ export interface Person {
   personType: number | string;
   name: string;
   cpf: string;
-  departmentId: string;
+  departmentsId: string;
   responsibilityId: string;
 
   user: User;

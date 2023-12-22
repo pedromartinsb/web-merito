@@ -47,7 +47,7 @@ export class PersonFormComponent implements OnInit {
     cpf: '',
     personType: 1,
 
-    departmentId: '',
+    departmentsId: '',
     responsibilityId: '',
 
     user: this.user,
@@ -80,7 +80,7 @@ export class PersonFormComponent implements OnInit {
   username: FormControl = new FormControl(null, Validators.minLength(3));
   email: FormControl = new FormControl(null, Validators.email);
   password: FormControl = new FormControl(null, Validators.minLength(3));
-  role: FormControl = new FormControl(null, Validators.minLength(3));
+  role: FormControl = new FormControl(null, Validators.minLength(1));
 
   cep: FormControl = new FormControl(null, Validators.minLength(3));
   streetName: FormControl = new FormControl(null, Validators.minLength(3));

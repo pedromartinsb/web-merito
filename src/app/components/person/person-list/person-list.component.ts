@@ -4,7 +4,7 @@ import { Person } from './../../../models/person';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeleteConfirmationModalComponent } from '../../delete/delete-confirmation-modal';
 
 @Component({
@@ -16,6 +16,9 @@ export class PersonListComponent implements OnInit {
 
   persons: Person[] = [];
 
+  ELEMENT_DATA: Person[] = [];
+  FILTERED_DATA: Person[] = [];
+
   displayedColumns: string[] = ['name', 'cpf', 'email', 'personType', 'task', 'routine'];
   dataSource = new MatTableDataSource<Person>(this.persons);
 
@@ -24,7 +27,8 @@ export class PersonListComponent implements OnInit {
   constructor(
     private personService: PersonService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +48,7 @@ export class PersonListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  editPerson(personId: string): void {    
+  editPerson(personId: string): void {        
     this.router.navigate(['person', 'edit', personId]);
   }
 

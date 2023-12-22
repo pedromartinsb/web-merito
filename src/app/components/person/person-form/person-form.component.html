@@ -38,7 +38,7 @@
     <mat-form-field class="fullWidth" appearance="outline">
       <mat-label>Selecione o Departamento</mat-label>
       <mat-select
-        [(ngModel)]="person.departmentId"
+        [(ngModel)]="person.departmentsId"
         name="department"
         [formControl]="department"
         multiple>
@@ -51,8 +51,7 @@
       <mat-select
         [(ngModel)]="person.responsibilityId"
         name="responsibility"
-        [formControl]="responsibility"
-        multiple>
+        [formControl]="responsibility">
         <mat-option *ngFor="let responsibility of responsibilities" [value]="responsibility.id">{{ responsibility.name }}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -100,7 +99,8 @@
         [(ngModel)]="person.user.role"
         name="role"
         [formControl]="role"
-        required>
+        required
+        multiple>
         <mat-option *ngFor="let role of roleLabels" [value]="role.value">{{ role.label }}</mat-option>
       </mat-select>
     </mat-form-field>

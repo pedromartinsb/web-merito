@@ -4,6 +4,8 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Goal } from 'src/app/models/goal';
+import { PersonService } from 'src/app/services/person.service';
+import { Person } from 'src/app/models/person';
 
 @Component({
   selector: 'app-goal-form',
@@ -12,9 +14,11 @@ import { Goal } from 'src/app/models/goal';
 })
 export class GoalFormComponent implements OnInit {
 
+  persons: Person[] = [];
 
   goal: Goal = {
     name: '',
+    personId: '',
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
@@ -23,12 +27,14 @@ export class GoalFormComponent implements OnInit {
   goalId: string;
 
   name:        FormControl = new FormControl(null, Validators.minLength(3));
+  person:     FormControl = new FormControl(null, [Validators.required]);
 
   constructor(
     private goalService: GoalService,
     private router: Router,
     private toast: ToastrService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private personService: PersonService
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +42,13 @@ export class GoalFormComponent implements OnInit {
     if (this.goalId) {
       this.loadGoal();
     }
+    this.findAllPersons();
+  }
+
+  findAllPersons(): void {
+    this.personService.findAll().subscribe(response => {
+      this.persons = response;
+    });
   }
 
   loadGoal(): void {
