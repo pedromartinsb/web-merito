@@ -5,6 +5,7 @@ export interface Holding {
   name: string;
 
   segment: Segment;
+  segmentId: any;
 
   createdAt: string;
   updatedAt: string;

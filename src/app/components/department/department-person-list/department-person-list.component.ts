@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { Company } from 'src/app/models/company';
+import { Company, CompanyType } from 'src/app/models/company';
 import { Department } from 'src/app/models/department';
 import { Person } from 'src/app/models/person';
 import { DepartmentService } from 'src/app/services/department.service';
@@ -26,8 +26,9 @@ export class DepartmentPersonListComponent implements OnInit {
 
   company: Company = {
     name: '',
-    companyType: 0,
+    companyType: 'HEADQUARTERS',
     holdingId: '',
+    holding: null,
     createdAt: '',
     updatedAt: '',
     deletedAt: '',

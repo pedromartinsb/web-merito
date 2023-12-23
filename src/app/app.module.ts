@@ -29,24 +29,36 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ToastrModule } from 'ngx-toastr';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { NavComponent } from './components/nav/nav.component';
 import { PersonListComponent } from './components/person/person-list/person-list.component';
-import { PersonCreateComponent } from './components/person/person-create/person-create.component';
+import { PersonFormComponent } from './components/person/person-form/person-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PersonUpdateComponent } from './components/person/person-update/person-update.component';
-import { PersonDeleteComponent } from './components/person/person-delete/person-delete.component';
 import { CompanyListComponent } from './components/company/company-list/company-list.component';
 import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
 import { LoginComponent } from './components/login/login.component';
-import { CompanyCreateComponent } from './components/company/company-create/company-create.component';
-import { CompanyReadComponent } from './components/company/company-read/company-read.component';
+import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 import { DepartmentListComponent } from './components/department/department-list/department-list.component';
 import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
 import { TaskListComponent } from './components/task/task-list/task-list.component';
 import { AssignmentListComponent } from './components/assignment/assignment-list/assignment-list.component';
 import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ResponsibilityListComponent } from './components/responsibility/responsibility-list/responsibility-list.component';
+import { ResponsibilityFormComponent } from './components/responsibility/responsibility-form/responsibility-form.component';
+import { DeleteConfirmationModalComponent } from './components/delete/delete-confirmation-modal';
+import { SegmentListComponent } from './components/segment/segment-list/segment-list.component';
+import { SegmentFormComponent } from './components/segment/segment-form/segment-form.component';
+import { HoldingListComponent } from './components/holding/holding-list/holding-list.component';
+import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
+import { DepartmentFormComponent } from './components/department/department-form/department-form.component';
+import { AssignmentFormComponent } from './components/assignment/assignment-form/assignment-form.component';
+import { GoalListComponent } from './components/goal/goal-list/goal-list.component';
+import { GoalFormComponent } from './components/goal/goal-form/goal-form.component';
+import { TaskFormComponent } from './components/task/task-form/task-form.component';
+import { RoutineListComponent } from './components/routine/routine-list/routine-list.component';
+import { RoutineFormComponent } from './components/routine/routine-form/routine-form.component';
 
 @NgModule({
   declarations: [
@@ -55,19 +67,30 @@ import { MatDialogModule } from '@angular/material/dialog';
     NavComponent,
     HeaderComponent,
     PersonListComponent,
-    PersonCreateComponent,
-    PersonUpdateComponent,
-    PersonDeleteComponent,
-    CompanyListComponent,
+    PersonFormComponent,
     AppointmentListComponent,
     LoginComponent,
-    CompanyCreateComponent,
-    CompanyReadComponent,
+    CompanyListComponent,
+    CompanyFormComponent,
+    ResponsibilityListComponent,
+    ResponsibilityFormComponent,
+    GoalListComponent,
+    GoalFormComponent,
     DepartmentListComponent,
+    DepartmentFormComponent,
     DepartmentPersonListComponent,
     TaskListComponent,
+    TaskFormComponent,
+    RoutineListComponent,
+    RoutineFormComponent,
     AssignmentListComponent,
+    AssignmentFormComponent,
     AppointmentCreateComponent,
+    SegmentListComponent,
+    SegmentFormComponent,
+    HoldingListComponent,
+    HoldingFormComponent,
+    DeleteConfirmationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +117,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTabsModule,
     MatGridListModule,
     MatDialogModule,
+    MatExpansionModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       closeButton: true,

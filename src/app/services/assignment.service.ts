@@ -22,4 +22,12 @@ export class AssignmentService {
   create(assignment: Assignment): Observable<Assignment> {
     return this.http.post<Assignment>(`${Config.webApiUrl}/assignment`, assignment);
   }
+
+  update(id: string, assignment: Assignment): Observable<Assignment> {
+    return this.http.put<Assignment>(`${Config.webApiUrl}/assignment/${id}`, assignment);
+  }
+
+  delete(id: string): Observable<Assignment> {
+    return this.http.delete<Assignment>(`${Config.webApiUrl}/assignment/${id}`);
+  }
 }

@@ -19,15 +19,23 @@ export class PersonService {
     return this.http.get<Person>(`${Config.webApiUrl}/person/${id}`);
   }
 
+  findAllByRoutine(idRoutine: string): Observable<Person[]> {
+    return this.http.get<Person[]>(`${Config.webApiUrl}/person/routine/${idRoutine}`);
+  }
+
+  findAllByTask(idTask: string): Observable<Person[]> {
+    return this.http.get<Person[]>(`${Config.webApiUrl}/person/task/${idTask}`);
+  }
+
   create(person: Person): Observable<Person> {
     return this.http.post<Person>(`${Config.webApiUrl}/person`, person);
   }
 
-  update(person: Person): Observable<Person> {
-    return this.http.put<Person>(`${Config.webApiUrl}/clientes/${person.id}`, person);
+  update(id: string, person: Person): Observable<Person> {
+    return this.http.put<Person>(`${Config.webApiUrl}/person/${id}`, person);
   }
 
-  delete(id: any): Observable<Person> {
-    return this.http.delete<Person>(`${Config.webApiUrl}/clientes/${id}`);
+  delete(id: string): Observable<Person> {
+    return this.http.delete<Person>(`${Config.webApiUrl}/person/${id}`);
   }
 }

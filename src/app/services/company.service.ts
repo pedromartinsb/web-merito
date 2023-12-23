@@ -22,4 +22,12 @@ export class CompanyService {
   create(company: Company): Observable<Company> {
     return this.http.post<Company>(`${Config.webApiUrl}/company`, company);
   }
+
+  update(id: string, company: Company): Observable<Company> {
+    return this.http.put<Company>(`${Config.webApiUrl}/company/${id}`, company);
+  }
+
+  delete(id: string): Observable<Company> {
+    return this.http.delete<Company>(`${Config.webApiUrl}/company/${id}`);
+  }
 }
