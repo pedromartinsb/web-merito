@@ -17,7 +17,7 @@ export class CompanyListComponent implements OnInit {
   ELEMENT_DATA: Company[] = [];
   FILTERED_DATA: Company[] = [];
 
-  displayedColumns: string[] = ['name', 'companyType', 'holding', 'segment', 'department', 'person', 'actions'];
+  displayedColumns: string[] = ['name', 'companyType', 'holding', 'segment', 'actions'];
   dataSource = new MatTableDataSource<Company>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

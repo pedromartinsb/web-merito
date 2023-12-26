@@ -38,4 +38,8 @@ export class PersonService {
   delete(id: string): Observable<Person> {
     return this.http.delete<Person>(`${Config.webApiUrl}/person/${id}`);
   }
+
+  removePersonFromCompany(personId: string, companyId: string): Observable<Person> {
+    return this.http.delete<Person>(`${Config.webApiUrl}/person/${personId}/${companyId}/company`);
+  }
 }

@@ -1,4 +1,5 @@
 import { Holding } from "./holding";
+import { Person } from "./person";
 
 export interface Company {
   id?: string;

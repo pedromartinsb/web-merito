@@ -69,6 +69,12 @@ const routes: Routes = [
           role: 'ROLE_ADMIN'
         }
       },
+      { path: 'company/:idCompany/person/create', component: PersonFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
 
       // DEPARTMENT
       { path: 'department/company/:idCompany', component: DepartmentListComponent,
@@ -226,18 +232,6 @@ const routes: Routes = [
         }
       },
       { path: 'person/edit/:id', component: PersonFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN'
-        }
-      },
-      { path: 'person/routine/:idPerson', component: RoutineListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN'
-        }
-      },
-      { path: 'person/task/:idPerson', component: TaskListComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'

@@ -14,6 +14,8 @@ import { Department } from 'src/app/models/department';
 import { Responsibility } from 'src/app/models/responsibility';
 import { finalize } from 'rxjs';
 import { Role } from 'src/app/models/role';
+import { CompanyService } from 'src/app/services/company.service';
+import { Company } from 'src/app/models/company';
 
 @Component({
   selector: 'app-person-form',
@@ -25,6 +27,7 @@ export class PersonFormComponent implements OnInit {
   roles: Roles[] = [];
   tasks: Task[] = [];
   routines: Routine[] = [];  
+  companies: Company[] = [];
   departments: Department[] = [];
   responsibilities: Responsibility[] = [];
 
@@ -74,10 +77,14 @@ export class PersonFormComponent implements OnInit {
   ];
 
   personId: string;
+  companyId: string;
 
+  personCompany: Company;
+  
   name: FormControl = new FormControl(null, Validators.minLength(3));
   cpf: FormControl = new FormControl(null, Validators.required);
-
+  
+  company: FormControl = new FormControl(null, Validators.required);
   department: FormControl = new FormControl(null, Validators.required);
   responsibility: FormControl = new FormControl(null, Validators.required);
 
@@ -96,8 +103,11 @@ export class PersonFormComponent implements OnInit {
   task:     FormControl = new FormControl(null, []);
   routine:     FormControl = new FormControl(null, []);
 
+  isCompanyLinkedCreation: boolean = false;
+
   constructor(
     private personService: PersonService,
+    private companyService: CompanyService,
     private toast: ToastrService,
     private router: Router,    
     private route: ActivatedRoute,
@@ -109,6 +119,11 @@ export class PersonFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.personId = this.route.snapshot.params['id'];
+    this.companyId = this.route.snapshot.params['idCompany'];
+    if (this.companyId) {
+      this.loadCompany();
+      this.isCompanyLinkedCreation = true;
+    }
     if (this.personId) {
       this.loadPerson();
     } else {
@@ -117,14 +132,25 @@ export class PersonFormComponent implements OnInit {
   }
 
   loadList() {
-    this.findAllDepartments();
+    if (this.companyId) {
+      this.findAllDepartments(this.companyId);
+    } else {
+      this.findAllCompanies();
+    }
     this.findAllResponsibilities();
     this.findAllTasks();
     this.findAllRoutines();
+    this.loadRoles();
   }
 
-  findAllDepartments(): void {
-    this.departmentService.findAll().subscribe((response: Department[]) => {
+  findAllCompanies(): void {
+    this.companyService.findAll().subscribe((response: Company[]) => {
+      this.companies = response;
+    });
+  }
+
+  findAllDepartments(companyId: string): void {
+    this.departmentService.findAllByCompany(companyId).subscribe((response: Department[]) => {
       this.departments = response;
       if (this.personId) {
         let tempDepartmentList: Department[];        
@@ -158,6 +184,20 @@ export class PersonFormComponent implements OnInit {
     });
   }
 
+  loadRoles(): void {
+    if (this.person.user.roles) {
+      let selectedRoles: any[];
+      this.person.user.roles.forEach(role => {
+        this.roleLabels.forEach(label => {
+          if (role.name === label.value.name) {
+            selectedRoles.push(label);
+          }
+        });
+      });
+      this.role.setValue(selectedRoles)
+    }
+  }
+
   loadPerson(): void {
     this.personService.findById(this.personId).pipe(
       finalize(() => {
@@ -165,6 +205,12 @@ export class PersonFormComponent implements OnInit {
       })
     ).subscribe(response => {
       this.person = response;
+    });
+  }
+
+  loadCompany(): void {
+    this.companyService.findById(this.companyId).subscribe((response: Company) => {
+      this.company.setValue(response);
     });
   }
 
@@ -231,6 +277,14 @@ export class PersonFormComponent implements OnInit {
   getRoleLabel(value: string): string | undefined {
     const matchingRole = this.roleLabels.find(role => role.value.name === value);
     return matchingRole ? matchingRole.label : undefined;
+  }
+
+  selectCompany() {   
+    if (this.company.value) {
+      let company: Company = this.company.value;
+      this.companyId = company.id;
+      this.findAllDepartments(company.id);
+    }
   }
 
 }

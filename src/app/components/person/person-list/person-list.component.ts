@@ -19,7 +19,7 @@ export class PersonListComponent implements OnInit {
   ELEMENT_DATA: Person[] = [];
   FILTERED_DATA: Person[] = [];
 
-  displayedColumns: string[] = ['name', 'cpf', 'email', 'personType', 'task', 'routine'];
+  displayedColumns: string[] = ['name', 'cpf', 'personType', 'actions'];
   dataSource = new MatTableDataSource<Person>(this.persons);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,7 +40,7 @@ export class PersonListComponent implements OnInit {
       this.persons = response;
       this.dataSource = new MatTableDataSource<Person>(response);
       this.dataSource.paginator = this.paginator;
-    })
+    });
   }
 
   applyFilter(event: Event) {
@@ -72,6 +72,13 @@ export class PersonListComponent implements OnInit {
     this.personService.delete(personId).subscribe(() => {
       this.findAll();
     });
+  }
+
+  getPersonTypeLabel(personType: string) {
+    if (personType === 'EMPLOYEE') {
+      return 'Colaborador';
+    }
+    return '';
   }
 
 }

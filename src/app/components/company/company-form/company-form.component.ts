@@ -4,9 +4,16 @@ import { FormControl, Validators } from '@angular/forms';
 import { HoldingService } from '../../../services/holding.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Holding } from '../../../models/holding';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Company, CompanyType } from 'src/app/models/company';
 import { finalize } from 'rxjs';
+import { Person } from 'src/app/models/person';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { DeleteConfirmationModalComponent } from '../../delete/delete-confirmation-modal';
+import { DepartmentService } from 'src/app/services/department.service';
+import { PersonService } from 'src/app/services/person.service';
 
 @Component({
   selector: 'app-company-form',
@@ -38,9 +45,25 @@ export class CompanyFormComponent implements OnInit {
     {label: "Filial", value: "FILIAL"},
   ];
 
+  ELEMENT_DATA: Person[] = [];
+  FILTERED_DATA: Person[] = [];
+
+  persons: Person[] = [];
+  companyPersons: Person[] = [];
+
+  newLinkedPerson: Person;
+
+  displayedColumns: string[] = ['name', 'cpf', 'email', 'personType', 'actions'];
+  dataSource = new MatTableDataSource<Person>(this.persons);
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(
     private companyService: CompanyService,
     private holdingService: HoldingService,
+    private personService: PersonService,
+    private departmentService: DepartmentService,
+    private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private toast: ToastrService,
@@ -51,8 +74,13 @@ export class CompanyFormComponent implements OnInit {
     if (this.companyId) {
       this.loadCompany();
     } else {
-      this.findAllHolding();
+      this.loadList();
     }
+  }
+
+  loadList() {
+    this.findAllHolding();
+    this.findAllPersons();
   }
 
   findAllHolding(): void {
@@ -69,6 +97,7 @@ export class CompanyFormComponent implements OnInit {
     this.companyService.findById(this.companyId).pipe(
       finalize(() => {
         this.findAllHolding();
+        this.findCompanyPersons();
         this.companyType.setValue(this.company.companyType);
       })
     ).subscribe((response: Company) => {
@@ -124,6 +153,60 @@ export class CompanyFormComponent implements OnInit {
 
   selectHolding() {
     if (this.company.holding && this.company.holding.id) this.company.holdingId = this.company.holding.id;
+  }
+
+  findCompanyPersons() {
+    this.departmentService.findAllPersonByCompany(this.company.id).subscribe(response => {
+      this.companyPersons = response;
+      this.dataSource = new MatTableDataSource<Person>(response);
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
+  findAllPersons() {
+    console.log('teste');
+    
+    this.departmentService.findAllPersonByCompany(this.company.id).subscribe((response: Person[]) => {
+      this.persons = response;
+    });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  linkPersonToCompany() {
+
+  }
+
+  openUnlinkConfirmationModal(personId: string): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
+    
+    dialogRef.componentInstance.message = 'Tem certeza que deseja desvincular este colaborador?';
+
+    dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
+      this.unlinkPersonFromCompany(personId);
+
+      dialogRef.close();
+    });
+
+    dialogRef.componentInstance.deleteCanceled.subscribe(() => {
+      dialogRef.close();
+    });
+  }
+
+  unlinkPersonFromCompany(personId: string): void {
+    this.personService.removePersonFromCompany(personId, this.company.id).subscribe(() => {
+      this.findAllPersons();
+    });
+  }
+
+  getPersonTypeLabel(personType: string) {
+    if (personType === 'EMPLOYEE') {
+      return 'Colaborador';
+    }
+    return '';
   }
 
 }

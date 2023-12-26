@@ -30,6 +30,7 @@
           },
           "configurations": {
             "staging": {
+              "sourceMap": true,
               "budgets": [
                 {
                   "type": "initial",

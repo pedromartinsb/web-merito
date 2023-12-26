@@ -1,12 +1,20 @@
 .container {
-  width: 35rem;
-  margin: auto;
+  margin: 16px;
   padding: 1rem;
   border-radius: .6rem;
 }
 
+.form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
 .fullWidth {
   width: 100%;
+}
+
+.halfWidth {
+  width: calc(50% - 8px);
 }
 
 h1, p {
@@ -35,4 +43,38 @@ p {
 
 mat-icon {
   opacity: .8;
+}
+
+table {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  width: 100%;
+}
+
+h1 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.table-header span {
+  display: flex;
+  align-items: center;
+}
+
+#linkPersonToCompany {
+  width: 20em;
+  margin-top: 0;
 }
