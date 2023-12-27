@@ -14,6 +14,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DeleteConfirmationModalComponent } from '../../delete/delete-confirmation-modal';
 import { DepartmentService } from 'src/app/services/department.service';
 import { PersonService } from 'src/app/services/person.service';
+import { Department } from 'src/app/models/department';
 
 @Component({
   selector: 'app-company-form',
@@ -45,18 +46,28 @@ export class CompanyFormComponent implements OnInit {
     {label: "Filial", value: "FILIAL"},
   ];
 
-  ELEMENT_DATA: Person[] = [];
-  FILTERED_DATA: Person[] = [];
+  PERSON_ELEMENT_DATA: Person[] = [];
+  PERSON_FILTERED_DATA: Person[] = [];
 
   persons: Person[] = [];
   companyPersons: Person[] = [];
 
-  newLinkedPerson: Person;
+  personDisplayedColumns: string[] = ['personName', 'personDepartment', 'personType', 'personActions'];
+  personDataSource = new MatTableDataSource<Person>(this.persons);
 
-  displayedColumns: string[] = ['name', 'cpf', 'email', 'personType', 'actions'];
-  dataSource = new MatTableDataSource<Person>(this.persons);
+  DEPARTMENT_ELEMENT_DATA: Person[] = [];
+  DEPARTMENT_FILTERED_DATA: Person[] = [];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  departments: Department[] = [];
+  companyDepartments: Department[] = [];
+
+  newLinkedDepartment: Department;
+
+  departmentDisplayedColumns: string[] = ['departmentName', 'departmentActions'];
+  departmentDataSource = new MatTableDataSource<Department>(this.departments);
+
+  @ViewChild('personPaginator') personPaginator: MatPaginator;
+  @ViewChild('departmentPaginator') departmentPaginator: MatPaginator;  
 
   constructor(
     private companyService: CompanyService,
@@ -75,6 +86,15 @@ export class CompanyFormComponent implements OnInit {
       this.loadCompany();
     } else {
       this.loadList();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.personPaginator) {
+      this.personDataSource.paginator = this.personPaginator;
+    }
+    if (this.departmentPaginator) {
+      this.departmentDataSource.paginator = this.departmentPaginator;
     }
   }
 
@@ -98,6 +118,7 @@ export class CompanyFormComponent implements OnInit {
       finalize(() => {
         this.findAllHolding();
         this.findCompanyPersons();
+        this.findCompanyDepartments();
         this.companyType.setValue(this.company.companyType);
       })
     ).subscribe((response: Company) => {
@@ -156,16 +177,20 @@ export class CompanyFormComponent implements OnInit {
   }
 
   findCompanyPersons() {
-    this.departmentService.findAllPersonByCompany(this.company.id).subscribe(response => {
+    this.departmentService.findAllPersonByCompany(this.company.id).subscribe((response: Person[]) => {
       this.companyPersons = response;
-      this.dataSource = new MatTableDataSource<Person>(response);
-      this.dataSource.paginator = this.paginator;
+      this.personDataSource = new MatTableDataSource<Person>(response);
     });
   }
 
-  findAllPersons() {
-    console.log('teste');
-    
+  findCompanyDepartments() {
+    this.departmentService.findAllByCompany(this.company.id).subscribe((response: Department[]) => {
+      this.companyDepartments = response;
+      this.departmentDataSource = new MatTableDataSource<Department>(response);
+    });
+  }
+
+  findAllPersons() {    
     this.departmentService.findAllPersonByCompany(this.company.id).subscribe((response: Person[]) => {
       this.persons = response;
     });
@@ -173,33 +198,7 @@ export class CompanyFormComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  linkPersonToCompany() {
-
-  }
-
-  openUnlinkConfirmationModal(personId: string): void {
-    const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
-    
-    dialogRef.componentInstance.message = 'Tem certeza que deseja desvincular este colaborador?';
-
-    dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
-      this.unlinkPersonFromCompany(personId);
-
-      dialogRef.close();
-    });
-
-    dialogRef.componentInstance.deleteCanceled.subscribe(() => {
-      dialogRef.close();
-    });
-  }
-
-  unlinkPersonFromCompany(personId: string): void {
-    this.personService.removePersonFromCompany(personId, this.company.id).subscribe(() => {
-      this.findAllPersons();
-    });
+    this.personDataSource.filter = filterValue.trim().toLowerCase();
   }
 
   getPersonTypeLabel(personType: string) {

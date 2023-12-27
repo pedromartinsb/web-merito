@@ -35,3 +35,20 @@ p {
 mat-icon {
   opacity: .8;
 }
+
+h1 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.table-header span {
+  display: flex;
+  align-items: center;
+}

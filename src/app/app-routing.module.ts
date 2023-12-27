@@ -75,27 +75,27 @@ const routes: Routes = [
           role: 'ROLE_ADMIN'
         }
       },
+      { path: 'company/:idCompany/department/create', component: DepartmentFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
 
       // DEPARTMENT
-      { path: 'department/company/:idCompany', component: DepartmentListComponent,
+      { path: 'department', component: DepartmentListComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'
         }
       },
-      { path: 'department/company/:idCompany/create', component: DepartmentFormComponent,
+      { path: 'department/create', component: DepartmentFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'
         }
       },
-      { path: 'department/company/:idCompany/edit/:id', component: DepartmentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN'
-        }
-      },
-      { path: 'department/company/:idCompany/person', component: DepartmentPersonListComponent,
+      { path: 'department/edit/:id', component: DepartmentFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'

@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { PersonService } from '../../../services/person.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Person, User, Address, Roles } from 'src/app/models/person';
@@ -16,6 +16,10 @@ import { finalize } from 'rxjs';
 import { Role } from 'src/app/models/role';
 import { CompanyService } from 'src/app/services/company.service';
 import { Company } from 'src/app/models/company';
+import { MatTableDataSource } from '@angular/material/table';
+import { Assignment } from 'src/app/models/assignment';
+import { MatPaginator } from '@angular/material/paginator';
+import { AssignmentService } from 'src/app/services/assignment.service';
 
 @Component({
   selector: 'app-person-form',
@@ -25,8 +29,6 @@ import { Company } from 'src/app/models/company';
 export class PersonFormComponent implements OnInit {
 
   roles: Roles[] = [];
-  tasks: Task[] = [];
-  routines: Routine[] = [];  
   companies: Company[] = [];
   departments: Department[] = [];
   responsibilities: Responsibility[] = [];
@@ -52,18 +54,19 @@ export class PersonFormComponent implements OnInit {
     cpf: '',
     personType: 'EMPLOYEE',
 
-    departments: null,
-    departmentsId: '',
+    department: null,
+    departmentId: '',
     responsibility: null,
     responsibilityId: '',
+    company: null,
+    companyId: '',
 
     user: this.user,
     address: this.address,
 
     tasks: null, 
-    taskId: '',
-    routine: null, 
-    routineId: '',
+    routines: null, 
+    assignments: null,
 
     createdAt: '',
     updatedAt: '',
@@ -105,6 +108,38 @@ export class PersonFormComponent implements OnInit {
 
   isCompanyLinkedCreation: boolean = false;
 
+  ROUTINE_ELEMENT_DATA: Routine[] = [];
+  ROUTINE_FILTERED_DATA: Routine[] = [];
+
+  routines: Routine[] = [];
+  personRoutines: Routine[] = [];
+
+  routineDisplayedColumns: string[] = ['routineName', 'routineActions'];
+  routineDataSource = new MatTableDataSource<Routine>(this.routines);
+
+  TASK_ELEMENT_DATA: Task[] = [];
+  TASK_FILTERED_DATA: Task[] = [];
+
+  tasks: Task[] = [];
+  personTasks: Task[] = [];
+
+  taskDisplayedColumns: string[] = ['taskName', 'taskActions'];
+  taskDataSource = new MatTableDataSource<Task>(this.tasks);
+
+  ASSIGNMENT_ELEMENT_DATA: Assignment[] = [];
+  ASSIGNMENT_FILTERED_DATA: Assignment[] = [];
+
+  assignments: Assignment[] = [];
+  personAssignments: Assignment[] = [];
+
+  assignmentDisplayedColumns: string[] = ['assignmentName', 'assignmentDepartment', 'assignmentType', 'assignmentActions'];
+  assignmentDataSource = new MatTableDataSource<Assignment>(this.assignments);
+
+  @ViewChild('routinePaginator') routinePaginator: MatPaginator;
+  @ViewChild('taskPaginator') taskPaginator: MatPaginator;
+  @ViewChild('assignmentPaginator') assignmentPaginator: MatPaginator;
+
+
   constructor(
     private personService: PersonService,
     private companyService: CompanyService,
@@ -113,6 +148,7 @@ export class PersonFormComponent implements OnInit {
     private route: ActivatedRoute,
     private taskService: TaskService,
     private routineService: RoutineService,
+    private assignmentService: AssignmentService,
     private departmentService: DepartmentService,
     private responsibilityService: ResponsibilityService
   ) { }
@@ -120,14 +156,26 @@ export class PersonFormComponent implements OnInit {
   ngOnInit(): void {
     this.personId = this.route.snapshot.params['id'];
     this.companyId = this.route.snapshot.params['idCompany'];
-    if (this.companyId) {
-      this.loadCompany();
-      this.isCompanyLinkedCreation = true;
-    }
     if (this.personId) {
       this.loadPerson();
     } else {
       this.loadList();
+    }
+    if (this.companyId) {
+      this.loadCompany();
+      this.isCompanyLinkedCreation = true;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.routinePaginator) {
+      this.routineDataSource.paginator = this.routinePaginator;
+    }
+    if (this.taskPaginator) {
+      this.taskDataSource.paginator = this.taskPaginator;
+    }
+    if (this.assignmentPaginator) {
+      this.assignmentDataSource.paginator = this.assignmentPaginator;
     }
   }
 
@@ -153,11 +201,8 @@ export class PersonFormComponent implements OnInit {
     this.departmentService.findAllByCompany(companyId).subscribe((response: Department[]) => {
       this.departments = response;
       if (this.personId) {
-        let tempDepartmentList: Department[];        
-        this.departments.forEach(department => {
-          tempDepartmentList.push(this.person.departments.find(t => t.id === department.id));
-        });
-        this.department.setValue(tempDepartmentList);
+        this.department.setValue(response.find(d => d.id === this.person.department.id))
+        this.person.departmentId = this.person.department.id;
       }
     });
   }
@@ -166,7 +211,7 @@ export class PersonFormComponent implements OnInit {
     this.responsibilityService.findAll().subscribe((response: Responsibility[]) => {
       this.responsibilities = response;
       if (this.personId) {
-        this.responsibility.setValue(response.find(s => s.id === this.person.responsibility.id));
+        this.responsibility.setValue(response.find(p => p.id === this.person.responsibility.id));
         this.person.responsibilityId = this.person.responsibility.id;
       }
     });
@@ -201,16 +246,46 @@ export class PersonFormComponent implements OnInit {
   loadPerson(): void {
     this.personService.findById(this.personId).pipe(
       finalize(() => {
-        this.loadList();
+        this.loadList();        
+        this.findPersonRoutines();
+        this.findPersonTasks();
+        this.findPersonAssignments();
       })
     ).subscribe(response => {
       this.person = response;
     });
   }
 
-  loadCompany(): void {
-    this.companyService.findById(this.companyId).subscribe((response: Company) => {
-      this.company.setValue(response);
+  findPersonRoutines() {
+    this.routineService.findAllRoutineByPerson(this.person.id).subscribe((response: Routine[]) => {
+      this.personRoutines = response;
+      this.routineDataSource = new MatTableDataSource<Routine>(response);
+    });
+  }
+
+  linkRoutineToPerson() {}
+
+  findPersonTasks() {
+    this.taskService.findAllTaskByPerson(this.person.id).subscribe((response: Task[]) => {
+      this.personTasks = response;
+      this.taskDataSource = new MatTableDataSource<Task>(response);
+    });
+  }
+
+  linkTaskToPerson() {}
+
+  findPersonAssignments() {
+    this.assignmentService.findAllAssignmentByPerson(this.person.id).subscribe((response: Assignment[]) => {
+      this.personAssignments = response;
+      this.assignmentDataSource = new MatTableDataSource<Assignment>(response);
+    });
+  }
+
+  linkAssignmentToPerson() {}
+
+  loadCompany(): void {    
+    this.departmentService.findById(this.person.department).subscribe((response: Department) => {      
+      this.company.setValue(response.company);
     });
   }
 

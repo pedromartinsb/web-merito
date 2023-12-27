@@ -19,7 +19,7 @@ export class PersonListComponent implements OnInit {
   ELEMENT_DATA: Person[] = [];
   FILTERED_DATA: Person[] = [];
 
-  displayedColumns: string[] = ['name', 'cpf', 'personType', 'actions'];
+  displayedColumns: string[] = ['name', 'department', 'company', 'personType', 'actions'];
   dataSource = new MatTableDataSource<Person>(this.persons);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

@@ -29,18 +29,6 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Selecione as Tarefas</mat-label>
-      <mat-select
-        [(ngModel)]="routine.tasks"
-        name="task"
-        [formControl]="task"
-        required
-        multiple>
-        <mat-option *ngFor="let task of tasks" [value]="task.id">{{ task.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
     <button (click)="openRoutineForm()" [disabled]="!validateFields()" class="fullWidth mat-elevation-z4" mat-flat-button color="primary">
       {{ routineId ? 'Salvar' : 'Cadastrar' }}
     </button>

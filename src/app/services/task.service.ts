@@ -19,12 +19,8 @@ export class TaskService {
     return this.http.get<Task>(`${Config.webApiUrl}/task/${id}`);
   }
 
-  findAllByRoutine(idRoutine: string): Observable<Task[]> {
-    return this.http.get<Task[]>(`${Config.webApiUrl}/task/routine/${idRoutine}`);
-  }
-
-  findAllByPerson(idPerson: string): Observable<Task[]> {
-    return this.http.get<Task[]>(`${Config.webApiUrl}/task/person/${idPerson}`);
+  findAllTaskByPerson(idPerson: string): Observable<Task[]> {
+    return this.http.get<Task[]>(`${Config.webApiUrl}/task/${idPerson}/person`);
   }
 
   create(task: Task): Observable<Task> {

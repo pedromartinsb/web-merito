@@ -1,3 +1,4 @@
+import { Company } from "./company";
 import { Person } from "./person";
 
 export interface Department {
@@ -5,6 +6,7 @@ export interface Department {
   name: string;
 
   companyId: any;
+  company: Company;
   person: Person[];
 
   createdAt: string;

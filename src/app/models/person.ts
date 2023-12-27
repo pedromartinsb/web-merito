@@ -1,3 +1,5 @@
+import { Assignment } from "./assignment";
+import { Company } from "./company";
 import { Department } from "./department";
 import { Responsibility } from "./responsibility";
 import { Role } from "./role";
@@ -10,19 +12,19 @@ export interface Person {
   name: string;
   cpf: string;
 
-  departments: Department[];
-  departmentsId: string;
+  department: Department;
+  departmentId: string;
   responsibility: Responsibility;
   responsibilityId: string;
+  company: Company;
+  companyId: string;
 
   user: User;
   address: Address;
 
   tasks: Task[];
-  taskId: string;
-
-  routine: Routine[];
-  routineId: string;
+  routines: Routine[];
+  assignments: Assignment[];
 
   createdAt: string;
   updatedAt: string;

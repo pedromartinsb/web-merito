@@ -21,8 +21,6 @@ export class RoutineFormComponent implements OnInit {
 
   routine: Routine = {
     name: '',
-    tasks: null, 
-    taskId: '',
     person: null, 
     personId: '',     
     createdAt: '',
@@ -50,21 +48,7 @@ export class RoutineFormComponent implements OnInit {
     if (this.routineId) {
       this.loadRoutine();
     }
-    this.findAllTasks();
     this.findAllPersons();
-  }
-
-  findAllTasks(): void {
-    this.taskService.findAll().subscribe((response: Task[]) => {
-      this.tasks = response;
-      if (this.routineId) {
-        let tempTaskList: Task[];
-        this.tasks.forEach(task => {
-          tempTaskList.push(this.routine.tasks.find(t => t.id === task.id));
-        });
-        this.task.setValue(tempTaskList);
-      }
-    });
   }
 
   findAllPersons(): void {
@@ -85,7 +69,6 @@ export class RoutineFormComponent implements OnInit {
 
   openRoutineForm(): void {
     if (this.routine.person) this.routine.personId = this.routine.person.id;
-    if (this.routine.tasks && this.routine.tasks.length > 0) this.routine.taskId = this.routine.tasks[0].id;
     if (this.routineId) {
       this.updateRoutine();
     } else {

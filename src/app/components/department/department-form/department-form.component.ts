@@ -4,10 +4,13 @@ import { FormControl, Validators } from '@angular/forms';
 import { HoldingService } from '../../../services/holding.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Holding } from '../../../models/holding';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Department } from 'src/app/models/department';
 import { Person } from 'src/app/models/person';
 import { PersonService } from 'src/app/services/person.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-department-form',
@@ -20,6 +23,7 @@ export class DepartmentFormComponent implements OnInit {
 
   department: Department = {
     name: '',
+    company: null,
     companyId: '',
     person: null,
     createdAt: '',
@@ -32,6 +36,18 @@ export class DepartmentFormComponent implements OnInit {
 
   name:        FormControl = new FormControl(null, Validators.minLength(3));
   person:     FormControl = new FormControl(null, [Validators.required]);
+
+  PERSON_ELEMENT_DATA: Person[] = [];
+  PERSON_FILTERED_DATA: Person[] = [];
+
+  departmentPersons: Person[] = [];
+
+  newLinkedPerson: Person;
+
+  personDisplayedColumns: string[] = ['personName', 'personDepartment', 'personType', 'personActions'];
+  personDataSource = new MatTableDataSource<Person>(this.persons);
+
+  @ViewChild('personPaginator') personPaginator: MatPaginator;
 
   constructor(
     private departmentService: DepartmentService,
@@ -49,6 +65,12 @@ export class DepartmentFormComponent implements OnInit {
       this.loadDepartment();
     }
     this.findAllPersons();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.personPaginator) {
+      this.personDataSource.paginator = this.personPaginator;
+    }
   }
 
   openDepartmentForm(): void {
@@ -90,9 +112,18 @@ export class DepartmentFormComponent implements OnInit {
   }
 
   loadDepartment(): void {    
-    this.departmentService.findById(this.departmentId).subscribe((response: Department) => {
+    this.departmentService.findById(this.departmentId).pipe(
+      finalize(() => {
+        this.findDepartmentPersons();
+      })
+    ).subscribe((response: Department) => {
       this.department = response;
     });
+  }
+
+  findDepartmentPersons() {
+    this.departmentPersons = this.department.person;
+    this.personDataSource = new MatTableDataSource<Person>(this.department.person);
   }
 
   private handleErrors(ex: any): void {
@@ -107,6 +138,13 @@ export class DepartmentFormComponent implements OnInit {
 
   validateFields(): boolean {
     return this.name.valid;
+  }
+
+  getPersonTypeLabel(personType: string) {
+    if (personType === 'EMPLOYEE') {
+      return 'Colaborador';
+    }
+    return '';
   }
 
 }

@@ -17,6 +17,7 @@ export class DepartmentPersonListComponent implements OnInit {
   department: Department = {
     id: '',
     name: '',
+    company: null,
     companyId: '',
     person: [],
     createdAt: '',

@@ -30,4 +30,8 @@ export class AssignmentService {
   delete(id: string): Observable<Assignment> {
     return this.http.delete<Assignment>(`${Config.webApiUrl}/assignment/${id}`);
   }
+
+  findAllAssignmentByPerson(idPerson: string): Observable<Assignment[]> {
+    return this.http.get<Assignment[]>(`${Config.webApiUrl}/assignment/${idPerson}/person`);
+  }
 }

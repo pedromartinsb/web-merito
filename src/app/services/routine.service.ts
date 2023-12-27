@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Config } from '../config/api.config';
 import { Routine } from '../models/routine';
+import { Person } from '../models/person';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,9 @@ export class RoutineService {
 
   delete(id: string): Observable<Routine> {
     return this.http.delete<Routine>(`${Config.webApiUrl}/routine/${id}`);
+  }
+
+  findAllRoutineByPerson(idPerson: string): Observable<Routine[]> {
+    return this.http.get<Routine[]>(`${Config.webApiUrl}/routine/${idPerson}/person`);
   }
 }

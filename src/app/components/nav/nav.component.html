@@ -24,10 +24,38 @@
             Cadastros
           </mat-expansion-panel-header>
           <mat-nav-list class="nav-list">
+            <mat-list-item>              
+              <a mat-list-item routerLink="segment">
+                <i class="material-icons">account_tree</i>
+                Segmentos
+              </a>
+            </mat-list-item>
+            
+            <mat-list-item>
+              <a mat-list-item routerLink="holding">
+                <i class="material-icons">group_work</i>
+                Grupos de Empresa
+              </a>
+            </mat-list-item>
+
             <mat-list-item>
               <a mat-list-item routerLink="company">
                 <i class="material-icons">apartment</i>
                 Unidades
+              </a>
+            </mat-list-item>
+
+            <mat-list-item>
+              <a mat-list-item routerLink="department">
+                <i class="material-icons">meeting_room</i>
+                Departamentos
+              </a>
+            </mat-list-item>
+
+            <mat-list-item>
+              <a mat-list-item routerLink="responsibility">
+                <i class="material-icons">badge</i>
+                Funções
               </a>
             </mat-list-item>
             
@@ -39,37 +67,9 @@
             </mat-list-item>
 
             <mat-list-item>
-              <a mat-list-item routerLink="responsibility">
-                <i class="material-icons">badge</i>
-                Funções
-              </a>
-            </mat-list-item>
-
-            <mat-list-item>
-              <a mat-list-item routerLink="goal">
-                <i class="material-icons">checklist</i>
-                Metas
-              </a>
-            </mat-list-item>
-
-            <mat-list-item>
               <a mat-list-item routerLink="assignment">
                 <i class="material-icons">support_agent</i>
                 Atribuições
-              </a>
-            </mat-list-item>
-    
-            <mat-list-item>
-              <a mat-list-item routerLink="segment">
-                <i class="material-icons">account_tree</i>
-                Segmentos
-              </a>
-            </mat-list-item>
-    
-            <mat-list-item>
-              <a mat-list-item routerLink="holding">
-                <i class="material-icons">group_work</i>
-                Grupos de Empresa
               </a>
             </mat-list-item>
 
@@ -84,6 +84,13 @@
               <a mat-list-item routerLink="routine">
                 <i class="material-icons">event_available</i>
                 Rotinas
+              </a>
+            </mat-list-item>
+
+            <mat-list-item>
+              <a mat-list-item routerLink="goal">
+                <i class="material-icons">checklist</i>
+                Metas
               </a>
             </mat-list-item>
           </mat-nav-list>

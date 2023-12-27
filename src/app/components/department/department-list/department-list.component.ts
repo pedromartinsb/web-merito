@@ -17,7 +17,7 @@ export class DepartmentListComponent implements OnInit {
   ELEMENT_DATA: Department[] = [];
   FILTERED_DATA: Department[] = [];
 
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name', 'company', 'actions'];
   dataSource = new MatTableDataSource<Department>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,11 +30,11 @@ export class DepartmentListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.findAllByCompany(this.route.snapshot.paramMap.get('idCompany'));
+    this.findAll();
   }
 
-  findAllByCompany(idCompany: string): void {
-    this.departmentService.findAllByCompany(idCompany).subscribe(response => {
+  findAll(): void {
+    this.departmentService.findAll().subscribe(response => {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Department>(response);
       this.dataSource.paginator = this.paginator;
@@ -69,7 +69,7 @@ export class DepartmentListComponent implements OnInit {
 
   deleteCompany(departmentId: string): void {
     this.departmentService.delete(departmentId).subscribe(() => {
-      this.findAllByCompany(this.route.snapshot.paramMap.get('idCompany'));
+      this.findAll();
     });
   }
 
