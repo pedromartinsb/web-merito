@@ -93,7 +93,7 @@ export class PersonFormComponent implements OnInit {
 
   username: FormControl = new FormControl(null, Validators.minLength(3));
   email: FormControl = new FormControl(null, Validators.email);
-  password: FormControl = new FormControl(null, Validators.minLength(3));
+  password: FormControl = new FormControl(null, []);
   role: FormControl = new FormControl(null, Validators.minLength(1));
 
   cep: FormControl = new FormControl(null, Validators.minLength(3));
@@ -155,7 +155,7 @@ export class PersonFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.personId = this.route.snapshot.params['id'];
-    this.companyId = this.route.snapshot.params['idCompany'];
+    this.companyId = this.route.snapshot.params['idCompany'];    
     if (this.personId) {
       this.loadPerson();
     } else {
@@ -257,35 +257,29 @@ export class PersonFormComponent implements OnInit {
   }
 
   findPersonRoutines() {
-    this.routineService.findAllRoutineByPerson(this.person.id).subscribe((response: Routine[]) => {
+    this.routineService.findAllByPerson(this.person.id).subscribe((response: Routine[]) => {
       this.personRoutines = response;
       this.routineDataSource = new MatTableDataSource<Routine>(response);
     });
   }
 
-  linkRoutineToPerson() {}
-
   findPersonTasks() {
-    this.taskService.findAllTaskByPerson(this.person.id).subscribe((response: Task[]) => {
+    this.taskService.findAllByPerson(this.person.id).subscribe((response: Task[]) => {
       this.personTasks = response;
       this.taskDataSource = new MatTableDataSource<Task>(response);
     });
   }
 
-  linkTaskToPerson() {}
-
   findPersonAssignments() {
-    this.assignmentService.findAllAssignmentByPerson(this.person.id).subscribe((response: Assignment[]) => {
+    this.assignmentService.findAllByPerson(this.person.id).subscribe((response: Assignment[]) => {
       this.personAssignments = response;
       this.assignmentDataSource = new MatTableDataSource<Assignment>(response);
     });
   }
 
-  linkAssignmentToPerson() {}
-
   loadCompany(): void {    
-    this.departmentService.findById(this.person.department).subscribe((response: Department) => {      
-      this.company.setValue(response.company);
+    this.companyService.findById(this.companyId).subscribe((response: Company) => {      
+      this.company.setValue(response);
     });
   }
 
@@ -311,7 +305,9 @@ export class PersonFormComponent implements OnInit {
   }
   
   private updatePerson(): void {
-    this.personService.update(this.personId, this.person).subscribe({
+    this.person.department = null;
+    this.person.responsibility = null;
+    this.personService.update(this.person.id, this.person).subscribe({
       next: () => {
         this.toast.success('Colaborador atualizado com sucesso', 'Atualização');
         this.router.navigate(['person']);

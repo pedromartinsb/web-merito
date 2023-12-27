@@ -24,10 +24,6 @@ export class DepartmentService {
     return this.http.get<Department[]>(`${Config.webApiUrl}/department/company/${idCompany}`);
   }
 
-  findAllPersonByCompany(idCompany: string): Observable<Person[]> {
-    return this.http.get<Person[]>(`${Config.webApiUrl}/department/company/${idCompany}/person`);
-  }
-
   create(department: Department): Observable<Department> {
     return this.http.post<Department>(`${Config.webApiUrl}/department`, department);
   }

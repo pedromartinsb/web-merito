@@ -6,6 +6,7 @@ import { Company, CompanyType } from 'src/app/models/company';
 import { Department } from 'src/app/models/department';
 import { Person } from 'src/app/models/person';
 import { DepartmentService } from 'src/app/services/department.service';
+import { PersonService } from 'src/app/services/person.service';
 
 @Component({
   selector: 'app-department-person-list',
@@ -46,6 +47,7 @@ export class DepartmentPersonListComponent implements OnInit {
   constructor(
     private departmentService: DepartmentService,
     private route: ActivatedRoute,
+    private personService: PersonService
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class DepartmentPersonListComponent implements OnInit {
   }
 
   findAllPersonByCompany(idCompany: string): void {
-    this.departmentService.findAllPersonByCompany(idCompany).subscribe(response => {
+    this.personService.findAllByCompany(idCompany).subscribe(response => {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Person>(response);
       this.dataSource.paginator = this.paginator;

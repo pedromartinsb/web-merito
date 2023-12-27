@@ -2,7 +2,8 @@
 
   <form class="form">
 
-    <h1 class="fullWidth">{{ departmentId ? 'Editar Departamento: ' + department.name : 'Cadastrar Departamento' }}</h1>
+    <h1 *ngIf="!isCompanyLinkedCreation" class="fullWidth">{{ departmentId ? 'Editar Departamento: ' + department.name : 'Cadastrar Departamento' }}</h1>
+    <h1 *ngIf="isCompanyLinkedCreation" class="fullWidth">{{ departmentId ? 'Editar Departamento: ' + department.name : 'Cadastrar Departamento na Unidade ' + department?.company?.name }}</h1>
 
     <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Departamento">
 
@@ -19,15 +20,14 @@
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
     </mat-form-field>
 
-    <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Selecione as pessoas</mat-label>
+    <mat-form-field class="fullWidth" appearance="outline" *ngIf="!isCompanyLinkedCreation">
+      <mat-label>Selecione a Unidade</mat-label>
       <mat-select
-        [(ngModel)]="department.person"
-        name="person"
-        [formControl]="person"
-        required
-        multiple>
-        <mat-option *ngFor="let person of persons" [value]="person">{{ person.name }}</mat-option>
+        [(ngModel)]="departmentCompany"
+        (ngModelChange)="selectCompany()"
+        name="company"
+        [formControl]="company">
+        <mat-option *ngFor="let company of companies" [value]="company">{{ company.name }}</mat-option>
       </mat-select>
     </mat-form-field>
 

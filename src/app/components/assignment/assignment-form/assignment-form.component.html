@@ -2,7 +2,8 @@
 
   <form class="form">
 
-    <h1 class="fullWidth">{{ assignmentId ? 'Editar ' + assignment.name : 'Cadastrar Atribuição' }}</h1>
+    <h1 *ngIf="!isPersonLinkedCreation" class="fullWidth">{{ assignmentId ? 'Editar Atribuição: ' + assignment.name : 'Cadastrar Atribuição' }}</h1>
+    <h1 *ngIf="isPersonLinkedCreation" class="fullWidth">{{ assignmentId ? 'Editar Atribuição: ' + assignment.name : 'Cadastrar Atribuição no Colaborador ' + person?.value?.name }}</h1>
 
     <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Assignmentss">
 
@@ -20,13 +21,13 @@
     </mat-form-field>
 
     <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Selecione uma Pessoa</mat-label>
+      <mat-label>Adicionar Pessoas à Atribuição (opcional)</mat-label>
       <mat-select
-        [(ngModel)]="assignment.personId"
+        [(ngModel)]="assignment.persons"
         name="person"
         [formControl]="person"
-        required>
-      <mat-option *ngFor="let person of persons" value="{{ person.id }}">{{ person.name }}</mat-option>
+        multiple>
+        <mat-option *ngFor="let person of persons" [value]="person">{{ person.name }}</mat-option>
       </mat-select>
     </mat-form-field>
 

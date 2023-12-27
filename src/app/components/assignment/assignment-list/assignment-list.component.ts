@@ -17,7 +17,7 @@ export class AssignmentListComponent implements OnInit {
   ELEMENT_DATA: Assignment[] = [];
   FILTERED_DATA: Assignment[] = [];
 
-  displayedColumns: string[] = ['name', 'person', 'actions'];
+  displayedColumns: string[] = ['name', 'actions'];
   dataSource = new MatTableDataSource<Assignment>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

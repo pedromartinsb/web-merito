@@ -31,7 +31,15 @@ export class AssignmentService {
     return this.http.delete<Assignment>(`${Config.webApiUrl}/assignment/${id}`);
   }
 
-  findAllAssignmentByPerson(idPerson: string): Observable<Assignment[]> {
+  findAllByPerson(idPerson: string): Observable<Assignment[]> {
     return this.http.get<Assignment[]>(`${Config.webApiUrl}/assignment/${idPerson}/person`);
+  }
+
+  addPersonToAssignment(personId: string, assignmentId: string): Observable<Assignment> {
+    return this.http.post<Assignment>(`${Config.webApiUrl}/assignment/person`, {personId, assignmentId});
+  }
+
+  addPersonsToAssignment(persons: string[], assignmentId: string): Observable<Assignment> {
+    return this.http.post<Assignment>(`${Config.webApiUrl}/assignment/persons`, {assignmentId, persons});
   }
 }

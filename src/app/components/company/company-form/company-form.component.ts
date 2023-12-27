@@ -177,7 +177,7 @@ export class CompanyFormComponent implements OnInit {
   }
 
   findCompanyPersons() {
-    this.departmentService.findAllPersonByCompany(this.company.id).subscribe((response: Person[]) => {
+    this.personService.findAllByCompany(this.company.id).subscribe((response: Person[]) => {
       this.companyPersons = response;
       this.personDataSource = new MatTableDataSource<Person>(response);
     });
@@ -191,7 +191,7 @@ export class CompanyFormComponent implements OnInit {
   }
 
   findAllPersons() {    
-    this.departmentService.findAllPersonByCompany(this.company.id).subscribe((response: Person[]) => {
+    this.personService.findAll().subscribe((response: Person[]) => {
       this.persons = response;
     });
   }

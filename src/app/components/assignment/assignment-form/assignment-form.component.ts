@@ -19,13 +19,18 @@ export class AssignmentFormComponent implements OnInit {
   assignment: Assignment = {
     name: '',
     personId: '',
-    person: null,    
+    persons: null,
+    startedAt: '',
+    finishedAt: '',    
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
   };
 
   assignmentId: string;
+  personId: string;
+
+  isPersonLinkedCreation: boolean = false;
 
   name:       FormControl = new FormControl(null, Validators.minLength(3));
   person:     FormControl = new FormControl(null, [Validators.required]);
@@ -40,10 +45,16 @@ export class AssignmentFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.assignmentId = this.route.snapshot.params['id'];
+    this.personId = this.route.snapshot.params['idPerson'];
     if (this.assignmentId) {
       this.loadAssignment();
     }
-    this.findAllPersons();
+    if (this.personId) {
+      this.loadPerson();
+      this.isPersonLinkedCreation = true;
+    } else {
+      this.findAllPersons();
+    }
   }
 
   findAllPersons(): void {
@@ -58,6 +69,13 @@ export class AssignmentFormComponent implements OnInit {
     });
   }
 
+  loadPerson(): void {
+    this.personService.findById(this.personId).subscribe((response: Person) => {
+      this.person.setValue(response);
+      this.assignment.persons.push(response);
+    });
+  }
+
   openAssignmentForm(): void {
     if (this.assignmentId) {
       this.updateAssignment();
@@ -69,6 +87,7 @@ export class AssignmentFormComponent implements OnInit {
   private createAssignment(): void {
     this.assignmentService.create(this.assignment).subscribe({
       next: () => {
+        this.addPersonsToAssignment();
         this.toast.success('Atribuição cadastrada com sucesso', 'Cadastro');
         this.router.navigate(['assignment']);
       },
@@ -81,9 +100,27 @@ export class AssignmentFormComponent implements OnInit {
   private updateAssignment(): void {
     this.assignmentService.update(this.assignmentId, this.assignment).subscribe({
       next: () => {
+        this.addPersonsToAssignment();
         this.toast.success('Atribuição atualizada com sucesso', 'Atualização');
         this.router.navigate(['assignment']);
       },
+      error: (ex) => {
+        this.handleErrors(ex);
+      },
+    });
+  }
+
+  private addPersonToAssignment(): void {    
+    this.assignmentService.addPersonToAssignment(this.personId, this.assignmentId).subscribe({
+      error: (ex) => {
+        this.handleErrors(ex);
+      },
+    });
+  }
+
+  private addPersonsToAssignment(): void {
+    let assignmentNewPersonsIds = this.assignment.persons.map(p => p.id);    
+    this.assignmentService.addPersonsToAssignment(assignmentNewPersonsIds, this.assignmentId).subscribe({
       error: (ex) => {
         this.handleErrors(ex);
       },
@@ -102,6 +139,13 @@ export class AssignmentFormComponent implements OnInit {
 
   validateFields(): boolean {
     return this.name.valid;
+  }
+
+  selectPerson() {   
+    if (this.person.value) {
+      let person: Person = this.person.value;
+      this.personId = person.id;
+    }
   }
 
 }

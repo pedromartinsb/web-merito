@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Config } from '../config/api.config';
+import { Routine } from '../models/routine';
+import { Assignment } from '../models/assignment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +21,6 @@ export class PersonService {
     return this.http.get<Person>(`${Config.webApiUrl}/person/${id}`);
   }
 
-  findAllByRoutine(idRoutine: string): Observable<Person[]> {
-    return this.http.get<Person[]>(`${Config.webApiUrl}/person/routine/${idRoutine}`);
-  }
-
-  findAllByTask(idTask: string): Observable<Person[]> {
-    return this.http.get<Person[]>(`${Config.webApiUrl}/person/task/${idTask}`);
-  }
-
   create(person: Person): Observable<Person> {
     return this.http.post<Person>(`${Config.webApiUrl}/person`, person);
   }
@@ -41,5 +35,9 @@ export class PersonService {
 
   removePersonFromCompany(personId: string, companyId: string): Observable<Person> {
     return this.http.delete<Person>(`${Config.webApiUrl}/person/${personId}/${companyId}/company`);
+  }
+
+  findAllByCompany(idCompany: string): Observable<Person[]> {
+    return this.http.get<Person[]>(`${Config.webApiUrl}/person/${idCompany}/company`);
   }
 }

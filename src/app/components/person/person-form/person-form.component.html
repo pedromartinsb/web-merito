@@ -3,7 +3,7 @@
   <form class="form">
 
     <h1 *ngIf="!isCompanyLinkedCreation" class="fullWidth">{{ personId ? 'Editar Colaborador: ' + person.name : 'Cadastrar Colaborador' }}</h1>
-    <h1 *ngIf="isCompanyLinkedCreation" class="fullWidth">{{ personId ? 'Editar Colaborador: ' + person.name : 'Cadastrar Colaborador na Unidade ' + company.value.name }}</h1>
+    <h1 *ngIf="isCompanyLinkedCreation" class="fullWidth">{{ personId ? 'Editar Colaborador: ' + person.name : 'Cadastrar Colaborador na Unidade ' + company?.value?.name }}</h1>
     <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Colaborador">
 
     <section class="section">
@@ -199,7 +199,7 @@
       <div class="table-header">
         <span>Rotinas</span>
 
-        <button (click)="linkRoutineToPerson()" class="mat-elevation-z4" id="linkRoutineToPerson" mat-flat-button color="primary">
+        <button routerLink="/person/{{ personId }}/routine/create" class="mat-elevation-z4" id="linkRoutineToPerson" mat-flat-button color="primary">
           Vincular rotina ao colaborador
         </button>
       </div>
@@ -239,7 +239,7 @@
       <div class="table-header">
         <span>Tarefas</span>
 
-        <button (click)="linkTaskToPerson()" class="mat-elevation-z4" id="linkTaskToPerson" mat-flat-button color="primary">
+        <button routerLink="/person/{{ personId }}/task/create" class="mat-elevation-z4" id="linkTaskToPerson" mat-flat-button color="primary">
           Vincular tarefa ao colaborador
         </button>
       </div>
@@ -279,7 +279,7 @@
       <div class="table-header">
         <span>Atribuições</span>
 
-        <button (click)="linkAssignmentToPerson()" class="mat-elevation-z4" id="linkAssignmentToPerson" mat-flat-button color="primary">
+        <button routerLink="/person/{{ personId }}/assignment/create" class="mat-elevation-z4" id="linkAssignmentToPerson" mat-flat-button color="primary">
           Vincular atribuição ao colaborador
         </button>
       </div>

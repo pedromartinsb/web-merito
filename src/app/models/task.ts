@@ -1,13 +1,14 @@
 import { Person } from "./person";
-import { Routine } from "./routine";
 
 export interface Task {
   id?: string;
   name: string;
 
-  routines: Routine[];
-  routineId: string;
+  persons: Person[];
+  personId: string;
 
+  startedAt: string;
+  finishedAt: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

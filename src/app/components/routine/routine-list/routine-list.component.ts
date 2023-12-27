@@ -17,7 +17,7 @@ export class RoutineListComponent implements OnInit {
   ELEMENT_DATA: Routine[] = [];
   FILTERED_DATA: Routine[] = [];
 
-  displayedColumns: string[] = ['name', 'task', 'person', 'actions'];
+  displayedColumns: string[] = ['name', 'actions'];
   dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

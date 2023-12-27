@@ -72,7 +72,7 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   findAllPersonByCompany(companyId: string): void {
-    this.departmentService.findAllPersonByCompany(companyId).subscribe(response => {
+    this.personService.findAllByCompany(companyId).subscribe(response => {
       if (response.values != null) {
         this.toast.success('Colaboradores listados com sucesso');
         this.persons = response;

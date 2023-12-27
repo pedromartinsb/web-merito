@@ -237,6 +237,24 @@ const routes: Routes = [
           role: 'ROLE_ADMIN'
         }
       },
+      { path: 'person/:idPerson/routine/create', component: RoutineFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'person/:idPerson/task/create', component: TaskFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'person/:idPerson/assignment/create', component: AssignmentFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
 
       // TASK
       { path: 'task', component: TaskListComponent,
@@ -257,18 +275,6 @@ const routes: Routes = [
           role: 'ROLE_ADMIN'
         }
       },
-      { path: 'task/routine/:idTask', component: RoutineListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN'
-        }
-      },
-      { path: 'task/person/:idTask', component: PersonListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN'
-        }
-      },
 
       // ROUTINE
       { path: 'routine', component: RoutineListComponent,
@@ -284,18 +290,6 @@ const routes: Routes = [
         }
       },
       { path: 'routine/edit/:id', component: RoutineFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN'
-        }
-      },
-      { path: 'routine/task/:idRoutine', component: TaskListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN'
-        }
-      },
-      { path: 'routine/person/:idRoutine', component: PersonListComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'

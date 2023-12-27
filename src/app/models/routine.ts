@@ -5,9 +5,11 @@ export interface Routine {
   id?: string;
   name: string;
 
-  person: Person;
+  persons: Person[];
   personId: string;
 
+  startedAt: string;
+  finishedAt: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

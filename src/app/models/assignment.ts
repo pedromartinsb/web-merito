@@ -4,9 +4,11 @@ export interface Assignment {
   id?: string;
   name: string;
 
+  persons: Person[];
   personId: string;
-  person: Person;
 
+  startedAt: string;
+  finishedAt: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

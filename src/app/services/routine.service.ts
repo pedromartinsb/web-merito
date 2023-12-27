@@ -24,10 +24,6 @@ export class RoutineService {
     return this.http.get<Routine[]>(`${Config.webApiUrl}/routine/task/${idTask}`);
   }
 
-  findAllByPerson(idPerson: string): Observable<Routine[]> {
-    return this.http.get<Routine[]>(`${Config.webApiUrl}/routine/person/${idPerson}`);
-  }
-
   create(routine: Routine): Observable<Routine> {
     return this.http.post<Routine>(`${Config.webApiUrl}/routine`, routine);
   }
@@ -40,7 +36,15 @@ export class RoutineService {
     return this.http.delete<Routine>(`${Config.webApiUrl}/routine/${id}`);
   }
 
-  findAllRoutineByPerson(idPerson: string): Observable<Routine[]> {
+  findAllByPerson(idPerson: string): Observable<Routine[]> {
     return this.http.get<Routine[]>(`${Config.webApiUrl}/routine/${idPerson}/person`);
+  }
+
+  addPersonToRoutine(personId: string, routineId: string): Observable<Routine> {
+    return this.http.post<Routine>(`${Config.webApiUrl}/routine/person`, {personId, routineId});
+  }
+
+  addPersonsToRoutine(persons: string[], routineId: string): Observable<Routine> {
+    return this.http.post<Routine>(`${Config.webApiUrl}/routine/person`, {routineId, persons});
   }
 }

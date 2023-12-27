@@ -2,7 +2,8 @@
 
   <form class="form">
 
-    <h1 class="fullWidth">{{ taskId ? 'Editar Atividade: ' + task.name : 'Cadastrar Atividade' }}</h1>
+    <h1 *ngIf="!isPersonLinkedCreation" class="fullWidth">{{ taskId ? 'Editar Tarefa: ' + task.name : 'Cadastrar Tarefa' }}</h1>
+    <h1 *ngIf="isPersonLinkedCreation" class="fullWidth">{{ taskId ? 'Editar Tarefa: ' + task.name : 'Cadastrar Tarefa no Colaborador ' + person?.value?.name }}</h1>
 
     <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Atividades">
 
@@ -20,21 +21,9 @@
     </mat-form-field>
 
     <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Selecione as Rotinas</mat-label>
+      <mat-label>Adicionar Pessoas à Tarefa (opcional)</mat-label>
       <mat-select
-        [(ngModel)]="task.routines"
-        name="routine"
-        [formControl]="routine"
-        multiple>
-        <mat-option *ngFor="let routine of routines" [value]="routine">{{ routine.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    
-
-    <mat-form-field class="fullWidth" appearance="outline" *ngIf="false">
-      <mat-label>Selecione as pessoas</mat-label>
-      <mat-select
-        [(ngModel)]="personsSelected"
+        [(ngModel)]="task.persons"
         name="person"
         [formControl]="person"
         multiple>

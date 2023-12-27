@@ -11,6 +11,8 @@ import { PersonService } from 'src/app/services/person.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { finalize } from 'rxjs';
+import { Company } from 'src/app/models/company';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-department-form',
@@ -19,7 +21,7 @@ import { finalize } from 'rxjs';
 })
 export class DepartmentFormComponent implements OnInit {
 
-  persons: Person[] = [];
+  companies: Company[] = [];
 
   department: Department = {
     name: '',
@@ -31,11 +33,15 @@ export class DepartmentFormComponent implements OnInit {
     deletedAt: '',
   };
 
+  isCompanyLinkedCreation: boolean = false;
+
   departmentId: string;
   companyId: string;
 
+  departmentCompany: Company;
+
   name:        FormControl = new FormControl(null, Validators.minLength(3));
-  person:     FormControl = new FormControl(null, [Validators.required]);
+  company: FormControl = new FormControl(null, Validators.required);
 
   PERSON_ELEMENT_DATA: Person[] = [];
   PERSON_FILTERED_DATA: Person[] = [];
@@ -45,7 +51,7 @@ export class DepartmentFormComponent implements OnInit {
   newLinkedPerson: Person;
 
   personDisplayedColumns: string[] = ['personName', 'personDepartment', 'personType', 'personActions'];
-  personDataSource = new MatTableDataSource<Person>(this.persons);
+  personDataSource = new MatTableDataSource<Person>(this.departmentPersons);
 
   @ViewChild('personPaginator') personPaginator: MatPaginator;
 
@@ -54,7 +60,8 @@ export class DepartmentFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toast: ToastrService,
-    private personService: PersonService
+    private personService: PersonService,
+    private companyService: CompanyService
   ) { }
 
   ngOnInit(): void {
@@ -64,7 +71,12 @@ export class DepartmentFormComponent implements OnInit {
     if (this.departmentId) {
       this.loadDepartment();
     }
-    this.findAllPersons();
+    if (this.companyId) {
+      this.isCompanyLinkedCreation = true;
+      this.findDepartmentCompany();
+    } else {      
+      this.findAllCompanies();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -85,7 +97,7 @@ export class DepartmentFormComponent implements OnInit {
     this.departmentService.create(this.department).subscribe({
       next: () => {
         this.toast.success('Departamento cadastrado com sucesso', 'Cadastro');
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['department']);
       },
       error: (ex) => {
         this.handleErrors(ex);
@@ -97,7 +109,7 @@ export class DepartmentFormComponent implements OnInit {
     this.departmentService.update(this.departmentId, this.department).subscribe({
       next: () => {
         this.toast.success('Departamento atualizado com sucesso', 'Atualização');
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['department']);
       },
       error: (ex) => {
         this.handleErrors(ex);
@@ -105,16 +117,24 @@ export class DepartmentFormComponent implements OnInit {
     });
   }
 
-  findAllPersons(): void {
-    this.personService.findAll().subscribe(response => {
-      this.persons = response;
-    });    
+  findAllCompanies(): void {
+    this.companyService.findAll().subscribe((response: Company[]) => {
+      this.companies = response;
+    });
+  }
+
+  findDepartmentCompany(): void {
+    this.companyService.findById(this.companyId).subscribe((response: Company) => {
+      this.company.setValue(response);
+      this.department.company = response;
+    });
   }
 
   loadDepartment(): void {    
     this.departmentService.findById(this.departmentId).pipe(
       finalize(() => {
         this.findDepartmentPersons();
+        this.company.setValue(this.department.company)
       })
     ).subscribe((response: Department) => {
       this.department = response;
@@ -145,6 +165,14 @@ export class DepartmentFormComponent implements OnInit {
       return 'Colaborador';
     }
     return '';
+  }
+
+  selectCompany() {   
+    if (this.company.value) {
+      let company: Company = this.company.value;
+      this.companyId = company.id;
+      this.department.companyId = company.id;
+    }
   }
 
 }
