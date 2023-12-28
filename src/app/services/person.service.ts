@@ -40,4 +40,16 @@ export class PersonService {
   findAllByCompany(idCompany: string): Observable<Person[]> {
     return this.http.get<Person[]>(`${Config.webApiUrl}/person/${idCompany}/company`);
   }
+
+  addRoutinesToPerson(routines: string[], personId: string): Observable<Routine> {
+    return this.http.post<Routine>(`${Config.webApiUrl}/person/routines`, {personId, routines});
+  }
+
+  addTasksToPerson(tasks: string[], personId: string): Observable<Task> {
+    return this.http.post<Task>(`${Config.webApiUrl}/person/tasks`, {personId, tasks});
+  }
+
+  addAssignmentsToPerson(assignments: string[], personId: string): Observable<Assignment> {
+    return this.http.post<Assignment>(`${Config.webApiUrl}/person/assignments`, {personId, assignments});
+  }
 }

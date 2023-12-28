@@ -22,8 +22,8 @@ export class TaskFormComponent implements OnInit {
     name: '',
     persons: null, 
     personId: '',
-    startedAt: '',
-    finishedAt: '',
+    startedAt: new Date(),
+    finishedAt: new Date(),
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
@@ -31,6 +31,9 @@ export class TaskFormComponent implements OnInit {
 
   taskId: string;
   personId: string;
+
+  startDate: Date;
+  endDate: Date;  
 
   isPersonLinkedCreation: boolean = false;
 
@@ -58,6 +61,7 @@ export class TaskFormComponent implements OnInit {
     } else {
       this.findAllPersons();
     }
+    this.initializeDate();
   }
 
   findAllPersons(): void {
@@ -69,6 +73,9 @@ export class TaskFormComponent implements OnInit {
   loadTask(): void {
     this.taskService.findById(this.taskId).subscribe(response => {
       this.task = response;
+      this.person.setValue(response.persons);
+      this.startDate = response.startedAt;
+      this.endDate = response.finishedAt;
     });
   }
 
@@ -88,7 +95,7 @@ export class TaskFormComponent implements OnInit {
   }
   
   private createTask(): void {
-    this.taskService.create(this.task).subscribe({
+    this.taskService.create({ ...this.task, startedAt: this.startDate, finishedAt: this.endDate }).subscribe({
       next: () => {
         this.addPersonsToTask();
         this.toast.success('Atividade cadastrada com sucesso', 'Cadastro');
@@ -101,7 +108,7 @@ export class TaskFormComponent implements OnInit {
   }
   
   private updateTask(): void {
-    this.taskService.update(this.taskId, this.task).subscribe({
+    this.taskService.update(this.taskId, { ...this.task, startedAt: this.startDate, finishedAt: this.endDate }).subscribe({
       next: () => {
         if (this.task.persons.length > 0) this.addPersonsToTask();
         this.toast.success('Atividade atualizada com sucesso', 'Atualização');
@@ -122,12 +129,14 @@ export class TaskFormComponent implements OnInit {
   }
 
   private addPersonsToTask(): void {
-    let taskNewPersonsIds = this.task.persons.map(p => p.id);    
-    this.taskService.addPersonsToTask(taskNewPersonsIds, this.taskId).subscribe({
-      error: (ex) => {
-        this.handleErrors(ex);
-      },
-    });
+    if (this.taskId) {
+      let taskNewPersonsIds = this.task.persons.map(p => p.id);
+      this.taskService.addPersonsToTask(taskNewPersonsIds, this.personId).subscribe({
+        error: (ex) => {
+          this.handleErrors(ex);
+        },
+      });
+    }    
   }
   
   private handleErrors(ex: any): void {
@@ -151,4 +160,8 @@ export class TaskFormComponent implements OnInit {
     }
   }
 
+  initializeDate() {
+    this.task.startedAt.setHours(0, 0, 0, 0);
+    this.task.finishedAt.setHours(0, 0, 0, 0);
+  }
 }

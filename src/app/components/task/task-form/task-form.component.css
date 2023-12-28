@@ -35,3 +35,7 @@ p {
 mat-icon {
   opacity: .8;
 }
+
+.pointer-cursor {
+  cursor: pointer;
+}

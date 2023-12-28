@@ -17,7 +17,7 @@ export class TaskListComponent implements OnInit {
   ELEMENT_DATA: Task[] = [];
   FILTERED_DATA: Task[] = [];
 
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name', 'startDate', 'endDate', 'actions'];
   dataSource = new MatTableDataSource<Task>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

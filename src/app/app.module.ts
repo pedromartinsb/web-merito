@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule, DatePipe } from '@angular/common';
 
 // Imports para componentes do Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,7 +30,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ToastrModule } from 'ngx-toastr';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { NavComponent } from './components/nav/nav.component';
 import { PersonListComponent } from './components/person/person-list/person-list.component';
@@ -99,6 +102,7 @@ import { RoutineFormComponent } from './components/routine/routine-form/routine-
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    CommonModule,
     HttpClientModule,
     MatFormFieldModule,
     MatPaginatorModule,
@@ -118,13 +122,19 @@ import { RoutineFormComponent } from './components/routine/routine-form/routine-
     MatGridListModule,
     MatDialogModule,
     MatExpansionModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       closeButton: true,
       progressBar: true
     }),
   ],
-  providers: [AuthInterceptorProvider],
+  providers: [
+    AuthInterceptorProvider,
+    DatePipe,
+    {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

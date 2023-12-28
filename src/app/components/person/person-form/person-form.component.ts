@@ -74,7 +74,7 @@ export class PersonFormComponent implements OnInit {
   }
 
   roleLabels = [
-    {label: "Usuário", value: {name: "ROLE_USERS"}},
+    {label: "Usuário", value: {name: "ROLE_USER"}},
     {label: "Admin", value: {name: "ROLE_ADMIN"}},
     {label: "Moderador", value: {name: "ROLE_MODERADOR"}}
   ];
@@ -123,7 +123,7 @@ export class PersonFormComponent implements OnInit {
   tasks: Task[] = [];
   personTasks: Task[] = [];
 
-  taskDisplayedColumns: string[] = ['taskName', 'taskActions'];
+  taskDisplayedColumns: string[] = ['taskName', 'taskStartDate', 'taskEndDate', 'taskActions'];
   taskDataSource = new MatTableDataSource<Task>(this.tasks);
 
   ASSIGNMENT_ELEMENT_DATA: Assignment[] = [];
@@ -132,7 +132,7 @@ export class PersonFormComponent implements OnInit {
   assignments: Assignment[] = [];
   personAssignments: Assignment[] = [];
 
-  assignmentDisplayedColumns: string[] = ['assignmentName', 'assignmentDepartment', 'assignmentType', 'assignmentActions'];
+  assignmentDisplayedColumns: string[] = ['assignmentName',  'assignmentStartDate', 'assignmentEndDate', 'assignmentActions'];
   assignmentDataSource = new MatTableDataSource<Assignment>(this.assignments);
 
   @ViewChild('routinePaginator') routinePaginator: MatPaginator;
@@ -161,10 +161,6 @@ export class PersonFormComponent implements OnInit {
     } else {
       this.loadList();
     }
-    if (this.companyId) {
-      this.loadCompany();
-      this.isCompanyLinkedCreation = true;
-    }
   }
 
   ngAfterViewInit(): void {
@@ -182,6 +178,8 @@ export class PersonFormComponent implements OnInit {
   loadList() {
     if (this.companyId) {
       this.findAllDepartments(this.companyId);
+      this.loadCompany();
+      this.isCompanyLinkedCreation = true;
     } else {
       this.findAllCompanies();
     }
@@ -192,7 +190,11 @@ export class PersonFormComponent implements OnInit {
   }
 
   findAllCompanies(): void {
-    this.companyService.findAll().subscribe((response: Company[]) => {
+    this.companyService.findAll().pipe(
+      finalize(() => {
+        if (this.personId) this.setCompanyAndDepartment();
+      })
+    ).subscribe((response: Company[]) => {
       this.companies = response;
     });
   }
@@ -200,11 +202,15 @@ export class PersonFormComponent implements OnInit {
   findAllDepartments(companyId: string): void {
     this.departmentService.findAllByCompany(companyId).subscribe((response: Department[]) => {
       this.departments = response;
-      if (this.personId) {
-        this.department.setValue(response.find(d => d.id === this.person.department.id))
-        this.person.departmentId = this.person.department.id;
-      }
     });
+  }
+
+  setCompanyAndDepartment(): void {
+    this.company.setValue(this.person.department.company.id);
+    this.person.companyId = this.person.department.company.id;
+    this.companyId = this.person.department.company.id;
+    this.department.setValue(this.person.department.id)
+    this.person.departmentId = this.person.department.id;
   }
 
   findAllResponsibilities(): void {
@@ -229,20 +235,6 @@ export class PersonFormComponent implements OnInit {
     });
   }
 
-  loadRoles(): void {
-    if (this.person.user.roles) {
-      let selectedRoles: any[];
-      this.person.user.roles.forEach(role => {
-        this.roleLabels.forEach(label => {
-          if (role.name === label.value.name) {
-            selectedRoles.push(label);
-          }
-        });
-      });
-      this.role.setValue(selectedRoles)
-    }
-  }
-
   loadPerson(): void {
     this.personService.findById(this.personId).pipe(
       finalize(() => {
@@ -260,6 +252,7 @@ export class PersonFormComponent implements OnInit {
     this.routineService.findAllByPerson(this.person.id).subscribe((response: Routine[]) => {
       this.personRoutines = response;
       this.routineDataSource = new MatTableDataSource<Routine>(response);
+      this.routines = this.routines.filter(routine => !this.personRoutines.some(personRoutine => personRoutine.id === routine.id));
     });
   }
 
@@ -267,6 +260,7 @@ export class PersonFormComponent implements OnInit {
     this.taskService.findAllByPerson(this.person.id).subscribe((response: Task[]) => {
       this.personTasks = response;
       this.taskDataSource = new MatTableDataSource<Task>(response);
+      this.tasks = this.tasks.filter(task => !this.personTasks.some(personTask => personTask.id === task.id));
     });
   }
 
@@ -274,6 +268,7 @@ export class PersonFormComponent implements OnInit {
     this.assignmentService.findAllByPerson(this.person.id).subscribe((response: Assignment[]) => {
       this.personAssignments = response;
       this.assignmentDataSource = new MatTableDataSource<Assignment>(response);
+      this.assignments = this.assignments.filter(assignment => !this.personAssignments.some(personAssignment => personAssignment.id === assignment.id));
     });
   }
 
@@ -322,14 +317,6 @@ export class PersonFormComponent implements OnInit {
     this.person.personType = personTypeRequest;
   }
 
-  addRole(role: any): void {
-    if (this.person.user.roles.includes(role)) {
-      this.person.user.roles.splice(this.person.user.roles.indexOf(role), 1);
-    } else {
-      this.person.user.roles.push(role);
-    }
-  }
-
   validateFields(): boolean {
     return this.name.valid && this.cpf.valid
       && this.email.valid && this.password.valid
@@ -345,17 +332,77 @@ export class PersonFormComponent implements OnInit {
     }
   }
 
+  addRole(role: any): void {
+    if (this.person.user.roles.includes(role)) {
+      this.person.user.roles.splice(this.person.user.roles.indexOf(role), 1);
+    } else {
+      this.person.user.roles.push(role);
+    }
+  }
+
+  loadRoles(): void {  
+    if (this.person.user.roles) {
+      let selectedRoles: any[] = this.roleLabels.filter(roleLabel =>
+        this.person.user.roles.some(userRole => userRole.name === roleLabel.value.name)
+      );  
+      this.role.setValue(selectedRoles);
+    }
+  }
+
+  compareRoles(role1: any, role2: any): boolean {
+    return role1.name === role2.name;
+  }
+
   getRoleLabel(value: string): string | undefined {
     const matchingRole = this.roleLabels.find(role => role.value.name === value);
     return matchingRole ? matchingRole.label : undefined;
   }
 
   selectCompany() {   
-    if (this.company.value) {
-      let company: Company = this.company.value;
-      this.companyId = company.id;
-      this.findAllDepartments(company.id);
+    if (this.company.value) {      
+      let company: string = this.company.value;
+      this.companyId = company;      
+      this.findAllDepartments(company);
     }
+  }
+
+  addRoutinesToPerson(): void {
+    let personNewRoutineIds = this.person.routines.map(r => r.id);
+    this.personService.addRoutinesToPerson(personNewRoutineIds, this.personId).subscribe({
+      next: () => {
+        this.toast.success('Rotinas adicionadas com sucesso', 'Atualização');
+        this.findPersonRoutines();
+      },
+      error: (ex) => {
+        this.handleErrors(ex);
+      },
+    });
+  }
+
+  addTasksToPerson(): void {
+    let personNewTaskIds = this.person.tasks.map(t => t.id);
+    this.personService.addTasksToPerson(personNewTaskIds, this.personId).subscribe({
+      next: () => {
+        this.toast.success('Tarefas adicionadas com sucesso', 'Atualização');
+        this.findPersonTasks();
+      },
+      error: (ex) => {
+        this.handleErrors(ex);
+      },
+    });
+  }
+
+  addAssignmentsToPerson(): void {
+    let personNewAssignmentIds = this.person.assignments.map(r => r.id);
+    this.personService.addAssignmentsToPerson(personNewAssignmentIds, this.personId).subscribe({
+      next: () => {
+        this.toast.success('Atribuições adicionadas com sucesso', 'Atualização');
+        this.findPersonAssignments();
+      },
+      error: (ex) => {
+        this.handleErrors(ex);
+      },
+    });
   }
 
 }

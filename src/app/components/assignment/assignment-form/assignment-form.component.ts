@@ -20,12 +20,15 @@ export class AssignmentFormComponent implements OnInit {
     name: '',
     personId: '',
     persons: null,
-    startedAt: '',
-    finishedAt: '',    
+    startedAt: new Date(),
+    finishedAt: new Date(),    
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
   };
+
+  startDate: Date;
+  endDate: Date;
 
   assignmentId: string;
   personId: string;
@@ -55,6 +58,7 @@ export class AssignmentFormComponent implements OnInit {
     } else {
       this.findAllPersons();
     }
+    this.initializeDate();
   }
 
   findAllPersons(): void {
@@ -66,6 +70,9 @@ export class AssignmentFormComponent implements OnInit {
   loadAssignment(): void {
     this.assignmentService.findById(this.assignmentId).subscribe(response => {
       this.assignment = response;
+      this.person.setValue(response.persons);
+      this.startDate = response.startedAt;
+      this.endDate = response.finishedAt;
     });
   }
 
@@ -85,7 +92,7 @@ export class AssignmentFormComponent implements OnInit {
   }
   
   private createAssignment(): void {
-    this.assignmentService.create(this.assignment).subscribe({
+    this.assignmentService.create({ ...this.assignment, startedAt: this.startDate, finishedAt: this.endDate }).subscribe({
       next: () => {
         this.addPersonsToAssignment();
         this.toast.success('Atribuição cadastrada com sucesso', 'Cadastro');
@@ -98,7 +105,7 @@ export class AssignmentFormComponent implements OnInit {
   }
   
   private updateAssignment(): void {
-    this.assignmentService.update(this.assignmentId, this.assignment).subscribe({
+    this.assignmentService.update(this.assignmentId, { ...this.assignment, startedAt: this.startDate, finishedAt: this.endDate }).subscribe({
       next: () => {
         this.addPersonsToAssignment();
         this.toast.success('Atribuição atualizada com sucesso', 'Atualização');
@@ -119,12 +126,14 @@ export class AssignmentFormComponent implements OnInit {
   }
 
   private addPersonsToAssignment(): void {
-    let assignmentNewPersonsIds = this.assignment.persons.map(p => p.id);    
-    this.assignmentService.addPersonsToAssignment(assignmentNewPersonsIds, this.assignmentId).subscribe({
-      error: (ex) => {
-        this.handleErrors(ex);
-      },
-    });
+    if (this.assignmentId) {
+      let assignmentNewPersonsIds = this.assignment.persons.map(p => p.id);
+      this.assignmentService.addPersonsToAssignment(assignmentNewPersonsIds, this.personId).subscribe({
+        error: (ex) => {
+          this.handleErrors(ex);
+        },
+      });
+    }    
   }
   
   private handleErrors(ex: any): void {
@@ -146,6 +155,11 @@ export class AssignmentFormComponent implements OnInit {
       let person: Person = this.person.value;
       this.personId = person.id;
     }
+  }
+
+  initializeDate() {
+    this.assignment.startedAt.setHours(0, 0, 0, 0);
+    this.assignment.finishedAt.setHours(0, 0, 0, 0);
   }
 
 }

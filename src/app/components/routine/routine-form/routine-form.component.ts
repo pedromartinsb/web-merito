@@ -66,6 +66,7 @@ export class RoutineFormComponent implements OnInit {
   loadRoutine(): void {
     this.routineService.findById(this.routineId).subscribe((response: Routine) => {
       this.routine = response;
+      this.person.setValue(response.persons);
     });
   }
 

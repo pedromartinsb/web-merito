@@ -45,6 +45,6 @@ export class RoutineService {
   }
 
   addPersonsToRoutine(persons: string[], routineId: string): Observable<Routine> {
-    return this.http.post<Routine>(`${Config.webApiUrl}/routine/person`, {routineId, persons});
+    return this.http.post<Routine>(`${Config.webApiUrl}/routine/persons`, {routineId, persons});
   }
 }

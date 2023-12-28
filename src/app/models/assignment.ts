@@ -7,8 +7,8 @@ export interface Assignment {
   persons: Person[];
   personId: string;
 
-  startedAt: string;
-  finishedAt: string;
+  startedAt: Date;
+  finishedAt: Date;
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

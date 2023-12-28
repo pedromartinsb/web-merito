@@ -48,7 +48,7 @@ export interface Address {
 }
 
 export enum Roles {
-  ROLE_USERS = "ROLE_USERS",
+  ROLE_USER = "ROLE_USER",
   ROLE_ADMIN = "ROLE_ADMIN",
   ROLE_MODERADOR = "ROLE_MODERADOR"
 }
