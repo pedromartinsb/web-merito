@@ -89,3 +89,32 @@ h1 {
   padding: 0;
 }
 
+.file-drop-container {
+  margin: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.file-drop {
+  flex: 1;
+}
+
+.upload-table-container {
+  flex: 1;
+}
+
+.upload-table {
+  margin-left: 16px;
+}
+
+#browseFilesButton {
+  margin: 0 0 0 16px;
+}
+
+:host ::ng-deep .file-drop .ngx-file-drop__drop-zone {
+  transition: background-color 0.3s ease-in-out;
+}
+
+:host ::ng-deep .file-drop .ngx-file-drop__drop-zone--over {
+  background-color: rgba(37,97,207,0.3);
+}

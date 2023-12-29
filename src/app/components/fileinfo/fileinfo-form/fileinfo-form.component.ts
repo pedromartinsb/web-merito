@@ -4,6 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { FileinfoService } from 'src/app/services/fileinfo.service';
 import { NgxFileDropEntry } from 'ngx-file-drop';
+import { Fileinfo } from 'src/app/models/fileinfo';
 
 @Component({
   selector: 'app-fileinfo-form',
@@ -25,46 +26,36 @@ export class FileinfoFormComponent implements OnInit {
 
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
-    for (const droppedFile of files) {
+  }
 
-      // Is it a file?
-      if (droppedFile.fileEntry.isFile) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+  public onSave() {
+    if (this.files && this.files.length > 0) {
+      const firstFile = this.files[0];
+
+      if (firstFile.fileEntry.isFile) {
+        const fileEntry = firstFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-
-          // Here you can access the real file
-          console.log(droppedFile.relativePath, file);
-
-          /**
-          // You could upload it like this:
-          const formData = new FormData()
-          formData.append('logo', file, relativePath)
-
-          // Headers
-          const headers = new HttpHeaders({
-            'security-token': 'mytoken'
-          })
-
-          this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
-          .subscribe(data => {
-            // Sanitized logo returned from backend
-          })
-          **/
-
+          this.fileinfoService.uploadFile(file).subscribe({
+            next: () => {
+              this.toast.success('Documento enviado com sucesso', 'Cadastro');
+              this.router.navigate(['fileinfo']);
+            },
+            error: (ex) => {
+              this.handleErrors(ex);
+            },
+          });
         });
-      } else {
-        // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        console.log(droppedFile.relativePath, fileEntry);
       }
     }
   }
 
-  public fileOver(event){
-    console.log(event);
-  }
-
-  public fileLeave(event){
-    console.log(event);
+  private handleErrors(ex: any): void {
+    if (ex.error.errors) {
+      ex.error.errors.forEach(element => {
+        this.toast.error(element.message);
+      });
+    } else {
+      this.toast.error(ex.error.message);
+    }
   }
 }

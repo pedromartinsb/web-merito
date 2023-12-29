@@ -21,11 +21,8 @@
         <th mat-header-cell *matHeaderCellDef>Ações</th>
         <td mat-cell *matCellDef="let element">
           <div class="mat-cell-wrapper">
-            <a>
-              <i class="material-icons edit">edit</i>
-            </a>
-            <a>
-              <i class="material-icons delete">delete</i>
+            <a (click)="downloadFile(element.url, element.name)">
+              <i class="material-icons edit">file_download</i>
             </a>
           </div>
         </td>

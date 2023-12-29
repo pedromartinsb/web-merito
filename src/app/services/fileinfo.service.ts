@@ -12,14 +12,17 @@ export class FileinfoService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Fileinfo[]> {
-    return this.http.get<Fileinfo[]>(`${Config.webApiUrl}/fileinfo`)
+    return this.http.get<Fileinfo[]>(`${Config.webApiUrl}/document/files`)
   }
 
-  findById(id: any): Observable<Fileinfo> {
-    return this.http.get<Fileinfo>(`${Config.webApiUrl}/fileinfo/${id}`);
+  findByName(filename: string): Observable<Fileinfo> {
+    return this.http.get<Fileinfo>(`${Config.webApiUrl}/document/files/${filename}`);
   }
 
-  upload(fileinfo: Fileinfo): Observable<Fileinfo> {
-    return this.http.post<Fileinfo>(`${Config.webApiUrl}/fileinfo`, fileinfo);
+  uploadFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${Config.webApiUrl}/document/upload`, formData);
   }
 }
