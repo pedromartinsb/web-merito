@@ -26,6 +26,8 @@ import { GoalFormComponent } from './components/goal/goal-form/goal-form.compone
 import { TaskFormComponent } from './components/task/task-form/task-form.component';
 import { RoutineListComponent } from './components/routine/routine-list/routine-list.component';
 import { RoutineFormComponent } from './components/routine/routine-form/routine-form.component';
+import { FileinfoListComponent } from './components/fileinfo/fileinfo-list/fileinfo-list.component';
+import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/fileinfo-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -290,6 +292,20 @@ const routes: Routes = [
         }
       },
       { path: 'routine/edit/:id', component: RoutineFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+
+      // FILEINFO
+      { path: 'fileinfo', component: FileinfoListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN'
+        }
+      },
+      { path: 'fileinfo/upload', component: FileinfoFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN'

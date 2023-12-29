@@ -1,0 +1,56 @@
+.container {
+  margin: 16px;
+}
+
+h1 {
+  text-align: center;
+}
+
+button {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.edit {
+  color: rgb(0, 153, 255);
+}
+
+.delete {
+  color: red;
+}
+
+.btn-create {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.mat-cell {
+  cursor: pointer;
+}
+
+.mat-column-actions {
+  width: 80px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.mat-cell-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-cell-wrapper button {
+  width: 48px;
+  height: 48px;
+}
+
+a {
+  cursor: pointer;
+}

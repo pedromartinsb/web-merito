@@ -34,6 +34,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
+import { NgxFileDropModule } from 'ngx-file-drop';
+
 import { NavComponent } from './components/nav/nav.component';
 import { PersonListComponent } from './components/person/person-list/person-list.component';
 import { PersonFormComponent } from './components/person/person-form/person-form.component';
@@ -62,6 +64,8 @@ import { GoalFormComponent } from './components/goal/goal-form/goal-form.compone
 import { TaskFormComponent } from './components/task/task-form/task-form.component';
 import { RoutineListComponent } from './components/routine/routine-list/routine-list.component';
 import { RoutineFormComponent } from './components/routine/routine-form/routine-form.component';
+import { FileinfoListComponent } from './components/fileinfo/fileinfo-list/fileinfo-list.component';
+import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/fileinfo-form.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +97,9 @@ import { RoutineFormComponent } from './components/routine/routine-form/routine-
     SegmentFormComponent,
     HoldingListComponent,
     HoldingFormComponent,
-    DeleteConfirmationModalComponent
+    DeleteConfirmationModalComponent,
+    FileinfoListComponent,
+    FileinfoFormComponent
   ],
   imports: [
     BrowserModule,
@@ -124,6 +130,7 @@ import { RoutineFormComponent } from './components/routine/routine-form/routine-
     MatExpansionModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    NgxFileDropModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       closeButton: true,
