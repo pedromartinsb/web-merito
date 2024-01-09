@@ -62,3 +62,16 @@ form {
 .example-radio-button {
   margin: 10px;
 }
+
+.person-routines-container, 
+.person-tasks-container,
+.person-assignments-container {
+  margin-top: 8px;
+}
+.person-routine-list__title,
+.person-task-list__title,
+.person-assignment-list__title {
+  font-size: 16px;
+  margin-bottom: 8px;
+  display: flex;
+}
