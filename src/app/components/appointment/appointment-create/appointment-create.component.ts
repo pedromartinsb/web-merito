@@ -11,12 +11,14 @@ import { Department } from 'src/app/models/department';
 import { Person } from 'src/app/models/person';
 import { Routine } from 'src/app/models/routine';
 import { Sector } from 'src/app/models/sector';
+import { Tag } from 'src/app/models/tag';
 import { Task } from 'src/app/models/task';
 import { AssignmentService } from 'src/app/services/assignment.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import { PersonService } from 'src/app/services/person.service';
 import { RoutineService } from 'src/app/services/routine.service';
+import { TagService } from 'src/app/services/tag.service';
 import { TaskService } from 'src/app/services/task.service';
 @Component({
   selector: 'app-appointment-create',
@@ -38,6 +40,8 @@ export class AppointmentCreateComponent implements OnInit {
   departments: Department[] = [];
   sectors:     Sector[] = [];
   persons:     Person[] = [];
+
+  tags: Tag[] = [];
 
   personRoutines: Routine[] = [];
   personTasks: Task[] = [];
@@ -61,10 +65,12 @@ export class AppointmentCreateComponent implements OnInit {
     private taskService: TaskService,
     private routineService: RoutineService,
     private assignmentService: AssignmentService,
+    private tagService: TagService,
   ) { }
 
   ngOnInit(): void {
     this.findAllCompanies();
+    this.findAllTags();
   }
 
   findAllCompanies(): void {
@@ -125,22 +131,53 @@ export class AppointmentCreateComponent implements OnInit {
     }
   }
 
-  findPersonRoutines() {
+  findPersonRoutines(): void {
     this.routineService.findAllByPerson(this.person.value.id).subscribe((response: Routine[]) => {
       this.personRoutines = response;
     });
   }
 
-  findPersonTasks() {
+  findPersonTasks(): void {
     this.taskService.findAllByPerson(this.person.value.id).subscribe((response: Task[]) => {
       this.personTasks = response;
     });
   }
 
-  findPersonAssignments() {
+  findPersonAssignments(): void {
     this.assignmentService.findAllByPerson(this.person.value.id).subscribe((response: Assignment[]) => {
       this.personAssignments = response;
     });
+  }
+
+  findAllTags() {
+    this.tagService.findAll().subscribe((response: Tag[]) => {
+      this.tags = response;
+      this.fillTagDescription();
+    });
+  }
+
+  fillTagDescription(): void {
+    this.tags.forEach((tag) => {
+      const tagName = tag.name;
+
+      switch (tagName) {
+        case "Red":
+          tag.description = "Falha Grave";
+          break;
+        case "Orange":
+          tag.description = "Alerta (Erro cometido as vezes)";
+          break;
+        case "Yellow":
+          tag.description = "Atenção (Corrigir de forma educativa)";
+          break;
+        case "Green":
+          tag.description = "Dever cumprido!";
+          break;
+        case "Blue":
+          tag.description = " Ótimo, Parábens, Excelente!";
+          break;
+      }
+    })
   }
 
 }

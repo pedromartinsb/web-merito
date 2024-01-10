@@ -68,11 +68,7 @@
               aria-labelledby="example-radio-group-label"
               class="example-radio-group"
               [(ngModel)]="favoriteSeason">
-              <mat-radio-button class="example-radio-button">Falha Grave</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Alerta</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Atenção</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Dever cumprido</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Excelente</mat-radio-button>
+              <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [matTooltip]="tag.description"></mat-radio-button>
             </mat-radio-group>
           </div>
         </div>
@@ -92,11 +88,7 @@
               aria-labelledby="example-radio-group-label"
               class="example-radio-group"
               [(ngModel)]="favoriteSeason">
-              <mat-radio-button class="example-radio-button">Falha Grave</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Alerta</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Atenção</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Dever cumprido</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Excelente</mat-radio-button>
+              <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [matTooltip]="tag.description"></mat-radio-button>
             </mat-radio-group>
           </div>
         </div>
@@ -116,11 +108,7 @@
               aria-labelledby="example-radio-group-label"
               class="example-radio-group"
               [(ngModel)]="favoriteSeason">
-              <mat-radio-button class="example-radio-button">Falha Grave</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Alerta</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Atenção</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Dever cumprido</mat-radio-button>
-              <mat-radio-button class="example-radio-button">Excelente</mat-radio-button>
+              <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [matTooltip]="tag.description"></mat-radio-button>
             </mat-radio-group>
           </div>
         </div>

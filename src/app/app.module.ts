@@ -18,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
@@ -115,6 +116,7 @@ import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/filei
     MatCheckboxModule,
     MatSnackBarModule,
     MatToolbarModule,
+    MatTooltipModule,
     MatSidenavModule,
     MatButtonModule,
     MatSelectModule,
