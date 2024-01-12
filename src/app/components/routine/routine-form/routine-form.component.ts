@@ -60,6 +60,13 @@ export class RoutineFormComponent implements OnInit {
   findAllPersons(): void {
     this.personService.findAll().subscribe(response => {
       this.persons = response;
+      if (this.routineId && this.persons.length > 0 && this.routine.persons) {
+        const tempPersonsList: Person[] = this.persons.filter(person =>
+          this.routine.persons.some(p => p.id === person.id)
+        );
+  
+        this.person.patchValue(tempPersonsList);
+      }
     });
   }
 

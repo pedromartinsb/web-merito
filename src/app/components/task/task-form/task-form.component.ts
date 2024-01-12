@@ -39,6 +39,8 @@ export class TaskFormComponent implements OnInit {
 
   name:        FormControl = new FormControl(null, Validators.minLength(3));
   person:     FormControl = new FormControl(null, []);
+  start:       FormControl = new FormControl(null, Validators.minLength(3));
+  end:     FormControl = new FormControl(null, Validators.minLength(3));
 
   constructor(
     private taskService: TaskService,
@@ -67,6 +69,13 @@ export class TaskFormComponent implements OnInit {
   findAllPersons(): void {
     this.personService.findAll().subscribe(response => {
       this.persons = response;
+      if (this.taskId && this.persons.length > 0 && this.task.persons) {
+        const tempPersonsList: Person[] = this.persons.filter(person =>
+          this.task.persons.some(p => p.id === person.id)
+        );
+  
+        this.person.patchValue(tempPersonsList);
+      }
     });
   }
 
@@ -74,8 +83,6 @@ export class TaskFormComponent implements OnInit {
     this.taskService.findById(this.taskId).subscribe(response => {
       this.task = response;
       this.person.setValue(response.persons);
-      this.startDate = response.startedAt;
-      this.endDate = response.finishedAt;
     });
   }
 
@@ -99,7 +106,7 @@ export class TaskFormComponent implements OnInit {
       next: () => {
         this.addPersonsToTask();
         this.toast.success('Atividade cadastrada com sucesso', 'Cadastro');
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['task']);
       },
       error: (ex) => {
         this.handleErrors(ex);
@@ -110,9 +117,9 @@ export class TaskFormComponent implements OnInit {
   private updateTask(): void {
     this.taskService.update(this.taskId, { ...this.task, startedAt: this.startDate, finishedAt: this.endDate }).subscribe({
       next: () => {
-        if (this.task.persons.length > 0) this.addPersonsToTask();
+        if (this.person.value.length > 0) this.addPersonsToTask();
         this.toast.success('Atividade atualizada com sucesso', 'Atualização');
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['task']);
       },
       error: (ex) => {
         this.handleErrors(ex);
@@ -130,8 +137,8 @@ export class TaskFormComponent implements OnInit {
 
   private addPersonsToTask(): void {
     if (this.taskId) {
-      let taskNewPersonsIds = this.task.persons.map(p => p.id);
-      this.taskService.addPersonsToTask(taskNewPersonsIds, this.personId).subscribe({
+      let taskNewPersonsIds = this.person.value.map(p => p.id);
+      this.taskService.addPersonsToTask(taskNewPersonsIds, this.taskId).subscribe({
         error: (ex) => {
           this.handleErrors(ex);
         },
@@ -150,7 +157,7 @@ export class TaskFormComponent implements OnInit {
   }
 
   validateFields(): boolean {
-    return this.name.valid;
+    return this.name.valid && this.start.valid && this.end.valid;
   }
 
   selectPerson() {   

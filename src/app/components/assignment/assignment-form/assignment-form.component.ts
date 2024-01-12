@@ -36,7 +36,9 @@ export class AssignmentFormComponent implements OnInit {
   isPersonLinkedCreation: boolean = false;
 
   name:       FormControl = new FormControl(null, Validators.minLength(3));
-  person:     FormControl = new FormControl(null, [Validators.required]);
+  person:     FormControl = new FormControl(null, []);
+  start:       FormControl = new FormControl(null, Validators.minLength(3));
+  end:     FormControl = new FormControl(null, Validators.minLength(3));
 
   constructor(
     private assignmentService: AssignmentService,
@@ -64,15 +66,19 @@ export class AssignmentFormComponent implements OnInit {
   findAllPersons(): void {
     this.personService.findAll().subscribe(response => {
       this.persons = response;
+      if (this.assignmentId && this.persons.length > 0 && this.assignment.persons) {
+        const tempPersonsList: Person[] = this.persons.filter(person =>
+          this.assignment.persons.some(p => p.id === person.id)
+        );
+  
+        this.person.patchValue(tempPersonsList);
+      }
     });
   }
 
   loadAssignment(): void {
     this.assignmentService.findById(this.assignmentId).subscribe(response => {
-      this.assignment = response;
-      this.person.setValue(response.persons);
-      this.startDate = response.startedAt;
-      this.endDate = response.finishedAt;
+      this.assignment = response;      
     });
   }
 
@@ -107,7 +113,7 @@ export class AssignmentFormComponent implements OnInit {
   private updateAssignment(): void {
     this.assignmentService.update(this.assignmentId, { ...this.assignment, startedAt: this.startDate, finishedAt: this.endDate }).subscribe({
       next: () => {
-        this.addPersonsToAssignment();
+        if (this.person.value.length > 0) this.addPersonsToAssignment();
         this.toast.success('Atribuição atualizada com sucesso', 'Atualização');
         this.router.navigate(['assignment']);
       },
@@ -127,8 +133,8 @@ export class AssignmentFormComponent implements OnInit {
 
   private addPersonsToAssignment(): void {
     if (this.assignmentId) {
-      let assignmentNewPersonsIds = this.assignment.persons.map(p => p.id);
-      this.assignmentService.addPersonsToAssignment(assignmentNewPersonsIds, this.personId).subscribe({
+      let assignmentNewPersonsIds = this.person.value.map(p => p.id);
+      this.assignmentService.addPersonsToAssignment(assignmentNewPersonsIds, this.assignmentId).subscribe({
         error: (ex) => {
           this.handleErrors(ex);
         },
@@ -147,7 +153,7 @@ export class AssignmentFormComponent implements OnInit {
   }
 
   validateFields(): boolean {
-    return this.name.valid;
+    return this.name.valid && this.start.valid && this.end.valid;
   }
 
   selectPerson() {   

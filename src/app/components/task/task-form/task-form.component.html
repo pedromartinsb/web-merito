@@ -23,8 +23,8 @@
     <mat-form-field appearance="fill">
       <mat-label>Selecione o intervalo</mat-label>
       <mat-date-range-input [rangePicker]="picker" class="pointer-cursor">
-        <input matStartDate placeholder="Data de início" class="pointer-cursor" [(ngModel)]="startDate" readonly (click)="picker.open()">
-        <input matEndDate placeholder="Data de fim" class="pointer-cursor" [(ngModel)]="endDate" readonly (click)="picker.open()">
+        <input matStartDate placeholder="Data de início" class="pointer-cursor" [(ngModel)]="startDate" [formControl]="start" required readonly (click)="picker.open()">
+        <input matEndDate placeholder="Data de fim" class="pointer-cursor" [(ngModel)]="endDate" [formControl]="end" required readonly (click)="picker.open()">
       </mat-date-range-input>
     
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
