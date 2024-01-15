@@ -22,6 +22,7 @@
     "@angular/router": "^14.2.0",
     "@auth0/angular-jwt": "^5.2.0",
     "ngx-file-drop": "^14.0.2",
+    "ngx-mask": "^14.3.3",
     "ngx-toastr": "^12.1.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

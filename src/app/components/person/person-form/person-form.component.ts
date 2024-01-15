@@ -358,7 +358,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       let selectedRoles: any[] = this.roleLabels.filter(roleLabel =>
         this.person.user.roles.some(userRole => userRole.name === roleLabel.value.name)
       );  
-      this.role.setValue(selectedRoles);
+      this.role.patchValue(selectedRoles);
     }
   }
 
@@ -426,7 +426,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
           this.toast.success('Endereço preenchido com Sucesso', 'Atualização');
         }
         else {
-          this.fillAddress(response);
           this.toast.error('CEP não encontrado.');
         }
       });

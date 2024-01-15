@@ -68,6 +68,12 @@ import { RoutineFormComponent } from './components/routine/routine-form/routine-
 import { FileinfoListComponent } from './components/fileinfo/fileinfo-list/fileinfo-list.component';
 import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/fileinfo-form.component';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+
+export const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -138,6 +144,7 @@ import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/filei
       closeButton: true,
       progressBar: true
     }),
+    NgxMaskModule.forRoot(maskConfig),
   ],
   providers: [
     AuthInterceptorProvider,
