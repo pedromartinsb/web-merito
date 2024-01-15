@@ -1,4 +1,4 @@
-import { Person } from '../models/person';
+import { AddressSearch, Person } from '../models/person';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -51,5 +51,9 @@ export class PersonService {
 
   addAssignmentsToPerson(assignments: string[], personId: string): Observable<Assignment> {
     return this.http.post<Assignment>(`${Config.webApiUrl}/person/assignments`, {personId, assignments});
+  }
+
+  findAddress(cep: string): Observable<AddressSearch> {
+    return this.http.get<AddressSearch>(`${Config.webApiUrl}/district/${cep}/cep`);
   }
 }

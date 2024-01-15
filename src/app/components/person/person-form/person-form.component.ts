@@ -1,9 +1,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { PersonService } from '../../../services/person.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Person, User, Address, Roles } from 'src/app/models/person';
+import { Person, User, Address, Roles, AddressSearch } from 'src/app/models/person';
 import { TaskService } from 'src/app/services/task.service';
 import { RoutineService } from 'src/app/services/routine.service';
 import { Routine } from 'src/app/models/routine';
@@ -12,7 +12,7 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { Department } from 'src/app/models/department';
 import { Responsibility } from 'src/app/models/responsibility';
-import { finalize } from 'rxjs';
+import { Subscription, finalize } from 'rxjs';
 import { Role } from 'src/app/models/role';
 import { CompanyService } from 'src/app/services/company.service';
 import { Company } from 'src/app/models/company';
@@ -26,7 +26,7 @@ import { AssignmentService } from 'src/app/services/assignment.service';
   templateUrl: './person-form.component.html',
   styleUrls: ['./person-form.component.css']
 })
-export class PersonFormComponent implements OnInit {
+export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   roles: Roles[] = [];
   companies: Company[] = [];
@@ -135,6 +135,8 @@ export class PersonFormComponent implements OnInit {
   assignmentDisplayedColumns: string[] = ['assignmentName',  'assignmentStartDate', 'assignmentEndDate', 'assignmentActions'];
   assignmentDataSource = new MatTableDataSource<Assignment>(this.assignments);
 
+  private cepValueChangesSubscription: Subscription;
+
   @ViewChild('routinePaginator') routinePaginator: MatPaginator;
   @ViewChild('taskPaginator') taskPaginator: MatPaginator;
   @ViewChild('assignmentPaginator') assignmentPaginator: MatPaginator;
@@ -161,6 +163,11 @@ export class PersonFormComponent implements OnInit {
     } else {
       this.loadList();
     }
+    this.cepValueChangesSubscription = this.cep.valueChanges.subscribe((newCep: string) => {
+      if (newCep && newCep.length === 8) {
+        this.findAddress();
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -172,6 +179,12 @@ export class PersonFormComponent implements OnInit {
     }
     if (this.assignmentPaginator) {
       this.assignmentDataSource.paginator = this.assignmentPaginator;
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.cepValueChangesSubscription) {
+      this.cepValueChangesSubscription.unsubscribe();
     }
   }
 
@@ -403,6 +416,42 @@ export class PersonFormComponent implements OnInit {
         this.handleErrors(ex);
       },
     });
+  }
+
+  findAddress() {
+    if (this.cep.value.length === 8 ) {
+      this.personService.findAddress(this.cep.value).subscribe((response: AddressSearch) => {
+        if (response.cep && response.cep.length > 0) {
+          this.fillAddress(response);
+          this.toast.success('Endereço preenchido com Sucesso', 'Atualização');
+        }
+        else {
+          this.fillAddress(response);
+          this.toast.error('CEP não encontrado.');
+        }
+      });
+    }
+  }
+
+  fillAddress(addressSearch: AddressSearch) {
+    const currentCep = this.cep.value;
+
+        let newAddress: Address = {
+          cep: currentCep,
+          city: addressSearch.localidade,
+          complement: addressSearch.complemento,
+          neighborhood: addressSearch.bairro,
+          streetName: addressSearch.logradouro,
+          uf: addressSearch.uf
+        }
+
+        this.city.patchValue(addressSearch.localidade);
+        this.complement.patchValue(addressSearch.complemento);
+        this.neighborhood.patchValue(addressSearch.bairro);
+        this.streetName.patchValue(addressSearch.logradouro);
+        this.uf.patchValue(addressSearch.uf);
+
+        this.person.address = newAddress;
   }
 
 }

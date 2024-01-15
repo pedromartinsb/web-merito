@@ -47,6 +47,19 @@ export interface Address {
   complement: string;
 }
 
+export interface AddressSearch {
+  cep: string;
+  logradouro: string;
+  complemento: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
+  ibge: string;
+  gia: string;
+  ddd: string;
+  siafi: string;
+}
+
 export enum Roles {
   ROLE_USER = "ROLE_USER",
   ROLE_ADMIN = "ROLE_ADMIN",
