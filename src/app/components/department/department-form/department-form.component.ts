@@ -68,6 +68,7 @@ export class DepartmentFormComponent implements OnInit {
     this.departmentId = this.route.snapshot.params['id'];
     this.companyId = this.route.snapshot.params['idCompany'];
     this.department.companyId = this.companyId;
+
     if (this.departmentId) {
       this.loadDepartment();
     }
@@ -76,6 +77,7 @@ export class DepartmentFormComponent implements OnInit {
       this.findDepartmentCompany();
     } else {      
       this.findAllCompanies();
+      this.company.setValue(null);
     }
   }
 
@@ -125,8 +127,8 @@ export class DepartmentFormComponent implements OnInit {
 
   findDepartmentCompany(): void {
     this.companyService.findById(this.companyId).subscribe((response: Company) => {
-      this.company.setValue(response);
       this.department.company = response;
+      this.company.patchValue(response);
     });
   }
 
@@ -134,15 +136,16 @@ export class DepartmentFormComponent implements OnInit {
     this.departmentService.findById(this.departmentId).pipe(
       finalize(() => {
         this.findDepartmentPersons();
-        this.company.setValue(this.department.company)
+        this.company.patchValue(this.department.company.id);
       })
     ).subscribe((response: Department) => {
       this.department = response;
+      this.company.patchValue(this.department.company.id);
     });
   }
 
   findDepartmentPersons() {
-    this.departmentPersons = this.department.person;
+    if (this.department.person && this.department.person.length > 0 ) this.departmentPersons = this.department.person;
     this.personDataSource = new MatTableDataSource<Person>(this.department.person);
   }
 
@@ -157,7 +160,7 @@ export class DepartmentFormComponent implements OnInit {
   }
 
   validateFields(): boolean {
-    return this.name.valid;
+    return this.name.valid && this.company.valid;
   }
 
   getPersonTypeLabel(personType: string) {

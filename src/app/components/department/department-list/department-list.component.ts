@@ -48,7 +48,7 @@ export class DepartmentListComponent implements OnInit {
 
   editDepartment(departmentId: string): void {
     const companyId = this.route.snapshot.paramMap.get('idCompany');    
-    this.router.navigate(['department', 'company', companyId, 'edit', departmentId]);
+    this.router.navigate(['department', 'edit', departmentId]);
   }
 
   openDeleteConfirmationModal(companyId: string): void {
