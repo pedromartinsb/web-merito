@@ -199,6 +199,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.findAllResponsibilities();
     this.findAllTasks();
     this.findAllRoutines();
+    this.findAllAssignments();
     this.loadRoles();
   }
 
@@ -245,6 +246,12 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   findAllRoutines(): void {
     this.routineService.findAll().subscribe(response => {
       this.routines = response;
+    });
+  }
+
+  findAllAssignments(): void {
+    this.assignmentService.findAll().subscribe(response => {
+      this.assignments = response;
     });
   }
 
