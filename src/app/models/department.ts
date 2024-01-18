@@ -5,7 +5,7 @@ export interface Department {
   id?: string;
   name: string;
 
-  companyId: any;
+  companyId: string;
   company: Company;
   person: Person[];
 

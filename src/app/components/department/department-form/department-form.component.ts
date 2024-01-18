@@ -172,9 +172,9 @@ export class DepartmentFormComponent implements OnInit {
 
   selectCompany() {   
     if (this.company.value) {
-      let company: Company = this.company.value;
-      this.companyId = company.id;
-      this.department.companyId = company.id;
+      let company: string = this.company.value;
+      this.companyId = company;
+      this.department.companyId = company;
     }
   }
 
