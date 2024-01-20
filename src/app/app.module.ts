@@ -69,6 +69,7 @@ import { FileinfoListComponent } from './components/fileinfo/fileinfo-list/filei
 import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/fileinfo-form.component';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { DescriptionModalComponent } from './components/description/description-modal';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -105,6 +106,7 @@ export const maskConfig: Partial<IConfig> = {
     HoldingListComponent,
     HoldingFormComponent,
     DeleteConfirmationModalComponent,
+    DescriptionModalComponent,
     FileinfoListComponent,
     FileinfoFormComponent
   ],

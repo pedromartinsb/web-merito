@@ -18,8 +18,9 @@ export class RoutineFormComponent implements OnInit {
 
   routine: Routine = {
     name: '',
-    persons: null, 
     personId: '',
+    persons: null, 
+    appointment: null,
     startedAt: '',
     finishedAt: '',     
     createdAt: '',

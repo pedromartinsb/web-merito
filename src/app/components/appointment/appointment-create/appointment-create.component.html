@@ -18,28 +18,6 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- <mat-form-field class="fourColumn" appearance="outline">
-      <mat-label>Departamento</mat-label>
-      <mat-select
-        [(ngModel)]="departmentId"
-        name="holding"
-        [formControl]="department"
-        required>
-      <mat-option *ngFor="let department of departments" value="{{ department.id }}">{{ department.name }}</mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
-    <!-- <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Função</mat-label>
-      <mat-select
-        [(ngModel)]="sectorId"
-        name="holding"
-        [formControl]="sector"
-        required>
-      <mat-option *ngFor="let sector of sectors" value="{{ sector.id }}">{{ sector.name }}</mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
     <mat-form-field class="fourColumn" appearance="outline">
       <mat-label>Profissional</mat-label>
       <mat-select
@@ -61,15 +39,18 @@
 
       <div class="person-routines-container">
         <div class="person-routine-list" *ngIf="personRoutines.length; else noRoutineData">
-          <span class="person-routine-list__title">Lista de Rotinas</span>
+          <span class="person-routine-list__title"><strong>Rotinas</strong></span>
           <div class="person-routine-list__item" *ngFor="let routine of personRoutines">
             <label><strong>{{routine.name}}</strong></label>
-            <mat-radio-group
-              aria-labelledby="example-radio-group-label"
-              class="example-radio-group"
-              [(ngModel)]="favoriteSeason">
-              <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [matTooltip]="tag.description"></mat-radio-button>
-            </mat-radio-group>
+            <div class="routine-appointment-wrapper">
+              <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="routine.appointment">
+                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description"></mat-radio-button>
+              </mat-radio-group>
+              <i class="material-icons edit" (click)="openDescriptionDialog(routine.id, 'routine')">chat</i>
+            </div>
           </div>
         </div>
         <ng-template #noRoutineData>
@@ -81,15 +62,18 @@
 
       <div class="person-tasks-container">
         <div class="person-task-list" *ngIf="personTasks.length; else noTaskData">
-          <span class="person-task-list__title">Lista de Tarefas</span>
+          <span class="person-task-list__title"><strong>Tarefas</strong></span>
           <div class="person-task-list__item" *ngFor="let task of personTasks">
             <label><strong>{{task.name}}</strong></label>
-            <mat-radio-group
-              aria-labelledby="example-radio-group-label"
-              class="example-radio-group"
-              [(ngModel)]="favoriteSeason">
-              <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [matTooltip]="tag.description"></mat-radio-button>
-            </mat-radio-group>
+            <div class="task-appointment-wrapper">
+              <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="task.appointment">
+                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description"></mat-radio-button>
+              </mat-radio-group>
+              <i class="material-icons edit" (click)="openDescriptionDialog(task.id, 'task')">chat</i>
+            </div>
           </div>
         </div>
         <ng-template #noTaskData>
@@ -101,15 +85,18 @@
 
       <div class="person-assignments-container">
         <div class="person-assignment-list" *ngIf="personAssignments.length; else noAssignmentData">
-          <span class="person-assignment-list__title">Lista de Atribuições</span>
+          <span class="person-assignment-list__title"><strong>Atribuições</strong></span>
           <div class="person-assignment-list__item" *ngFor="let assignment of personAssignments">
             <label><strong>{{assignment.name}}</strong></label>
-            <mat-radio-group
-              aria-labelledby="example-radio-group-label"
-              class="example-radio-group"
-              [(ngModel)]="favoriteSeason">
-              <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [matTooltip]="tag.description"></mat-radio-button>
-            </mat-radio-group>
+            <div class="assignment-appointment-wrapper">
+              <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="assignment.appointment">
+                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description"></mat-radio-button>
+              </mat-radio-group>
+              <i class="material-icons edit" (click)="openDescriptionDialog(assignment.id, 'assignment')">chat</i>
+            </div>
           </div>
         </div>
         <ng-template #noAssignmentData>

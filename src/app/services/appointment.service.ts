@@ -1,5 +1,5 @@
 import { Config } from './../config/api.config';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Appointment } from '../models/appointment';
@@ -13,5 +13,30 @@ export class AppointmentService {
 
   findAll(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${Config.webApiUrl}/appointment`);
+  }
+
+  findById(id: any): Observable<Appointment> {
+    return this.http.get<Appointment>(`${Config.webApiUrl}/appointment/${id}`);
+  }
+
+  findByPersonAndDate(personId: any, startDate: Date, endDate: Date): Observable<Appointment> {
+    let params = new HttpParams()
+      .set('personId', personId)
+      .set('startDate', startDate.toISOString())
+      .set('endDate', endDate.toISOString());
+
+    return this.http.get<Appointment>(`${Config.webApiUrl}/appointment`, { params });
+  }
+
+  create(appointment: Appointment): Observable<Appointment> {
+    return this.http.post<Appointment>(`${Config.webApiUrl}/appointment`, appointment);
+  }
+
+  update(id: string, appointment: Appointment): Observable<Appointment> {
+    return this.http.put<Appointment>(`${Config.webApiUrl}/appointment/${id}`, appointment);
+  }
+
+  delete(id: string): Observable<Appointment> {
+    return this.http.delete<Appointment>(`${Config.webApiUrl}/appointment/${id}`);
   }
 }

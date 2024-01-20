@@ -1,3 +1,14 @@
+:root {
+  --primary: #3f51b5;
+  --accent: #ff4081;
+  --warn: #f44336;
+  --red-appointment: #f44336;
+  --orange-appointment: #ff723b;
+  --yellow-appointment: #ffd700;
+  --green-appointment: #7cfc00;
+  --blue-appointment: #36aad7;
+}
+
 .container {
   margin: 16px;
   padding: 1rem;
@@ -74,4 +85,81 @@ form {
   font-size: 16px;
   margin-bottom: 8px;
   display: flex;
+}
+
+.edit {
+  color: rgb(0, 153, 255);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit:hover {
+  color: rgb(115, 199, 255);
+}
+
+.routine-appointment-wrapper,
+.task-appointment-wrapper,
+.assignment-appointment-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .example-radio-button.red-appointment.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #f44336; 
+}
+
+::ng-deep .example-radio-button.red-appointment .mat-radio-inner-circle {
+  background-color: #f44336;
+}
+
+::ng-deep .example-radio-button.red-appointment.mat-radio-checked .mat-radio-persistent-ripple {
+  background-color: #f44336;
+}
+
+::ng-deep .example-radio-button.orange-appointment.mat-radio-checked .mat-radio-outer-circle{
+  border-color: #ff723b; 
+}
+
+::ng-deep .example-radio-button.orange-appointment .mat-radio-inner-circle {
+  background-color: #ff723b;
+}
+
+::ng-deep .example-radio-button.orange-appointment.mat-radio-checked .mat-radio-persistent-ripple {
+  background-color: #ff723b;
+}
+
+::ng-deep .example-radio-button.yellow-appointment.mat-radio-checked .mat-radio-outer-circle{
+  border-color: #d3b614; 
+}
+
+::ng-deep .example-radio-button.yellow-appointment .mat-radio-inner-circle {
+  background-color: #d3b614;
+}
+
+::ng-deep .example-radio-button.yellow-appointment.mat-radio-checked .mat-radio-persistent-ripple {
+  background-color: #d3b614;
+}
+
+::ng-deep .example-radio-button.green-appointment.mat-radio-checked .mat-radio-outer-circle{
+  border-color: #7cfc00; 
+}
+
+::ng-deep .example-radio-button.green-appointment .mat-radio-inner-circle {
+  background-color: #7cfc00;
+}
+
+::ng-deep .example-radio-button.green-appointment.mat-radio-checked .mat-radio-persistent-ripple {
+  background-color: #7cfc00;
+}
+
+::ng-deep .example-radio-button.blue-appointment.mat-radio-checked .mat-radio-outer-circle{
+  border-color: #36aad7; 
+}
+
+::ng-deep .example-radio-button.blue-appointment .mat-radio-inner-circle {
+  background-color: #36aad7;
+}
+
+::ng-deep .example-radio-button.blue-appointment.mat-radio-checked .mat-radio-persistent-ripple {
+  background-color: #36aad7;
 }

@@ -20,8 +20,9 @@ export class TaskFormComponent implements OnInit {
 
   task: Task = {
     name: '',
-    persons: null, 
     personId: '',
+    persons: null, 
+    appointment: null,
     startedAt: new Date(),
     finishedAt: new Date(),
     createdAt: '',

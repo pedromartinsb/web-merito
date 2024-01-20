@@ -20,6 +20,7 @@ export class AssignmentFormComponent implements OnInit {
     name: '',
     personId: '',
     persons: null,
+    appointment: null,
     startedAt: new Date(),
     finishedAt: new Date(),    
     createdAt: '',

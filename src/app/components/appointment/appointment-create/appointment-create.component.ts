@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,6 +21,9 @@ import { PersonService } from 'src/app/services/person.service';
 import { RoutineService } from 'src/app/services/routine.service';
 import { TagService } from 'src/app/services/tag.service';
 import { TaskService } from 'src/app/services/task.service';
+import { DescriptionModalComponent } from '../../description/description-modal';
+import { Appointment } from 'src/app/models/appointment';
+import { AppointmentService } from 'src/app/services/appointment.service';
 @Component({
   selector: 'app-appointment-create',
   templateUrl: './appointment-create.component.html',
@@ -27,8 +31,7 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class AppointmentCreateComponent implements OnInit {
 
-  favoriteSeason: string;
-  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+  appointment: Appointment;
 
   isSelected: boolean = false;
   companyId:    string;
@@ -66,6 +69,7 @@ export class AppointmentCreateComponent implements OnInit {
     private routineService: RoutineService,
     private assignmentService: AssignmentService,
     private tagService: TagService,
+    private appointmentService: AppointmentService,
   ) { }
 
   ngOnInit(): void {
@@ -156,6 +160,46 @@ export class AppointmentCreateComponent implements OnInit {
     });
   }
 
+  private createAppointment(): void {
+    this.appointmentService.create(this.appointment).subscribe({
+      next: () => {
+        this.toast.success('Avaliação criada com sucesso', 'Cadastro');
+      },
+      error: (ex) => {
+        this.handleErrors(ex);
+      },
+    });
+  }
+  
+  private updateAppointment(): void {
+    this.appointmentService.update(this.appointment.id, this.appointment).subscribe({
+      next: () => {
+        this.toast.success('Avaliação atualizada com sucesso', 'Atualização');
+      },
+      error: (ex) => {
+        this.handleErrors(ex);
+      },
+    });
+  }
+
+  private saveApointment() {
+    if (this.appointment.id) {
+      this.updateAppointment();
+    } else {
+      this.createAppointment();
+    }
+  }
+
+  private handleErrors(ex: any): void {
+    if (ex.error.errors) {
+      ex.error.errors.forEach(element => {
+        this.toast.error(element.message);
+      });
+    } else {
+      this.toast.error(ex.error.message);
+    }
+  }
+
   fillTagDescription(): void {
     this.tags.forEach((tag) => {
       const tagName = tag.name;
@@ -163,21 +207,65 @@ export class AppointmentCreateComponent implements OnInit {
       switch (tagName) {
         case "Red":
           tag.description = "Falha Grave";
+          tag.class = 'red-appointment';
           break;
         case "Orange":
           tag.description = "Alerta (Erro cometido as vezes)";
+          tag.class = 'orange-appointment';
           break;
         case "Yellow":
           tag.description = "Atenção (Corrigir de forma educativa)";
+          tag.class = 'yellow-appointment';
           break;
         case "Green":
           tag.description = "Dever cumprido!";
+          tag.class = 'green-appointment';
           break;
         case "Blue":
           tag.description = " Ótimo, Parábens, Excelente!";
+          tag.class = 'blue-appointment';
           break;
       }
     })
+  }
+
+  openDescriptionDialog(activityId: string, activityType: string): void {
+
+    if (!this.appointment.id) {
+      this.appointment.description = '';
+      this.appointment.justification = '';
+    }
+
+    const dialogRef = this.dialog.open(DescriptionModalComponent, {
+      data: {
+        description: this.appointment.description || '',
+        justification: this.appointment.justification || '',
+      },
+    });
+    
+    switch (activityType) {
+      case "routine":
+        this.appointment.routineId = activityId;
+        break;
+      case "task":
+        this.appointment.taskId = activityId;
+        break;
+      case "assignment":
+        this.appointment.assignmentId = activityId;
+        break;
+    }
+
+    dialogRef.componentInstance.descriptionSave.subscribe((result: { description: string; justification: string }) => {
+      
+      this.appointment.description = result.description;
+      this.appointment.justification = result.justification;
+      this.saveApointment();
+      dialogRef.close();
+    });
+
+    dialogRef.componentInstance.descriptionCancel.subscribe(() => {
+      dialogRef.close();
+    });
   }
 
 }
