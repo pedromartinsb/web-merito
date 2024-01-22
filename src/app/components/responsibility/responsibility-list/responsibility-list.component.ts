@@ -52,7 +52,7 @@ export class ResponsibilityListComponent implements OnInit {
   openDeleteConfirmationModal(responsibilityId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
     
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar esta função?';
+    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar este cargo?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteResponsibility(responsibilityId);

@@ -52,7 +52,7 @@ export class GoalListComponent implements OnInit {
   openDeleteConfirmationModal(goalId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
     
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar esta função?';
+    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar esta meta?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteGoal(goalId);

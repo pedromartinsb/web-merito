@@ -2,9 +2,9 @@
 
   <form class="form">
 
-    <h1 class="fullWidth">{{ responsibilityId ? 'Editar' : 'Cadastrar' }} Funções</h1>
+    <h1 class="fullWidth">{{ responsibilityId ? 'Editar' : 'Cadastrar' }} Cargos</h1>
 
-    <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Funções">
+    <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Cargos">
 
     <mat-form-field class="fullWidth" appearance="legacy">
       <mat-label>Nome</mat-label>
@@ -14,7 +14,7 @@
         [formControl]="name"
         required
         matInput
-        placeholder="Ex. Nome da Função"
+        placeholder="Ex. Nome do Cargo"
         maxlength="100" >
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
     </mat-form-field>

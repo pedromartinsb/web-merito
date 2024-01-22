@@ -59,7 +59,7 @@
     </mat-form-field>
 
     <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Selecione a Responsabilidade</mat-label>
+      <mat-label>Selecione o Cargo</mat-label>
       <mat-select
         [(ngModel)]="person.responsibilityId"
         name="responsibility"
@@ -106,7 +106,7 @@
     </mat-form-field>
 
     <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Selecione o cargo</mat-label>
+      <mat-label>Selecione as permissões</mat-label>
       <mat-select
         [value]="person.user.roles"
         [compareWith]="compareRoles"

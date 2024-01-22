@@ -55,7 +55,7 @@ export class ResponsibilityFormComponent implements OnInit {
   private createResponsibility(): void {
     this.responsibilityService.create(this.responsibility).subscribe({
       next: () => {
-        this.toast.success('Função cadastrada com sucesso', 'Cadastro');
+        this.toast.success('Cargo cadastrado com sucesso', 'Cadastro');
         this.router.navigate(['responsibility']);
       },
       error: (ex) => {
@@ -67,7 +67,7 @@ export class ResponsibilityFormComponent implements OnInit {
   private updateResponsibility(): void {
     this.responsibilityService.update(this.responsibilityId, this.responsibility).subscribe({
       next: () => {
-        this.toast.success('Função atualizada com sucesso', 'Atualização');
+        this.toast.success('Cargo atualizado com sucesso', 'Atualização');
         this.router.navigate(['responsibility']);
       },
       error: (ex) => {
