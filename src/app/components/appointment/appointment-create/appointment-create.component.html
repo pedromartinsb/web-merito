@@ -46,10 +46,10 @@
               <mat-radio-group
                 aria-labelledby="example-radio-group-label"
                 class="example-radio-group"
-                [(ngModel)]="routine.appointment">
-                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description"></mat-radio-button>
+                [(ngModel)]="routine.tag">
+                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description" (click)="openDescriptionDialog(routine)"></mat-radio-button>
               </mat-radio-group>
-              <i class="material-icons edit" (click)="openDescriptionDialog(routine.id, 'routine')">chat</i>
+              <i class="material-icons edit" *ngIf="routine.tag" (click)="openDescriptionDialog(routine)">chat</i>
             </div>
           </div>
         </div>
@@ -69,10 +69,10 @@
               <mat-radio-group
                 aria-labelledby="example-radio-group-label"
                 class="example-radio-group"
-                [(ngModel)]="task.appointment">
-                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description"></mat-radio-button>
+                [(ngModel)]="task.tag">
+                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description" (click)="openDescriptionDialog(task)"></mat-radio-button>
               </mat-radio-group>
-              <i class="material-icons edit" (click)="openDescriptionDialog(task.id, 'task')">chat</i>
+              <i class="material-icons edit" *ngIf="task.tag" (click)="openDescriptionDialog(task)">chat</i>
             </div>
           </div>
         </div>
@@ -92,10 +92,10 @@
               <mat-radio-group
                 aria-labelledby="example-radio-group-label"
                 class="example-radio-group"
-                [(ngModel)]="assignment.appointment">
-                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description"></mat-radio-button>
+                [(ngModel)]="assignment.tag">
+                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description" (click)="openDescriptionDialog(assignment)"></mat-radio-button>
               </mat-radio-group>
-              <i class="material-icons edit" (click)="openDescriptionDialog(assignment.id, 'assignment')">chat</i>
+              <i class="material-icons edit" *ngIf="assignment.tag" (click)="openDescriptionDialog(assignment)">chat</i>
             </div>
           </div>
         </div>

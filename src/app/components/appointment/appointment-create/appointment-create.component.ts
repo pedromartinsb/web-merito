@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin } from 'rxjs';
+import { finalize, forkJoin } from 'rxjs';
 import { Assignment } from 'src/app/models/assignment';
 import { Company } from 'src/app/models/company';
 import { Department } from 'src/app/models/department';
@@ -22,7 +22,7 @@ import { RoutineService } from 'src/app/services/routine.service';
 import { TagService } from 'src/app/services/tag.service';
 import { TaskService } from 'src/app/services/task.service';
 import { DescriptionModalComponent } from '../../description/description-modal';
-import { Appointment } from 'src/app/models/appointment';
+import { Activity, Appointment } from 'src/app/models/appointment';
 import { AppointmentService } from 'src/app/services/appointment.service';
 @Component({
   selector: 'app-appointment-create',
@@ -31,7 +31,27 @@ import { AppointmentService } from 'src/app/services/appointment.service';
 })
 export class AppointmentCreateComponent implements OnInit {
 
-  appointment: Appointment;
+  appointment: Appointment = {
+    id: '',
+    name: '',
+
+    person: null,
+    personId: '',
+
+    tag: null,
+    tagId: '',
+
+    description: '',
+    justification: '',
+
+    assignmentId: '',
+    routineId: '',
+    taskId: '',
+
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: ''
+  };
 
   isSelected: boolean = false;
   companyId:    string;
@@ -46,9 +66,15 @@ export class AppointmentCreateComponent implements OnInit {
 
   tags: Tag[] = [];
 
-  personRoutines: Routine[] = [];
-  personTasks: Task[] = [];
-  personAssignments: Assignment[] = [];
+  personAppointments: Appointment[] = [];
+  personActivities: Activity[] = [];
+
+  personRoutines: Activity[] = [];
+  personTasks: Activity[] = [];
+  personAssignments: Activity[] = [];
+
+  startDate: Date = new Date();
+  endDate: Date = new Date();
 
   company:    FormControl = new FormControl(null, [Validators.required]);
   department: FormControl = new FormControl(null, []);
@@ -64,13 +90,16 @@ export class AppointmentCreateComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toast: ToastrService,
-    private dialog: MatDialog,    
-    private taskService: TaskService,
-    private routineService: RoutineService,
-    private assignmentService: AssignmentService,
+    private dialog: MatDialog,
     private tagService: TagService,
     private appointmentService: AppointmentService,
-  ) { }
+  ) { 
+    this.startDate = new Date();
+    this.startDate.setHours(0, 0, 0, 0);
+
+    this.endDate = new Date();
+    this.endDate.setHours(23, 59, 59, 999);
+  }
 
   ngOnInit(): void {
     this.findAllCompanies();
@@ -105,52 +134,56 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   search(): void {
-    if (this.person && this.person.value) {
-      this.personRoutines = [];
-      this.personTasks = [];
-      this.personAssignments = [];
-  
-      forkJoin([
-        this.routineService.findAllByPerson(this.person.value),
-        this.taskService.findAllByPerson(this.person.value),
-        this.assignmentService.findAllByPerson(this.person.value)
-      ]).subscribe({
-        next: (results: [Routine[], Task[], Assignment[]]) => {
-          const [routines, tasks, assignments] = results;
-  
-          this.personRoutines = routines;
-          this.personTasks = tasks;
-          this.personAssignments = assignments;
-  
-          this.toast.success('Pesquisa realizada com sucesso');
-          this.isSelected = true;
-        },
-        error: (error) => {
-          console.error('Error in fetching data:', error);
-          this.toast.error('Error occurred during the search');
-        }
-      });
+    if (this.person && this.person.value) {      
+      this.findPersonActivities();
     } else {
       this.toast.warning('Selecione uma pessoa antes de pesquisar.');
     }
   }
 
-  findPersonRoutines(): void {
-    this.routineService.findAllByPerson(this.person.value.id).subscribe((response: Routine[]) => {
-      this.personRoutines = response;
+  findPersonAppointments(): void {
+    this.appointmentService.findByPersonAndDate(this.person.value, this.startDate, this.endDate).pipe(
+      finalize(() => {
+        this.categorizeActivities();
+        this.toast.success('Pesquisa realizada com sucesso.');
+        this.isSelected = true;
+      })
+    ).subscribe((response: Appointment[]) => {
+      this.personAppointments = response;
+      if (this.personAppointments && this.personAppointments.length > 0) {
+        this.personAppointments.forEach((appointment) => {
+          this.personActivities.forEach((activity) => {
+            if (activity.id === appointment.id) {
+              activity.tag = appointment.tag;
+              activity.description = appointment.description;
+              activity.justification = appointment.justification;
+            }
+          })
+        })
+      }
     });
   }
 
-  findPersonTasks(): void {
-    this.taskService.findAllByPerson(this.person.value.id).subscribe((response: Task[]) => {
-      this.personTasks = response;
+  findPersonActivities(): void {
+    this.appointmentService.findActivitiesByPersonAndDate(this.person.value, this.startDate, this.endDate).pipe(
+      finalize(() => {
+        this.findPersonAppointments();
+      })
+    ).subscribe((response: Activity[]) => {
+      this.personActivities = response;
     });
   }
 
-  findPersonAssignments(): void {
-    this.assignmentService.findAllByPerson(this.person.value.id).subscribe((response: Assignment[]) => {
-      this.personAssignments = response;
-    });
+  categorizeActivities() {
+    for (const activity of this.personActivities) {
+      if (activity.type === "routine") {
+        this.personRoutines.push(activity);
+      } else if (activity.type === "task") {
+        this.personTasks.push(activity);
+      } else if (activity.type === "assignment") {
+        this.personAssignments.push(activity);
+      }
+    }
   }
 
   findAllTags() {
@@ -229,29 +262,24 @@ export class AppointmentCreateComponent implements OnInit {
     })
   }
 
-  openDescriptionDialog(activityId: string, activityType: string): void {
-
-    if (!this.appointment.id) {
-      this.appointment.description = '';
-      this.appointment.justification = '';
-    }
+  openDescriptionDialog(activity: Activity): void {
 
     const dialogRef = this.dialog.open(DescriptionModalComponent, {
       data: {
-        description: this.appointment.description || '',
-        justification: this.appointment.justification || '',
+        description: activity.description || '',
+        justification: activity.justification || '',
       },
     });
     
-    switch (activityType) {
+    switch (activity.type) {
       case "routine":
-        this.appointment.routineId = activityId;
+        this.appointment.routineId = activity.id;
         break;
       case "task":
-        this.appointment.taskId = activityId;
+        this.appointment.taskId = activity.id;
         break;
       case "assignment":
-        this.appointment.assignmentId = activityId;
+        this.appointment.assignmentId = activity.id;
         break;
     }
 
@@ -259,6 +287,8 @@ export class AppointmentCreateComponent implements OnInit {
       
       this.appointment.description = result.description;
       this.appointment.justification = result.justification;
+      this.appointment.personId = this.person.value;
+      this.appointment.tagId = activity.tag.id;
       this.saveApointment();
       dialogRef.close();
     });
@@ -267,5 +297,4 @@ export class AppointmentCreateComponent implements OnInit {
       dialogRef.close();
     });
   }
-
 }

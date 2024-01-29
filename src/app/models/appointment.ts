@@ -19,3 +19,15 @@ export interface Appointment {
   updatedAt: string;
   deletedAt: string;
 }
+
+export interface Activity {
+  id?: string;
+  name: string;
+  type: string;
+
+  description: string;
+  justification: string;
+  
+  tag: any;
+  tagId: string;
+}

@@ -2,7 +2,7 @@ import { Config } from './../config/api.config';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Appointment } from '../models/appointment';
+import { Activity, Appointment } from '../models/appointment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +19,22 @@ export class AppointmentService {
     return this.http.get<Appointment>(`${Config.webApiUrl}/appointment/${id}`);
   }
 
-  findByPersonAndDate(personId: any, startDate: Date, endDate: Date): Observable<Appointment> {
+  findByPersonAndDate(personId: any, startDate: Date, endDate: Date): Observable<Appointment[]> {
     let params = new HttpParams()
       .set('personId', personId)
       .set('startDate', startDate.toISOString())
-      .set('endDate', endDate.toISOString());
+      .set('endDate', endDate.toISOString());      
 
-    return this.http.get<Appointment>(`${Config.webApiUrl}/appointment`, { params });
+    return this.http.get<Appointment[]>(`${Config.webApiUrl}/appointment`, { params });
+  }
+
+  findActivitiesByPersonAndDate(personId: any, startDate: Date, endDate: Date): Observable<Activity[]> {
+    let params = new HttpParams()
+      .set('personId', personId)
+      .set('startDate', startDate.toISOString())
+      .set('endDate', endDate.toISOString());      
+
+    return this.http.get<Activity[]>(`${Config.webApiUrl}/activity`, { params });
   }
 
   create(appointment: Appointment): Observable<Appointment> {
