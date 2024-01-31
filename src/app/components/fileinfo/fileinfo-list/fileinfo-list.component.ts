@@ -22,6 +22,8 @@ export class FileinfoListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'actions'];
   dataSource = new MatTableDataSource<Fileinfo>(this.fileinfos);
 
+  s3Url = "https://sistema-merito.s3.amazonaws.com/";
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -48,12 +50,13 @@ export class FileinfoListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  downloadFile(url: string, fileName: string) {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  downloadFile(key: string) {
+    const url = this.s3Url + key;
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = key;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 }
