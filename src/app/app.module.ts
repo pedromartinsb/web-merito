@@ -42,7 +42,7 @@ import { PersonListComponent } from './components/person/person-list/person-list
 import { PersonFormComponent } from './components/person/person-form/person-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompanyListComponent } from './components/company/company-list/company-list.component';
-import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
+import { DailyAppointmentListComponent } from './components/appointment/daily-appointment-list/daily-appointment-list.component';
 import { LoginComponent } from './components/login/login.component';
 import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 import { DepartmentListComponent } from './components/department/department-list/department-list.component';
@@ -83,7 +83,7 @@ export const maskConfig: Partial<IConfig> = {
     HeaderComponent,
     PersonListComponent,
     PersonFormComponent,
-    AppointmentListComponent,
+    DailyAppointmentListComponent,
     LoginComponent,
     CompanyListComponent,
     CompanyFormComponent,

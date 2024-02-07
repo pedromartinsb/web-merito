@@ -37,79 +37,28 @@
     <!-- Tab 1-->
     <mat-tab label="Diária">
 
-      <div class="person-routines-container">
-        <div class="person-routine-list" *ngIf="personRoutines.length; else noRoutineData">
-          <span class="person-routine-list__title"><strong>Rotinas</strong></span>
-          <div class="person-routine-list__item" *ngFor="let routine of personRoutines">
-            <label><strong>{{routine.name}}</strong></label>
-            <div class="routine-appointment-wrapper">
-              <mat-radio-group
-                aria-labelledby="example-radio-group-label"
-                class="example-radio-group"
-                [(ngModel)]="routine.tag">
-                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description" (click)="openDescriptionDialog(routine)"></mat-radio-button>
-              </mat-radio-group>
-              <i class="material-icons edit" *ngIf="routine.tag" (click)="openDescriptionDialog(routine)">chat</i>
-            </div>
-          </div>
-        </div>
-        <ng-template #noRoutineData>
-          <div>
-            <span>Ainda não há rotinas vinculadas a este colaborador</span>
-          </div>
-        </ng-template>
-      </div>
-
-      <div class="person-tasks-container">
-        <div class="person-task-list" *ngIf="personTasks.length; else noTaskData">
-          <span class="person-task-list__title"><strong>Tarefas</strong></span>
-          <div class="person-task-list__item" *ngFor="let task of personTasks">
-            <label><strong>{{task.name}}</strong></label>
-            <div class="task-appointment-wrapper">
-              <mat-radio-group
-                aria-labelledby="example-radio-group-label"
-                class="example-radio-group"
-                [(ngModel)]="task.tag">
-                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description" (click)="openDescriptionDialog(task)"></mat-radio-button>
-              </mat-radio-group>
-              <i class="material-icons edit" *ngIf="task.tag" (click)="openDescriptionDialog(task)">chat</i>
-            </div>
-          </div>
-        </div>
-        <ng-template #noTaskData>
-          <div>
-            <span>Ainda não há tarefas vinculadas a este colaborador</span>
-          </div>
-        </ng-template>
-      </div>
-
-      <div class="person-assignments-container">
-        <div class="person-assignment-list" *ngIf="personAssignments.length; else noAssignmentData">
-          <span class="person-assignment-list__title"><strong>Atribuições</strong></span>
-          <div class="person-assignment-list__item" *ngFor="let assignment of personAssignments">
-            <label><strong>{{assignment.name}}</strong></label>
-            <div class="assignment-appointment-wrapper">
-              <mat-radio-group
-                aria-labelledby="example-radio-group-label"
-                class="example-radio-group"
-                [(ngModel)]="assignment.tag">
-                <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description" (click)="openDescriptionDialog(assignment)"></mat-radio-button>
-              </mat-radio-group>
-              <i class="material-icons edit" *ngIf="assignment.tag" (click)="openDescriptionDialog(assignment)">chat</i>
-            </div>
-          </div>
-        </div>
-        <ng-template #noAssignmentData>
-          <div>
-            <span>Ainda não há atribuições vinculadas a este colaborador</span>
-          </div>
-        </ng-template>
-      </div>
+      <app-daily-appointment-list 
+        [personRoutines]="personRoutines"
+        [personTasks]="personTasks"
+        [personAssignments]="personAssignments"
+        [tags]="tags"
+        (openDescriptionDialog)="openDescriptionDialog($event)">
+      </app-daily-appointment-list>
 
     </mat-tab>
 
     <!-- Tab 2 -->
-    <mat-tab label="Mensal">Content 2</mat-tab>
+    <mat-tab label="Mensal">
+
+      <app-daily-appointment-list 
+        [personRoutines]="personRoutines"
+        [personTasks]="personTasks"
+        [personAssignments]="personAssignments"
+        [tags]="tags"
+        (openDescriptionDialog)="openDescriptionDialog($event)">
+      </app-daily-appointment-list>
+      
+    </mat-tab>
 
     <!-- Tab 3 -->
     <mat-tab label="Trimestral">Content 3</mat-tab>

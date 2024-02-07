@@ -95,10 +95,10 @@ export class AppointmentCreateComponent implements OnInit {
     private appointmentService: AppointmentService,
   ) { 
     this.startDate = new Date();
-    this.startDate.setHours(0, 0, 0, 0);
+    this.startDate.setUTCHours(0, 0, 0, 0);
 
     this.endDate = new Date();
-    this.endDate.setHours(23, 59, 59, 999);
+    this.endDate.setUTCHours(23, 59, 59, 999);
   }
 
   ngOnInit(): void {
