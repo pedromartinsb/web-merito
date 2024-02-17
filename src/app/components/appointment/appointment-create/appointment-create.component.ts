@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,6 +24,8 @@ import { TaskService } from 'src/app/services/task.service';
 import { DescriptionModalComponent } from '../../description/description-modal';
 import { Activity, Appointment } from 'src/app/models/appointment';
 import { AppointmentService } from 'src/app/services/appointment.service';
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
+
 @Component({
   selector: 'app-appointment-create',
   templateUrl: './appointment-create.component.html',
@@ -83,6 +85,11 @@ export class AppointmentCreateComponent implements OnInit {
 
   floatLabelControl = new FormControl('auto' as FloatLabelType);
 
+  selectedDateMonthly: Date | null;
+
+  colors = ['blue', 'green', 'yellow', 'orange', 'red'];
+
+
   constructor(
     private companyService: CompanyService,
     private departmentService: DepartmentService,
@@ -93,6 +100,7 @@ export class AppointmentCreateComponent implements OnInit {
     private dialog: MatDialog,
     private tagService: TagService,
     private appointmentService: AppointmentService,
+    private el: ElementRef
   ) { 
     this.startDate = new Date();
     this.startDate.setUTCHours(0, 0, 0, 0);
@@ -297,4 +305,10 @@ export class AppointmentCreateComponent implements OnInit {
       dialogRef.close();
     });
   }
+
+  dateClass = (d: Date): MatCalendarCellCssClasses => {
+    const dayIndex = d.getDate() % 5;
+    const colorIndex = dayIndex % this.colors.length;
+    return this.colors[colorIndex] + '-date';
+  };
 }

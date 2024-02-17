@@ -32,31 +32,43 @@
     <button (click)="search()" class="fourColumn" mat-flat-button color="primary">Pesquisar</button>
   </form>
 
-  <mat-tab-group *ngIf="isSelected" animationDuration="0ms">
+  <mat-tab-group *ngIf="isSelected" animationDuration="300ms">
 
     <!-- Tab 1-->
     <mat-tab label="Diária">
 
-      <app-daily-appointment-list 
-        [personRoutines]="personRoutines"
-        [personTasks]="personTasks"
-        [personAssignments]="personAssignments"
-        [tags]="tags"
-        (openDescriptionDialog)="openDescriptionDialog($event)">
-      </app-daily-appointment-list>
+      <div class="daily-appointments-wrapper">
+        <app-daily-appointment-list 
+          [personRoutines]="personRoutines"
+          [personTasks]="personTasks"
+          [personAssignments]="personAssignments"
+          [tags]="tags"
+          (openDescriptionDialog)="openDescriptionDialog($event)">
+        </app-daily-appointment-list>
+      </div>
+      <div class="appointments-calendar-wrapper"></div>
 
     </mat-tab>
 
     <!-- Tab 2 -->
     <mat-tab label="Mensal">
 
-      <app-daily-appointment-list 
-        [personRoutines]="personRoutines"
-        [personTasks]="personTasks"
-        [personAssignments]="personAssignments"
-        [tags]="tags"
-        (openDescriptionDialog)="openDescriptionDialog($event)">
-      </app-daily-appointment-list>
+      <div class="monthly-content-wrapper">
+        <div class="daily-appointments-wrapper">
+          <app-daily-appointment-list 
+            [personRoutines]="personRoutines"
+            [personTasks]="personTasks"
+            [personAssignments]="personAssignments"
+            [tags]="tags"
+            (openDescriptionDialog)="openDescriptionDialog($event)">
+          </app-daily-appointment-list>
+        </div>
+        <div class="appointments-calendar-wrapper" id="calendarContainer">
+          <mat-card class="appointments-calendar-card">
+            <mat-calendar class="appointments-calendar" [(selected)]="selectedDateMonthly" [dateClass]="dateClass"></mat-calendar>
+          </mat-card>
+        </div>
+      </div>
       
     </mat-tab>
 
