@@ -59,3 +59,10 @@ h1 {
   display: flex;
   align-items: center;
 }
+
+.person-routines-container,
+.person-tasks-container,
+.person-assignments-container {
+  margin-bottom: 16px;
+}
+

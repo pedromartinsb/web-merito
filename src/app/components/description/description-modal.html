@@ -3,17 +3,17 @@
       <form class="example-form">
         <mat-form-field class="example-full-width">
           <mat-label>Por quê?</mat-label>
-          <textarea matInput rows="5" [(ngModel)]="description" required></textarea>
+          <textarea matInput rows="5" [(ngModel)]="description"></textarea>
         </mat-form-field>
       
         <mat-form-field class="example-full-width">
           <mat-label>Justificativa</mat-label>
-          <textarea matInput rows="5" [(ngModel)]="justification" required></textarea>
+          <textarea matInput rows="5" [(ngModel)]="justification"></textarea>
         </mat-form-field>
       </form>
     </div>
     <div class="modal-footer">
-      <button class="mat-elevation-z8" mat-stroked-button color="primary" (click)="save()" [disabled]="!verifyFields()">Salvar</button>
+      <button class="mat-elevation-z8" mat-stroked-button color="primary" (click)="save()">Salvar</button>
       <button class="mat-elevation-z8" mat-stroked-button color="warn" style="margin-left: 8px" (click)="cancel()">Cancelar</button>
     </div>
   </div>

@@ -19,17 +19,10 @@ export class DescriptionModalComponent {
   }
 
   save(): void {
-    if (this.verifyFields()) {
-      this.descriptionSave.emit({ description: this.description, justification: this.justification });
-    }
+    this.descriptionSave.emit({ description: this.description, justification: this.justification });
   }
 
   cancel(): void {
     this.descriptionCancel.emit();
-  }
-
-  verifyFields(): boolean {
-    if (this.description.length > 0 && this.justification.length > 0) return true;
-    return false;
   }
 }

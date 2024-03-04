@@ -43,12 +43,12 @@ export class AppointmentCreateComponent implements OnInit {
     tag: null,
     tagId: '',
 
+    activityType: '',
+
     description: '',
     justification: '',
 
-    assignmentId: '',
-    routineId: '',
-    taskId: '',
+    activityId: '',
 
     createdAt: '',
     updatedAt: '',
@@ -183,6 +183,9 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   categorizeActivities() {
+    this.personRoutines = [];
+    this.personTasks = [];
+    this.personAssignments = [];
     for (const activity of this.personActivities) {
       if (activity.type === "routine") {
         this.personRoutines.push(activity);
@@ -272,24 +275,17 @@ export class AppointmentCreateComponent implements OnInit {
 
   openDescriptionDialog(activity: Activity): void {
 
+    console.log(activity.description);
+    console.log(activity.justification);
+
     const dialogRef = this.dialog.open(DescriptionModalComponent, {
       data: {
         description: activity.description || '',
         justification: activity.justification || '',
       },
     });
-    
-    switch (activity.type) {
-      case "routine":
-        this.appointment.routineId = activity.id;
-        break;
-      case "task":
-        this.appointment.taskId = activity.id;
-        break;
-      case "assignment":
-        this.appointment.assignmentId = activity.id;
-        break;
-    }
+
+    this.appointment.activityId = activity.id;
 
     dialogRef.componentInstance.descriptionSave.subscribe((result: { description: string; justification: string }) => {
       
@@ -297,6 +293,7 @@ export class AppointmentCreateComponent implements OnInit {
       this.appointment.justification = result.justification;
       this.appointment.personId = this.person.value;
       this.appointment.tagId = activity.tag.id;
+      this.appointment.activityType = activity.type;
       this.saveApointment();
       dialogRef.close();
     });

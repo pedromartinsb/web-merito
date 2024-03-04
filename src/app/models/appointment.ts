@@ -7,13 +7,13 @@ export interface Appointment {
 
   tag: any;
   tagId: string;
+  
+  activityType: string;
 
   description: string;
   justification: string;
 
-  assignmentId: string;
-  routineId: string;
-  taskId: string;
+  activityId: string;
 
   createdAt: string;
   updatedAt: string;
