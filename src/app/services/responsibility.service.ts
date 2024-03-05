@@ -12,22 +12,22 @@ export class ResponsibilityService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Responsibility[]> {
-    return this.http.get<Responsibility[]>(`${Config.webApiUrl}/responsibility`);
+    return this.http.get<Responsibility[]>(`${Config.webApiUrl}/v1/responsibility`);
   }
 
   findById(id: any): Observable<Responsibility> {
-    return this.http.get<Responsibility>(`${Config.webApiUrl}/responsibility/${id}`);
+    return this.http.get<Responsibility>(`${Config.webApiUrl}/v1/responsibility/${id}`);
   }
 
   create(responsibility: Responsibility): Observable<Responsibility> {
-    return this.http.post<Responsibility>(`${Config.webApiUrl}/responsibility`, responsibility);
+    return this.http.post<Responsibility>(`${Config.webApiUrl}/v1/responsibility`, responsibility);
   }
 
   update(id: string, responsibility: Responsibility): Observable<Responsibility> {
-    return this.http.put<Responsibility>(`${Config.webApiUrl}/responsibility/${id}`, responsibility);
+    return this.http.put<Responsibility>(`${Config.webApiUrl}/v1/responsibility/${id}`, responsibility);
   }
 
   delete(id: string): Observable<Responsibility> {
-    return this.http.delete<Responsibility>(`${Config.webApiUrl}/responsibility/${id}`);
+    return this.http.delete<Responsibility>(`${Config.webApiUrl}/v1/responsibility/${id}`);
   }
 }

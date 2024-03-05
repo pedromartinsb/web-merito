@@ -12,11 +12,11 @@ export class AppointmentService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${Config.webApiUrl}/appointment`);
+    return this.http.get<Appointment[]>(`${Config.webApiUrl}/v1/appointment`);
   }
 
   findById(id: any): Observable<Appointment> {
-    return this.http.get<Appointment>(`${Config.webApiUrl}/appointment/${id}`);
+    return this.http.get<Appointment>(`${Config.webApiUrl}/v1/appointment/${id}`);
   }
 
   findByPersonAndDate(personId: any, startDate: Date, endDate: Date): Observable<Appointment[]> {
@@ -25,7 +25,7 @@ export class AppointmentService {
       .set('startDate', startDate.toISOString())
       .set('endDate', endDate.toISOString());      
 
-    return this.http.get<Appointment[]>(`${Config.webApiUrl}/appointment`, { params });
+    return this.http.get<Appointment[]>(`${Config.webApiUrl}/v1/appointment/createdAt`, { params });
   }
 
   findActivitiesByPersonAndDate(personId: any, startDate: Date, endDate: Date): Observable<Activity[]> {
@@ -34,18 +34,18 @@ export class AppointmentService {
       .set('startDate', startDate.toISOString())
       .set('endDate', endDate.toISOString());      
 
-    return this.http.get<Activity[]>(`${Config.webApiUrl}/activity`, { params });
+    return this.http.get<Activity[]>(`${Config.webApiUrl}/v1/activity`, { params });
   }
 
   create(appointment: Appointment): Observable<Appointment> {
-    return this.http.post<Appointment>(`${Config.webApiUrl}/appointment`, appointment);
+    return this.http.post<Appointment>(`${Config.webApiUrl}/v1/appointment`, appointment);
   }
 
   update(id: string, appointment: Appointment): Observable<Appointment> {
-    return this.http.put<Appointment>(`${Config.webApiUrl}/appointment/${id}`, appointment);
+    return this.http.put<Appointment>(`${Config.webApiUrl}/v1/appointment/${id}`, appointment);
   }
 
   delete(id: string): Observable<Appointment> {
-    return this.http.delete<Appointment>(`${Config.webApiUrl}/appointment/${id}`);
+    return this.http.delete<Appointment>(`${Config.webApiUrl}/v1/appointment/${id}`);
   }
 }

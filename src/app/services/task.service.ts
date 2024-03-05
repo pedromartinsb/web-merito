@@ -12,35 +12,35 @@ export class TaskService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${Config.webApiUrl}/task`);
+    return this.http.get<Task[]>(`${Config.webApiUrl}/v1/task`);
   }
 
   findById(id: any): Observable<Task> {
-    return this.http.get<Task>(`${Config.webApiUrl}/task/${id}`);
+    return this.http.get<Task>(`${Config.webApiUrl}/v1/task/${id}`);
   }
 
   
   create(task: Task): Observable<Task> {
-    return this.http.post<Task>(`${Config.webApiUrl}/task`, task);
+    return this.http.post<Task>(`${Config.webApiUrl}/v1/task`, task);
   }
   
   update(id: string, task: Task): Observable<Task> {
-    return this.http.put<Task>(`${Config.webApiUrl}/task/${id}`, task);
+    return this.http.put<Task>(`${Config.webApiUrl}/v1/task/${id}`, task);
   }
   
   delete(id: string): Observable<Task> {
-    return this.http.delete<Task>(`${Config.webApiUrl}/task/${id}`);
+    return this.http.delete<Task>(`${Config.webApiUrl}/v1/task/${id}`);
   }
 
   findAllByPerson(idPerson: string): Observable<Task[]> {
-    return this.http.get<Task[]>(`${Config.webApiUrl}/task/${idPerson}/person`);
+    return this.http.get<Task[]>(`${Config.webApiUrl}/v1/task/${idPerson}/person`);
   }
 
   addPersonToTask(personId: string, taskId: string): Observable<Task> {
-    return this.http.post<Task>(`${Config.webApiUrl}/task/person`, {personId, taskId});
+    return this.http.post<Task>(`${Config.webApiUrl}/v1/task/person`, {personId, taskId});
   }
 
   addPersonsToTask(persons: string[], taskId: string): Observable<Task> {
-    return this.http.post<Task>(`${Config.webApiUrl}/task/persons`, {taskId, persons});
+    return this.http.post<Task>(`${Config.webApiUrl}/v1/task/persons`, {taskId, persons});
   }
 }

@@ -17,7 +17,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   authenticate(username: string, password: string) {
-    return this.http.post<Login>(`${Config.webApiUrl}/auth/signin`,
+    return this.http.post<Login>(`${Config.webApiUrl}/v1/auth/signin`,
     {
       username,
       password,

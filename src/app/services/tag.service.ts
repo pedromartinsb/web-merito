@@ -12,22 +12,22 @@ export class TagService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Tag[]> {
-    return this.http.get<Tag[]>(`${Config.webApiUrl}/tag`);
+    return this.http.get<Tag[]>(`${Config.webApiUrl}/v1/tag`);
   }
 
   findById(id: any): Observable<Tag> {
-    return this.http.get<Tag>(`${Config.webApiUrl}/tag/${id}`);
+    return this.http.get<Tag>(`${Config.webApiUrl}/v1/tag/${id}`);
   }
 
   create(tag: Tag): Observable<Tag> {
-    return this.http.post<Tag>(`${Config.webApiUrl}/tag`, tag);
+    return this.http.post<Tag>(`${Config.webApiUrl}/v1/tag`, tag);
   }
 
   update(id: string, tag: Tag): Observable<Tag> {
-    return this.http.put<Tag>(`${Config.webApiUrl}/tag/${id}`, tag);
+    return this.http.put<Tag>(`${Config.webApiUrl}/v1/tag/${id}`, tag);
   }
 
   delete(id: string): Observable<Tag> {
-    return this.http.delete<Tag>(`${Config.webApiUrl}/tag/${id}`);
+    return this.http.delete<Tag>(`${Config.webApiUrl}/v1/tag/${id}`);
   }
 }
