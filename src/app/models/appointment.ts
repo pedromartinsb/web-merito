@@ -15,6 +15,10 @@ export interface Appointment {
 
   activityId: string;
 
+  routineId: string;
+  taskId: string;
+  assignmentId: string;
+
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

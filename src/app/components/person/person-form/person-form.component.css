@@ -89,3 +89,14 @@ h1 {
   padding: 0;
 }
 
+:host ::ng-deep .cpf-field .mat-form-field-infix {
+  display: flex;
+}
+
+:host ::ng-deep mat-button-toggle-group {
+  overflow: visible;
+}
+
+:host ::ng-deep mat-button-toggle-group .mat-button-toggle-label-content {
+  line-height: 36px;
+}

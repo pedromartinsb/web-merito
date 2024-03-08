@@ -23,18 +23,22 @@
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
     </mat-form-field>
 
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>CPF</mat-label>
+    <mat-form-field class="fullWidth cpf-field" appearance="legacy">
+      <mat-label>{{isCpf ? 'CPF' : 'CNPJ'}}</mat-label>
       <input
-      [(ngModel)]="person.cpf"
+      [(ngModel)]="person.cpfCnpj"
       name="cpf"
       [formControl]="cpf"
       required
       matInput
-      placeholder="Ex..000.000.000-00"
-      mask="000.000.000-00">
-      <mat-icon matSuffix>pin </mat-icon>
+      [placeholder]="isCpf ? 'Ex..000.000.000-00' : 'Ex..00.000.000/0000-00'"
+      [mask]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'">
+      <mat-button-toggle-group name="cpfOrCnpj" aria-label="CPF">
+        <mat-button-toggle (click)="selectIsCpf(true)">CPF</mat-button-toggle>
+        <mat-button-toggle (click)="selectIsCpf(false)">CNPJ</mat-button-toggle>
+      </mat-button-toggle-group>
     </mat-form-field>
+
 
     <mat-form-field class="fullWidth" appearance="outline" *ngIf="!isCompanyLinkedCreation">
       <mat-label>Selecione a Unidade</mat-label>
@@ -92,7 +96,7 @@
       <mat-icon matSuffix>email</mat-icon>
     </mat-form-field>
 
-    <mat-form-field class="fullWidth" appearance="legacy" *ngIf="false">
+    <mat-form-field class="fullWidth" appearance="legacy">
       <mat-label>Senha</mat-label>
       <input
       [(ngModel)]="person.user.password"
@@ -108,13 +112,13 @@
     <mat-form-field class="fullWidth" appearance="outline">
       <mat-label>Selecione as permissões</mat-label>
       <mat-select
-        [value]="person.user.roles"
+        [(ngModel)]="person.user.roles"
         [compareWith]="compareRoles"
         name="role"
         [formControl]="role"
         required
         multiple>
-        <mat-option *ngFor="let role of roleLabels" [value]="role">{{ role.label }}</mat-option>
+        <mat-option *ngFor="let role of roleLabels" [value]="role.value">{{ role.label }}</mat-option>
       </mat-select>
     </mat-form-field>
 

@@ -6,9 +6,8 @@
        <div class="routine-appointment-wrapper">
          <mat-radio-group
            aria-labelledby="example-radio-group-label"
-           class="example-radio-group"
-           [(ngModel)]="routine.tag">
-           <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description" (click)="handleOpenDescription(routine)"></mat-radio-button>
+           class="example-radio-group">
+           <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [disabled]="!isCurrentDay" [ngClass]="tag.class" [checked]="tag.id == routine.tag?.id" [matTooltip]="tag.description" (change)="updateSelectedTag(routine, tag)"></mat-radio-button>
          </mat-radio-group>
          <i class="material-icons edit" *ngIf="routine.tag" (click)="handleOpenDescription(routine)">chat</i>
        </div>
@@ -29,9 +28,8 @@
        <div class="task-appointment-wrapper">
          <mat-radio-group
            aria-labelledby="example-radio-group-label"
-           class="example-radio-group"
-           [(ngModel)]="task.tag">
-           <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description" (click)="handleOpenDescription(task)"></mat-radio-button>
+           class="example-radio-group">
+           <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [disabled]="!isCurrentDay" [ngClass]="tag.class" [checked]="tag.id == task.tag?.id" [matTooltip]="tag.description" (change)="updateSelectedTag(task, tag)"></mat-radio-button>
          </mat-radio-group>
          <i class="material-icons edit" *ngIf="task.tag" (click)="handleOpenDescription(task)">chat</i>
        </div>
@@ -52,9 +50,8 @@
        <div class="assignment-appointment-wrapper">
          <mat-radio-group
            aria-labelledby="example-radio-group-label"
-           class="example-radio-group"
-           [(ngModel)]="assignment.tag">
-           <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [ngClass]="tag.class" [matTooltip]="tag.description" (click)="handleOpenDescription(assignment)"></mat-radio-button>
+           class="example-radio-group">
+           <mat-radio-button class="example-radio-button" *ngFor="let tag of tags" [value]="tag" [disabled]="!isCurrentDay" [ngClass]="tag.class" [checked]="tag.id == assignment.tag?.id" [matTooltip]="tag.description" (change)="updateSelectedTag(assignment, tag)"></mat-radio-button>
           </mat-radio-group>
          <i class="material-icons edit" *ngIf="assignment.tag" (click)="handleOpenDescription(assignment)">chat</i>
        </div>

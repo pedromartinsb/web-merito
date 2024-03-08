@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,7 +12,7 @@ import { Department } from 'src/app/models/department';
 import { Person } from 'src/app/models/person';
 import { Routine } from 'src/app/models/routine';
 import { Sector } from 'src/app/models/sector';
-import { Tag } from 'src/app/models/tag';
+import { Tag, monthlyTag } from 'src/app/models/tag';
 import { Task } from 'src/app/models/task';
 import { AssignmentService } from 'src/app/services/assignment.service';
 import { CompanyService } from 'src/app/services/company.service';
@@ -25,6 +25,12 @@ import { DescriptionModalComponent } from '../../description/description-modal';
 import { Activity, Appointment } from 'src/app/models/appointment';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+
+interface DescriptionDialogData {
+  activity: Activity;
+  isDescriptionEditable: boolean;
+}
 
 @Component({
   selector: 'app-appointment-create',
@@ -49,6 +55,10 @@ export class AppointmentCreateComponent implements OnInit {
     justification: '',
 
     activityId: '',
+
+    routineId: '',
+    taskId: '',
+    assignmentId: '',
 
     createdAt: '',
     updatedAt: '',
@@ -77,6 +87,10 @@ export class AppointmentCreateComponent implements OnInit {
 
   startDate: Date = new Date();
   endDate: Date = new Date();
+  allowAppointmentCreation: boolean = true;
+
+  monthlyTags: monthlyTag[] = [];
+  monthlyTagsKey: number = 0;
 
   company:    FormControl = new FormControl(null, [Validators.required]);
   department: FormControl = new FormControl(null, []);
@@ -100,13 +114,16 @@ export class AppointmentCreateComponent implements OnInit {
     private dialog: MatDialog,
     private tagService: TagService,
     private appointmentService: AppointmentService,
-    private el: ElementRef
+    private el: ElementRef,
+    private cdr: ChangeDetectorRef,
   ) { 
     this.startDate = new Date();
     this.startDate.setUTCHours(0, 0, 0, 0);
 
     this.endDate = new Date();
     this.endDate.setUTCHours(23, 59, 59, 999);
+
+    this.selectedDateMonthly = new Date();
   }
 
   ngOnInit(): void {
@@ -161,8 +178,7 @@ export class AppointmentCreateComponent implements OnInit {
       if (this.personAppointments && this.personAppointments.length > 0) {
         this.personAppointments.forEach((appointment) => {
           this.personActivities.forEach((activity) => {
-            if (activity.id === appointment.id) {
-              activity.tag = appointment.tag;
+            if (activity.id === appointment.routineId || activity.id === appointment.taskId || activity.id === appointment.assignmentId) {
               activity.description = appointment.description;
               activity.justification = appointment.justification;
             }
@@ -226,7 +242,7 @@ export class AppointmentCreateComponent implements OnInit {
     });
   }
 
-  private saveApointment() {
+  private saveAppointment() {
     if (this.appointment.id) {
       this.updateAppointment();
     } else {
@@ -273,39 +289,103 @@ export class AppointmentCreateComponent implements OnInit {
     })
   }
 
-  openDescriptionDialog(activity: Activity): void {
-
-    console.log(activity.description);
-    console.log(activity.justification);
-
+  openDescriptionDialog(data: DescriptionDialogData): void {
+    const isEditable = this.isCurrentDay(this.selectedDateMonthly);
+    
     const dialogRef = this.dialog.open(DescriptionModalComponent, {
       data: {
-        description: activity.description || '',
-        justification: activity.justification || '',
+        description: data.activity.description || '',
+        justification: data.activity.justification || '',
+        isDescriptionEditable: data.isDescriptionEditable
       },
     });
-
-    this.appointment.activityId = activity.id;
-
+  
+    this.appointment.activityId = data.activity.id;
+  
     dialogRef.componentInstance.descriptionSave.subscribe((result: { description: string; justification: string }) => {
-      
-      this.appointment.description = result.description;
-      this.appointment.justification = result.justification;
-      this.appointment.personId = this.person.value;
-      this.appointment.tagId = activity.tag.id;
-      this.appointment.activityType = activity.type;
-      this.saveApointment();
+      if (isEditable) {
+        this.appointment.description = result.description;
+        this.appointment.justification = result.justification;
+        this.saveAppointment();
+      } else {
+        this.appointment.justification = result.justification;
+        this.updateAppointment();
+      }
+  
+      data.activity.description = result.description;
+      data.activity.justification = result.justification;
+  
       dialogRef.close();
     });
-
+  
     dialogRef.componentInstance.descriptionCancel.subscribe(() => {
       dialogRef.close();
     });
   }
 
+  onTabChange(event: MatTabChangeEvent): void {
+    if (event.index === 1) { 
+      this.fetchMonthlyTags();
+    }
+  }
+
+  isCurrentDay(date: Date): boolean {
+    if (date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const selectedDate = new Date(date.getTime());
+      selectedDate.setHours(0, 0, 0, 0);
+      return today.getTime() === selectedDate.getTime();
+    }
+    return true;
+  }
+  
+  onDateChange(newDate: Date): void {
+    this.selectedDateMonthly = newDate;
+    this.startDate = new Date(newDate.setHours(0, 0, 0, 0));
+    this.endDate = new Date(newDate.setHours(23, 59, 59, 999));
+    
+    if (this.isCurrentDay(newDate)) {
+      this.allowAppointmentCreation = true;      
+    } else {
+      this.allowAppointmentCreation = false;
+    }
+  
+    if (this.person && this.person.value) {
+      this.findPersonActivities();
+    }
+  }
+
+  fetchMonthlyTags(): void {
+    if (!this.selectedDateMonthly) {
+      this.selectedDateMonthly = new Date();
+    }
+  
+    const startOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth(), 1);
+    const endOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth() + 1, 0);
+  
+    this.appointmentService.getMonthlyTags(this.personId, startOfMonth, endOfMonth).subscribe(tags => {
+      this.monthlyTags = tags;
+      this.monthlyTagsKey++;
+      this.cdr.detectChanges();
+    });
+  }
+
   dateClass = (d: Date): MatCalendarCellCssClasses => {
-    const dayIndex = d.getDate() % 5;
-    const colorIndex = dayIndex % this.colors.length;
-    return this.colors[colorIndex] + '-date';
+    if (!this.monthlyTags || this.monthlyTags.length === 0) {
+      return ''; 
+    }
+  
+    const dateString = d.toISOString().split('T')[0];
+    console.log(this.monthlyTags);
+    console.log(dateString);
+    
+    const foundTag = this.monthlyTags.find(tag => tag.date === dateString);
+  
+    if (foundTag) {
+      return `${foundTag.tag.toLowerCase()}-date`;
+    }
+  
+    return '';
   };
 }

@@ -32,7 +32,7 @@
     <button (click)="search()" class="fourColumn" mat-flat-button color="primary">Pesquisar</button>
   </form>
 
-  <mat-tab-group *ngIf="isSelected" animationDuration="300ms">
+  <mat-tab-group *ngIf="isSelected" animationDuration="300ms" (selectedTabChange)="onTabChange($event)">
 
     <!-- Tab 1-->
     <mat-tab label="Diária">
@@ -42,6 +42,7 @@
           [personRoutines]="personRoutines"
           [personTasks]="personTasks"
           [personAssignments]="personAssignments"
+          [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
           [tags]="tags"
           (openDescriptionDialog)="openDescriptionDialog($event)">
         </app-daily-appointment-list>
@@ -59,13 +60,14 @@
             [personRoutines]="personRoutines"
             [personTasks]="personTasks"
             [personAssignments]="personAssignments"
+            [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
             [tags]="tags"
             (openDescriptionDialog)="openDescriptionDialog($event)">
           </app-daily-appointment-list>
         </div>
         <div class="appointments-calendar-wrapper" id="calendarContainer">
-          <mat-card class="appointments-calendar-card">
-            <mat-calendar class="appointments-calendar" [(selected)]="selectedDateMonthly" [dateClass]="dateClass"></mat-calendar>
+          <mat-card class="appointments-calendar-card" *ngIf="monthlyTagsKey">
+            <mat-calendar class="appointments-calendar" [(selected)]="selectedDateMonthly" (selectedChange)="onDateChange($event)" [dateClass]="dateClass"></mat-calendar>
           </mat-card>
         </div>
       </div>

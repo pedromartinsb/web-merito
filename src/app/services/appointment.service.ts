@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Activity, Appointment } from '../models/appointment';
+import { monthlyTag } from '../models/tag';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,14 @@ export class AppointmentService {
 
   delete(id: string): Observable<Appointment> {
     return this.http.delete<Appointment>(`${Config.webApiUrl}/v1/appointment/${id}`);
+  }
+
+  getMonthlyTags(personId: any, startDate: Date, endDate: Date): Observable<monthlyTag[]> {
+    let params = new HttpParams()
+      .set('personId', personId)
+      .set('startDate', startDate.toISOString())
+      .set('endDate', endDate.toISOString());      
+
+    return this.http.get<monthlyTag[]>(`${Config.webApiUrl}/v1/activity/dates`, { params });
   }
 }

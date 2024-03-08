@@ -10,7 +10,7 @@ export interface Person {
   id?: string;
   personType: number | string;
   name: string;
-  cpf: string;
+  cpfCnpj: string;
 
   department: Department;
   departmentId: string;

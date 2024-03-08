@@ -16,8 +16,9 @@ export class DailyAppointmentListComponent implements OnInit {
   @Input() personTasks: Activity[] = [];
   @Input() personAssignments: Activity[] = [];
   @Input() tags: Tag[] = [];
+  @Input() isCurrentDay: boolean = false;
   
-  @Output() openDescriptionDialog: EventEmitter<Activity> = new EventEmitter<Activity>();
+  @Output() openDescriptionDialog: EventEmitter<{ activity: Activity, isDescriptionEditable: boolean }> = new EventEmitter();
 
   constructor(
     private service: AppointmentService
@@ -25,8 +26,13 @@ export class DailyAppointmentListComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  updateSelectedTag(activity: Activity, selectedTag: Tag): void {
+    activity.tag = selectedTag;
+    this.handleOpenDescription(activity);
+  }
+
   handleOpenDescription(activity: Activity): void {
-    this.openDescriptionDialog.emit(activity);
+    this.openDescriptionDialog.emit({ activity, isDescriptionEditable: this.isCurrentDay });
   }
 
 }

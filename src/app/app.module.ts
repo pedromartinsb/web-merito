@@ -30,10 +30,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { ToastrModule } from 'ngx-toastr';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { NgxFileDropModule } from 'ngx-file-drop';
 
@@ -140,6 +141,7 @@ export const maskConfig: Partial<IConfig> = {
     MatExpansionModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatButtonToggleModule,
     NgxFileDropModule,
     ToastrModule.forRoot({
       timeOut: 4000,

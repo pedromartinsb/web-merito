@@ -51,7 +51,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   person: Person = {
     name: '',
-    cpf: '',
+    cpfCnpj: '',
     personType: 'EMPLOYEE',
 
     department: null,
@@ -131,6 +131,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   assignments: Assignment[] = [];
   personAssignments: Assignment[] = [];
+
+  isCpf: boolean = true;
 
   assignmentDisplayedColumns: string[] = ['assignmentName',  'assignmentStartDate', 'assignmentEndDate', 'assignmentActions'];
   assignmentDataSource = new MatTableDataSource<Assignment>(this.assignments);
@@ -458,6 +460,10 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
         this.uf.patchValue(addressSearch.uf);
 
         this.person.address = newAddress;
+  }
+
+  selectIsCpf(isCpf: boolean): void {
+    this.isCpf = isCpf;
   }
 
 }

@@ -140,21 +140,66 @@ form {
 }
 
 ::ng-deep .red-date .mat-calendar-body-cell-content {
-  background: #f44336 !important;
+  border-color: #f44336 !important;
+  color: #f44336 !important;
+  transition: all 0.3s ease;
+}
+
+::ng-deep .red-date:hover .mat-calendar-body-cell-content {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+::ng-deep .mat-calendar-body-active.red-date .mat-calendar-body-cell-content {
+  background-color: #f44336 !important;
+  color: white !important;
 }
 
 ::ng-deep .orange-date .mat-calendar-body-cell-content {
-  background: #ff723b !important;
+  border-color: #ff723b !important;
+  color: #ff723b !important;
+  transition: all 0.3s ease;
+} 
+
+::ng-deep .orange-date:hover .mat-calendar-body-cell-content {
+  background-color: #ff723b !important;
+  color: white !important;
+}
+
+::ng-deep .mat-calendar-body-active.orange-date .mat-calendar-body-cell-content {
+  background-color: #ff723b !important;
+  color: white !important;
 }
 
 ::ng-deep .yellow-date .mat-calendar-body-cell-content {
-  background: #d3b614 !important;
+  border-color: #d3b614 !important;
+  color: #d3b614 !important;
+  transition: all 0.3s ease;
+} 
+
+::ng-deep .yellow-da.mat-calendar-body-active .mat-calendar-body-cell-content {
+  background-color: #d3b614 !important;
+  color: white !important;
 }
 
 ::ng-deep .green-date .mat-calendar-body-cell-content {
-  background: #7cfc00 !important;
+  border-color: #7cfc00 !important;
+  color: #7cfc00 !important;
+  transition: all 0.3s ease;
+} 
+
+::ng-deep .mat-calendar-body-active.green-dat .mat-calendar-body-cell-content {
+  background-color: #7cfc00 !important;
+  color: white !important;
 }
 
 ::ng-deep .blue-date .mat-calendar-body-cell-content {
-  background: #36aad7 !important;
+  border-color: #36aad7 !important;
+  color: #36aad7 !important;
+  transition: all 0.3s ease;
+} 
+
+::ng-deep .mat-calendar-body-active.blue-date .mat-calendar-body-cell-content {
+  background-color: #36aad7 !important;
+  color: white !important;
 }

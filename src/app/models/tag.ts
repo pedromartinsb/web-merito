@@ -7,3 +7,8 @@ export interface Tag {
     updatedAt: string;
     deletedAt: string;
   }
+
+  export interface monthlyTag {
+    tag: string;
+    date: string;
+  }
