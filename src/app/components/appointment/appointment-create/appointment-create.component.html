@@ -67,7 +67,7 @@
         </div>
         <div class="appointments-calendar-wrapper" id="calendarContainer">
           <mat-card class="appointments-calendar-card" *ngIf="monthlyTagsKey">
-            <mat-calendar class="appointments-calendar" [(selected)]="selectedDateMonthly" (selectedChange)="onDateChange($event)" [dateClass]="dateClass"></mat-calendar>
+            <mat-calendar class="appointments-calendar" [(selected)]="selectedDateMonthly" (selectedChange)="onDateChange($event, 0)" [dateClass]="dateClass"></mat-calendar>
           </mat-card>
         </div>
       </div>
@@ -75,10 +75,60 @@
     </mat-tab>
 
     <!-- Tab 3 -->
-    <mat-tab label="Trimestral">Content 3</mat-tab>
+    <mat-tab label="Trimestral">
+      <div class="trimestral-content-wrapper">
+        <div class="daily-appointments-wrapper">
+          <app-daily-appointment-list 
+            [personRoutines]="personRoutines"
+            [personTasks]="personTasks"
+            [personAssignments]="personAssignments"
+            [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
+            [tags]="tags"
+            (openDescriptionDialog)="openDescriptionDialog($event)">
+          </app-daily-appointment-list>
+        </div>
+        <div class="appointments-calendars-list">
+          <div class="appointments-calendar-wrapper" *ngFor="let offset of [0, 1, 2]; let i = index">
+            <mat-card class="appointments-calendar-card" *ngIf="monthlyTagsKey && calendarKeys[i]">
+              <mat-calendar
+                class="appointments-calendar"
+                [startAt]="getStartOfMonth(offset)"
+                (selectedChange)="onDateChange($event, offset)"
+                [dateClass]="dateClass">
+              </mat-calendar>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
 
     <!-- Tab 4 -->
-    <mat-tab label="Semestral">Content 3</mat-tab>
+    <mat-tab label="Semestral">
+      <div class="semestral-content-wrapper">
+        <div class="daily-appointments-wrapper">
+          <app-daily-appointment-list 
+            [personRoutines]="personRoutines"
+            [personTasks]="personTasks"
+            [personAssignments]="personAssignments"
+            [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
+            [tags]="tags"
+            (openDescriptionDialog)="openDescriptionDialog($event)">
+          </app-daily-appointment-list>
+        </div>
+        <div class="appointments-calendars-list">
+          <div class="appointments-calendar-wrapper" *ngFor="let offset of [0, 1, 2, 3, 4, 5]; let i = index">
+            <mat-card class="appointments-calendar-card" *ngIf="monthlyTagsKey && calendarKeys[i]">
+              <mat-calendar
+                class="appointments-calendar"
+                [startAt]="getStartOfMonth(offset)"
+                (selectedChange)="onDateChange($event, offset)"
+                [dateClass]="dateClass">
+              </mat-calendar>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 
 </div>

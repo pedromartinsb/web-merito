@@ -91,6 +91,7 @@ export class AppointmentCreateComponent implements OnInit {
 
   monthlyTags: monthlyTag[] = [];
   monthlyTagsKey: number = 0;
+  calendarKeys: number[] = [];
 
   company:    FormControl = new FormControl(null, [Validators.required]);
   department: FormControl = new FormControl(null, []);
@@ -324,7 +325,11 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   onTabChange(event: MatTabChangeEvent): void {
-    if (event.index === 1) { 
+    if (event.index === 2) {
+      this.fetchTagsForRange(3);
+    } else if (event.index === 3) {
+      this.fetchTagsForRange(6);
+    } else if (event.index === 1) {
       this.fetchMonthlyTags();
     }
   }
@@ -340,20 +345,26 @@ export class AppointmentCreateComponent implements OnInit {
     return true;
   }
   
-  onDateChange(newDate: Date): void {
-    this.selectedDateMonthly = newDate;
-    this.startDate = new Date(newDate.setHours(0, 0, 0, 0));
-    this.endDate = new Date(newDate.setHours(23, 59, 59, 999));
-    
-    if (this.isCurrentDay(newDate)) {
-      this.allowAppointmentCreation = true;      
-    } else {
-      this.allowAppointmentCreation = false;
-    }
+  onDateChange(newDate: Date, offset: number): void {
+    this.selectedDateMonthly = new Date(
+      newDate.getFullYear(),
+      newDate.getMonth() - offset,
+      newDate.getDate()
+    );
+  
+    this.startDate = new Date(this.selectedDateMonthly.setUTCHours(0, 0, 0, 0));
+    this.endDate = new Date(this.selectedDateMonthly.setUTCHours(23, 59, 59, 999));
+  
+    this.allowAppointmentCreation = this.isCurrentDay(this.selectedDateMonthly);
   
     if (this.person && this.person.value) {
       this.findPersonActivities();
     }
+  }
+
+  getStartOfMonth(offset: number): Date {
+    const date = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth() + offset, 1);
+    return date;
   }
 
   fetchMonthlyTags(): void {
@@ -362,7 +373,8 @@ export class AppointmentCreateComponent implements OnInit {
     }
   
     const startOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth(), 1);
-    const endOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth() + 1, 0);
+    let endOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth() + 1, 0);
+    endOfMonth = new Date(endOfMonth.setHours(23, 59, 59, 999));
   
     this.appointmentService.getMonthlyTags(this.personId, startOfMonth, endOfMonth).subscribe(tags => {
       this.monthlyTags = tags;
@@ -371,16 +383,34 @@ export class AppointmentCreateComponent implements OnInit {
     });
   }
 
+  fetchTagsForRange(months: number): void {
+    if (!this.selectedDateMonthly) {
+      this.selectedDateMonthly = new Date();
+    }
+  
+    const startOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth(), 1);
+    let endOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth() + months, 0);
+    endOfMonth = new Date(endOfMonth.setHours(23, 59, 59, 999));
+  
+    this.appointmentService.getMonthlyTags(this.personId, startOfMonth, endOfMonth).subscribe(tags => {
+      this.monthlyTags = tags;
+      this.calendarKeys = Array.from({length: months}, (_, i) => Math.random());
+      this.cdr.detectChanges();
+    });
+  }
+
   dateClass = (d: Date): MatCalendarCellCssClasses => {
     if (!this.monthlyTags || this.monthlyTags.length === 0) {
-      return ''; 
+      return '';
     }
   
     const dateString = d.toISOString().split('T')[0];
-    console.log(this.monthlyTags);
-    console.log(dateString);
-    
-    const foundTag = this.monthlyTags.find(tag => tag.date === dateString);
+  
+    const foundTag = this.monthlyTags.find(tag => {
+      const tagDate = new Date(tag.date);
+      const tagDateString = new Date(tagDate.getTime() - (tagDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+      return tagDateString === dateString;
+    });
   
     if (foundTag) {
       return `${foundTag.tag.toLowerCase()}-date`;

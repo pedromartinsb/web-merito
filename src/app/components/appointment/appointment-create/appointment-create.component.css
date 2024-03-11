@@ -129,6 +129,16 @@ form {
   width: 100%;
 }
 
+.trimestral-content-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.semestral-content-wrapper {
+  display: flex;
+  width: 100%;
+}
+
 .daily-appointments-wrapper {
   flex: 2;
   padding: 16px;
@@ -137,6 +147,12 @@ form {
 .appointments-calendar-wrapper {
   flex: 2;
   padding: 16px;
+}
+
+.appointments-calendars-list {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
 }
 
 ::ng-deep .red-date .mat-calendar-body-cell-content {
@@ -150,7 +166,7 @@ form {
   color: white !important;
 }
 
-::ng-deep .mat-calendar-body-active.red-date .mat-calendar-body-cell-content {
+::ng-deep .red-date .mat-calendar-body-selected {
   background-color: #f44336 !important;
   color: white !important;
 }
@@ -166,7 +182,7 @@ form {
   color: white !important;
 }
 
-::ng-deep .mat-calendar-body-active.orange-date .mat-calendar-body-cell-content {
+::ng-deep .orange-date .mat-calendar-body-selected {
   background-color: #ff723b !important;
   color: white !important;
 }
@@ -177,7 +193,12 @@ form {
   transition: all 0.3s ease;
 } 
 
-::ng-deep .yellow-da.mat-calendar-body-active .mat-calendar-body-cell-content {
+::ng-deep .yellow-date:hover .mat-calendar-body-cell-content {
+  background-color: #d3b614 !important;
+  color: white !important;
+}
+
+::ng-deep .yellow-date .mat-calendar-body-selected {
   background-color: #d3b614 !important;
   color: white !important;
 }
@@ -186,9 +207,14 @@ form {
   border-color: #7cfc00 !important;
   color: #7cfc00 !important;
   transition: all 0.3s ease;
-} 
+}
 
-::ng-deep .mat-calendar-body-active.green-dat .mat-calendar-body-cell-content {
+::ng-deep .green-date:hover .mat-calendar-body-cell-content {
+  background-color: #7cfc00 !important;
+  color: white !important;
+}
+
+::ng-deep .green-date .mat-calendar-body-selected {
   background-color: #7cfc00 !important;
   color: white !important;
 }
@@ -199,7 +225,12 @@ form {
   transition: all 0.3s ease;
 } 
 
-::ng-deep .mat-calendar-body-active.blue-date .mat-calendar-body-cell-content {
+::ng-deep .blue-date:hover .mat-calendar-body-cell-content {
+  background-color: #36aad7 !important;
+  color: white !important;
+}
+
+::ng-deep .blue-date .mat-calendar-body-selected {
   background-color: #36aad7 !important;
   color: white !important;
 }
