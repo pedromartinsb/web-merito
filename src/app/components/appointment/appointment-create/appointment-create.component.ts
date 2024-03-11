@@ -302,6 +302,10 @@ export class AppointmentCreateComponent implements OnInit {
     });
   
     this.appointment.activityId = data.activity.id;
+    this.appointment.activityType = data.activity.type;
+    this.appointment.tag = data.activity.tag;
+    this.appointment.tagId = data.activity.tag.id;
+    this.appointment.personId = this.personId;
   
     dialogRef.componentInstance.descriptionSave.subscribe((result: { description: string; justification: string }) => {
       if (isEditable) {
@@ -404,12 +408,14 @@ export class AppointmentCreateComponent implements OnInit {
       return '';
     }
   
-    const dateString = d.toISOString().split('T')[0];
+    const localDateString = d.toISOString().split('T')[0];
   
     const foundTag = this.monthlyTags.find(tag => {
       const tagDate = new Date(tag.date);
-      const tagDateString = new Date(tagDate.getTime() - (tagDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
-      return tagDateString === dateString;
+  
+      const tagDateString = tagDate.toISOString().split('T')[0];
+      
+      return tagDateString === localDateString;
     });
   
     if (foundTag) {

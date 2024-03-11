@@ -159,6 +159,7 @@ form {
   border-color: #f44336 !important;
   color: #f44336 !important;
   transition: all 0.3s ease;
+  background-color: #ffd7d4;
 }
 
 ::ng-deep .red-date:hover .mat-calendar-body-cell-content {
@@ -175,6 +176,7 @@ form {
   border-color: #ff723b !important;
   color: #ff723b !important;
   transition: all 0.3s ease;
+  background-color: #fbded3;
 } 
 
 ::ng-deep .orange-date:hover .mat-calendar-body-cell-content {
@@ -191,6 +193,7 @@ form {
   border-color: #d3b614 !important;
   color: #d3b614 !important;
   transition: all 0.3s ease;
+  background-color: #fff6c6;
 } 
 
 ::ng-deep .yellow-date:hover .mat-calendar-body-cell-content {
@@ -205,8 +208,9 @@ form {
 
 ::ng-deep .green-date .mat-calendar-body-cell-content {
   border-color: #7cfc00 !important;
-  color: #7cfc00 !important;
+  color: #58af04 !important;
   transition: all 0.3s ease;
+  background-color: #e7ffd1;
 }
 
 ::ng-deep .green-date:hover .mat-calendar-body-cell-content {
@@ -223,6 +227,7 @@ form {
   border-color: #36aad7 !important;
   color: #36aad7 !important;
   transition: all 0.3s ease;
+  background-color: #c5ecfb;
 } 
 
 ::ng-deep .blue-date:hover .mat-calendar-body-cell-content {
