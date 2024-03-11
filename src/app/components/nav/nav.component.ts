@@ -10,6 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  userRole: string[] = [];
+  canAdminAccess: boolean = false;
+  canModeratorAccess: boolean = false;
+  canUserAccess: boolean = false;
 
   constructor(
     private storageService: StorageService,
@@ -19,6 +23,10 @@ export class NavComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.userRole = this.authService.getRole();
+    this.checkAdminAccess();
+    this.checkModeratorAccess();
+    this.checkUserAccess();
     this.router.navigate(['home']);
   }
 
@@ -29,11 +37,27 @@ export class NavComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
-  // checkRoleAccess(): void {
-  //   const userRole = this.authService.getRole();
+  checkAdminAccess(): void {
+    if(this.userRole.indexOf('ROLE_ADMIN') === 0) {
+      this.canAdminAccess = true;
+    } else {
+      this.canAdminAccess = false;
+    }
+  }
 
-  //   if(this.route.data.indexOf(userRole) === -1) {
-  //     this.canAccess = false;
-  //   }
-  // }
+  checkModeratorAccess(): void {
+    if(this.userRole.indexOf('ROLE_MODERATOR') === 0) {
+      this.canModeratorAccess = true;
+    } else {
+      this.canModeratorAccess = false;
+    }
+  }
+
+  checkUserAccess(): void {
+    if(this.userRole.indexOf('ROLE_USER') === 0) {
+      this.canUserAccess = true;
+    } else {
+      this.canUserAccess = false;
+    }
+  }
 }
