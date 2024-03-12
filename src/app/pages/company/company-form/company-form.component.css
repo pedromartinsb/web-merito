@@ -35,6 +35,7 @@ mat-card {
   justify-content: center;
   margin: auto;
   margin-bottom: 15px;
+  margin-top: 15px;
 }
 
 /* Solid border */
