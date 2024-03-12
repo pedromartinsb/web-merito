@@ -22,7 +22,9 @@ export class ResponsibilityFormComponent implements OnInit {
 
   responsibilityId: string;
 
-  name:        FormControl = new FormControl(null, Validators.minLength(3));
+  name: FormControl = new FormControl(null, Validators.minLength(3));
+
+  public isSaving: boolean = false;
 
   constructor(
     private responsibilityService: ResponsibilityService,
@@ -51,31 +53,35 @@ export class ResponsibilityFormComponent implements OnInit {
       this.createResponsibility();
     }
   }
-  
+
   private createResponsibility(): void {
+    this.isSaving = true;
     this.responsibilityService.create(this.responsibility).subscribe({
       next: () => {
         this.toast.success('Cargo cadastrado com sucesso', 'Cadastro');
         this.router.navigate(['responsibility']);
+        this.isSaving = false;
       },
       error: (ex) => {
         this.handleErrors(ex);
       },
     });
   }
-  
+
   private updateResponsibility(): void {
+    this.isSaving = true;
     this.responsibilityService.update(this.responsibilityId, this.responsibility).subscribe({
       next: () => {
         this.toast.success('Cargo atualizado com sucesso', 'Atualização');
         this.router.navigate(['responsibility']);
+        this.isSaving = false;
       },
       error: (ex) => {
         this.handleErrors(ex);
       },
     });
   }
-  
+
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
       ex.error.errors.forEach(element => {
