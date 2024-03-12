@@ -12,9 +12,8 @@ import { Segment } from 'src/app/models/segment';
 })
 export class SegmentFormComponent implements OnInit {
 
-
   segment: Segment = {
-    name: '',    
+    name: '',
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
@@ -22,7 +21,9 @@ export class SegmentFormComponent implements OnInit {
 
   segmentId: string;
 
-  name:        FormControl = new FormControl(null, Validators.minLength(3));
+  name: FormControl = new FormControl(null, Validators.minLength(3));
+
+  isSaving: boolean = false;
 
   constructor(
     private segmentService: SegmentService,
@@ -51,31 +52,35 @@ export class SegmentFormComponent implements OnInit {
       this.createSegment();
     }
   }
-  
+
   private createSegment(): void {
+    this.isSaving = true;
     this.segmentService.create(this.segment).subscribe({
       next: () => {
         this.toast.success('Segmento cadastrado com sucesso', 'Cadastro');
         this.router.navigate(['segment']);
+        this.isSaving = false;
       },
       error: (ex) => {
         this.handleErrors(ex);
       },
     });
   }
-  
+
   private updateSegment(): void {
+    this.isSaving = true;
     this.segmentService.update(this.segmentId, this.segment).subscribe({
       next: () => {
         this.toast.success('Segmento atualizado com sucesso', 'Atualização');
         this.router.navigate(['segment']);
+        this.isSaving = false;
       },
       error: (ex) => {
         this.handleErrors(ex);
       },
     });
   }
-  
+
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
       ex.error.errors.forEach(element => {

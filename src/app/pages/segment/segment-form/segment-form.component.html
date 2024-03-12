@@ -1,29 +1,82 @@
-<div class="container mat-elevation-z8">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title
+      >{{
+        segmentId
+          ? "Editar " + segment.name
+          : "Cadastrar Segmento"
+      }}
+    </mat-card-title>
+    <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
+  </mat-card-header>
 
-  <form class="form">
+  <mat-card-content>
+    <form class="form">
+      <!-- Divider -->
+      <hr class="solid">
 
-    <h1 class="fullWidth">{{ segmentId ? 'Editar Segmento: ' + segment.name : 'Cadastrar Segmento' }}</h1>
+      <!-- General -->
+      <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
+      <!-- Colunas -->
+      <mat-grid-list cols="2" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
+            <mat-label>Nome</mat-label>
+            <input
+              [(ngModel)]="segment.name"
+              name="name"
+              [formControl]="name"
+              required
+              matInput
+            />
+            <mat-icon matSuffix>add_business</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
 
-    <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Segmentos">
+        <!-- Coluna 2 -->
+        <mat-grid-tile colspan="1">
+        </mat-grid-tile>
+      </mat-grid-list>
+    </form>
+  </mat-card-content>
 
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>Nome</mat-label>
-      <input
-        [(ngModel)]="segment.name"
-        name="name"
-        [formControl]="name"
-        required
-        matInput
-        placeholder="Ex. Nome do Segmento"
-        maxlength="100" >
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    </mat-form-field>
-
-    <button (click)="openSegmentForm()" [disabled]="!validateFields()" class="fullWidth mat-elevation-z4" mat-flat-button color="primary">
-      {{ segmentId ? 'Salvar' : 'Cadastrar' }}
+  <mat-card-actions align="end">
+    <button
+      (click)="openSegmentForm()"
+      [disabled]="!validateFields()"
+      class="success-button mat-elevation-z4"
+      mat-raised-button
+      extended
+      matTooltip="Salvar as informações preenchidas"
+    >
+      <mat-icon>check</mat-icon> SALVAR
     </button>
-    <button *ngIf="segmentId" routerLink="../../" class="fullWidth mat-elevation-z4" mat-stroked-button color="warn">Cancelar</button>    
-    <button *ngIf="!segmentId" routerLink="../" class="fullWidth mat-elevation-z4" mat-stroked-button color="warn">Cancelar</button>
-  </form>
+    <button
+      *ngIf="segmentId"
+      routerLink="../../"
+      class="mat-elevation-z4"
+      mat-raised-button
+      color="warn"
+      extended
+      matTooltip="Cancelar as informações preenchidas e voltar a página"
+    >
+      <mat-icon>block</mat-icon> CANCELAR
+    </button>
+    <button
+      *ngIf="!segmentId"
+      routerLink="../"
+      class="mat-elevation-z4"
+      mat-raised-button
+      color="warn"
+      extended
+      matTooltip="Cancelar as informações preenchidas e voltar a página"
+    >
+      <mat-icon>block</mat-icon> CANCELAR
+    </button>
+  </mat-card-actions>
 
-</div>
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isSaving"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
