@@ -1,90 +1,98 @@
-<div class="container">
-  <h1>Departamentos</h1>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Departamentos</mat-card-title>
+    <mat-card-subtitle>Listagem</mat-card-subtitle>
+  </mat-card-header>
 
-  <button
-    routerLink="create"
-    class="mat-elevation-z8"
-    mat-stroked-button
-    color="primary"
-  >
-    Novo Departamento
-  </button>
+  <mat-card-content>
+    <!-- Divider -->
+    <mat-divider></mat-divider>
 
-  <mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input
-      matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Ex. ium"
-      #input
-    />
-  </mat-form-field>
+    <!-- Colunas -->
+    <mat-grid-list cols="4" rowHeight="100px">
+      <!-- Coluna 1 -->
+      <mat-grid-tile colspan="2">
+        <mat-form-field appearance="standard">
+          <mat-label>Consulte o Departamento</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            #input
+          />
+        </mat-form-field>
+      </mat-grid-tile>
 
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Nome</th>
-        <td
-          mat-cell
-          *matCellDef="let element"
-          (click)="editDepartment(element.id)"
-        >
-          {{ element.name }}
-        </td>
-      </ng-container>
+      <!-- Coluna 2 -->
+      <mat-grid-tile colspan="1"></mat-grid-tile>
 
-      <ng-container matColumnDef="company">
-        <th mat-header-cell *matHeaderCellDef>Unidade</th>
-        <td
-          mat-cell
-          *matCellDef="let element"
-          (click)="editDepartment(element.id)"
-        >
-          {{ element.company.fantasyName }}
-        </td>
-      </ng-container>
+      <!-- Coluna 3 -->
+      <mat-grid-tile colspan="1">
+        <button routerLink="create" mat-raised-button color="primary">Cadastrar Departamento</button>
+      </mat-grid-tile>
+    </mat-grid-list>
 
-      <!-- <ng-container matColumnDef="company">
-        <th mat-header-cell *matHeaderCellDef>Qtd Colaboradores</th>
-        <td
-          mat-cell
-          *matCellDef="let element"
-          (click)="editDepartment(element.id)"
-        >
-          {{ element.company.fantasyName }}
-        </td>
-      </ng-container> -->
+    <!-- Divider -->
+    <mat-divider></mat-divider>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Ações</th>
-        <td
-          mat-cell
-          *matCellDef="let element"
-          (click)="editDepartment(element.id)"
-        >
-          <div class="mat-cell-wrapper">
-            <a routerLink="edit/{{ element.id }}">
-              <i class="material-icons edit">edit</i>
-            </a>
-            <a
-              (click)="
-                openDeleteConfirmationModal(element.id);
-                $event.stopPropagation()
-              "
+    <!-- Tabela -->
+    <div class="container">
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+              (click)="editDepartment(element.id)"
             >
-              <i class="material-icons delete">delete</i>
-            </a>
-          </div>
-        </td>
-      </ng-container>
+              {{ element.name }}
+            </td>
+          </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+          <ng-container matColumnDef="company">
+            <th mat-header-cell *matHeaderCellDef>Unidade</th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+              (click)="editDepartment(element.id)"
+            >
+              {{ element.company.fantasyName }}
+            </td>
+          </ng-container>
 
-    <mat-paginator
-      [pageSizeOptions]="[5, 2, 10, 20, 50, 100]"
-      showFirstLastButtons
-    ></mat-paginator>
-  </div>
-</div>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Ações</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="mat-cell-wrapper">
+                <a routerLink="edit/{{ element.id }}">
+                  <i class="material-icons edit">edit</i>
+                </a>
+                <a
+                  (click)="
+                    openDeleteConfirmationModal(element.id);
+                    $event.stopPropagation()
+                  "
+                >
+                  <i class="material-icons delete">delete</i>
+                </a>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+        <mat-paginator
+          [pageSizeOptions]="[5, 2, 10, 20, 50, 100]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+  </mat-card-content>
+
+
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

@@ -20,6 +20,8 @@ export class DepartmentListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'company', 'actions'];
   dataSource = new MatTableDataSource<Department>(this.ELEMENT_DATA);
 
+  public isLoading: boolean = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -30,6 +32,7 @@ export class DepartmentListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.findAll();
   }
 
@@ -38,6 +41,7 @@ export class DepartmentListComponent implements OnInit {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Department>(response);
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
     });
   }
 
