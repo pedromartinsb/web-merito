@@ -5,13 +5,11 @@ import { HoldingService } from '../../../services/holding.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Holding } from '../../../models/holding';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Company, CompanyType } from 'src/app/models/company';
+import { Address, AddressSearch, Company, CompanyType, Contact } from 'src/app/models/company';
 import { finalize } from 'rxjs';
 import { Person } from 'src/app/models/person';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { DepartmentService } from 'src/app/services/department.service';
 import { PersonService } from 'src/app/services/person.service';
 import { Department } from 'src/app/models/department';
@@ -22,11 +20,30 @@ import { Department } from 'src/app/models/department';
   styleUrls: ['./company-form.component.css']
 })
 export class CompanyFormComponent implements OnInit {
-
   holdings: Holding[] = [];
 
+  address: Address = {
+    cep: '',
+    streetName: '',
+    neighborhood: '',
+    city: '',
+    uf: '',
+    complement: '',
+  };
+
+  contact: Contact = {
+    phone: '',
+    cellphone: '',
+  };
+
   company: Company = {
-    name: '',
+    fantasyName: '',
+    corporateReason: '',
+    cnpj: '',
+    email: '',
+    website: '',
+    contact: this.contact,
+    address: this.address,
     companyType: 'HEADQUARTERS',
     holdingId: '',
     holding: null,
@@ -37,9 +54,26 @@ export class CompanyFormComponent implements OnInit {
 
   companyId: string;
 
-  name:        FormControl = new FormControl(null, Validators.minLength(3));
-  holding:     FormControl = new FormControl(null, [Validators.required]);
+  fantasyName: FormControl = new FormControl(null, Validators.minLength(3));
+  corporateReason: FormControl = new FormControl(null, Validators.minLength(3));
+  cnpj: FormControl = new FormControl(null, [Validators.maxLength(14), Validators.required]);
+  email: FormControl = new FormControl();
+  website: FormControl = new FormControl();
+  segment: FormControl = new FormControl(null, [Validators.required]);
+  holding: FormControl = new FormControl(null, [Validators.required]);
   companyType: FormControl = new FormControl(null, [Validators.required]);
+
+  // Contact
+  phone: FormControl = new FormControl();
+  cellphone: FormControl = new FormControl();
+
+  // Address
+  cep: FormControl = new FormControl(null, Validators.minLength(3));
+  streetName: FormControl = new FormControl(null, Validators.minLength(3));
+  neighborhood: FormControl = new FormControl(null, Validators.minLength(3));
+  city: FormControl = new FormControl(null, Validators.minLength(3));
+  uf: FormControl = new FormControl(null, Validators.minLength(3));
+  complement: FormControl = new FormControl(null, Validators.minLength(3));
 
   companyTypeLabels = [
     {label: "Matriz", value: "HEADQUARTERS"},
@@ -66,6 +100,8 @@ export class CompanyFormComponent implements OnInit {
   departmentDisplayedColumns: string[] = ['departmentName', 'departmentActions'];
   departmentDataSource = new MatTableDataSource<Department>(this.departments);
 
+  isSaving: boolean = false;
+
   @ViewChild('personPaginator') personPaginator: MatPaginator;
   @ViewChild('departmentPaginator') departmentPaginator: MatPaginator;
 
@@ -74,7 +110,6 @@ export class CompanyFormComponent implements OnInit {
     private holdingService: HoldingService,
     private personService: PersonService,
     private departmentService: DepartmentService,
-    private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private toast: ToastrService,
@@ -87,6 +122,13 @@ export class CompanyFormComponent implements OnInit {
     } else {
       this.loadList();
     }
+    this.cep.valueChanges.subscribe(
+      (newCep: string) => {
+        if (newCep && newCep.length === 8) {
+          this.findAddress();
+        }
+      }
+    );
   }
 
   ngAfterViewInit(): void {
@@ -169,7 +211,7 @@ export class CompanyFormComponent implements OnInit {
   }
 
   validateFields(): boolean {
-    return this.name.valid;
+    return this.fantasyName.valid && this.corporateReason.valid;
   }
 
   selectHolding() {
@@ -208,4 +250,42 @@ export class CompanyFormComponent implements OnInit {
     return '';
   }
 
+  private findAddress() {
+    if (this.cep.value.length === 8) {
+      this.personService
+        .findAddress(this.cep.value)
+        .subscribe((response: AddressSearch) => {
+          if (response.cep && response.cep.length > 0) {
+            this.fillAddress(response);
+            this.toast.success(
+              'Endereço encontrado com sucesso',
+              'Atualização'
+            );
+          } else {
+            this.toast.error('CEP não encontrado.');
+          }
+        });
+    }
+  }
+
+  private fillAddress(addressSearch: AddressSearch) {
+    const currentCep = this.cep.value;
+
+    let newAddress: Address = {
+      cep: currentCep,
+      city: addressSearch.localidade,
+      complement: addressSearch.complemento,
+      neighborhood: addressSearch.bairro,
+      streetName: addressSearch.logradouro,
+      uf: addressSearch.uf,
+    };
+
+    this.city.patchValue(addressSearch.localidade);
+    this.complement.patchValue(addressSearch.complemento);
+    this.neighborhood.patchValue(addressSearch.bairro);
+    this.streetName.patchValue(addressSearch.logradouro);
+    this.uf.patchValue(addressSearch.uf);
+
+    this.company.address = newAddress;
+  }
 }

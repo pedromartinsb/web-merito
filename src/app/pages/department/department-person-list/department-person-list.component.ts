@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { Company, CompanyType } from 'src/app/models/company';
+import { Address, Company, CompanyType, Contact } from 'src/app/models/company';
 import { Department } from 'src/app/models/department';
 import { Person } from 'src/app/models/person';
 import { DepartmentService } from 'src/app/services/department.service';
@@ -26,8 +26,28 @@ export class DepartmentPersonListComponent implements OnInit {
     deletedAt: ''
   };
 
+  address: Address = {
+    cep: '',
+    streetName: '',
+    neighborhood: '',
+    city: '',
+    uf: '',
+    complement: '',
+  };
+
+  contact: Contact = {
+    phone: '',
+    cellphone: '',
+  };
+
   company: Company = {
-    name: '',
+    fantasyName: '',
+    corporateReason: '',
+    cnpj: '',
+    email: '',
+    website: '',
+    contact: this.contact,
+    address: this.address,
     companyType: 'HEADQUARTERS',
     holdingId: '',
     holding: null,

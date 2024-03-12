@@ -47,7 +47,7 @@
         (ngModelChange)="selectCompany()"
         name="company"
         [formControl]="company">
-        <mat-option *ngFor="let company of companies" [value]="company.id">{{ company.name }}</mat-option>
+        <mat-option *ngFor="let company of companies" [value]="company.id">{{ company.fantasyName }}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -222,12 +222,12 @@
       </div>
 
       <table mat-table [dataSource]="routineDataSource" matSort matSortActive="name" matSortDisableClear matSortDirection="desc" *ngIf="routineDataSource.data.length; else noData">
-  
+
         <ng-container matColumnDef="routineName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nome</th>
           <td mat-cell *matCellDef="let element">{{element.name}}</td>
         </ng-container>
-  
+
         <ng-container matColumnDef="routineActions">
           <th mat-header-cell *matHeaderCellDef>Ações</th>
           <td mat-cell *matCellDef="let element">
@@ -238,7 +238,7 @@
             </div>
           </td>
         </ng-container>
-  
+
         <tr mat-header-row *matHeaderRowDef="routineDisplayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: routineDisplayedColumns;"></tr>
       </table>
@@ -248,7 +248,7 @@
           <span>Ainda não há rotinas vinculadas a este colaborador</span>
         </div>
       </ng-template>
-  
+
       <mat-paginator #routinePaginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons *ngIf="personRoutines.length"></mat-paginator>
     </div>
 
@@ -273,7 +273,7 @@
       </div>
 
       <table mat-table [dataSource]="taskDataSource" matSort matSortActive="name" matSortDisableClear matSortDirection="desc" *ngIf="taskDataSource.data.length; else noData">
-  
+
         <ng-container matColumnDef="taskName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nome</th>
           <td mat-cell *matCellDef="let element">{{element.name}}</td>
@@ -292,7 +292,7 @@
              {{element.finishedAt | date:'dd/MM/yyyy'}}
           </td>
         </ng-container>
-  
+
         <ng-container matColumnDef="taskActions">
           <th mat-header-cell *matHeaderCellDef>Ações</th>
           <td mat-cell *matCellDef="let element">
@@ -303,7 +303,7 @@
             </div>
           </td>
         </ng-container>
-  
+
         <tr mat-header-row *matHeaderRowDef="taskDisplayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: taskDisplayedColumns;"></tr>
       </table>
@@ -313,7 +313,7 @@
           <span>Ainda não há tarefas vinculadas a este colaborador</span>
         </div>
       </ng-template>
-  
+
       <mat-paginator #taskPaginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons *ngIf="personTasks.length"></mat-paginator>
     </div>
 
@@ -338,7 +338,7 @@
       </div>
 
       <table mat-table [dataSource]="assignmentDataSource" matSort matSortActive="name" matSortDisableClear matSortDirection="desc" *ngIf="assignmentDataSource.data.length; else noData">
-  
+
         <ng-container matColumnDef="assignmentName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nome</th>
           <td mat-cell *matCellDef="let element">{{element.name}}</td>
@@ -357,7 +357,7 @@
              {{element.finishedAt | date:'dd/MM/yyyy'}}
           </td>
         </ng-container>
-  
+
         <ng-container matColumnDef="assignmentActions">
           <th mat-header-cell *matHeaderCellDef>Ações</th>
           <td mat-cell *matCellDef="let element">
@@ -368,7 +368,7 @@
             </div>
           </td>
         </ng-container>
-  
+
         <tr mat-header-row *matHeaderRowDef="assignmentDisplayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: assignmentDisplayedColumns;"></tr>
       </table>
@@ -378,7 +378,7 @@
           <span>Ainda não há atribuições vinculadas a este colaborador</span>
         </div>
       </ng-template>
-  
+
       <mat-paginator #assignmentPaginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons *ngIf="personAssignments.length"></mat-paginator>
     </div>
 

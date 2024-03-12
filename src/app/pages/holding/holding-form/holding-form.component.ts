@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
 import { Address, AddressSearch, Contact, Holding } from 'src/app/models/holding';
 import { SegmentService } from 'src/app/services/segment.service';
 import { Segment } from 'src/app/models/segment';
-import { Subscription } from 'rxjs';
 import { PersonService } from 'src/app/services/person.service';
 
 @Component({
@@ -66,8 +65,6 @@ export class HoldingFormComponent implements OnInit {
   city: FormControl = new FormControl(null, Validators.minLength(3));
   uf: FormControl = new FormControl(null, Validators.minLength(3));
   complement: FormControl = new FormControl(null, Validators.minLength(3));
-
-  private cepValueChangesSubscription: Subscription;
 
   isSaving: boolean = false;
 

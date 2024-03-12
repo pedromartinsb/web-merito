@@ -14,7 +14,7 @@
         (selectionChange)="findAllPersonByCompany($event.value)"
         #companySelected
         >
-      <mat-option *ngFor="let company of companies" value="{{ company.id }}">{{ company.name }}</mat-option>
+      <mat-option *ngFor="let company of companies" value="{{ company.id }}">{{ company.fantasyName }}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -38,7 +38,7 @@
     <mat-tab label="Diária">
 
       <div class="daily-appointments-wrapper">
-        <app-daily-appointment-list 
+        <app-daily-appointment-list
           [personRoutines]="personRoutines"
           [personTasks]="personTasks"
           [personAssignments]="personAssignments"
@@ -56,7 +56,7 @@
 
       <div class="monthly-content-wrapper">
         <div class="daily-appointments-wrapper">
-          <app-daily-appointment-list 
+          <app-daily-appointment-list
             [personRoutines]="personRoutines"
             [personTasks]="personTasks"
             [personAssignments]="personAssignments"
@@ -71,14 +71,14 @@
           </mat-card>
         </div>
       </div>
-      
+
     </mat-tab>
 
     <!-- Tab 3 -->
     <mat-tab label="Trimestral">
       <div class="trimestral-content-wrapper">
         <div class="daily-appointments-wrapper">
-          <app-daily-appointment-list 
+          <app-daily-appointment-list
             [personRoutines]="personRoutines"
             [personTasks]="personTasks"
             [personAssignments]="personAssignments"
@@ -106,7 +106,7 @@
     <mat-tab label="Semestral">
       <div class="semestral-content-wrapper">
         <div class="daily-appointments-wrapper">
-          <app-daily-appointment-list 
+          <app-daily-appointment-list
             [personRoutines]="personRoutines"
             [personTasks]="personTasks"
             [personAssignments]="personAssignments"
