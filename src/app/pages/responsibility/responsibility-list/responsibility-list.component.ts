@@ -20,6 +20,8 @@ export class ResponsibilityListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'actions'];
   dataSource = new MatTableDataSource<Responsibility>(this.ELEMENT_DATA);
 
+  public isLoading: boolean = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -29,6 +31,7 @@ export class ResponsibilityListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.findAll();
   }
 
@@ -37,6 +40,7 @@ export class ResponsibilityListComponent implements OnInit {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Responsibility>(response);
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
     });
   }
 
