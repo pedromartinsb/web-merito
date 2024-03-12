@@ -40,7 +40,7 @@ export class DepartmentFormComponent implements OnInit {
 
   departmentCompany: Company;
 
-  name:        FormControl = new FormControl(null, Validators.minLength(3));
+  name: FormControl = new FormControl(null, Validators.minLength(3));
   company: FormControl = new FormControl(null, Validators.required);
 
   PERSON_ELEMENT_DATA: Person[] = [];
@@ -52,6 +52,8 @@ export class DepartmentFormComponent implements OnInit {
 
   personDisplayedColumns: string[] = ['personName', 'personDepartment', 'personType', 'personActions'];
   personDataSource = new MatTableDataSource<Person>(this.departmentPersons);
+
+  public isSaving: boolean = false;
 
   @ViewChild('personPaginator') personPaginator: MatPaginator;
 
@@ -75,7 +77,7 @@ export class DepartmentFormComponent implements OnInit {
     if (this.companyId) {
       this.isCompanyLinkedCreation = true;
       this.findDepartmentCompany();
-    } else {      
+    } else {
       this.findAllCompanies();
       this.company.setValue(null);
     }
@@ -94,24 +96,28 @@ export class DepartmentFormComponent implements OnInit {
       this.createDepartment();
     }
   }
-  
+
   private createDepartment(): void {
+    this.isSaving = true;
     this.departmentService.create(this.department).subscribe({
       next: () => {
         this.toast.success('Departamento cadastrado com sucesso', 'Cadastro');
         this.router.navigate(['department']);
+        this.isSaving = false;
       },
       error: (ex) => {
         this.handleErrors(ex);
       },
     });
   }
-  
+
   private updateDepartment(): void {
+    this.isSaving = true;
     this.departmentService.update(this.departmentId, this.department).subscribe({
       next: () => {
         this.toast.success('Departamento atualizado com sucesso', 'Atualização');
         this.router.navigate(['department']);
+        this.isSaving = false;
       },
       error: (ex) => {
         this.handleErrors(ex);
@@ -132,7 +138,7 @@ export class DepartmentFormComponent implements OnInit {
     });
   }
 
-  loadDepartment(): void {    
+  loadDepartment(): void {
     this.departmentService.findById(this.departmentId).pipe(
       finalize(() => {
         this.findDepartmentPersons();
@@ -170,7 +176,7 @@ export class DepartmentFormComponent implements OnInit {
     return '';
   }
 
-  selectCompany() {   
+  selectCompany() {
     if (this.company.value) {
       let company: string = this.company.value;
       this.companyId = company;
