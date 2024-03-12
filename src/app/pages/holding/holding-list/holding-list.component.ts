@@ -26,6 +26,8 @@ export class HoldingListComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource<Holding>(this.ELEMENT_DATA);
 
+  isLoading: boolean = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -35,6 +37,7 @@ export class HoldingListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.findAll();
   }
 
@@ -43,6 +46,7 @@ export class HoldingListComponent implements OnInit {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Holding>(response);
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
     });
   }
 
