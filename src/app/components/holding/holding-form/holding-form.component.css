@@ -1,37 +1,37 @@
-.container {
-  margin: 16px;
-  padding: 1rem;
-  border-radius: .6rem;
+mat-grid-tile {
+  .mat-grid-tile-content {
+    width: 90%;
+    justify-content: flex-start;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
 }
 
-.fullWidth {
-  width: 100%;
-}
-
-h1, p {
-  text-align: center;
-}
-
-img {
-  height: 12rem;
+mat-grid-list {
+  width: 90%;
   margin: auto;
 }
 
-.section {
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-between;
+.grid-button {
+  .mat-grid-tile-content {
+    width: 90%;
+    justify-content: flex-start;
+  }
+
+  button {
+    margin-right: 8px;
+  }
 }
 
-button {
-  margin-top: .5rem;
+.success-button {
+  background-color: green;
+  color: white;
 }
 
-p {
-  margin-top: 4rem;
-  opacity: .5;
-}
-
-mat-icon {
-  opacity: .8;
+mat-card {
+  width: 90%;
+  justify-content: center;
+  margin: auto;
 }

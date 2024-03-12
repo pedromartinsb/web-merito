@@ -10,16 +10,25 @@ import { DeleteConfirmationModalComponent } from '../../delete/delete-confirmati
 @Component({
   selector: 'app-person-list',
   templateUrl: './person-list.component.html',
-  styleUrls: ['./person-list.component.css']
+  styleUrls: ['./person-list.component.css'],
 })
 export class PersonListComponent implements OnInit {
-
   persons: Person[] = [];
 
   ELEMENT_DATA: Person[] = [];
   FILTERED_DATA: Person[] = [];
 
-  displayedColumns: string[] = ['name', 'department', 'company', 'personType', 'actions'];
+  displayedColumns: string[] = [
+    'name',
+    'email',
+    'cpfCnpj',
+    'department',
+    'phone',
+    'responsibility',
+    'fantasyName',
+    'personType',
+    'actions',
+  ];
   dataSource = new MatTableDataSource<Person>(this.persons);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -29,14 +38,14 @@ export class PersonListComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.findAll();
   }
 
   findAll() {
-    this.personService.findAll().subscribe(response => {
+    this.personService.findAll().subscribe((response) => {
       this.persons = response;
       this.dataSource = new MatTableDataSource<Person>(response);
       this.dataSource.paginator = this.paginator;
@@ -48,14 +57,15 @@ export class PersonListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  editPerson(personId: string): void {        
+  editPerson(personId: string): void {
     this.router.navigate(['person', 'edit', personId]);
   }
 
   openDeleteConfirmationModal(personId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
-    
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar este colaborador?';
+
+    dialogRef.componentInstance.message =
+      'Tem certeza que deseja deletar este colaborador?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deletePerson(personId);
@@ -80,5 +90,4 @@ export class PersonListComponent implements OnInit {
     }
     return '';
   }
-
 }

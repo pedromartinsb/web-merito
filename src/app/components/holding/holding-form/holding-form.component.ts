@@ -10,16 +10,23 @@ import { Segment } from 'src/app/models/segment';
 @Component({
   selector: 'app-holding-form',
   templateUrl: './holding-form.component.html',
-  styleUrls: ['./holding-form.component.css']
+  styleUrls: ['./holding-form.component.css'],
 })
 export class HoldingFormComponent implements OnInit {
-
   segments: Segment[] = [];
 
   holding: Holding = {
-    name: '',
+    fantasyName: '',
+    corporateReason: '',
+    cnpj: '',
+    email: '',
+    website: '',
+    contact: null,
+    contactId: '',
+    address: null,
+    addressId: '',
     segment: null,
-    segmentId: '',    
+    segmentId: '',
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
@@ -27,8 +34,8 @@ export class HoldingFormComponent implements OnInit {
 
   holdingId: string;
 
-  name:        FormControl = new FormControl(null, Validators.minLength(3));
-  segment:     FormControl = new FormControl(null, [Validators.required]);
+  fantasyName: FormControl = new FormControl(null, Validators.minLength(3));
+  segment: FormControl = new FormControl(null, [Validators.required]);
 
   constructor(
     private holdingService: HoldingService,
@@ -36,7 +43,7 @@ export class HoldingFormComponent implements OnInit {
     private toast: ToastrService,
     private route: ActivatedRoute,
     private segmentService: SegmentService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.holdingId = this.route.snapshot.params['id'];
@@ -47,17 +54,19 @@ export class HoldingFormComponent implements OnInit {
   }
 
   findAllSegments(): void {
-    this.segmentService.findAll().subscribe(response => {
+    this.segmentService.findAll().subscribe((response) => {
       this.segments = response;
       if (this.holdingId) {
-        this.segment.setValue(response.find(s => s.id === this.holding.segment.id));
+        this.segment.setValue(
+          response.find((s) => s.id === this.holding.segment.id)
+        );
         this.holding.segmentId = this.holding.segment.id;
       }
     });
   }
 
   loadHolding(): void {
-    this.holdingService.findById(this.holdingId).subscribe(response => {
+    this.holdingService.findById(this.holdingId).subscribe((response) => {
       this.holding = response;
     });
   }
@@ -69,7 +78,7 @@ export class HoldingFormComponent implements OnInit {
       this.createHolding();
     }
   }
-  
+
   private createHolding(): void {
     this.holdingService.create(this.holding).subscribe({
       next: () => {
@@ -81,7 +90,7 @@ export class HoldingFormComponent implements OnInit {
       },
     });
   }
-  
+
   private updateHolding(): void {
     this.holdingService.update(this.holdingId, this.holding).subscribe({
       next: () => {
@@ -93,10 +102,10 @@ export class HoldingFormComponent implements OnInit {
       },
     });
   }
-  
+
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach(element => {
+      ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
       });
     } else {
@@ -105,7 +114,6 @@ export class HoldingFormComponent implements OnInit {
   }
 
   validateFields(): boolean {
-    return this.name.valid;
+    return this.fantasyName.valid;
   }
-
 }

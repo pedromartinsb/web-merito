@@ -1,14 +1,15 @@
 .container {
   margin: 16px;
   padding: 1rem;
-  border-radius: .6rem;
+  border-radius: 0.6rem;
 }
 
 .fullWidth {
   width: 100%;
 }
 
-h1, p {
+h1,
+p {
   text-align: center;
 }
 
@@ -24,14 +25,14 @@ img {
 }
 
 button {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 p {
   margin-top: 4rem;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 mat-icon {
-  opacity: .8;
+  opacity: 0.8;
 }

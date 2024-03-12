@@ -1,36 +1,110 @@
 <div class="container">
-
   <h1>Colaboradores:</h1>
 
-  <button routerLink="create" class="mat-elevation-z8 btn-create" mat-stroked-button color="primary">Novo Colaborador</button>
+  <button
+    routerLink="create"
+    class="mat-elevation-z8 btn-create"
+    mat-stroked-button
+    color="primary"
+  >
+    Novo Colaborador
+  </button>
 
   <mat-form-field>
     <mat-label>Filtro</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Maria" #input />
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Ex. Maria"
+      #input
+    />
   </mat-form-field>
 
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDisableClear matSortDirection="desc">
-
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      matSortActive="name"
+      matSortDisableClear
+      matSortDirection="desc"
+    >
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nome</th>
-        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">{{element.name}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          Nome
+        </th>
+        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">
+          {{ element.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          E-mail
+        </th>
+        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">
+          {{ element.user.email }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cpfCnpj">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          CPF/CNPJ
+        </th>
+        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">
+          {{ element.cpfCnpj }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="department">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Departamento</th>
-        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">{{element.department.name}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          Departamento
+        </th>
+        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">
+          {{ element.department.name }}
+        </td>
       </ng-container>
 
-      <ng-container matColumnDef="company">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Unidade</th>
-        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">{{element?.department?.company?.name}}</td>
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          Telefone
+        </th>
+        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">
+          {{ element.contact.phone }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="responsibility">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          Cargo
+        </th>
+        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">
+          {{ element.responsibility.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fantasyName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          Unidade
+        </th>
+        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">
+          {{ element?.department?.company?.fantasyName }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="personType">
-        <th mat-header-cell *matHeaderCellDef> Tipo </th>
-        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">{{getPersonTypeLabel(element.personType)}}</td>
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">
+          {{ element.personType }}
+        </td>
       </ng-container>
+
+      <!-- <ng-container matColumnDef="personType">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let element" (click)="editPerson(element.id)">
+          {{ getPersonTypeLabel(element.personType) }}
+        </td>
+      </ng-container> -->
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Ações</th>
@@ -39,18 +113,25 @@
             <a routerLink="edit/{{ element.id }}">
               <i class="material-icons edit">edit</i>
             </a>
-            <a (click)="openDeleteConfirmationModal(element.id); $event.stopPropagation();">
+            <a
+              (click)="
+                openDeleteConfirmationModal(element.id);
+                $event.stopPropagation()
+              "
+            >
               <i class="material-icons delete">delete</i>
             </a>
           </div>
         </td>
       </ng-container>
 
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20, 50, 100]"
+      showFirstLastButtons
+    ></mat-paginator>
   </div>
 </div>

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.css']
+  styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
   userRole: string[] = [];
@@ -19,8 +19,8 @@ export class NavComponent implements OnInit {
     private storageService: StorageService,
     private authService: AuthService,
     private toast: ToastrService,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.userRole = this.authService.getRole();
@@ -38,7 +38,7 @@ export class NavComponent implements OnInit {
   }
 
   checkAdminAccess(): void {
-    if(this.userRole.indexOf('ROLE_ADMIN') === 0) {
+    if (this.userRole.includes('ROLE_ADMIN')) {
       this.canAdminAccess = true;
     } else {
       this.canAdminAccess = false;
@@ -46,7 +46,7 @@ export class NavComponent implements OnInit {
   }
 
   checkModeratorAccess(): void {
-    if(this.userRole.indexOf('ROLE_MODERATOR') === 0) {
+    if (this.userRole.includes('ROLE_MODERATOR')) {
       this.canModeratorAccess = true;
     } else {
       this.canModeratorAccess = false;
@@ -54,7 +54,7 @@ export class NavComponent implements OnInit {
   }
 
   checkUserAccess(): void {
-    if(this.userRole.indexOf('ROLE_USER') === 0) {
+    if (this.userRole.includes('ROLE_USER')) {
       this.canUserAccess = true;
     } else {
       this.canUserAccess = false;

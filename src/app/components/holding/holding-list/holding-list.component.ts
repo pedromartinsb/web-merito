@@ -10,14 +10,20 @@ import { DeleteConfirmationModalComponent } from '../../delete/delete-confirmati
 @Component({
   selector: 'app-holding-list',
   templateUrl: './holding-list.component.html',
-  styleUrls: ['./holding-list.component.css']
+  styleUrls: ['./holding-list.component.css'],
 })
 export class HoldingListComponent implements OnInit {
-
   ELEMENT_DATA: Holding[] = [];
   FILTERED_DATA: Holding[] = [];
 
-  displayedColumns: string[] = ['name', 'segment', 'actions'];
+  displayedColumns: string[] = [
+    'fantasyName',
+    'corporateReason',
+    'cnpj',
+    'phone',
+    'segment',
+    'actions',
+  ];
   dataSource = new MatTableDataSource<Holding>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -26,14 +32,14 @@ export class HoldingListComponent implements OnInit {
     private holdingService: HoldingService,
     private router: Router,
     private dialog: MatDialog
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.findAll();
   }
 
   findAll(): void {
-    this.holdingService.findAll().subscribe(response => {
+    this.holdingService.findAll().subscribe((response) => {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Holding>(response);
       this.dataSource.paginator = this.paginator;
@@ -45,14 +51,15 @@ export class HoldingListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  editHolding(holdingId: string): void {    
+  editHolding(holdingId: string): void {
     this.router.navigate(['holding', 'edit', holdingId]);
   }
 
   openDeleteConfirmationModal(holdingId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
-    
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar este grupo de empresa?';
+
+    dialogRef.componentInstance.message =
+      'Tem certeza que deseja deletar este grupo de empresa?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteHolding(holdingId);
@@ -70,5 +77,4 @@ export class HoldingListComponent implements OnInit {
       this.findAll();
     });
   }
-
 }

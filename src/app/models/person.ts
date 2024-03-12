@@ -1,10 +1,10 @@
-import { Assignment } from "./assignment";
-import { Company } from "./company";
-import { Department } from "./department";
-import { Responsibility } from "./responsibility";
-import { Role } from "./role";
-import { Routine } from "./routine";
-import { Task } from "./task";
+import { Assignment } from './assignment';
+import { Company } from './company';
+import { Department } from './department';
+import { Responsibility } from './responsibility';
+import { Role } from './role';
+import { Routine } from './routine';
+import { Task } from './task';
 
 export interface Person {
   id?: string;
@@ -21,6 +21,7 @@ export interface Person {
 
   user: User;
   address: Address;
+  contact: Contact;
 
   tasks: Task[];
   routines: Routine[];
@@ -47,6 +48,11 @@ export interface Address {
   complement: string;
 }
 
+export interface Contact {
+  phone: string;
+  cellphone: string;
+}
+
 export interface AddressSearch {
   cep: string;
   logradouro: string;
@@ -61,7 +67,12 @@ export interface AddressSearch {
 }
 
 export enum Roles {
-  ROLE_USER = "ROLE_USER",
-  ROLE_ADMIN = "ROLE_ADMIN",
-  ROLE_MODERADOR = "ROLE_MODERADOR"
+  ROLE_USER = 'ROLE_USER',
+  ROLE_ADMIN = 'ROLE_ADMIN',
+  ROLE_MODERADOR = 'ROLE_MODERADOR',
+}
+
+export enum Gender {
+  MALE = 'Male',
+  FEMALE = 'Female',
 }
