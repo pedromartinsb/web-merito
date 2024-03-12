@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './pages/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule, DatePipe } from '@angular/common';
 
@@ -31,7 +31,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatButtonToggleModule } from '@angular/material/button-toggle'
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ToastrModule } from 'ngx-toastr';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
@@ -39,38 +40,39 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { NavComponent } from './components/nav/nav.component';
-import { PersonListComponent } from './components/person/person-list/person-list.component';
-import { PersonFormComponent } from './components/person/person-form/person-form.component';
+import { PersonListComponent } from './pages/person/person-list/person-list.component';
+import { PersonFormComponent } from './pages/person/person-form/person-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CompanyListComponent } from './components/company/company-list/company-list.component';
-import { DailyAppointmentListComponent } from './components/appointment/daily-appointment-list/daily-appointment-list.component';
-import { LoginComponent } from './components/login/login.component';
-import { CompanyFormComponent } from './components/company/company-form/company-form.component';
-import { DepartmentListComponent } from './components/department/department-list/department-list.component';
-import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
-import { TaskListComponent } from './components/task/task-list/task-list.component';
-import { AssignmentListComponent } from './components/assignment/assignment-list/assignment-list.component';
-import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
+import { CompanyListComponent } from './pages/company/company-list/company-list.component';
+import { DailyAppointmentListComponent } from './pages/appointment/daily-appointment-list/daily-appointment-list.component';
+import { LoginComponent } from './pages/login/login.component';
+import { CompanyFormComponent } from './pages/company/company-form/company-form.component';
+import { DepartmentListComponent } from './pages/department/department-list/department-list.component';
+import { DepartmentPersonListComponent } from './pages/department/department-person-list/department-person-list.component';
+import { TaskListComponent } from './pages/task/task-list/task-list.component';
+import { AssignmentListComponent } from './pages/assignment/assignment-list/assignment-list.component';
+import { AppointmentCreateComponent } from './pages/appointment/appointment-create/appointment-create.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ResponsibilityListComponent } from './components/responsibility/responsibility-list/responsibility-list.component';
-import { ResponsibilityFormComponent } from './components/responsibility/responsibility-form/responsibility-form.component';
+import { ResponsibilityListComponent } from './pages/responsibility/responsibility-list/responsibility-list.component';
+import { ResponsibilityFormComponent } from './pages/responsibility/responsibility-form/responsibility-form.component';
 import { DeleteConfirmationModalComponent } from './components/delete/delete-confirmation-modal';
-import { SegmentListComponent } from './components/segment/segment-list/segment-list.component';
-import { SegmentFormComponent } from './components/segment/segment-form/segment-form.component';
-import { HoldingListComponent } from './components/holding/holding-list/holding-list.component';
-import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
-import { DepartmentFormComponent } from './components/department/department-form/department-form.component';
-import { AssignmentFormComponent } from './components/assignment/assignment-form/assignment-form.component';
-import { GoalListComponent } from './components/goal/goal-list/goal-list.component';
-import { GoalFormComponent } from './components/goal/goal-form/goal-form.component';
-import { TaskFormComponent } from './components/task/task-form/task-form.component';
-import { RoutineListComponent } from './components/routine/routine-list/routine-list.component';
-import { RoutineFormComponent } from './components/routine/routine-form/routine-form.component';
+import { SegmentListComponent } from './pages/segment/segment-list/segment-list.component';
+import { SegmentFormComponent } from './pages/segment/segment-form/segment-form.component';
+import { HoldingListComponent } from './pages/holding/holding-list/holding-list.component';
+import { HoldingFormComponent } from './pages/holding/holding-form/holding-form.component';
+import { DepartmentFormComponent } from './pages/department/department-form/department-form.component';
+import { AssignmentFormComponent } from './pages/assignment/assignment-form/assignment-form.component';
+import { GoalListComponent } from './pages/goal/goal-list/goal-list.component';
+import { GoalFormComponent } from './pages/goal/goal-form/goal-form.component';
+import { TaskFormComponent } from './pages/task/task-form/task-form.component';
+import { RoutineListComponent } from './pages/routine/routine-list/routine-list.component';
+import { RoutineFormComponent } from './pages/routine/routine-form/routine-form.component';
 import { FileinfoListComponent } from './components/fileinfo/fileinfo-list/fileinfo-list.component';
 import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/fileinfo-form.component';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { DescriptionModalComponent } from './components/description/description-modal';
+import { CardComponent } from './components/card/card.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -109,7 +111,8 @@ export const maskConfig: Partial<IConfig> = {
     DeleteConfirmationModalComponent,
     DescriptionModalComponent,
     FileinfoListComponent,
-    FileinfoFormComponent
+    FileinfoFormComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
@@ -143,6 +146,7 @@ export const maskConfig: Partial<IConfig> = {
     MatDatepickerModule,
     MatButtonToggleModule,
     NgxFileDropModule,
+    MatProgressBarModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       closeButton: true,

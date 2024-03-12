@@ -12,10 +12,7 @@ export interface Holding {
   segmentId: any;
 
   contact: Contact;
-  contactId: any;
-
   address: Address;
-  addressId: any;
 
   createdAt: string;
   updatedAt: string;
@@ -34,4 +31,17 @@ export interface Address {
   city: string;
   uf: string;
   complement: string;
+}
+
+export interface AddressSearch {
+  cep: string;
+  logradouro: string;
+  complemento: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
+  ibge: string;
+  gia: string;
+  ddd: string;
+  siafi: string;
 }
