@@ -10,10 +10,9 @@ import { DeleteConfirmationModalComponent } from '../../../components/delete/del
 @Component({
   selector: 'app-assignment-list',
   templateUrl: './assignment-list.component.html',
-  styleUrls: ['./assignment-list.component.css']
+  styleUrls: ['./assignment-list.component.css'],
 })
 export class AssignmentListComponent implements OnInit {
-
   ELEMENT_DATA: Assignment[] = [];
   FILTERED_DATA: Assignment[] = [];
 
@@ -22,21 +21,25 @@ export class AssignmentListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  public isLoading: boolean = false;
+
   constructor(
     private assignmentService: AssignmentService,
     private router: Router,
     private dialog: MatDialog
-  ) { }
+  ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.findAll();
   }
 
   findAll(): void {
-    this.assignmentService.findAll().subscribe(response => {
+    this.assignmentService.findAll().subscribe((response) => {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Assignment>(response);
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
     });
   }
 
@@ -52,7 +55,8 @@ export class AssignmentListComponent implements OnInit {
   openDeleteConfirmationModal(assignmentId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar esta atividade?';
+    dialogRef.componentInstance.message =
+      'Tem certeza que deseja deletar esta atividade?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteAssignment(assignmentId);
@@ -70,5 +74,4 @@ export class AssignmentListComponent implements OnInit {
       this.findAll();
     });
   }
-
 }
