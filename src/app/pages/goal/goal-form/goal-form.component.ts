@@ -28,8 +28,10 @@ export class GoalFormComponent implements OnInit {
 
   goalId: string;
 
-  name:        FormControl = new FormControl(null, Validators.minLength(3));
-  person:     FormControl = new FormControl(null, [Validators.required]);
+  name: FormControl = new FormControl(null, Validators.minLength(3));
+  person: FormControl = new FormControl(null, [Validators.required]);
+
+  public isSaving: boolean = false;
 
   constructor(
     private goalService: GoalService,
@@ -75,31 +77,35 @@ export class GoalFormComponent implements OnInit {
       this.createGoal();
     }
   }
-  
+
   private createGoal(): void {
+    this.isSaving = true;
     this.goalService.create(this.goal).subscribe({
       next: () => {
         this.toast.success('Meta cadastrada com sucesso', 'Cadastro');
         this.router.navigate(['goal']);
+        this.isSaving = false;
       },
       error: (ex) => {
         this.handleErrors(ex);
       },
     });
   }
-  
+
   private updateGoal(): void {
+    this.isSaving = true;
     this.goalService.update(this.goalId, this.goal).subscribe({
       next: () => {
         this.toast.success('Meta atualizada com sucesso', 'Atualização');
         this.router.navigate(['goal']);
+        this.isSaving = false;
       },
       error: (ex) => {
         this.handleErrors(ex);
       },
     });
   }
-  
+
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
       ex.error.errors.forEach(element => {
