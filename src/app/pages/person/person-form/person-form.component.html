@@ -1,3 +1,356 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title
+      >{{
+        personId
+          ? "Editar " + person.name
+          : "Cadastrar Colaborador"
+      }}
+    </mat-card-title>
+    <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form class="form">
+      <!-- Divider -->
+      <hr class="solid">
+
+      <!-- General -->
+      <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
+      <!-- Colunas -->
+      <mat-grid-list cols="3" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="legacy">
+            <mat-label>Nome</mat-label>
+            <input
+              [(ngModel)]="person.name"
+              name="name"
+              [formControl]="name"
+              required
+              matInput
+              maxlength="100" >
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 2 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth cpf-field" appearance="legacy">
+            <mat-label>{{isCpf ? 'CPF' : 'CNPJ'}}</mat-label>
+            <input
+            [(ngModel)]="person.cpfCnpj"
+            name="cpf"
+            [formControl]="cpf"
+            required
+            matInput
+            [mask]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 3 -->
+        <mat-grid-tile colspan="1">
+          <mat-radio-group name="cpfOrCnpj" [(ngModel)]="radioOptions" name="radioButtons" (change)="onRadioButtonChange($event)">
+            <mat-radio-button (click)="selectIsCpf(true)" value="CLT">CLT</mat-radio-button>
+            <mat-radio-button (click)="selectIsCpf(false)" value="Professional">Profissional</mat-radio-button>
+          </mat-radio-group>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <!-- Colunas -->
+      <mat-grid-list cols="3" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="legacy">
+            <mat-label>Nome de Usuário</mat-label>
+            <input
+            [(ngModel)]="person.user.username"
+            name="username"
+            [formControl]="username"
+            required
+            matInput
+            placeholder="Ex.. fulano44">
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 2 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="legacy">
+            <mat-label>E-mail</mat-label>
+            <input
+            [(ngModel)]="person.user.email"
+            name="email"
+            [formControl]="email"
+            required
+            matInput
+            placeholder="Ex.. fulano@mail.com">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 3 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="legacy">
+            <mat-label>Senha</mat-label>
+            <input
+              matInput
+              [(ngModel)]="person.user.password"
+              [type]="hide ? 'password' : 'text'"
+              [formControl]="password"
+              required
+            >
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-hint *ngIf="!passwordInput.value">Digite a sua senha</mat-hint>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+      <!-- Colunas -->
+      <mat-grid-list cols="3" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="outline" *ngIf="!isCompanyLinkedCreation">
+            <mat-label>Selecione a Unidade</mat-label>
+            <mat-select
+              [(ngModel)]="person.companyId"
+              (ngModelChange)="selectCompany()"
+              name="company"
+              [formControl]="company">
+              <mat-option *ngFor="let company of companies" [value]="company.id">{{ company.fantasyName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 2 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>{{departments.length > 0 ? 'Selecione o Departamento' : 'Não há Departamentos para a unidade selecionada'}}</mat-label>
+            <mat-select
+              [(ngModel)]="person.departmentId"
+              name="department"
+              [formControl]="department"
+              [disabled]="!companyId">
+              <mat-option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 3 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>Selecione o Cargo</mat-label>
+            <mat-select
+              [(ngModel)]="person.responsibilityId"
+              name="responsibility"
+              [formControl]="responsibility">
+              <mat-option *ngFor="let responsibility of responsibilities" [value]="responsibility.id">{{ responsibility.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+      <!-- Colunas -->
+      <mat-grid-list cols="1" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>Selecione as permissões</mat-label>
+            <mat-select
+              [(ngModel)]="person.user.roles"
+              [compareWith]="compareRoles"
+              name="role"
+              [formControl]="role"
+              required
+              multiple>
+              <mat-option *ngFor="let role of roleLabels" [value]="role.value">{{ role.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <!-- Divider -->
+      <hr class="solid">
+
+      <!-- Contact -->
+      <mat-card-subtitle>Contatos:</mat-card-subtitle>
+      <!-- Colunas -->
+      <mat-grid-list cols="2" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
+            <mat-label>Telefone</mat-label>
+            <input
+              [(ngModel)]="person.contact.phone"
+              name="phone"
+              [formControl]="phone"
+              matInput
+            />
+            <mat-icon matSuffix>add_business</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 2 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
+            <mat-label>Celular</mat-label>
+            <input
+              [(ngModel)]="person.contact.cellphone"
+              name="cellphone"
+              [formControl]="cellphone"
+              matInput
+            />
+            <mat-icon matSuffix>domain</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <!-- Divider -->
+      <hr class="solid">
+
+      <!-- Address -->
+      <mat-card-subtitle>Endereço:</mat-card-subtitle>
+      <!-- Colunas -->
+      <mat-grid-list cols="3" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
+            <mat-label>CEP</mat-label>
+            <input
+            [(ngModel)]="person.address.cep"
+            name="cep"
+            [formControl]="cep"
+            required
+            type="text"
+            matInput
+            mask="00000-000">
+            <mat-icon matSuffix>location_on</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 2 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="legacy">
+            <mat-label>Estado</mat-label>
+            <input
+            [(ngModel)]="person.address.uf"
+            name="uf"
+            [formControl]="uf"
+            required
+            type="uf"
+            matInput>
+            <mat-icon matSuffix>satellite</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 3 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="legacy">
+            <mat-label>Cidade</mat-label>
+            <input
+            [(ngModel)]="person.address.city"
+            name="city"
+            [formControl]="city"
+            required
+            type="city"
+            matInput>
+            <mat-icon matSuffix>location_city</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <!-- Colunas -->
+      <mat-grid-list cols="3" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="legacy">
+            <mat-label>Rua</mat-label>
+            <input
+            [(ngModel)]="person.address.streetName"
+            name="streetName"
+            [formControl]="streetName"
+            required
+            type="streetName"
+            matInput>
+            <mat-icon matSuffix>add_road</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 2 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="legacy">
+            <mat-label>Bairro</mat-label>
+            <input
+            [(ngModel)]="person.address.neighborhood"
+            name="neighborhood"
+            [formControl]="neighborhood"
+            required
+            type="neighborhood"
+            matInput>
+            <mat-icon matSuffix>signpost</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 3 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field class="fullWidth" appearance="legacy">
+            <mat-label>Complemento</mat-label>
+            <input
+            [(ngModel)]="person.address.complement"
+            name="complement"
+            [formControl]="complement"
+            type="complement"
+            matInput>
+            <mat-icon matSuffix>edit_location_alt</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button
+      (click)="openPersonForm()"
+      [disabled]="!validateFields()"
+      class="success-button mat-elevation-z4"
+      mat-raised-button
+      extended
+      matTooltip="Salvar as informações preenchidas"
+    >
+      <mat-icon>check</mat-icon> SALVAR
+    </button>
+    <button
+      *ngIf="personId"
+      routerLink="../../"
+      class="mat-elevation-z4"
+      mat-raised-button
+      color="warn"
+      extended
+      matTooltip="Cancelar as informações preenchidas e voltar a página"
+    >
+      <mat-icon>block</mat-icon> CANCELAR
+    </button>
+    <button
+      *ngIf="!personId"
+      routerLink="../"
+      class="mat-elevation-z4"
+      mat-raised-button
+      color="warn"
+      extended
+      matTooltip="Cancelar as informações preenchidas e voltar a página"
+    >
+      <mat-icon>block</mat-icon> CANCELAR
+    </button>
+  </mat-card-actions>
+
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isSaving"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
+
+
+<!--
+
+
+
 <div class="container mat-elevation-z8">
 
   <form class="form">
@@ -388,4 +741,4 @@
     <button routerLink="/person" class="fullWidth mat-elevation-z4" mat-stroked-button color="warn">Cancelar</button>
   </form>
 
-</div>
+</div> -->

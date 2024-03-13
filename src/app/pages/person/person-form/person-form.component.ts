@@ -114,6 +114,11 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   password: FormControl = new FormControl(null, []);
   role: FormControl = new FormControl(null, Validators.minLength(1));
 
+  // Contact
+  phone: FormControl = new FormControl();
+  cellphone: FormControl = new FormControl();
+
+  // Address
   cep: FormControl = new FormControl(null, Validators.minLength(3));
   streetName: FormControl = new FormControl(null, Validators.minLength(3));
   neighborhood: FormControl = new FormControl(null, Validators.minLength(3));
@@ -125,6 +130,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   routine: FormControl = new FormControl(null, []);
 
   isCompanyLinkedCreation: boolean = false;
+
+  public isSaving: boolean = false;
 
   ROUTINE_ELEMENT_DATA: Routine[] = [];
   ROUTINE_FILTERED_DATA: Routine[] = [];
@@ -166,6 +173,10 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   assignmentDataSource = new MatTableDataSource<Assignment>(this.assignments);
 
   private cepValueChangesSubscription: Subscription;
+
+  public radioOptions: string = "CLT";
+  public hide: boolean = true;
+  get passwordInput() { return this.password; }
 
   @ViewChild('routinePaginator') routinePaginator: MatPaginator;
   @ViewChild('taskPaginator') taskPaginator: MatPaginator;
@@ -373,10 +384,12 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private createPerson(): void {
+    this.isSaving = true;
     this.personService.create(this.person).subscribe({
       next: () => {
         this.toast.success('Colaborador cadastrado com sucesso', 'Cadastro');
         this.router.navigate(['person']);
+        this.isSaving = false;
       },
       error: (ex) => {
         this.handleErrors(ex);
@@ -385,12 +398,14 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updatePerson(): void {
+    this.isSaving = true;
     this.person.department = null;
     this.person.responsibility = null;
     this.personService.update(this.person.id, this.person).subscribe({
       next: () => {
         this.toast.success('Colaborador atualizado com sucesso', 'Atualização');
         this.router.navigate(['person']);
+        this.isSaving = false;
       },
       error: (ex) => {
         this.handleErrors(ex);
@@ -548,5 +563,9 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectIsCpf(isCpf: boolean): void {
     this.isCpf = isCpf;
+  }
+
+  onRadioButtonChange(event) {
+    console.log("event.value=" + event.value);
   }
 }
