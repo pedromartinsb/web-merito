@@ -164,7 +164,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   personAssignments: Assignment[] = [];
 
   isCpf: boolean = true;
-  contractType: string = "";
+  contractType: string = '';
 
   assignmentDisplayedColumns: string[] = [
     'assignmentName',
@@ -176,10 +176,12 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private cepValueChangesSubscription: Subscription;
 
-  public radioContractTypeOptions: string = "CLT";
-  public radioGenderOptions: string = "Male";
+  public radioContractTypeOptions: string = 'CLT';
+  public radioGenderOptions: string = 'Male';
   public hide: boolean = true;
-  get passwordInput() { return this.password; }
+  get passwordInput() {
+    return this.password;
+  }
 
   @ViewChild('routinePaginator') routinePaginator: MatPaginator;
   @ViewChild('taskPaginator') taskPaginator: MatPaginator;

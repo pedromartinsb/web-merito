@@ -37,6 +37,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 import { NgxFileDropModule } from 'ngx-file-drop';
@@ -150,6 +151,7 @@ export const maskConfig: Partial<IConfig> = {
     NgxFileDropModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatSlideToggleModule,
     MatMenuModule,
     ToastrModule.forRoot({
       timeOut: 3000,

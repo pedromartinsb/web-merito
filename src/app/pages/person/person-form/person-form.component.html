@@ -2,11 +2,7 @@
   <!-- Header -->
   <mat-card-header>
     <mat-card-title
-      >{{
-        personId
-          ? "Editar " + person.name
-          : "Cadastrar Colaborador"
-      }}
+      >{{ personId ? "Editar " + person.name : "Cadastrar Colaborador" }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
   </mat-card-header>
@@ -15,7 +11,7 @@
   <mat-card-content>
     <form class="form">
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
 
       <!-- General -->
       <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
@@ -31,7 +27,8 @@
               [formControl]="name"
               required
               matInput
-              maxlength="100" >
+              maxlength="100"
+            />
             <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
             <mat-hint *ngIf="!name.value">Digite o nome</mat-hint>
           </mat-form-field>
@@ -40,31 +37,48 @@
         <!-- Coluna 2 -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth cpf-field" appearance="legacy">
-            <mat-label>{{isCpf ? 'CPF' : 'CNPJ'}}</mat-label>
+            <mat-label>{{ isCpf ? "CPF" : "CNPJ" }}</mat-label>
             <input
-            [(ngModel)]="person.cpfCnpj"
-            name="cpf"
-            [formControl]="cpf"
-            required
-            matInput
-            [mask]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'">
+              [(ngModel)]="person.cpfCnpj"
+              name="cpf"
+              [formControl]="cpf"
+              required
+              matInput
+              [mask]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'"
+            />
             <mat-hint *ngIf="!cpf.value">Digite o CPF ou CNPJ</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
 
         <!-- Coluna 3 -->
         <mat-grid-tile colspan="1">
-          <mat-radio-group [(ngModel)]="radioContractTypeOptions" name="radioButtons">
-            <mat-radio-button (click)="selectContractType('CLT')" value="CLT">CLT</mat-radio-button>
-            <mat-radio-button (click)="selectContractType('Professional')" value="Professional">Profissional</mat-radio-button>
+          <mat-radio-group
+            [(ngModel)]="radioContractTypeOptions"
+            name="radioButtons"
+          >
+            <mat-radio-button (click)="selectContractType('CLT')" value="CLT"
+              >CLT</mat-radio-button
+            >
+            <mat-radio-button
+              (click)="selectContractType('Professional')"
+              value="Professional"
+              >Profissional</mat-radio-button
+            >
           </mat-radio-group>
         </mat-grid-tile>
 
         <!-- Coluna 4 -->
         <mat-grid-tile colspan="1">
-          <mat-radio-group [(ngModel)]="radioGenderOptions" name="radioGenderButtons">
-            <mat-radio-button (click)="selectGender('Male')" value="Male">Masculino</mat-radio-button>
-            <mat-radio-button (click)="selectGender('Female')" value="Female">Feminino</mat-radio-button>
+          <mat-radio-group
+            [(ngModel)]="radioGenderOptions"
+            name="radioGenderButtons"
+          >
+            <mat-radio-button (click)="selectGender('Male')" value="Male"
+              >Masculino</mat-radio-button
+            >
+            <mat-radio-button (click)="selectGender('Female')" value="Female"
+              >Feminino</mat-radio-button
+            >
           </mat-radio-group>
         </mat-grid-tile>
       </mat-grid-list>
@@ -75,14 +89,17 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Nome de Usuário</mat-label>
             <input
-            [(ngModel)]="person.user.username"
-            name="username"
-            [formControl]="username"
-            required
-            matInput
-            placeholder="Ex.. fulano44">
+              [(ngModel)]="person.user.username"
+              name="username"
+              [formControl]="username"
+              required
+              matInput
+              placeholder="Ex.. fulano44"
+            />
             <mat-icon matSuffix>person</mat-icon>
-            <mat-hint *ngIf="!username.value">Digite o nome de usuário</mat-hint>
+            <mat-hint *ngIf="!username.value"
+              >Digite o nome de usuário</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -91,12 +108,13 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>E-mail</mat-label>
             <input
-            [(ngModel)]="person.user.email"
-            name="email"
-            [formControl]="email"
-            required
-            matInput
-            placeholder="Ex.. fulano@mail.com">
+              [(ngModel)]="person.user.email"
+              name="email"
+              [formControl]="email"
+              required
+              matInput
+              placeholder="Ex.. fulano@mail.com"
+            />
             <mat-icon matSuffix>email</mat-icon>
             <mat-hint *ngIf="!email.value">Digite o e-mail</mat-hint>
           </mat-form-field>
@@ -112,25 +130,35 @@
               [type]="hide ? 'password' : 'text'"
               [formControl]="password"
               required
-            >
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            />
+            <mat-icon matSuffix (click)="hide = !hide">{{
+              hide ? "visibility_off" : "visibility"
+            }}</mat-icon>
             <mat-hint *ngIf="!passwordInput.value">Digite a sua senha</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
-
       </mat-grid-list>
       <!-- Colunas -->
       <mat-grid-list cols="3" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
-          <mat-form-field class="fullWidth" appearance="outline" *ngIf="!isCompanyLinkedCreation">
+          <mat-form-field
+            class="fullWidth"
+            appearance="outline"
+            *ngIf="!isCompanyLinkedCreation"
+          >
             <mat-label>Selecione a Unidade</mat-label>
             <mat-select
               [(ngModel)]="person.companyId"
               (ngModelChange)="selectCompany()"
               name="company"
-              [formControl]="company">
-              <mat-option *ngFor="let company of companies" [value]="company.id">{{ company.fantasyName }}</mat-option>
+              [formControl]="company"
+            >
+              <mat-option
+                *ngFor="let company of companies"
+                [value]="company.id"
+                >{{ company.fantasyName }}</mat-option
+              >
             </mat-select>
           </mat-form-field>
         </mat-grid-tile>
@@ -138,13 +166,22 @@
         <!-- Coluna 2 -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth" appearance="outline">
-            <mat-label>{{departments.length > 0 ? 'Selecione o Departamento' : 'Não há Departamentos para a unidade selecionada'}}</mat-label>
+            <mat-label>{{
+              departments.length > 0
+                ? "Selecione o Departamento"
+                : "Não há Departamentos para a unidade selecionada"
+            }}</mat-label>
             <mat-select
               [(ngModel)]="person.departmentId"
               name="department"
               [formControl]="department"
-              [disabled]="!companyId">
-              <mat-option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</mat-option>
+              [disabled]="!companyId"
+            >
+              <mat-option
+                *ngFor="let department of departments"
+                [value]="department.id"
+                >{{ department.name }}</mat-option
+              >
             </mat-select>
           </mat-form-field>
         </mat-grid-tile>
@@ -156,12 +193,16 @@
             <mat-select
               [(ngModel)]="person.responsibilityId"
               name="responsibility"
-              [formControl]="responsibility">
-              <mat-option *ngFor="let responsibility of responsibilities" [value]="responsibility.id">{{ responsibility.name }}</mat-option>
+              [formControl]="responsibility"
+            >
+              <mat-option
+                *ngFor="let responsibility of responsibilities"
+                [value]="responsibility.id"
+                >{{ responsibility.name }}</mat-option
+              >
             </mat-select>
           </mat-form-field>
         </mat-grid-tile>
-
       </mat-grid-list>
       <!-- Colunas -->
       <mat-grid-list cols="1" rowHeight="100px">
@@ -175,15 +216,20 @@
               name="role"
               [formControl]="role"
               required
-              multiple>
-              <mat-option *ngFor="let role of roleLabels" [value]="role.value">{{ role.label }}</mat-option>
+              multiple
+            >
+              <mat-option
+                *ngFor="let role of roleLabels"
+                [value]="role.value"
+                >{{ role.label }}</mat-option
+              >
             </mat-select>
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
 
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
 
       <!-- Contact -->
       <mat-card-subtitle>Contatos:</mat-card-subtitle>
@@ -219,7 +265,7 @@
       </mat-grid-list>
 
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
 
       <!-- Address -->
       <mat-card-subtitle>Endereço:</mat-card-subtitle>
@@ -230,12 +276,13 @@
           <mat-form-field appearance="legacy">
             <mat-label>CEP</mat-label>
             <input
-            [(ngModel)]="person.address.cep"
-            name="cep"
-            [formControl]="cep"
-            type="text"
-            matInput
-            mask="00000-000">
+              [(ngModel)]="person.address.cep"
+              name="cep"
+              [formControl]="cep"
+              type="text"
+              matInput
+              mask="00000-000"
+            />
             <mat-icon matSuffix>location_on</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
@@ -245,11 +292,12 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Estado</mat-label>
             <input
-            [(ngModel)]="person.address.uf"
-            name="uf"
-            [formControl]="uf"
-            type="uf"
-            matInput>
+              [(ngModel)]="person.address.uf"
+              name="uf"
+              [formControl]="uf"
+              type="uf"
+              matInput
+            />
             <mat-icon matSuffix>satellite</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
@@ -259,11 +307,12 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Cidade</mat-label>
             <input
-            [(ngModel)]="person.address.city"
-            name="city"
-            [formControl]="city"
-            type="city"
-            matInput>
+              [(ngModel)]="person.address.city"
+              name="city"
+              [formControl]="city"
+              type="city"
+              matInput
+            />
             <mat-icon matSuffix>location_city</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
@@ -275,11 +324,12 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Rua</mat-label>
             <input
-            [(ngModel)]="person.address.streetName"
-            name="streetName"
-            [formControl]="streetName"
-            type="streetName"
-            matInput>
+              [(ngModel)]="person.address.streetName"
+              name="streetName"
+              [formControl]="streetName"
+              type="streetName"
+              matInput
+            />
             <mat-icon matSuffix>add_road</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
@@ -289,11 +339,12 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Bairro</mat-label>
             <input
-            [(ngModel)]="person.address.neighborhood"
-            name="neighborhood"
-            [formControl]="neighborhood"
-            type="neighborhood"
-            matInput>
+              [(ngModel)]="person.address.neighborhood"
+              name="neighborhood"
+              [formControl]="neighborhood"
+              type="neighborhood"
+              matInput
+            />
             <mat-icon matSuffix>signpost</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
@@ -303,11 +354,12 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Complemento</mat-label>
             <input
-            [(ngModel)]="person.address.complement"
-            name="complement"
-            [formControl]="complement"
-            type="complement"
-            matInput>
+              [(ngModel)]="person.address.complement"
+              name="complement"
+              [formControl]="complement"
+              type="complement"
+              matInput
+            />
             <mat-icon matSuffix>edit_location_alt</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
