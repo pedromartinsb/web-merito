@@ -31,6 +31,8 @@ export class PersonListComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource<Person>(this.persons);
 
+  public isLoading: boolean = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -41,6 +43,7 @@ export class PersonListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.findAll();
   }
 
@@ -49,6 +52,7 @@ export class PersonListComponent implements OnInit {
       this.persons = response;
       this.dataSource = new MatTableDataSource<Person>(response);
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
     });
   }
 
