@@ -20,6 +20,8 @@ export class GoalListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'person', 'actions'];
   dataSource = new MatTableDataSource<Goal>(this.ELEMENT_DATA);
 
+  public isLoading: boolean = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -29,6 +31,7 @@ export class GoalListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.findAll();
   }
 
@@ -37,6 +40,7 @@ export class GoalListComponent implements OnInit {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Goal>(response);
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
     });
   }
 
