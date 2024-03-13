@@ -1,43 +1,111 @@
-<div class="container">
-  <form
-    name="form"
-    (ngSubmit)="f.form.valid && onSubmit()"
-    #f="ngForm"
-    novalidate
-    class="form mat-elevation-z8">
+<mat-card class="mat-elevation-z8">
+  <!-- Header -->
+  <mat-card-header> </mat-card-header>
 
-     <h1>Projeção Profissional</h1>
+  <!-- Content -->
+  <mat-card-content>
+    <form
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+      class="form"
+    >
+      <!-- Avatar Colunas -->
+      <mat-grid-list cols="1" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <img
+            class="avatar"
+            src="assets/img/avatar-login.png"
+            alt="Login avatar"
+          />
+        </mat-grid-tile>
+      </mat-grid-list>
 
-     <img src="assets/img/login-image.svg">
+      <!-- Titulo Colunas -->
+      <mat-grid-list cols="1" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <h1>LOGIN</h1>
+        </mat-grid-tile>
+      </mat-grid-list>
 
-     <!-- Usuário -->
-     <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Usuário</mat-label>
-        <input
-          matInput
-          [(ngModel)]="form.username"
-          name="username"
-          required
+      <!-- Username Colunas -->
+      <mat-grid-list cols="1" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <!-- Usuário -->
+          <mat-form-field appearance="outline">
+            <mat-label>Usuário</mat-label>
+            <input
+              matInput
+              [formControl]="username"
+              [(ngModel)]="form.username"
+              name="username"
+              required
+            />
+            <mat-icon matSuffix>login</mat-icon>
+            <mat-hint *ngIf="form.username === null || form.username === ''"
+              >Digite o seu usuário</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <!-- Password Colunas -->
+      <mat-grid-list cols="1" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            [formControl]="password"
+            [(ngModel)]="form.password"
+            [type]="hide ? 'password' : 'text'"
+            name="password"
+            required
+          />
+          <mat-icon matSuffix (click)="hide = !hide">{{
+            hide ? "visibility_off" : "visibility"
+          }}</mat-icon>
+          <mat-hint *ngIf="form.password === null || form.password === ''"
+            >Digite a sua senha</mat-hint
+          >
+        </mat-form-field>
+      </mat-grid-list>
+
+      <!-- Button Colunas -->
+      <mat-grid-list cols="1" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="!isLoggin"
+          (click)="onSubmit()"
+          [disabled]="!validateFields()"
         >
-        <mat-icon matSuffix>login</mat-icon>
-        <mat-hint *ngIf="form.username === null">Digite o seu usuário</mat-hint>
-     </mat-form-field>
+          Login
+        </button>
+      </mat-grid-list>
+    </form>
+  </mat-card-content>
 
-     <!-- Senha -->
-     <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Senha</mat-label>
-        <input
-          matInput
-          [(ngModel)]="form.password"
-          [type]="hide ? 'password' : 'text'"
-          name="password"
-          required
-        >
-        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        <mat-hint *ngIf="form.password === null">Digite a sua senha</mat-hint>
-     </mat-form-field>
+  <!-- Actions -->
+  <!-- <mat-card-actions align="end">
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="!isLoggin"
+      (click)="onSubmit()"
+      [disabled]="!validateFields()"
+    >
+      Login
+    </button>
+  </mat-card-actions> -->
 
-     <button class="full-width mat-elevation-z4" mat-raised-button color="primary">Login</button>
-  </form>
-
-</div>
+  <!-- Footer -->
+  <mat-card-footer>
+    <mat-spinner *ngIf="isLoggin"></mat-spinner>
+  </mat-card-footer>
+</mat-card>

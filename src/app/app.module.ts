@@ -32,9 +32,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ToastrModule } from 'ngx-toastr';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 import { NgxFileDropModule } from 'ngx-file-drop';
@@ -112,7 +113,7 @@ export const maskConfig: Partial<IConfig> = {
     DescriptionModalComponent,
     FileinfoListComponent,
     FileinfoFormComponent,
-    CardComponent
+    CardComponent,
   ],
   imports: [
     BrowserModule,
@@ -147,18 +148,22 @@ export const maskConfig: Partial<IConfig> = {
     MatButtonToggleModule,
     NgxFileDropModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     ToastrModule.forRoot({
-      timeOut: 4000,
+      timeOut: 3000,
       closeButton: true,
-      progressBar: true
+      progressBar: true,
+      progressAnimation: 'increasing',
+      tapToDismiss: true,
+      positionClass: 'toast-bottom-right',
     }),
     NgxMaskModule.forRoot(maskConfig),
   ],
   providers: [
     AuthInterceptorProvider,
     DatePipe,
-    {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'}
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
