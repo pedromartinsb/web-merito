@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Login } from 'src/app/models/login';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,11 @@ export class LoginComponent implements OnInit {
     token: '',
     roles: [],
   };
+
+  password: FormControl = new FormControl(null, [Validators.required]);
+
+  public hide: boolean = true;
+  get passwordInput() { return this.password; }
 
   constructor(
     private authService: AuthService,
