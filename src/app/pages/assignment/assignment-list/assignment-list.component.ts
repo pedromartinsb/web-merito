@@ -6,6 +6,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-assignment-list',
@@ -26,7 +27,8 @@ export class AssignmentListComponent implements OnInit {
   constructor(
     private assignmentService: AssignmentService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -60,8 +62,8 @@ export class AssignmentListComponent implements OnInit {
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteAssignment(assignmentId);
-
       dialogRef.close();
+      this.toast.success('Atribuição deletada com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {

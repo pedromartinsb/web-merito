@@ -1,19 +1,20 @@
-import { SegmentService } from '../../../services/segment.service';
-import { Segment } from '../../../models/segment';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
+import { Segment } from '../../../models/segment';
+import { SegmentService } from '../../../services/segment.service';
 
 @Component({
   selector: 'app-segment-list',
   templateUrl: './segment-list.component.html',
-  styleUrls: ['./segment-list.component.css']
+  styleUrls: ['./segment-list.component.css'],
 })
 export class SegmentListComponent implements OnInit {
-
   ELEMENT_DATA: Segment[] = [];
   FILTERED_DATA: Segment[] = [];
 
@@ -27,8 +28,9 @@ export class SegmentListComponent implements OnInit {
   constructor(
     private segmentService: SegmentService,
     private router: Router,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private toast: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -36,7 +38,7 @@ export class SegmentListComponent implements OnInit {
   }
 
   findAll(): void {
-    this.segmentService.findAll().subscribe(response => {
+    this.segmentService.findAll().subscribe((response) => {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Segment>(response);
       this.dataSource.paginator = this.paginator;
@@ -56,12 +58,13 @@ export class SegmentListComponent implements OnInit {
   openDeleteConfirmationModal(segmentId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar este segmento?';
+    dialogRef.componentInstance.message =
+      'Tem certeza que deseja deletar este segmento?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteSegment(segmentId);
-
       dialogRef.close();
+      this.toast.success('Segmento deletado com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {
@@ -74,5 +77,4 @@ export class SegmentListComponent implements OnInit {
       this.findAll();
     });
   }
-
 }

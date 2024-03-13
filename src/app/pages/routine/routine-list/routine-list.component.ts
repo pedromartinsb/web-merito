@@ -6,6 +6,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-routine-list',
@@ -27,7 +28,8 @@ export class RoutineListComponent implements OnInit {
     private routineService: RoutineService,
     private router: Router,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toast: ToastrService
   ) {
     this.dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
   }
@@ -67,8 +69,8 @@ export class RoutineListComponent implements OnInit {
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteRoutine(routineId);
-
       dialogRef.close();
+      this.toast.success('Rotina deletada com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {

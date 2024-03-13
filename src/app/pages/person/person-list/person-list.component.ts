@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-person-list',
@@ -39,7 +40,8 @@ export class PersonListComponent implements OnInit {
     private personService: PersonService,
     private router: Router,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -73,8 +75,8 @@ export class PersonListComponent implements OnInit {
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deletePerson(personId);
-
       dialogRef.close();
+      this.toast.success('Colaborador deletado com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {

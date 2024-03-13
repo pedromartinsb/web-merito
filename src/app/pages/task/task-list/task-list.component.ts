@@ -6,6 +6,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-task-list',
@@ -26,7 +27,8 @@ export class TaskListComponent implements OnInit {
   constructor(
     private taskService: TaskService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toast: ToastrService
   ) {
     this.dataSource = new MatTableDataSource<Task>(this.ELEMENT_DATA);
   }
@@ -66,8 +68,8 @@ export class TaskListComponent implements OnInit {
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteTask(taskId);
-
       dialogRef.close();
+      this.toast.success('Tarefa deletada com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {

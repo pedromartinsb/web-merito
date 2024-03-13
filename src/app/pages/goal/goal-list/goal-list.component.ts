@@ -6,14 +6,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-goal-list',
   templateUrl: './goal-list.component.html',
-  styleUrls: ['./goal-list.component.css']
+  styleUrls: ['./goal-list.component.css'],
 })
 export class GoalListComponent implements OnInit {
-
   ELEMENT_DATA: Goal[] = [];
   FILTERED_DATA: Goal[] = [];
 
@@ -27,8 +27,9 @@ export class GoalListComponent implements OnInit {
   constructor(
     private goalService: GoalService,
     private router: Router,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private toast: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -36,7 +37,7 @@ export class GoalListComponent implements OnInit {
   }
 
   findAll(): void {
-    this.goalService.findAll().subscribe(response => {
+    this.goalService.findAll().subscribe((response) => {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Goal>(response);
       this.dataSource.paginator = this.paginator;
@@ -56,12 +57,13 @@ export class GoalListComponent implements OnInit {
   openDeleteConfirmationModal(goalId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar esta meta?';
+    dialogRef.componentInstance.message =
+      'Tem certeza que deseja deletar esta meta?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteGoal(goalId);
-
       dialogRef.close();
+      this.toast.success('Meta deletada com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {
@@ -74,5 +76,4 @@ export class GoalListComponent implements OnInit {
       this.findAll();
     });
   }
-
 }

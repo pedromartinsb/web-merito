@@ -6,14 +6,14 @@ import { DepartmentService } from '../../../services/department.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-department-list',
   templateUrl: './department-list.component.html',
-  styleUrls: ['./department-list.component.css']
+  styleUrls: ['./department-list.component.css'],
 })
 export class DepartmentListComponent implements OnInit {
-
   ELEMENT_DATA: Department[] = [];
   FILTERED_DATA: Department[] = [];
 
@@ -28,8 +28,9 @@ export class DepartmentListComponent implements OnInit {
     private departmentService: DepartmentService,
     private route: ActivatedRoute,
     private router: Router,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private toast: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -37,7 +38,7 @@ export class DepartmentListComponent implements OnInit {
   }
 
   findAll(): void {
-    this.departmentService.findAll().subscribe(response => {
+    this.departmentService.findAll().subscribe((response) => {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Department>(response);
       this.dataSource.paginator = this.paginator;
@@ -58,12 +59,13 @@ export class DepartmentListComponent implements OnInit {
   openDeleteConfirmationModal(companyId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar esta empresa?';
+    dialogRef.componentInstance.message =
+      'Tem certeza que deseja deletar esta empresa?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteCompany(companyId);
-
       dialogRef.close();
+      this.toast.success('Departamento deletado com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {
@@ -76,5 +78,4 @@ export class DepartmentListComponent implements OnInit {
       this.findAll();
     });
   }
-
 }
