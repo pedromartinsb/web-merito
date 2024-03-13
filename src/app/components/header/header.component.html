@@ -1,3 +1,16 @@
-<div class="container">
-   <h1 class="mat-elevation-z8">Projeção Profissional</h1>
-</div>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <!-- Botão Menu-->
+    <button mat-icon-button aria-label="Menu icon" (click)="toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1>Projeção Profissional</h1>
+    <span class="spacer"></span>
+
+    <!-- Logout -->
+    <span>Logout</span>
+    <button mat-icon-button aria-label="Logout icon" (click)="logout()">
+      <mat-icon class="logout-icon" aria-hidden="false">logout</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -1,12 +1,17 @@
-.container {
-   display: flex;
-   align-items: center;
-   justify-content: center;
+.logout-icon {
+  padding: 0 14px;
 }
 
-h1 {
-   margin-top: 1rem;
-   border: 1px solid rgb(161, 159, 159);
-   padding: 1rem 10%;
-   border-radius: 2rem;
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar {
+  margin-bottom: 100px;
+  color: white;
+  background: cadetblue;
+}
+
+mat-toolbar-row {
+  padding: 20px 100px 20px 50px;
 }

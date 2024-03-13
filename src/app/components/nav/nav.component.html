@@ -1,8 +1,11 @@
 <mat-sidenav-container class="container" autosize>
+  <!-- Sidenav -->
   <mat-sidenav #sidenav class="sidenav" mode="side">
     <img src="assets/img/side-image.svg" alt="Imagem de navegação" />
 
+    <!-- Lista de Itens -->
     <mat-nav-list class="nav-list">
+      <!-- Home -->
       <mat-list-item>
         <a mat-list-item routerLink="home">
           <i class="material-icons">home</i>
@@ -10,6 +13,7 @@
         </a>
       </mat-list-item>
 
+      <!-- Projeção Profissional -->
       <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
         <a mat-list-item routerLink="appointment">
           <i class="material-icons">check_circle</i>
@@ -17,6 +21,7 @@
         </a>
       </mat-list-item>
 
+      <!-- Cadastros -->
       <mat-expansion-panel
         class="nav-list"
         *ngIf="canAdminAccess || canModeratorAccess"
@@ -25,7 +30,10 @@
           <i class="material-icons">edit_note</i>
           Cadastros
         </mat-expansion-panel-header>
+
+        <!-- Cadastros Itens-->
         <mat-nav-list class="nav-list">
+          <!-- Segment -->
           <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
             <a mat-list-item routerLink="segment">
               <i class="material-icons">account_tree</i>
@@ -33,6 +41,7 @@
             </a>
           </mat-list-item>
 
+          <!-- Holding -->
           <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
             <a mat-list-item routerLink="holding">
               <i class="material-icons">group_work</i>
@@ -40,6 +49,7 @@
             </a>
           </mat-list-item>
 
+          <!-- Company -->
           <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
             <a mat-list-item routerLink="company">
               <i class="material-icons">apartment</i>
@@ -47,6 +57,7 @@
             </a>
           </mat-list-item>
 
+          <!-- Department -->
           <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
             <a mat-list-item routerLink="department">
               <i class="material-icons">meeting_room</i>
@@ -54,6 +65,7 @@
             </a>
           </mat-list-item>
 
+          <!-- Responsibility -->
           <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
             <a mat-list-item routerLink="responsibility">
               <i class="material-icons">badge</i>
@@ -61,6 +73,7 @@
             </a>
           </mat-list-item>
 
+          <!-- Person -->
           <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
             <a mat-list-item routerLink="person">
               <i class="material-icons">person_add</i>
@@ -68,6 +81,7 @@
             </a>
           </mat-list-item>
 
+          <!-- Assignment -->
           <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
             <a mat-list-item routerLink="assignment">
               <i class="material-icons">support_agent</i>
@@ -75,6 +89,7 @@
             </a>
           </mat-list-item>
 
+          <!-- Task -->
           <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
             <a mat-list-item routerLink="task">
               <i class="material-icons">add_task</i>
@@ -82,6 +97,7 @@
             </a>
           </mat-list-item>
 
+          <!-- Routine -->
           <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
             <a mat-list-item routerLink="routine">
               <i class="material-icons">event_available</i>
@@ -89,6 +105,7 @@
             </a>
           </mat-list-item>
 
+          <!-- Goal -->
           <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
             <a mat-list-item routerLink="goal">
               <i class="material-icons">checklist</i>
@@ -98,6 +115,7 @@
         </mat-nav-list>
       </mat-expansion-panel>
 
+      <!-- Relatórios -->
       <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
         <a mat-list-item routerLink="company" [disabled]="true">
           <i class="material-icons">pie_chart</i>
@@ -105,6 +123,7 @@
         </a>
       </mat-list-item>
 
+      <!-- Documentos -->
       <mat-list-item
         *ngIf="canAdminAccess || canModeratorAccess || canUserAccess"
       >
@@ -114,6 +133,7 @@
         </a>
       </mat-list-item>
 
+      <!-- Adicionar Documentos -->
       <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
         <a mat-list-item routerLink="fileinfo/upload">
           <i class="material-icons">create_new_folder</i>
@@ -121,6 +141,7 @@
         </a>
       </mat-list-item>
 
+      <!-- Logout -->
       <mat-list-item>
         <a mat-list-item (click)="logout()">
           <i class="material-icons">logout</i>
@@ -130,15 +151,22 @@
     </mat-nav-list>
   </mat-sidenav>
 
+  <!-- Conteúdo -->
   <div class="sidenav-content">
-    <app-header></app-header>
-    <button
+    <!-- Header -->
+    <app-header
+      (sidenav)="sidenav.toggle()"
+      (inputLogout)="logout()"
+    ></app-header>
+    <!-- <button
       class="menu mat-elevation-z8"
       (click)="sidenav.toggle()"
       mat-icon-button
     >
       <mat-icon>menu</mat-icon>
-    </button>
+    </button> -->
+
+    <!-- Rotas -->
     <router-outlet></router-outlet>
   </div>
 </mat-sidenav-container>

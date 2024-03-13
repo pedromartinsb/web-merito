@@ -1,8 +1,9 @@
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from './../../services/auth.service';
 import { StorageService } from './../../services/storage.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-nav',
@@ -10,6 +11,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
+  @Input() inputSideNav: MatSidenav;
+  @Input() inputLogout: InputEvent;
+
   userRole: string[] = [];
   canAdminAccess: boolean = false;
   canModeratorAccess: boolean = false;
