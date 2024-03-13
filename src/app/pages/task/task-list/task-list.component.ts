@@ -10,10 +10,9 @@ import { DeleteConfirmationModalComponent } from '../../../components/delete/del
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.css']
+  styleUrls: ['./task-list.component.css'],
 })
 export class TaskListComponent implements OnInit {
-
   ELEMENT_DATA: Task[] = [];
   FILTERED_DATA: Task[] = [];
 
@@ -22,25 +21,29 @@ export class TaskListComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
+  public isLoading: boolean = false;
+
   constructor(
     private taskService: TaskService,
     private router: Router,
     private dialog: MatDialog
   ) {
     this.dataSource = new MatTableDataSource<Task>(this.ELEMENT_DATA);
-   }
+  }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.findAll();
   }
 
   findAll(): void {
-    this.taskService.findAll().subscribe(response => {
+    this.taskService.findAll().subscribe((response) => {
       if (response) {
         this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Task>(response);
         this.dataSource.paginator = this.paginator;
       }
+      this.isLoading = false;
     });
   }
 
@@ -58,7 +61,8 @@ export class TaskListComponent implements OnInit {
   openDeleteConfirmationModal(taskId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar esta atividade?';
+    dialogRef.componentInstance.message =
+      'Tem certeza que deseja deletar esta atividade?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteTask(taskId);
@@ -76,5 +80,4 @@ export class TaskListComponent implements OnInit {
       this.findAll();
     });
   }
-
 }
