@@ -11,6 +11,8 @@ export interface Person {
   personType: number | string;
   name: string;
   cpfCnpj: string;
+  gender: string;
+  contractType: string;
 
   department: Department;
   departmentId: string;
@@ -69,7 +71,7 @@ export interface AddressSearch {
 export enum Roles {
   ROLE_USER = 'ROLE_USER',
   ROLE_ADMIN = 'ROLE_ADMIN',
-  ROLE_MODERADOR = 'ROLE_MODERADOR',
+  ROLE_MODERATOR = 'ROLE_MODERATOR',
 }
 
 export enum Gender {

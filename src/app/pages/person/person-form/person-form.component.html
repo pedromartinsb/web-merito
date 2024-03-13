@@ -1,4 +1,5 @@
 <mat-card>
+  <!-- Header -->
   <mat-card-header>
     <mat-card-title
       >{{
@@ -10,6 +11,7 @@
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
   </mat-card-header>
 
+  <!-- Content -->
   <mat-card-content>
     <form class="form">
       <!-- Divider -->
@@ -18,9 +20,9 @@
       <!-- General -->
       <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
       <!-- Colunas -->
-      <mat-grid-list cols="3" rowHeight="100px">
+      <mat-grid-list cols="5" rowHeight="100px">
         <!-- Coluna 1 -->
-        <mat-grid-tile colspan="1">
+        <mat-grid-tile colspan="2">
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Nome</mat-label>
             <input
@@ -31,6 +33,7 @@
               matInput
               maxlength="100" >
             <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+            <mat-hint *ngIf="!name.value">Digite o nome</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
 
@@ -45,14 +48,23 @@
             required
             matInput
             [mask]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'">
+            <mat-hint *ngIf="!cpf.value">Digite o CPF ou CNPJ</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
 
         <!-- Coluna 3 -->
         <mat-grid-tile colspan="1">
-          <mat-radio-group name="cpfOrCnpj" [(ngModel)]="radioOptions" name="radioButtons" (change)="onRadioButtonChange($event)">
-            <mat-radio-button (click)="selectIsCpf(true)" value="CLT">CLT</mat-radio-button>
-            <mat-radio-button (click)="selectIsCpf(false)" value="Professional">Profissional</mat-radio-button>
+          <mat-radio-group [(ngModel)]="radioContractTypeOptions" name="radioButtons">
+            <mat-radio-button (click)="selectContractType('CLT')" value="CLT">CLT</mat-radio-button>
+            <mat-radio-button (click)="selectContractType('Professional')" value="Professional">Profissional</mat-radio-button>
+          </mat-radio-group>
+        </mat-grid-tile>
+
+        <!-- Coluna 4 -->
+        <mat-grid-tile colspan="1">
+          <mat-radio-group [(ngModel)]="radioGenderOptions" name="radioGenderButtons">
+            <mat-radio-button (click)="selectGender('Male')" value="Male">Masculino</mat-radio-button>
+            <mat-radio-button (click)="selectGender('Female')" value="Female">Feminino</mat-radio-button>
           </mat-radio-group>
         </mat-grid-tile>
       </mat-grid-list>
@@ -70,6 +82,7 @@
             matInput
             placeholder="Ex.. fulano44">
             <mat-icon matSuffix>person</mat-icon>
+            <mat-hint *ngIf="!username.value">Digite o nome de usuário</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
 
@@ -85,6 +98,7 @@
             matInput
             placeholder="Ex.. fulano@mail.com">
             <mat-icon matSuffix>email</mat-icon>
+            <mat-hint *ngIf="!email.value">Digite o e-mail</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
 
@@ -219,7 +233,6 @@
             [(ngModel)]="person.address.cep"
             name="cep"
             [formControl]="cep"
-            required
             type="text"
             matInput
             mask="00000-000">
@@ -235,7 +248,6 @@
             [(ngModel)]="person.address.uf"
             name="uf"
             [formControl]="uf"
-            required
             type="uf"
             matInput>
             <mat-icon matSuffix>satellite</mat-icon>
@@ -250,7 +262,6 @@
             [(ngModel)]="person.address.city"
             name="city"
             [formControl]="city"
-            required
             type="city"
             matInput>
             <mat-icon matSuffix>location_city</mat-icon>
@@ -267,7 +278,6 @@
             [(ngModel)]="person.address.streetName"
             name="streetName"
             [formControl]="streetName"
-            required
             type="streetName"
             matInput>
             <mat-icon matSuffix>add_road</mat-icon>
@@ -282,7 +292,6 @@
             [(ngModel)]="person.address.neighborhood"
             name="neighborhood"
             [formControl]="neighborhood"
-            required
             type="neighborhood"
             matInput>
             <mat-icon matSuffix>signpost</mat-icon>
@@ -306,6 +315,7 @@
     </form>
   </mat-card-content>
 
+  <!-- Actions -->
   <mat-card-actions align="end">
     <button
       (click)="openPersonForm()"
@@ -341,404 +351,8 @@
     </button>
   </mat-card-actions>
 
+  <!-- Footer -->
   <mat-card-footer>
     <mat-progress-bar mode="indeterminate" *ngIf="isSaving"></mat-progress-bar>
   </mat-card-footer>
 </mat-card>
-
-
-<!--
-
-
-
-<div class="container mat-elevation-z8">
-
-  <form class="form">
-
-    <h1 *ngIf="!isCompanyLinkedCreation" class="fullWidth">{{ personId ? 'Editar Colaborador: ' + person.name : 'Cadastrar Colaborador' }}</h1>
-    <h1 *ngIf="isCompanyLinkedCreation" class="fullWidth">{{ personId ? 'Editar Colaborador: ' + person.name : 'Cadastrar Colaborador na Unidade ' + company?.value?.name }}</h1>
-    <img class="fullWidth" src="assets/img/tecnico-create.svg" alt="Cadastrar Colaborador">
-
-    <section class="section">
-      <mat-checkbox (click)="addPersonType(1)" [disabled]="true" class="margin" [checked]="true" color="primary">Colaborador</mat-checkbox>
-    </section>
-
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>Nome</mat-label>
-      <input
-        [(ngModel)]="person.name"
-        name="name"
-        [formControl]="name"
-        required
-        matInput
-        placeholder="Ex. Maria da Silva"
-        maxlength="100" >
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth cpf-field" appearance="legacy">
-      <mat-label>{{isCpf ? 'CPF' : 'CNPJ'}}</mat-label>
-      <input
-      [(ngModel)]="person.cpfCnpj"
-      name="cpf"
-      [formControl]="cpf"
-      required
-      matInput
-      [placeholder]="isCpf ? 'Ex..000.000.000-00' : 'Ex..00.000.000/0000-00'"
-      [mask]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'">
-      <mat-button-toggle-group name="cpfOrCnpj" aria-label="CPF">
-        <mat-button-toggle (click)="selectIsCpf(true)">CPF</mat-button-toggle>
-        <mat-button-toggle (click)="selectIsCpf(false)">CNPJ</mat-button-toggle>
-      </mat-button-toggle-group>
-    </mat-form-field>
-
-
-    <mat-form-field class="fullWidth" appearance="outline" *ngIf="!isCompanyLinkedCreation">
-      <mat-label>Selecione a Unidade</mat-label>
-      <mat-select
-        [(ngModel)]="person.companyId"
-        (ngModelChange)="selectCompany()"
-        name="company"
-        [formControl]="company">
-        <mat-option *ngFor="let company of companies" [value]="company.id">{{ company.fantasyName }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>{{departments.length > 0 ? 'Selecione o Departamento' : 'Não há Departamentos para a unidade selecionada'}}</mat-label>
-      <mat-select
-        [(ngModel)]="person.departmentId"
-        name="department"
-        [formControl]="department"
-        [disabled]="!companyId">
-        <mat-option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Selecione o Cargo</mat-label>
-      <mat-select
-        [(ngModel)]="person.responsibilityId"
-        name="responsibility"
-        [formControl]="responsibility">
-        <mat-option *ngFor="let responsibility of responsibilities" [value]="responsibility.id">{{ responsibility.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>Nome de Usuário</mat-label>
-      <input
-      [(ngModel)]="person.user.username"
-      name="username"
-      [formControl]="username"
-      required
-      matInput
-      placeholder="Ex.. fulano44">
-      <mat-icon matSuffix>person</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>E-mail</mat-label>
-      <input
-      [(ngModel)]="person.user.email"
-      name="email"
-      [formControl]="email"
-      required
-      matInput
-      placeholder="Ex.. fulano@mail.com">
-      <mat-icon matSuffix>email</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>Senha</mat-label>
-      <input
-      [(ngModel)]="person.user.password"
-      name="password"
-      [formControl]="password"
-      required
-      type="password"
-      matInput
-      placeholder="Ex.. 1234">
-      <mat-icon matSuffix>password</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="outline">
-      <mat-label>Selecione as permissões</mat-label>
-      <mat-select
-        [(ngModel)]="person.user.roles"
-        [compareWith]="compareRoles"
-        name="role"
-        [formControl]="role"
-        required
-        multiple>
-        <mat-option *ngFor="let role of roleLabels" [value]="role.value">{{ role.label }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>CEP</mat-label>
-      <input
-      [(ngModel)]="person.address.cep"
-      name="cep"
-      [formControl]="cep"
-      required
-      type="text"
-      matInput
-      placeholder="Ex.. 12444-666"
-      mask="00000-000">
-      <mat-icon matSuffix>location_on</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>Bairro</mat-label>
-      <input
-      [(ngModel)]="person.address.neighborhood"
-      name="neighborhood"
-      [formControl]="neighborhood"
-      required
-      type="neighborhood"
-      matInput
-      placeholder="Ex.. vila das neves">
-      <mat-icon matSuffix>signpost</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>Rua</mat-label>
-      <input
-      [(ngModel)]="person.address.streetName"
-      name="streetName"
-      [formControl]="streetName"
-      required
-      type="streetName"
-      matInput
-      placeholder="Ex.. rua das neves">
-      <mat-icon matSuffix>add_road</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>Cidade</mat-label>
-      <input
-      [(ngModel)]="person.address.city"
-      name="city"
-      [formControl]="city"
-      required
-      type="city"
-      matInput
-      placeholder="Ex.. Pontalina">
-      <mat-icon matSuffix>location_city</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>Estado</mat-label>
-      <input
-      [(ngModel)]="person.address.uf"
-      name="uf"
-      [formControl]="uf"
-      required
-      type="uf"
-      matInput
-      placeholder="Ex.. Pontalina">
-      <mat-icon matSuffix>satellite</mat-icon>
-    </mat-form-field>
-
-    <mat-form-field class="fullWidth" appearance="legacy">
-      <mat-label>Complemento</mat-label>
-      <input
-      [(ngModel)]="person.address.complement"
-      name="complement"
-      [formControl]="complement"
-      required
-      type="complement"
-      matInput
-      placeholder="Ex.. Pontalina">
-      <mat-icon matSuffix>edit_location_alt</mat-icon>
-    </mat-form-field>
-
-    <div class="container mat-elevation-z8" *ngIf="personId">
-      <div class="table-header">
-        <span>Rotinas</span>
-
-        <div class="table-actions">
-          <mat-form-field id="addRoutineDropdown" appearance="outline">
-            <mat-label>{{routines.length > 0 ? 'Adicionar Rotinas' : 'Nenhuma Rotina Disponível'}}</mat-label>
-            <mat-select
-              [(ngModel)]="person.routines"
-              name="routine"
-              multiple>
-              <mat-option *ngFor="let routine of routines" [value]="routine">{{ routine.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button (click)="addRoutinesToPerson()" class="mat-elevation-z4" id="linkRoutineToPerson" mat-flat-button color="primary">
-            <i class="material-icons">add</i>
-          </button>
-        </div>
-      </div>
-
-      <table mat-table [dataSource]="routineDataSource" matSort matSortActive="name" matSortDisableClear matSortDirection="desc" *ngIf="routineDataSource.data.length; else noData">
-
-        <ng-container matColumnDef="routineName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nome</th>
-          <td mat-cell *matCellDef="let element">{{element.name}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="routineActions">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let element">
-            <div class="mat-cell-wrapper">
-              <a routerLink="../routine/edit/{{ element.id }}">
-                <i class="material-icons edit">edit</i>
-              </a>
-            </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="routineDisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: routineDisplayedColumns;"></tr>
-      </table>
-
-      <ng-template #noData>
-        <div>
-          <span>Ainda não há rotinas vinculadas a este colaborador</span>
-        </div>
-      </ng-template>
-
-      <mat-paginator #routinePaginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons *ngIf="personRoutines.length"></mat-paginator>
-    </div>
-
-    <div class="container mat-elevation-z8" *ngIf="personId">
-      <div class="table-header">
-        <span>Tarefas</span>
-
-        <div class="table-actions">
-          <mat-form-field id="addTaskDropdown" appearance="outline">
-            <mat-label>{{tasks.length > 0 ? 'Adicionar Tarefas' : 'Nenhuma Tarefa Disponível'}}</mat-label>
-            <mat-select
-              [(ngModel)]="person.tasks"
-              name="task"
-              multiple>
-              <mat-option *ngFor="let task of tasks" [value]="task">{{ task.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button (click)="addTasksToPerson()" class="mat-elevation-z4" id="linkTaskToPerson" mat-flat-button color="primary">
-            <i class="material-icons">add</i>
-          </button>
-        </div>
-      </div>
-
-      <table mat-table [dataSource]="taskDataSource" matSort matSortActive="name" matSortDisableClear matSortDirection="desc" *ngIf="taskDataSource.data.length; else noData">
-
-        <ng-container matColumnDef="taskName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nome</th>
-          <td mat-cell *matCellDef="let element">{{element.name}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="taskStartDate">
-          <th mat-header-cell *matHeaderCellDef> Data de Início </th>
-          <td mat-cell *matCellDef="let element">
-             {{element.startedAt | date:'dd/MM/yyyy'}}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="taskEndDate">
-          <th mat-header-cell *matHeaderCellDef> Data de Fim </th>
-          <td mat-cell *matCellDef="let element">
-             {{element.finishedAt | date:'dd/MM/yyyy'}}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="taskActions">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let element">
-            <div class="mat-cell-wrapper">
-              <a routerLink="../task/edit/{{ element.id }}">
-                <i class="material-icons edit">edit</i>
-              </a>
-            </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="taskDisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: taskDisplayedColumns;"></tr>
-      </table>
-
-      <ng-template #noData>
-        <div>
-          <span>Ainda não há tarefas vinculadas a este colaborador</span>
-        </div>
-      </ng-template>
-
-      <mat-paginator #taskPaginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons *ngIf="personTasks.length"></mat-paginator>
-    </div>
-
-    <div class="container mat-elevation-z8" *ngIf="personId">
-      <div class="table-header">
-        <span>Atribuições</span>
-
-        <div class="table-actions">
-          <mat-form-field id="addAssignmentDropdown" appearance="outline">
-            <mat-label>{{assignments.length > 0 ? 'Adicionar Atribuições' : 'Nenhuma Atribuição Disponível'}}</mat-label>
-            <mat-select
-              [(ngModel)]="person.assignments"
-              name="assignment"
-              multiple>
-              <mat-option *ngFor="let assignment of assignments" [value]="assignment">{{ assignment.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button (click)="addAssignmentsToPerson()" class="mat-elevation-z4" id="linkAssignmentToPerson" mat-flat-button color="primary">
-            <i class="material-icons">add</i>
-          </button>
-        </div>
-      </div>
-
-      <table mat-table [dataSource]="assignmentDataSource" matSort matSortActive="name" matSortDisableClear matSortDirection="desc" *ngIf="assignmentDataSource.data.length; else noData">
-
-        <ng-container matColumnDef="assignmentName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nome</th>
-          <td mat-cell *matCellDef="let element">{{element.name}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="assignmentStartDate">
-          <th mat-header-cell *matHeaderCellDef> Data de Início </th>
-          <td mat-cell *matCellDef="let element">
-             {{element.startedAt | date:'dd/MM/yyyy'}}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="assignmentEndDate">
-          <th mat-header-cell *matHeaderCellDef> Data de Fim </th>
-          <td mat-cell *matCellDef="let element">
-             {{element.finishedAt | date:'dd/MM/yyyy'}}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="assignmentActions">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let element">
-            <div class="mat-cell-wrapper">
-              <a routerLink="../assignment/edit/{{ element.id }}">
-                <i class="material-icons edit">edit</i>
-              </a>
-            </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="assignmentDisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: assignmentDisplayedColumns;"></tr>
-      </table>
-
-      <ng-template #noData>
-        <div>
-          <span>Ainda não há atribuições vinculadas a este colaborador</span>
-        </div>
-      </ng-template>
-
-      <mat-paginator #assignmentPaginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons *ngIf="personAssignments.length"></mat-paginator>
-    </div>
-
-    <button (click)="openPersonForm()" [disabled]="!validateFields()" class="fullWidth mat-elevation-z4" mat-flat-button color="primary">
-      {{ personId ? 'Salvar' : 'Cadastrar' }}
-    </button>
-    <button routerLink="/person" class="fullWidth mat-elevation-z4" mat-stroked-button color="warn">Cancelar</button>
-  </form>
-
-</div> -->

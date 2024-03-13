@@ -70,6 +70,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     name: '',
     cpfCnpj: '',
     personType: 'EMPLOYEE',
+    gender: '',
+    contractType: '',
 
     department: null,
     departmentId: '',
@@ -94,7 +96,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   roleLabels = [
     { label: 'Usuário', value: { name: 'ROLE_USER' } },
     { label: 'Admin', value: { name: 'ROLE_ADMIN' } },
-    { label: 'Moderador', value: { name: 'ROLE_MODERADOR' } },
+    { label: 'Moderador', value: { name: 'ROLE_MODERATOR' } },
   ];
 
   personId: string;
@@ -163,6 +165,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   personAssignments: Assignment[] = [];
 
   isCpf: boolean = true;
+  contractType: string = "";
 
   assignmentDisplayedColumns: string[] = [
     'assignmentName',
@@ -174,7 +177,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private cepValueChangesSubscription: Subscription;
 
-  public radioOptions: string = "CLT";
+  public radioContractTypeOptions: string = "CLT";
+  public radioGenderOptions: string = "Male";
   public hide: boolean = true;
   get passwordInput() { return this.password; }
 
@@ -561,11 +565,16 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.person.address = newAddress;
   }
 
-  selectIsCpf(isCpf: boolean): void {
-    this.isCpf = isCpf;
+  selectContractType(contractType: string): void {
+    this.person.contractType = contractType;
+    if (contractType === 'CLT') {
+      this.isCpf = true;
+    } else if (contractType === 'Professional') {
+      this.isCpf = false;
+    }
   }
 
-  onRadioButtonChange(event) {
-    console.log("event.value=" + event.value);
+  selectGender(gender: string): void {
+    this.person.gender = gender;
   }
 }
