@@ -10,10 +10,9 @@ import { Person } from 'src/app/models/person';
 @Component({
   selector: 'app-assignment-form',
   templateUrl: './assignment-form.component.html',
-  styleUrls: ['./assignment-form.component.css']
+  styleUrls: ['./assignment-form.component.css'],
 })
 export class AssignmentFormComponent implements OnInit {
-
   persons: Person[] = [];
 
   assignment: Assignment = {
@@ -22,7 +21,7 @@ export class AssignmentFormComponent implements OnInit {
     persons: null,
     appointment: null,
     startedAt: new Date(),
-    finishedAt: new Date(),    
+    finishedAt: new Date(),
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
@@ -36,10 +35,12 @@ export class AssignmentFormComponent implements OnInit {
 
   isPersonLinkedCreation: boolean = false;
 
-  name:       FormControl = new FormControl(null, Validators.minLength(3));
-  person:     FormControl = new FormControl(null, []);
-  start:       FormControl = new FormControl(null, Validators.minLength(3));
-  end:     FormControl = new FormControl(null, Validators.minLength(3));
+  name: FormControl = new FormControl(null, Validators.minLength(3));
+  person: FormControl = new FormControl(null, []);
+  start: FormControl = new FormControl(null, Validators.minLength(3));
+  end: FormControl = new FormControl(null, Validators.minLength(3));
+
+  public isSaving: boolean = false;
 
   constructor(
     private assignmentService: AssignmentService,
@@ -47,7 +48,7 @@ export class AssignmentFormComponent implements OnInit {
     private toast: ToastrService,
     private route: ActivatedRoute,
     private personService: PersonService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.assignmentId = this.route.snapshot.params['id'];
@@ -65,21 +66,25 @@ export class AssignmentFormComponent implements OnInit {
   }
 
   findAllPersons(): void {
-    this.personService.findAll().subscribe(response => {
+    this.personService.findAll().subscribe((response) => {
       this.persons = response;
-      if (this.assignmentId && this.persons.length > 0 && this.assignment.persons) {
-        const tempPersonsList: Person[] = this.persons.filter(person =>
-          this.assignment.persons.some(p => p.id === person.id)
+      if (
+        this.assignmentId &&
+        this.persons.length > 0 &&
+        this.assignment.persons
+      ) {
+        const tempPersonsList: Person[] = this.persons.filter((person) =>
+          this.assignment.persons.some((p) => p.id === person.id)
         );
-  
+
         this.person.patchValue(tempPersonsList);
       }
     });
   }
 
   loadAssignment(): void {
-    this.assignmentService.findById(this.assignmentId).subscribe(response => {
-      this.assignment = response;      
+    this.assignmentService.findById(this.assignmentId).subscribe((response) => {
+      this.assignment = response;
     });
   }
 
@@ -97,55 +102,78 @@ export class AssignmentFormComponent implements OnInit {
       this.createAssignment();
     }
   }
-  
+
   private createAssignment(): void {
-    this.assignmentService.create({ ...this.assignment, startedAt: this.startDate, finishedAt: this.endDate }).subscribe({
-      next: () => {
-        this.addPersonsToAssignment();
-        this.toast.success('Atribuição cadastrada com sucesso', 'Cadastro');
-        this.router.navigate(['assignment']);
-      },
-      error: (ex) => {
-        this.handleErrors(ex);
-      },
-    });
-  }
-  
-  private updateAssignment(): void {
-    this.assignmentService.update(this.assignmentId, { ...this.assignment, startedAt: this.startDate, finishedAt: this.endDate }).subscribe({
-      next: () => {
-        if (this.person.value.length > 0) this.addPersonsToAssignment();
-        this.toast.success('Atribuição atualizada com sucesso', 'Atualização');
-        this.router.navigate(['assignment']);
-      },
-      error: (ex) => {
-        this.handleErrors(ex);
-      },
-    });
-  }
-
-  private addPersonToAssignment(): void {    
-    this.assignmentService.addPersonToAssignment(this.personId, this.assignmentId).subscribe({
-      error: (ex) => {
-        this.handleErrors(ex);
-      },
-    });
-  }
-
-  private addPersonsToAssignment(): void {
-    if (this.assignmentId) {
-      let assignmentNewPersonsIds = this.person.value.map(p => p.id);
-      this.assignmentService.addPersonsToAssignment(assignmentNewPersonsIds, this.assignmentId).subscribe({
+    this.isSaving = true;
+    this.assignmentService
+      .create({
+        ...this.assignment,
+        startedAt: this.startDate,
+        finishedAt: this.endDate,
+      })
+      .subscribe({
+        next: () => {
+          this.addPersonsToAssignment();
+          this.toast.success('Atribuição cadastrada com sucesso', 'Cadastro');
+          this.router.navigate(['assignment']);
+          this.isSaving = false;
+        },
         error: (ex) => {
           this.handleErrors(ex);
         },
       });
-    }    
   }
-  
+
+  private updateAssignment(): void {
+    this.isSaving = true;
+    this.assignmentService
+      .update(this.assignmentId, {
+        ...this.assignment,
+        startedAt: this.startDate,
+        finishedAt: this.endDate,
+      })
+      .subscribe({
+        next: () => {
+          if (this.person.value.length > 0) this.addPersonsToAssignment();
+          this.toast.success(
+            'Atribuição atualizada com sucesso',
+            'Atualização'
+          );
+          this.router.navigate(['assignment']);
+          this.isSaving = false;
+        },
+        error: (ex) => {
+          this.handleErrors(ex);
+        },
+      });
+  }
+
+  private addPersonToAssignment(): void {
+    this.assignmentService
+      .addPersonToAssignment(this.personId, this.assignmentId)
+      .subscribe({
+        error: (ex) => {
+          this.handleErrors(ex);
+        },
+      });
+  }
+
+  private addPersonsToAssignment(): void {
+    if (this.assignmentId) {
+      let assignmentNewPersonsIds = this.person.value.map((p) => p.id);
+      this.assignmentService
+        .addPersonsToAssignment(assignmentNewPersonsIds, this.assignmentId)
+        .subscribe({
+          error: (ex) => {
+            this.handleErrors(ex);
+          },
+        });
+    }
+  }
+
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach(element => {
+      ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
       });
     } else {
@@ -157,7 +185,7 @@ export class AssignmentFormComponent implements OnInit {
     return this.name.valid && this.start.valid && this.end.valid;
   }
 
-  selectPerson() {   
+  selectPerson() {
     if (this.person.value) {
       let person: Person = this.person.value;
       this.personId = person.id;
@@ -168,5 +196,4 @@ export class AssignmentFormComponent implements OnInit {
     this.assignment.startedAt.setHours(0, 0, 0, 0);
     this.assignment.finishedAt.setHours(0, 0, 0, 0);
   }
-
 }
