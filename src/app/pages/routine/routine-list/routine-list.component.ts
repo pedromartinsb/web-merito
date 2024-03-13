@@ -10,10 +10,9 @@ import { DeleteConfirmationModalComponent } from '../../../components/delete/del
 @Component({
   selector: 'app-routine-list',
   templateUrl: './routine-list.component.html',
-  styleUrls: ['./routine-list.component.css']
+  styleUrls: ['./routine-list.component.css'],
 })
 export class RoutineListComponent implements OnInit {
-
   ELEMENT_DATA: Routine[] = [];
   FILTERED_DATA: Routine[] = [];
 
@@ -22,26 +21,30 @@ export class RoutineListComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
+  public isLoading: boolean = false;
+
   constructor(
     private routineService: RoutineService,
     private router: Router,
     private dialog: MatDialog,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
     this.dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
-   }
+  }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.findAll();
   }
 
   findAll(): void {
-    this.routineService.findAll().subscribe(response => {
+    this.routineService.findAll().subscribe((response) => {
       if (response) {
         this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Routine>(response);
         this.dataSource.paginator = this.paginator;
       }
+      this.isLoading = false;
     });
   }
 
@@ -59,7 +62,8 @@ export class RoutineListComponent implements OnInit {
   openDeleteConfirmationModal(routineId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
-    dialogRef.componentInstance.message = 'Tem certeza que deseja deletar esta rotina?';
+    dialogRef.componentInstance.message =
+      'Tem certeza que deseja deletar esta rotina?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteRoutine(routineId);
@@ -77,5 +81,4 @@ export class RoutineListComponent implements OnInit {
       this.findAll();
     });
   }
-
 }
