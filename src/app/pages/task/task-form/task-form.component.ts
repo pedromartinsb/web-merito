@@ -4,7 +4,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Task } from 'src/app/models/task';
-import { Routine } from 'src/app/models/routine';
 import { Person } from 'src/app/models/person';
 import { RoutineService } from 'src/app/services/routine.service';
 import { PersonService } from 'src/app/services/person.service';
@@ -12,16 +11,15 @@ import { PersonService } from 'src/app/services/person.service';
 @Component({
   selector: 'app-task-form',
   templateUrl: './task-form.component.html',
-  styleUrls: ['./task-form.component.css']
+  styleUrls: ['./task-form.component.css'],
 })
 export class TaskFormComponent implements OnInit {
-
   persons: Person[] = [];
 
   task: Task = {
     name: '',
     personId: '',
-    persons: null, 
+    persons: null,
     appointment: null,
     startedAt: new Date(),
     finishedAt: new Date(),
@@ -34,14 +32,16 @@ export class TaskFormComponent implements OnInit {
   personId: string;
 
   startDate: Date;
-  endDate: Date;  
+  endDate: Date;
 
   isPersonLinkedCreation: boolean = false;
 
-  name:        FormControl = new FormControl(null, Validators.minLength(3));
-  person:     FormControl = new FormControl(null, []);
-  start:       FormControl = new FormControl(null, Validators.minLength(3));
-  end:     FormControl = new FormControl(null, Validators.minLength(3));
+  name: FormControl = new FormControl(null, Validators.minLength(3));
+  person: FormControl = new FormControl(null, []);
+  start: FormControl = new FormControl(null, Validators.minLength(3));
+  end: FormControl = new FormControl(null, Validators.minLength(3));
+
+  public isSaving: boolean = false;
 
   constructor(
     private taskService: TaskService,
@@ -50,7 +50,7 @@ export class TaskFormComponent implements OnInit {
     private route: ActivatedRoute,
     private routineService: RoutineService,
     private personService: PersonService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.taskId = this.route.snapshot.params['id'];
@@ -68,20 +68,20 @@ export class TaskFormComponent implements OnInit {
   }
 
   findAllPersons(): void {
-    this.personService.findAll().subscribe(response => {
+    this.personService.findAll().subscribe((response) => {
       this.persons = response;
       if (this.taskId && this.persons.length > 0 && this.task.persons) {
-        const tempPersonsList: Person[] = this.persons.filter(person =>
-          this.task.persons.some(p => p.id === person.id)
+        const tempPersonsList: Person[] = this.persons.filter((person) =>
+          this.task.persons.some((p) => p.id === person.id)
         );
-  
+
         this.person.patchValue(tempPersonsList);
       }
     });
   }
 
   loadTask(): void {
-    this.taskService.findById(this.taskId).subscribe(response => {
+    this.taskService.findById(this.taskId).subscribe((response) => {
       this.task = response;
       this.person.setValue(response.persons);
     });
@@ -101,34 +101,50 @@ export class TaskFormComponent implements OnInit {
       this.createTask();
     }
   }
-  
+
   private createTask(): void {
-    this.taskService.create({ ...this.task, startedAt: this.startDate, finishedAt: this.endDate }).subscribe({
-      next: () => {
-        this.addPersonsToTask();
-        this.toast.success('Atividade cadastrada com sucesso', 'Cadastro');
-        this.router.navigate(['task']);
-      },
-      error: (ex) => {
-        this.handleErrors(ex);
-      },
-    });
-  }
-  
-  private updateTask(): void {
-    this.taskService.update(this.taskId, { ...this.task, startedAt: this.startDate, finishedAt: this.endDate }).subscribe({
-      next: () => {
-        if (this.person.value.length > 0) this.addPersonsToTask();
-        this.toast.success('Atividade atualizada com sucesso', 'Atualização');
-        this.router.navigate(['task']);
-      },
-      error: (ex) => {
-        this.handleErrors(ex);
-      },
-    });
+    this.isSaving = true;
+    this.taskService
+      .create({
+        ...this.task,
+        startedAt: this.startDate,
+        finishedAt: this.endDate,
+      })
+      .subscribe({
+        next: () => {
+          this.addPersonsToTask();
+          this.toast.success('Atividade cadastrada com sucesso', 'Cadastro');
+          this.router.navigate(['task']);
+          this.isSaving = false;
+        },
+        error: (ex) => {
+          this.handleErrors(ex);
+        },
+      });
   }
 
-  private addPersonToTask(): void {    
+  private updateTask(): void {
+    this.isSaving = true;
+    this.taskService
+      .update(this.taskId, {
+        ...this.task,
+        startedAt: this.startDate,
+        finishedAt: this.endDate,
+      })
+      .subscribe({
+        next: () => {
+          if (this.person.value.length > 0) this.addPersonsToTask();
+          this.toast.success('Atividade atualizada com sucesso', 'Atualização');
+          this.router.navigate(['task']);
+          this.isSaving = false;
+        },
+        error: (ex) => {
+          this.handleErrors(ex);
+        },
+      });
+  }
+
+  private addPersonToTask(): void {
     this.taskService.addPersonToTask(this.personId, this.taskId).subscribe({
       error: (ex) => {
         this.handleErrors(ex);
@@ -138,18 +154,20 @@ export class TaskFormComponent implements OnInit {
 
   private addPersonsToTask(): void {
     if (this.taskId) {
-      let taskNewPersonsIds = this.person.value.map(p => p.id);
-      this.taskService.addPersonsToTask(taskNewPersonsIds, this.taskId).subscribe({
-        error: (ex) => {
-          this.handleErrors(ex);
-        },
-      });
-    }    
+      let taskNewPersonsIds = this.person.value.map((p) => p.id);
+      this.taskService
+        .addPersonsToTask(taskNewPersonsIds, this.taskId)
+        .subscribe({
+          error: (ex) => {
+            this.handleErrors(ex);
+          },
+        });
+    }
   }
-  
+
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach(element => {
+      ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
       });
     } else {
@@ -161,7 +179,7 @@ export class TaskFormComponent implements OnInit {
     return this.name.valid && this.start.valid && this.end.valid;
   }
 
-  selectPerson() {   
+  selectPerson() {
     if (this.person.value) {
       let person: Person = this.person.value;
       this.personId = person.id;
