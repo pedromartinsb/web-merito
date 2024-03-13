@@ -1,172 +1,203 @@
-<mat-sidenav-container class="container" autosize>
-  <!-- Sidenav -->
-  <mat-sidenav #sidenav class="sidenav" mode="side">
-    <img src="assets/img/side-image.svg" alt="Imagem de navegação" />
+<!-- Menu Header-->
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="sidenav.toggle()" matTooltip="Menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Projeção Profissional</span>
 
-    <!-- Lista de Itens -->
-    <mat-nav-list class="nav-list">
+  <span class="toolbar-item-spacer"></span>
+
+  <button mat-icon-button matTooltip="Like">
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Share">
+    <mat-icon>share</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Notifications">
+    <mat-icon>notifications</mat-icon>
+  </button>
+
+  <button
+    mat-icon-button
+    matTooltip="My Account"
+    [matMenuTriggerFor]="userAccountMenu"
+  >
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
+    <button mat-menu-item routerLink="#">
+      <mat-icon>person</mat-icon><span>My Account</span>
+    </button>
+    <button mat-menu-item routerLink="#">
+      <mat-icon>settings</mat-icon><span>Settings</span>
+    </button>
+    <button mat-menu-item routerLink="#">
+      <mat-icon>help</mat-icon><span>Help</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>Logout
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<!-- Sidenav Menu -->
+<mat-sidenav-container class="app-container">
+  <mat-sidenav
+    #sidenav
+    mode="side"
+    [class.mat-elevation-z4]="true"
+    class="app-sidenav"
+  >
+    <!-- Sidenav List -->
+    <mat-nav-list>
       <!-- Home -->
-      <mat-list-item>
-        <a mat-list-item routerLink="home">
-          <i class="material-icons">home</i>
-          Home
-        </a>
+      <mat-list-item routerLink="home">
+        <mat-icon>home</mat-icon> <span>Home</span>
       </mat-list-item>
 
       <!-- Projeção Profissional -->
-      <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-        <a mat-list-item routerLink="appointment">
-          <i class="material-icons">check_circle</i>
-          Projeção Profissional
-        </a>
+      <mat-list-item
+        routerLink="appointment"
+        *ngIf="canAdminAccess || canModeratorAccess"
+      >
+        <mat-icon>done</mat-icon> <span>Projeção Profissional</span>
+      </mat-list-item>
+
+      <!-- Relatórios -->
+      <mat-list-item
+        routerLink="#"
+        *ngIf="canAdminAccess || canModeratorAccess"
+      >
+        <mat-icon>pie_chart</mat-icon> <span>Relatórios</span>
       </mat-list-item>
 
       <!-- Cadastros -->
-      <mat-expansion-panel
-        class="nav-list"
-        *ngIf="canAdminAccess || canModeratorAccess"
-      >
-        <mat-expansion-panel-header class="expansion-header">
-          <i class="material-icons">edit_note</i>
-          Cadastros
-        </mat-expansion-panel-header>
-
-        <!-- Cadastros Itens-->
-        <mat-nav-list class="nav-list">
+      <mat-expansion-panel [class.mat-elevation-z0]="true">
+        <mat-expansion-panel-header> Cadastros </mat-expansion-panel-header>
+        <mat-nav-list>
           <!-- Segment -->
-          <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-            <a mat-list-item routerLink="segment">
-              <i class="material-icons">account_tree</i>
-              Segmentos
-            </a>
-          </mat-list-item>
+          <a
+            mat-list-item
+            routerLink="segment"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>account_tree</mat-icon> <span>Segmentos</span>
+          </a>
 
           <!-- Holding -->
-          <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-            <a mat-list-item routerLink="holding">
-              <i class="material-icons">group_work</i>
-              Rede de Empresas
-            </a>
-          </mat-list-item>
+          <a
+            mat-list-item
+            routerLink="holding"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>group_work</mat-icon><span>Rede de Empresas</span>
+          </a>
 
           <!-- Company -->
-          <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-            <a mat-list-item routerLink="company">
-              <i class="material-icons">apartment</i>
-              Unidades
-            </a>
-          </mat-list-item>
+          <a
+            mat-list-item
+            routerLink="company"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>apartment</mat-icon><span>Unidades</span>
+          </a>
 
           <!-- Department -->
-          <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-            <a mat-list-item routerLink="department">
-              <i class="material-icons">meeting_room</i>
-              Departamentos
-            </a>
-          </mat-list-item>
+          <a
+            mat-list-item
+            routerLink="department"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>meeting_room</mat-icon><span>Departamentos</span>
+          </a>
 
           <!-- Responsibility -->
-          <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-            <a mat-list-item routerLink="responsibility">
-              <i class="material-icons">badge</i>
-              Cargos
-            </a>
-          </mat-list-item>
+          <a
+            mat-list-item
+            routerLink="responsibility"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>badge</mat-icon><span>Cargos</span>
+          </a>
 
           <!-- Person -->
-          <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-            <a mat-list-item routerLink="person">
-              <i class="material-icons">person_add</i>
-              Colaborador
-            </a>
-          </mat-list-item>
+          <a
+            mat-list-item
+            routerLink="person"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>person_add</mat-icon><span>Colaboradores</span>
+          </a>
 
           <!-- Assignment -->
-          <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-            <a mat-list-item routerLink="assignment">
-              <i class="material-icons">support_agent</i>
-              Atribuições
-            </a>
-          </mat-list-item>
+          <a
+            mat-list-item
+            routerLink="assignment"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>support_agent</mat-icon><span>Atribuições</span>
+          </a>
 
           <!-- Task -->
-          <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-            <a mat-list-item routerLink="task">
-              <i class="material-icons">add_task</i>
-              Tarefas
-            </a>
-          </mat-list-item>
+          <a
+            mat-list-item
+            routerLink="task"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>add_task</mat-icon><span>Tarefas</span>
+          </a>
 
           <!-- Routine -->
-          <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-            <a mat-list-item routerLink="routine">
-              <i class="material-icons">event_available</i>
-              Rotinas
-            </a>
-          </mat-list-item>
+          <a
+            mat-list-item
+            routerLink="routine"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>event_available</mat-icon><span>Rotinas</span>
+          </a>
 
           <!-- Goal -->
-          <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-            <a mat-list-item routerLink="goal">
-              <i class="material-icons">checklist</i>
-              Metas
-            </a>
-          </mat-list-item>
+          <a
+            mat-list-item
+            routerLink="goal"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>checklist</mat-icon><span>Metas</span>
+          </a>
         </mat-nav-list>
       </mat-expansion-panel>
 
-      <!-- Relatórios -->
-      <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-        <a mat-list-item routerLink="company" [disabled]="true">
-          <i class="material-icons">pie_chart</i>
-          Relatórios
-        </a>
-      </mat-list-item>
-
       <!-- Documentos -->
-      <mat-list-item
-        *ngIf="canAdminAccess || canModeratorAccess || canUserAccess"
-      >
-        <a mat-list-item routerLink="fileinfo">
-          <i class="material-icons">folder_open</i>
-          Documentos
-        </a>
-      </mat-list-item>
-
-      <!-- Adicionar Documentos -->
-      <mat-list-item *ngIf="canAdminAccess || canModeratorAccess">
-        <a mat-list-item routerLink="fileinfo/upload">
-          <i class="material-icons">create_new_folder</i>
-          Adicionar Documentos
-        </a>
-      </mat-list-item>
+      <mat-expansion-panel [class.mat-elevation-z0]="true">
+        <mat-expansion-panel-header> Documentos </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a
+            mat-list-item
+            routerLink="fileinfo"
+            *ngIf="canAdminAccess || canModeratorAccess || canUserAccess"
+          >
+            <mat-icon>folder_open</mat-icon><span>Listagem</span>
+          </a>
+          <a
+            mat-list-item
+            routerLink="fileinfo/upload"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>create_new_folder</mat-icon><span>Adicionar</span>
+          </a>
+        </mat-nav-list>
+      </mat-expansion-panel>
 
       <!-- Logout -->
-      <mat-list-item>
-        <a mat-list-item (click)="logout()">
-          <i class="material-icons">logout</i>
-          Logout
-        </a>
+      <mat-list-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon> <span>Logout</span>
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
 
-  <!-- Conteúdo -->
-  <div class="sidenav-content">
-    <!-- Header -->
-    <app-header
-      (sidenav)="sidenav.toggle()"
-      (inputLogout)="logout()"
-    ></app-header>
-    <!-- <button
-      class="menu mat-elevation-z8"
-      (click)="sidenav.toggle()"
-      mat-icon-button
-    >
-      <mat-icon>menu</mat-icon>
-    </button> -->
-
-    <!-- Rotas -->
+  <!-- Sidenav Content -->
+  <mat-sidenav-content>
     <router-outlet></router-outlet>
-  </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>

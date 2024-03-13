@@ -14,6 +14,8 @@ export class NavComponent implements OnInit {
   @Input() inputSideNav: MatSidenav;
   @Input() inputLogout: InputEvent;
 
+  showFiller = false;
+
   userRole: string[] = [];
   canAdminAccess: boolean = false;
   canModeratorAccess: boolean = false;
