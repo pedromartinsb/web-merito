@@ -26,7 +26,6 @@ import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { Department } from 'src/app/models/department';
 import { Responsibility } from 'src/app/models/responsibility';
 import { Subscription, finalize } from 'rxjs';
-import { Role } from 'src/app/models/role';
 import { CompanyService } from 'src/app/services/company.service';
 import { Company } from 'src/app/models/company';
 import { MatTableDataSource } from '@angular/material/table';
@@ -322,6 +321,16 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe((response) => {
+        console.log(response['contractType']);
+        if (response['contractType'] === 'PROFESSIONAL') {
+          response['contractType'] = 'Professional';
+          this.radioContractTypeOptions = 'Professional';
+          this.isCpf = false;
+        }
+        if (response['gender'] === 'FEMALE') {
+          response['gender'] = 'Female';
+          this.radioGenderOptions = 'Female';
+        }
         this.person = response;
       });
   }
