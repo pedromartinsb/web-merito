@@ -2,9 +2,7 @@
   <mat-card-header>
     <mat-card-title
       >{{
-        departmentId
-          ? "Editar " + department.name
-          : "Cadastrar Departamento"
+        departmentId ? "Editar " + department.name : "Cadastrar Departamento"
       }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
@@ -13,7 +11,7 @@
   <mat-card-content>
     <form class="form">
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
 
       <!-- General -->
       <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
@@ -31,6 +29,9 @@
               matInput
             />
             <mat-icon matSuffix>add_business</mat-icon>
+            <mat-hint *ngIf="!name.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -43,9 +44,17 @@
               (ngModelChange)="selectCompany()"
               name="company"
               [formControl]="company"
-              required>
-              <mat-option *ngFor="let company of companies" [value]="company.id">{{ company.fantasyName }}</mat-option>
+              required
+            >
+              <mat-option
+                *ngFor="let company of companies"
+                [value]="company.id"
+                >{{ company.fantasyName }}</mat-option
+              >
             </mat-select>
+            <mat-hint *ngIf="!company.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>

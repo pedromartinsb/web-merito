@@ -1,11 +1,7 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title
-      >{{
-        segmentId
-          ? "Editar " + segment.name
-          : "Cadastrar Segmento"
-      }}
+      >{{ segmentId ? "Editar " + segment.name : "Cadastrar Segmento" }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
   </mat-card-header>
@@ -13,7 +9,7 @@
   <mat-card-content>
     <form class="form">
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
 
       <!-- General -->
       <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
@@ -31,12 +27,14 @@
               matInput
             />
             <mat-icon matSuffix>add_business</mat-icon>
+            <mat-hint *ngIf="!name.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
         <!-- Coluna 2 -->
-        <mat-grid-tile colspan="1">
-        </mat-grid-tile>
+        <mat-grid-tile colspan="1"> </mat-grid-tile>
       </mat-grid-list>
     </form>
   </mat-card-content>

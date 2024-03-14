@@ -1,19 +1,17 @@
 <mat-card>
+  <!-- Header -->
   <mat-card-header>
     <mat-card-title
-      >{{
-        companyId
-          ? "Editar " + company.fantasyName
-          : "Cadastrar Empresas"
-      }}
+      >{{ companyId ? "Editar " + company.fantasyName : "Cadastrar Empresas" }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
   </mat-card-header>
 
+  <!-- Content -->
   <mat-card-content>
     <form class="form">
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
 
       <!-- General -->
       <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
@@ -31,6 +29,12 @@
               matInput
             />
             <mat-icon matSuffix>add_business</mat-icon>
+            <mat-hint
+              *ngIf="!corporateReason.value"
+              align="end"
+              style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -46,11 +50,14 @@
               matInput
             />
             <mat-icon matSuffix>domain</mat-icon>
+            <mat-hint *ngIf="!fantasyName.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
       <!-- Colunas -->
-      <mat-grid-list cols="3" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
@@ -61,8 +68,14 @@
               [formControl]="cnpj"
               required
               matInput
+              [mask]="'00.000.000/0000-00'"
+              maxlength="18"
+              placeholder="00.000.000/0000-00"
             />
             <mat-icon matSuffix>cases</mat-icon>
+            <mat-hint *ngIf="!cnpj.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -95,7 +108,7 @@
         </mat-grid-tile>
       </mat-grid-list>
       <!-- Colunas -->
-      <mat-grid-list cols="2" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="halfWidth" appearance="outline">
@@ -111,6 +124,9 @@
                 holding.fantasyName
               }}</mat-option>
             </mat-select>
+            <mat-hint *ngIf="!holding.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -130,17 +146,20 @@
                 >{{ companyType.label }}</mat-option
               >
             </mat-select>
+            <mat-hint *ngIf="!companyType.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
 
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
 
       <!-- Contact -->
       <mat-card-subtitle>Contatos:</mat-card-subtitle>
       <!-- Colunas -->
-      <mat-grid-list cols="2" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
@@ -171,25 +190,25 @@
       </mat-grid-list>
 
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
 
       <!-- Address -->
       <mat-card-subtitle>Endereço:</mat-card-subtitle>
       <!-- Colunas -->
-      <mat-grid-list cols="3" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
             <mat-label>CEP</mat-label>
             <input
-            [(ngModel)]="company.address.cep"
-            name="cep"
-            [formControl]="cep"
-            required
-            type="text"
-            matInput
-            placeholder="Ex.. 12444-666"
-            mask="00000-000">
+              [(ngModel)]="company.address.cep"
+              name="cep"
+              [formControl]="cep"
+              type="text"
+              matInput
+              placeholder="Ex.. 12444-666"
+              mask="00000-000"
+            />
             <mat-icon matSuffix>location_on</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
@@ -199,12 +218,12 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Estado</mat-label>
             <input
-            [(ngModel)]="company.address.uf"
-            name="uf"
-            [formControl]="uf"
-            required
-            type="uf"
-            matInput>
+              [(ngModel)]="company.address.uf"
+              name="uf"
+              [formControl]="uf"
+              type="uf"
+              matInput
+            />
             <mat-icon matSuffix>satellite</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
@@ -214,29 +233,29 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Cidade</mat-label>
             <input
-            [(ngModel)]="company.address.city"
-            name="city"
-            [formControl]="city"
-            required
-            type="city"
-            matInput>
+              [(ngModel)]="company.address.city"
+              name="city"
+              [formControl]="city"
+              type="city"
+              matInput
+            />
             <mat-icon matSuffix>location_city</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
       <!-- Colunas -->
-      <mat-grid-list cols="3" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Rua</mat-label>
             <input
-            [(ngModel)]="company.address.streetName"
-            name="streetName"
-            [formControl]="streetName"
-            required
-            type="streetName"
-            matInput>
+              [(ngModel)]="company.address.streetName"
+              name="streetName"
+              [formControl]="streetName"
+              type="streetName"
+              matInput
+            />
             <mat-icon matSuffix>add_road</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
@@ -246,12 +265,12 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Bairro</mat-label>
             <input
-            [(ngModel)]="company.address.neighborhood"
-            name="neighborhood"
-            [formControl]="neighborhood"
-            required
-            type="neighborhood"
-            matInput>
+              [(ngModel)]="company.address.neighborhood"
+              name="neighborhood"
+              [formControl]="neighborhood"
+              type="neighborhood"
+              matInput
+            />
             <mat-icon matSuffix>signpost</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
@@ -261,11 +280,12 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Complemento</mat-label>
             <input
-            [(ngModel)]="company.address.complement"
-            name="complement"
-            [formControl]="complement"
-            type="complement"
-            matInput>
+              [(ngModel)]="company.address.complement"
+              name="complement"
+              [formControl]="complement"
+              type="complement"
+              matInput
+            />
             <mat-icon matSuffix>edit_location_alt</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
@@ -275,7 +295,7 @@
     <!-- Department -->
     <div *ngIf="companyId">
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
       <mat-card-subtitle>Departamentos:</mat-card-subtitle>
 
       <!-- Colunas -->
@@ -298,7 +318,7 @@
     <!-- Person -->
     <div *ngIf="companyId">
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
       <mat-card-subtitle>Colaboradores:</mat-card-subtitle>
 
       <!-- Colunas -->
@@ -319,6 +339,7 @@
     </div>
   </mat-card-content>
 
+  <!-- Actions -->
   <mat-card-actions align="end">
     <button
       (click)="openCompanyForm()"
@@ -354,178 +375,8 @@
     </button>
   </mat-card-actions>
 
+  <!-- Footer -->
   <mat-card-footer>
     <mat-progress-bar mode="indeterminate" *ngIf="isSaving"></mat-progress-bar>
   </mat-card-footer>
 </mat-card>
-
-
-
-
-<!--
-    <div class="container mat-elevation-z8" *ngIf="companyId">
-      <div class="table-header">
-        <span>Departamentos</span>
-
-        <button
-          routerLink="/company/{{ companyId }}/department/create"
-          class="mat-elevation-z4"
-          id="linkPersonToCompany"
-          mat-flat-button
-          color="primary"
-        >
-          Vincular novo departamento à unidade
-        </button>
-      </div>
-
-      <table
-        mat-table
-        [dataSource]="departmentDataSource"
-        matSort
-        matSortActive="name"
-        matSortDisableClear
-        matSortDirection="desc"
-        *ngIf="departmentDataSource.data.length; else noDepartmentData"
-      >
-        <ng-container matColumnDef="departmentName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-            Nome
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="departmentActions">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let element">
-            <div class="mat-cell-wrapper">
-              <a routerLink="/department/edit/{{ element.id }}">
-                <i class="material-icons edit">edit</i>
-              </a>
-            </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="departmentDisplayedColumns"></tr>
-        <tr
-          mat-row
-          *matRowDef="let row; columns: departmentDisplayedColumns"
-        ></tr>
-      </table>
-
-      <ng-template #noDepartmentData>
-        <div>
-          <span>Ainda não há departamentos vinculados a esta unidade</span>
-        </div>
-      </ng-template>
-
-      <mat-paginator
-        #departmentPaginator
-        [pageSizeOptions]="[5, 10, 20, 50, 100]"
-        showFirstLastButtons
-        *ngIf="companyDepartments.length"
-      ></mat-paginator>
-    </div>
-
-    <div class="container mat-elevation-z8" *ngIf="companyId">
-      <div class="table-header">
-        <span>Colaboradores</span>
-
-        <button
-          routerLink="/company/{{ companyId }}/person/create"
-          class="mat-elevation-z4"
-          id="linkPersonToCompany"
-          mat-flat-button
-          color="primary"
-        >
-          Vincular novo colaborador à unidade
-        </button>
-      </div>
-
-      <table
-        mat-table
-        [dataSource]="personDataSource"
-        matSort
-        matSortActive="name"
-        matSortDisableClear
-        matSortDirection="desc"
-        *ngIf="personDataSource.data.length; else noData"
-      >
-        <ng-container matColumnDef="personName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-            Nome
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="personDepartment">
-          <th mat-header-cell *matHeaderCellDef>Departamento</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.department.name }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="personType">
-          <th mat-header-cell *matHeaderCellDef>Tipo</th>
-          <td mat-cell *matCellDef="let element">
-            {{ getPersonTypeLabel(element.personType) }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="personActions">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let element">
-            <div class="mat-cell-wrapper">
-              <a routerLink="/person/edit/{{ element.id }}">
-                <i class="material-icons edit">edit</i>
-              </a>
-            </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="personDisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: personDisplayedColumns"></tr>
-      </table>
-
-      <ng-template #noData>
-        <div>
-          <span>Ainda não há colaboradores vinculados a esta unidade</span>
-        </div>
-      </ng-template>
-
-      <mat-paginator
-        #personPaginator
-        [pageSizeOptions]="[5, 10, 20, 50, 100]"
-        showFirstLastButtons
-        *ngIf="companyPersons.length"
-      ></mat-paginator>
-    </div>
-
-    <button
-      (click)="openCompanyForm()"
-      [disabled]="!validateFields()"
-      class="fullWidth mat-elevation-z4"
-      mat-flat-button
-      color="primary"
-    >
-      {{ companyId ? "Salvar" : "Cadastrar" }}
-    </button>
-    <button
-      *ngIf="companyId"
-      routerLink="../../"
-      class="fullWidth mat-elevation-z4"
-      mat-stroked-button
-      color="warn"
-    >
-      Cancelar
-    </button>
-    <button
-      *ngIf="!companyId"
-      routerLink="../"
-      class="fullWidth mat-elevation-z4"
-      mat-stroked-button
-      color="warn"
-    >
-      Cancelar
-    </button>
-  </form>
-</div> -->

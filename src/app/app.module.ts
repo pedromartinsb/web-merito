@@ -76,6 +76,10 @@ import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/filei
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { DescriptionModalComponent } from './components/description/description-modal';
 import { CardComponent } from './components/card/card.component';
+import { CnpjPipe } from './pipe/cnpj.pipe';
+import { PhonePipe } from './pipe/phone.pipe';
+import { CpfPipe } from './pipe/cpf.pipe';
+import { PersonTypePipe } from './pipe/person-type.pipe';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -116,6 +120,10 @@ export const maskConfig: Partial<IConfig> = {
     FileinfoListComponent,
     FileinfoFormComponent,
     CardComponent,
+    CnpjPipe,
+    PhonePipe,
+    CpfPipe,
+    PersonTypePipe,
   ],
   imports: [
     BrowserModule,

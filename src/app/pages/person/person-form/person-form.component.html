@@ -30,7 +30,9 @@
               maxlength="100"
             />
             <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-            <mat-hint *ngIf="!name.value">Digite o nome</mat-hint>
+            <mat-hint *ngIf="!name.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -44,9 +46,13 @@
               [formControl]="cpf"
               required
               matInput
+              maxlength="isCpf ? 14 : 18"
+              [placeholder]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'"
               [mask]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'"
             />
-            <mat-hint *ngIf="!cpf.value">Digite o CPF ou CNPJ</mat-hint>
+            <mat-hint *ngIf="!cpf.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -97,8 +103,8 @@
               placeholder="Ex.. fulano44"
             />
             <mat-icon matSuffix>person</mat-icon>
-            <mat-hint *ngIf="!username.value"
-              >Digite o nome de usuário</mat-hint
+            <mat-hint *ngIf="!username.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
             >
           </mat-form-field>
         </mat-grid-tile>
@@ -116,7 +122,9 @@
               placeholder="Ex.. fulano@mail.com"
             />
             <mat-icon matSuffix>email</mat-icon>
-            <mat-hint *ngIf="!email.value">Digite o e-mail</mat-hint>
+            <mat-hint *ngIf="!email.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -134,7 +142,9 @@
             <mat-icon matSuffix (click)="hide = !hide">{{
               hide ? "visibility_off" : "visibility"
             }}</mat-icon>
-            <mat-hint *ngIf="!passwordInput.value">Digite a sua senha</mat-hint>
+            <mat-hint *ngIf="!password.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
@@ -160,6 +170,9 @@
                 >{{ company.fantasyName }}</mat-option
               >
             </mat-select>
+            <mat-hint *ngIf="!company.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -183,6 +196,9 @@
                 >{{ department.name }}</mat-option
               >
             </mat-select>
+            <mat-hint *ngIf="!department.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -201,6 +217,12 @@
                 >{{ responsibility.name }}</mat-option
               >
             </mat-select>
+            <mat-hint
+              *ngIf="!responsibility.value"
+              align="end"
+              style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>

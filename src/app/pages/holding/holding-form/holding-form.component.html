@@ -33,6 +33,12 @@
               matInput
             />
             <mat-icon matSuffix>add_business</mat-icon>
+            <mat-hint
+              *ngIf="!corporateReason.value"
+              align="end"
+              style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -48,11 +54,14 @@
               matInput
             />
             <mat-icon matSuffix>domain</mat-icon>
+            <mat-hint *ngIf="!fantasyName.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
       <!-- Colunas -->
-      <mat-grid-list cols="3" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
@@ -63,8 +72,14 @@
               [formControl]="cnpj"
               required
               matInput
+              [mask]="'00.000.000/0000-00'"
+              maxlength="18"
+              placeholder="00.000.000/0000-00"
             />
             <mat-icon matSuffix>cases</mat-icon>
+            <mat-hint *ngIf="!cnpj.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
@@ -97,7 +112,7 @@
         </mat-grid-tile>
       </mat-grid-list>
       <!-- Colunas -->
-      <mat-grid-list cols="1" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="outline">
@@ -114,6 +129,9 @@
                 >{{ segment.name }}</mat-option
               >
             </mat-select>
+            <mat-hint *ngIf="!segment.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
@@ -124,7 +142,7 @@
       <!-- Contact -->
       <mat-card-subtitle>Contatos:</mat-card-subtitle>
       <!-- Colunas -->
-      <mat-grid-list cols="2" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
@@ -160,7 +178,7 @@
       <!-- Address -->
       <mat-card-subtitle>Endereço:</mat-card-subtitle>
       <!-- Colunas -->
-      <mat-grid-list cols="3" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
@@ -169,7 +187,6 @@
               [(ngModel)]="holding.address.cep"
               name="cep"
               [formControl]="cep"
-              required
               type="text"
               matInput
               placeholder="Ex.. 12444-666"
@@ -187,7 +204,6 @@
               [(ngModel)]="holding.address.uf"
               name="uf"
               [formControl]="uf"
-              required
               type="uf"
               matInput
             />
@@ -203,7 +219,6 @@
               [(ngModel)]="holding.address.city"
               name="city"
               [formControl]="city"
-              required
               type="city"
               matInput
             />
@@ -212,7 +227,7 @@
         </mat-grid-tile>
       </mat-grid-list>
       <!-- Colunas -->
-      <mat-grid-list cols="3" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth" appearance="legacy">
@@ -221,7 +236,6 @@
               [(ngModel)]="holding.address.streetName"
               name="streetName"
               [formControl]="streetName"
-              required
               type="streetName"
               matInput
             />
@@ -237,7 +251,6 @@
               [(ngModel)]="holding.address.neighborhood"
               name="neighborhood"
               [formControl]="neighborhood"
-              required
               type="neighborhood"
               matInput
             />

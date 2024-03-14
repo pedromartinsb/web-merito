@@ -21,8 +21,6 @@ export class HoldingListComponent implements OnInit {
     'fantasyName',
     'corporateReason',
     'cnpj',
-    'phone',
-    'segment',
     'actions',
   ];
   dataSource = new MatTableDataSource<Holding>(this.ELEMENT_DATA);
@@ -65,12 +63,12 @@ export class HoldingListComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
     dialogRef.componentInstance.message =
-      'Tem certeza que deseja deletar este grupo de empresa?';
+      'Tem certeza que deseja deletar esta rede de empresa?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteHolding(holdingId);
       dialogRef.close();
-      this.toast.success('Rede de Empresas deletada com sucesso', 'Excluir');
+      this.toast.success('Rede de Empresa deletada com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {

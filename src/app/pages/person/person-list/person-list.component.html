@@ -65,7 +65,7 @@
               *matCellDef="let element"
               (click)="editPerson(element.id)"
             >
-              {{ element.cpfCnpj }}
+              {{ element.cpfCnpj | personType }}
             </td>
           </ng-container>
 
@@ -87,7 +87,7 @@
               *matCellDef="let element"
               (click)="editPerson(element.id)"
             >
-              {{ element.contact.phone }}
+              {{ element.contact.phone | phone }}
             </td>
           </ng-container>
 

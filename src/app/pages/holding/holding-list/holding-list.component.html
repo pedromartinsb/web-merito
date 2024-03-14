@@ -65,29 +65,7 @@
               *matCellDef="let element"
               (click)="editHolding(element.id)"
             >
-              {{ element.cnpj }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="phone">
-            <th mat-header-cell *matHeaderCellDef>Telefone</th>
-            <td
-              mat-cell
-              *matCellDef="let element"
-              (click)="editHolding(element.id)"
-            >
-              {{ element.contact.phone }}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="segment">
-            <th mat-header-cell *matHeaderCellDef>Segmento</th>
-            <td
-              mat-cell
-              *matCellDef="let element"
-              (click)="editHolding(element.id)"
-            >
-              {{ element.segment.name }}
+              {{ element.cnpj | cnpj }}
             </td>
           </ng-container>
 

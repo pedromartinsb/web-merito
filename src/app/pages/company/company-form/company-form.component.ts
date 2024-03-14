@@ -5,7 +5,12 @@ import { HoldingService } from '../../../services/holding.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Holding } from '../../../models/holding';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Address, AddressSearch, Company, CompanyType, Contact } from 'src/app/models/company';
+import {
+  Address,
+  AddressSearch,
+  Company,
+  Contact,
+} from 'src/app/models/company';
 import { finalize } from 'rxjs';
 import { Person } from 'src/app/models/person';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,7 +22,7 @@ import { Department } from 'src/app/models/department';
 @Component({
   selector: 'app-company-form',
   templateUrl: './company-form.component.html',
-  styleUrls: ['./company-form.component.css']
+  styleUrls: ['./company-form.component.css'],
 })
 export class CompanyFormComponent implements OnInit {
   holdings: Holding[] = [];
@@ -56,7 +61,10 @@ export class CompanyFormComponent implements OnInit {
 
   fantasyName: FormControl = new FormControl(null, Validators.minLength(3));
   corporateReason: FormControl = new FormControl(null, Validators.minLength(3));
-  cnpj: FormControl = new FormControl(null, [Validators.maxLength(14), Validators.required]);
+  cnpj: FormControl = new FormControl(null, [
+    Validators.maxLength(14),
+    Validators.required,
+  ]);
   email: FormControl = new FormControl();
   website: FormControl = new FormControl();
   segment: FormControl = new FormControl(null, [Validators.required]);
@@ -68,16 +76,16 @@ export class CompanyFormComponent implements OnInit {
   cellphone: FormControl = new FormControl();
 
   // Address
-  cep: FormControl = new FormControl(null, Validators.minLength(3));
-  streetName: FormControl = new FormControl(null, Validators.minLength(3));
-  neighborhood: FormControl = new FormControl(null, Validators.minLength(3));
-  city: FormControl = new FormControl(null, Validators.minLength(3));
-  uf: FormControl = new FormControl(null, Validators.minLength(3));
-  complement: FormControl = new FormControl(null, Validators.minLength(3));
+  cep: FormControl = new FormControl();
+  streetName: FormControl = new FormControl();
+  neighborhood: FormControl = new FormControl();
+  city: FormControl = new FormControl();
+  uf: FormControl = new FormControl();
+  complement: FormControl = new FormControl();
 
   companyTypeLabels = [
-    {label: "Matriz", value: "HEADQUARTERS"},
-    {label: "Filial", value: "FILIAL"},
+    { label: 'Matriz', value: 'HEADQUARTERS' },
+    { label: 'Filial', value: 'FILIAL' },
   ];
 
   PERSON_ELEMENT_DATA: Person[] = [];
@@ -86,7 +94,12 @@ export class CompanyFormComponent implements OnInit {
   persons: Person[] = [];
   companyPersons: Person[] = [];
 
-  personDisplayedColumns: string[] = ['personName', 'personDepartment', 'personType', 'personActions'];
+  personDisplayedColumns: string[] = [
+    'personName',
+    'personDepartment',
+    'personType',
+    'personActions',
+  ];
   personDataSource = new MatTableDataSource<Person>(this.persons);
 
   DEPARTMENT_ELEMENT_DATA: Person[] = [];
@@ -97,7 +110,10 @@ export class CompanyFormComponent implements OnInit {
 
   newLinkedDepartment: Department;
 
-  departmentDisplayedColumns: string[] = ['departmentName', 'departmentActions'];
+  departmentDisplayedColumns: string[] = [
+    'departmentName',
+    'departmentActions',
+  ];
   departmentDataSource = new MatTableDataSource<Department>(this.departments);
 
   isSaving: boolean = false;
@@ -112,8 +128,8 @@ export class CompanyFormComponent implements OnInit {
     private departmentService: DepartmentService,
     private router: Router,
     private route: ActivatedRoute,
-    private toast: ToastrService,
-  ) { }
+    private toast: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.companyId = this.route.snapshot.params['id'];
@@ -122,13 +138,11 @@ export class CompanyFormComponent implements OnInit {
     } else {
       this.loadList();
     }
-    this.cep.valueChanges.subscribe(
-      (newCep: string) => {
-        if (newCep && newCep.length === 8) {
-          this.findAddress();
-        }
+    this.cep.valueChanges.subscribe((newCep: string) => {
+      if (newCep && newCep.length === 8) {
+        this.findAddress();
       }
-    );
+    });
   }
 
   ngAfterViewInit(): void {
@@ -148,24 +162,29 @@ export class CompanyFormComponent implements OnInit {
   findAllHolding(): void {
     this.holdingService.findAll().subscribe((response: Holding[]) => {
       this.holdings = response;
-      if(this.companyId) {
-        this.holding.setValue(response.find(h => h.id === this.company.holding.id));
+      if (this.companyId) {
+        this.holding.setValue(
+          response.find((h) => h.id === this.company.holding.id)
+        );
         this.company.holdingId = this.company.holding.id;
       }
     });
   }
 
   loadCompany(): void {
-    this.companyService.findById(this.companyId).pipe(
-      finalize(() => {
-        this.findAllHolding();
-        this.findCompanyPersons();
-        this.findCompanyDepartments();
-        this.companyType.setValue(this.company.companyType);
-      })
-    ).subscribe((response: Company) => {
-      this.company = response;
-    });
+    this.companyService
+      .findById(this.companyId)
+      .pipe(
+        finalize(() => {
+          this.findAllHolding();
+          this.findCompanyPersons();
+          this.findCompanyDepartments();
+          this.companyType.setValue(this.company.companyType);
+        })
+      )
+      .subscribe((response: Company) => {
+        this.company = response;
+      });
   }
 
   openCompanyForm(): void {
@@ -202,7 +221,7 @@ export class CompanyFormComponent implements OnInit {
 
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach(element => {
+      ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
       });
     } else {
@@ -215,21 +234,28 @@ export class CompanyFormComponent implements OnInit {
   }
 
   selectHolding() {
-    if (this.company.holding && this.company.holding.id) this.company.holdingId = this.company.holding.id;
+    if (this.company.holding && this.company.holding.id)
+      this.company.holdingId = this.company.holding.id;
   }
 
   findCompanyPersons() {
-    this.personService.findAllByCompany(this.company.id).subscribe((response: Person[]) => {
-      this.companyPersons = response;
-      this.personDataSource = new MatTableDataSource<Person>(response);
-    });
+    this.personService
+      .findAllByCompany(this.company.id)
+      .subscribe((response: Person[]) => {
+        this.companyPersons = response;
+        this.personDataSource = new MatTableDataSource<Person>(response);
+      });
   }
 
   findCompanyDepartments() {
-    this.departmentService.findAllByCompany(this.company.id).subscribe((response: Department[]) => {
-      this.companyDepartments = response;
-      this.departmentDataSource = new MatTableDataSource<Department>(response);
-    });
+    this.departmentService
+      .findAllByCompany(this.company.id)
+      .subscribe((response: Department[]) => {
+        this.companyDepartments = response;
+        this.departmentDataSource = new MatTableDataSource<Department>(
+          response
+        );
+      });
   }
 
   findAllPersons() {

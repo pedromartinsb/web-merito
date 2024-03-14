@@ -1,11 +1,7 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title
-      >{{
-        goalId
-          ? "Editar " + goal.name
-          : "Cadastrar Meta"
-      }}
+      >{{ goalId ? "Editar " + goal.name : "Cadastrar Meta" }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
   </mat-card-header>
@@ -13,7 +9,7 @@
   <mat-card-content>
     <form class="form">
       <!-- Divider -->
-      <hr class="solid">
+      <hr class="solid" />
 
       <!-- General -->
       <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
@@ -31,20 +27,31 @@
               matInput
             />
             <mat-icon matSuffix>add_business</mat-icon>
+            <mat-hint *ngIf="!name.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
 
         <!-- Coluna 2 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="outline">
-            <mat-label>Selecione uma Pessoa</mat-label>
+            <mat-label>Selecione um Colaborador</mat-label>
             <mat-select
               [(ngModel)]="goal.personId"
               name="person"
               [formControl]="person"
-              required>
-            <mat-option *ngFor="let person of persons" value="{{ person.id }}">{{ person.name }}</mat-option>
+              required
+            >
+              <mat-option
+                *ngFor="let person of persons"
+                value="{{ person.id }}"
+                >{{ person.name }}</mat-option
+              >
             </mat-select>
+            <mat-hint *ngIf="!person.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>

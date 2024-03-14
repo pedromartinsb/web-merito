@@ -3,7 +3,12 @@ import { ToastrService } from 'ngx-toastr';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Address, AddressSearch, Contact, Holding } from 'src/app/models/holding';
+import {
+  Address,
+  AddressSearch,
+  Contact,
+  Holding,
+} from 'src/app/models/holding';
 import { SegmentService } from 'src/app/services/segment.service';
 import { Segment } from 'src/app/models/segment';
 import { PersonService } from 'src/app/services/person.service';
@@ -49,7 +54,10 @@ export class HoldingFormComponent implements OnInit {
 
   fantasyName: FormControl = new FormControl(null, Validators.minLength(3));
   corporateReason: FormControl = new FormControl(null, Validators.minLength(3));
-  cnpj: FormControl = new FormControl(null, [Validators.maxLength(14), Validators.required]);
+  cnpj: FormControl = new FormControl(null, [
+    Validators.maxLength(14),
+    Validators.required,
+  ]);
   email: FormControl = new FormControl();
   website: FormControl = new FormControl();
   segment: FormControl = new FormControl(null, [Validators.required]);
@@ -59,12 +67,12 @@ export class HoldingFormComponent implements OnInit {
   cellphone: FormControl = new FormControl();
 
   // Address
-  cep: FormControl = new FormControl(null, Validators.minLength(3));
-  streetName: FormControl = new FormControl(null, Validators.minLength(3));
-  neighborhood: FormControl = new FormControl(null, Validators.minLength(3));
-  city: FormControl = new FormControl(null, Validators.minLength(3));
-  uf: FormControl = new FormControl(null, Validators.minLength(3));
-  complement: FormControl = new FormControl(null, Validators.minLength(3));
+  cep: FormControl = new FormControl();
+  streetName: FormControl = new FormControl();
+  neighborhood: FormControl = new FormControl();
+  city: FormControl = new FormControl();
+  uf: FormControl = new FormControl();
+  complement: FormControl = new FormControl();
 
   isSaving: boolean = false;
 
@@ -83,13 +91,11 @@ export class HoldingFormComponent implements OnInit {
       this.loadHolding();
     }
     this.findAllSegments();
-    this.cep.valueChanges.subscribe(
-      (newCep: string) => {
-        if (newCep && newCep.length === 8) {
-          this.findAddress();
-        }
+    this.cep.valueChanges.subscribe((newCep: string) => {
+      if (newCep && newCep.length === 8) {
+        this.findAddress();
       }
-    );
+    });
   }
 
   findAllSegments(): void {
@@ -122,7 +128,10 @@ export class HoldingFormComponent implements OnInit {
     this.isSaving = true;
     this.holdingService.create(this.holding).subscribe({
       next: () => {
-        this.toast.success('Rede de Empresa cadastrada com sucesso', 'Cadastro');
+        this.toast.success(
+          'Rede de Empresa cadastrada com sucesso',
+          'Cadastro'
+        );
         this.router.navigate(['holding']);
         this.isSaving = false;
       },
@@ -136,7 +145,10 @@ export class HoldingFormComponent implements OnInit {
     this.isSaving = true;
     this.holdingService.update(this.holdingId, this.holding).subscribe({
       next: () => {
-        this.toast.success('Rede de Empresa atualizada com sucesso', 'Atualização');
+        this.toast.success(
+          'Rede de Empresa atualizada com sucesso',
+          'Atualização'
+        );
         this.router.navigate(['holding']);
         this.isSaving = false;
       },

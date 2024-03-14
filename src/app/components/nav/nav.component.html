@@ -7,36 +7,33 @@
 
   <span class="toolbar-item-spacer"></span>
 
-  <button mat-icon-button matTooltip="Like">
-    <mat-icon>favorite</mat-icon>
+  <button mat-icon-button matTooltip="Suporte">
+    <mat-icon>help</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Share">
-    <mat-icon>share</mat-icon>
-  </button>
-  <button mat-icon-button matTooltip="Notifications">
+  <button mat-icon-button matTooltip="Notificações">
     <mat-icon>notifications</mat-icon>
   </button>
 
   <button
     mat-icon-button
-    matTooltip="My Account"
+    matTooltip="Minha Conta"
     [matMenuTriggerFor]="userAccountMenu"
   >
     <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
     <button mat-menu-item routerLink="#">
-      <mat-icon>person</mat-icon><span>My Account</span>
+      <mat-icon>person</mat-icon><span>Minha Conta</span>
     </button>
     <button mat-menu-item routerLink="#">
-      <mat-icon>settings</mat-icon><span>Settings</span>
+      <mat-icon>settings</mat-icon><span>Configurações</span>
     </button>
     <button mat-menu-item routerLink="#">
-      <mat-icon>help</mat-icon><span>Help</span>
+      <mat-icon>help</mat-icon><span>Ajuda</span>
     </button>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>Logout
+      <mat-icon>exit_to_app</mat-icon>Sair
     </button>
   </mat-menu>
 </mat-toolbar>
@@ -91,7 +88,7 @@
             routerLink="holding"
             *ngIf="canAdminAccess || canModeratorAccess"
           >
-            <mat-icon>group_work</mat-icon><span>Rede de Empresas</span>
+            <mat-icon>domain_add</mat-icon><span>Rede de Empresas</span>
           </a>
 
           <!-- Company -->
@@ -177,7 +174,7 @@
             routerLink="fileinfo"
             *ngIf="canAdminAccess || canModeratorAccess || canUserAccess"
           >
-            <mat-icon>folder_open</mat-icon><span>Listagem</span>
+            <mat-icon>format_list_bulleted</mat-icon><span>Listagem</span>
           </a>
           <a
             mat-list-item
@@ -191,7 +188,7 @@
 
       <!-- Logout -->
       <mat-list-item (click)="logout()">
-        <mat-icon>exit_to_app</mat-icon> <span>Logout</span>
+        <mat-icon>exit_to_app</mat-icon> <span>Sair</span>
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
