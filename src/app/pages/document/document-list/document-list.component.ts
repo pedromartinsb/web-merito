@@ -1,32 +1,33 @@
-import { DocumentService } from '../../../services/document.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { Document } from '../../../models/document';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeleteConfirmationModalComponent } from '../../delete/delete-confirmation-modal';
+import { Document } from 'src/app/models/document';
+import { DocumentService } from 'src/app/services/document.service';
 
 @Component({
-  selector: 'app-fileinfo-list',
-  templateUrl: './fileinfo-list.component.html',
-  styleUrls: ['./fileinfo-list.component.css'],
+  selector: 'app-document-list',
+  templateUrl: './document-list.component.html',
+  styleUrls: ['./document-list.component.css'],
 })
-export class FileinfoListComponent implements OnInit {
-  fileinfos: Document[] = [];
+export class DocumentListComponent implements OnInit {
+  documents: Document[] = [];
 
   ELEMENT_DATA: Document[] = [];
   FILTERED_DATA: Document[] = [];
 
   displayedColumns: string[] = ['name', 'actions'];
-  dataSource = new MatTableDataSource<Document>(this.fileinfos);
+  dataSource = new MatTableDataSource<Document>(this.documents);
 
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  public isLoading: boolean = false;
+
   constructor(
-    private fileinfoService: DocumentService,
+    private documentService: DocumentService,
     private router: Router,
     private dialog: MatDialog,
     private route: ActivatedRoute
@@ -37,10 +38,12 @@ export class FileinfoListComponent implements OnInit {
   }
 
   findAll() {
-    this.fileinfoService.findAll().subscribe((response) => {
-      this.fileinfos = response;
+    this.isLoading = true;
+    this.documentService.findAll().subscribe((response) => {
+      this.documents = response;
       this.dataSource = new MatTableDataSource<Document>(response);
       this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
     });
   }
 
@@ -55,6 +58,7 @@ export class FileinfoListComponent implements OnInit {
     a.href = url;
     a.download = key;
     document.body.appendChild(a);
+    a.target = '_blank';
     a.click();
     window.URL.revokeObjectURL(url);
   }

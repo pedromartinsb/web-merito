@@ -6,9 +6,10 @@ import { BrowserModule } from '@angular/platform-browser';
 // Para realizar requisições HTTP
 import { HttpClientModule } from '@angular/common/http';
 
+// AppComponent
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './pages/home/home.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule, DatePipe } from '@angular/common';
 
@@ -39,13 +40,21 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { DescriptionModalComponent } from './components/description/description-modal';
 
+// Components
 import { NavComponent } from './components/nav/nav.component';
+import { CardComponent } from './components/card/card.component';
+
+// Pages
+import { HomeComponent } from './pages/home/home.component';
 import { PersonListComponent } from './pages/person/person-list/person-list.component';
 import { PersonFormComponent } from './pages/person/person-form/person-form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { DailyAppointmentListComponent } from './pages/appointment/daily-appointment-list/daily-appointment-list.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -55,7 +64,6 @@ import { DepartmentPersonListComponent } from './pages/department/department-per
 import { TaskListComponent } from './pages/task/task-list/task-list.component';
 import { AssignmentListComponent } from './pages/assignment/assignment-list/assignment-list.component';
 import { AppointmentCreateComponent } from './pages/appointment/appointment-create/appointment-create.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { ResponsibilityListComponent } from './pages/responsibility/responsibility-list/responsibility-list.component';
 import { ResponsibilityFormComponent } from './pages/responsibility/responsibility-form/responsibility-form.component';
 import { DeleteConfirmationModalComponent } from './components/delete/delete-confirmation-modal';
@@ -72,10 +80,10 @@ import { RoutineListComponent } from './pages/routine/routine-list/routine-list.
 import { RoutineFormComponent } from './pages/routine/routine-form/routine-form.component';
 import { FileinfoListComponent } from './components/fileinfo/fileinfo-list/fileinfo-list.component';
 import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/fileinfo-form.component';
+import { DocumentFormComponent } from './pages/document/document-form/document-form.component';
+import { DocumentListComponent } from './pages/document/document-list/document-list.component';
 
-import { NgxMaskModule, IConfig } from 'ngx-mask';
-import { DescriptionModalComponent } from './components/description/description-modal';
-import { CardComponent } from './components/card/card.component';
+// Pipe
 import { CnpjPipe } from './pipe/cnpj.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
@@ -124,6 +132,8 @@ export const maskConfig: Partial<IConfig> = {
     PhonePipe,
     CpfPipe,
     PersonTypePipe,
+    DocumentFormComponent,
+    DocumentListComponent,
   ],
   imports: [
     BrowserModule,

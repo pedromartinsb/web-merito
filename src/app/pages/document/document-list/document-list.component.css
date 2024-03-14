@@ -1,0 +1,94 @@
+.container {
+  margin: 16px;
+}
+
+table {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.edit {
+  color: rgb(0, 153, 255);
+}
+
+.delete {
+  color: red;
+}
+
+mat-radio-group {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.mat-cell {
+  cursor: pointer;
+}
+
+.mat-column-actions {
+  width: 80px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.mat-cell-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-cell-wrapper button {
+  width: 48px;
+  height: 48px;
+}
+
+a {
+  cursor: pointer;
+}
+
+mat-grid-tile {
+  .mat-grid-tile-content {
+    width: 90%;
+    justify-content: flex-start;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}
+
+mat-grid-list {
+  width: 90%;
+  margin: auto;
+}
+
+.grid-button {
+  .mat-grid-tile-content {
+    width: 90%;
+    justify-content: flex-start;
+  }
+
+  button {
+    margin-right: 8px;
+  }
+}
+
+.success-button {
+  background-color: green;
+  color: white;
+}
+
+mat-card {
+  width: 90%;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+/* Solid border */
+hr.solid {
+  border-top: 0.5px solid #bbb;
+}

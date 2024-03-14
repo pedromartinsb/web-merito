@@ -1,0 +1,85 @@
+<mat-card class="card mat-elevation-z8">
+  <mat-card-header>
+    <mat-card-title>Cadastrar Documento</mat-card-title>
+    <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form class="form">
+      <!-- Divider -->
+      <hr class="solid" />
+
+      <!-- General -->
+      <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
+      <!-- Colunas -->
+      <mat-grid-list cols="4" rowHeight="200px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <div class="file-drop-container">
+            <ngx-file-drop
+              class="file-drop"
+              dropZoneLabel="Drop files here"
+              (onFileDrop)="dropped($event)"
+              accept=".png, .jpg, .jpeg, .pdf"
+            >
+              <ng-template
+                ngx-file-drop-content-tmp
+                let-openFileSelector="openFileSelector"
+              >
+                Arraste os arquivos para cá ou
+                <button
+                  type="button"
+                  mat-flat-button
+                  color="primary"
+                  class="mat-elevation-z4"
+                  id="browseFilesButton"
+                  (click)="openFileSelector()"
+                >
+                  Buscar arquivos
+                </button>
+              </ng-template>
+            </ngx-file-drop>
+            <div class="upload-table-container">
+              <table class="upload-table">
+                <tbody class="upload-name-style">
+                  <tr *ngFor="let item of documents; let i = index">
+                    <td>
+                      <strong>{{ item.relativePath }}</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button
+      (click)="onSave()"
+      [disabled]="!validateFields()"
+      class="success-button mat-elevation-z4"
+      mat-raised-button
+      extended
+      matTooltip="Salvar o Documento"
+    >
+      <mat-icon>check</mat-icon> SALVAR
+    </button>
+    <button
+      routerLink="../"
+      class="mat-elevation-z4"
+      mat-raised-button
+      color="warn"
+      extended
+      matTooltip="Cancelar as informações preenchidas e voltar a página"
+    >
+      <mat-icon>block</mat-icon> CANCELAR
+    </button>
+  </mat-card-actions>
+
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isSaving"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

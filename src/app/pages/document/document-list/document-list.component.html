@@ -1,0 +1,79 @@
+<mat-card class="card mat-elevation-z8">
+  <mat-card-header>
+    <mat-card-title>Documentos</mat-card-title>
+    <mat-card-subtitle>Listagem</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- Divider -->
+    <mat-divider></mat-divider>
+
+    <!-- Colunas -->
+    <mat-grid-list cols="4" rowHeight="100px">
+      <!-- Coluna 1 -->
+      <mat-grid-tile colspan="2">
+        <mat-form-field appearance="standard">
+          <mat-label>Consulte o Documento</mat-label>
+          <input matInput (keyup)="applyFilter($event)" #input />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Coluna 2 -->
+      <mat-grid-tile colspan="1"></mat-grid-tile>
+
+      <!-- Coluna 3 -->
+      <mat-grid-tile colspan="1">
+        <button routerLink="upload" mat-raised-button color="primary">
+          Cadastrar Documento
+        </button>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <!-- Divider -->
+    <mat-divider></mat-divider>
+
+    <!-- Tabela -->
+    <div class="container">
+      <div class="mat-elevation-z8">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort
+          matSortActive="name"
+          matSortDisableClear
+          matSortDirection="desc"
+        >
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+              Nome
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.key }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Download</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="mat-cell-wrapper">
+                <a (click)="downloadFile(element.key)">
+                  <i class="material-icons edit">file_download</i>
+                </a>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+        <mat-paginator
+          [pageSizeOptions]="[5, 2, 10, 20, 50, 100]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

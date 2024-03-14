@@ -171,14 +171,14 @@
         <mat-nav-list>
           <a
             mat-list-item
-            routerLink="fileinfo"
+            routerLink="document"
             *ngIf="canAdminAccess || canModeratorAccess || canUserAccess"
           >
             <mat-icon>format_list_bulleted</mat-icon><span>Listagem</span>
           </a>
           <a
             mat-list-item
-            routerLink="fileinfo/upload"
+            routerLink="document/upload"
             *ngIf="canAdminAccess || canModeratorAccess"
           >
             <mat-icon>create_new_folder</mat-icon><span>Adicionar</span>

@@ -1,21 +1,21 @@
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { NgxFileDropEntry } from 'ngx-file-drop';
 import { ToastrService } from 'ngx-toastr';
 import { DocumentService } from 'src/app/services/document.service';
-import { NgxFileDropEntry } from 'ngx-file-drop';
-import { Document } from 'src/app/models/document';
 
 @Component({
-  selector: 'app-fileinfo-form',
-  templateUrl: './fileinfo-form.component.html',
-  styleUrls: ['./fileinfo-form.component.css'],
+  selector: 'app-document-form',
+  templateUrl: './document-form.component.html',
+  styleUrls: ['./document-form.component.css'],
 })
-export class FileinfoFormComponent implements OnInit {
-  files: NgxFileDropEntry[] = [];
+export class DocumentFormComponent implements OnInit {
+  documents: NgxFileDropEntry[] = [];
+
+  public isSaving: boolean = false;
 
   constructor(
-    private fileinfoService: DocumentService,
+    private documentService: DocumentService,
     private toast: ToastrService,
     private router: Router,
     private route: ActivatedRoute
@@ -23,21 +23,23 @@ export class FileinfoFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public dropped(files: NgxFileDropEntry[]) {
-    this.files = files;
+  public dropped(documents: NgxFileDropEntry[]) {
+    this.documents = documents;
   }
 
   public onSave() {
-    if (this.files && this.files.length > 0) {
-      const firstFile = this.files[0];
+    this.isSaving = true;
+    if (this.documents && this.documents.length > 0) {
+      const firstFile = this.documents[0];
 
       if (firstFile.fileEntry.isFile) {
         const fileEntry = firstFile.fileEntry as FileSystemFileEntry;
-        fileEntry.file((file: File) => {
-          this.fileinfoService.uploadFile(file).subscribe({
+        fileEntry.file((document: File) => {
+          this.documentService.uploadFile(document).subscribe({
             next: () => {
               this.toast.success('Documento enviado com sucesso', 'Cadastro');
-              this.router.navigate(['fileinfo']);
+              this.router.navigate(['document']);
+              this.isSaving = false;
             },
             error: (ex) => {
               this.handleErrors(ex);
@@ -56,5 +58,9 @@ export class FileinfoFormComponent implements OnInit {
     } else {
       this.toast.error(ex.error.message);
     }
+  }
+
+  validateFields(): boolean {
+    return this.documents.length > 0;
   }
 }
