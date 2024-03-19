@@ -41,6 +41,12 @@ export interface User {
   password: string;
 }
 
+export interface UserResponse {
+  id: string;
+  username: string;
+  roles: Role[];
+}
+
 export interface Address {
   cep: string;
   streetName: string;

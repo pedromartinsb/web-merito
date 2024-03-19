@@ -1,3 +1,54 @@
+mat-grid-tile {
+  .mat-grid-tile-content {
+    width: 90%;
+    justify-content: flex-start;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}
+
+mat-grid-list {
+  width: 90%;
+  margin: auto;
+}
+
+.grid-button {
+  .mat-grid-tile-content {
+    width: 90%;
+    justify-content: flex-start;
+  }
+
+  button {
+    margin-right: 8px;
+  }
+}
+
+.success-button {
+  background-color: green;
+  color: white;
+}
+
+mat-card {
+  width: 90%;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+/* Solid border */
+hr.solid {
+  border-top: 0.5px solid #bbb;
+}
+
+mat-grid-tile {
+  .tab1 {
+    height: 10px;
+  }
+}
+
 :root {
   --primary: #3f51b5;
   --accent: #ff4081;
@@ -12,7 +63,7 @@
 .container {
   margin: 16px;
   padding: 1rem;
-  border-radius: .6rem;
+  border-radius: 0.6rem;
 }
 
 .fullWidth {
@@ -32,7 +83,8 @@
   display: table-cell;
 }
 
-h1, p {
+h1,
+p {
   text-align: center;
 }
 
@@ -48,95 +100,115 @@ img {
 }
 
 button {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 p {
   margin-top: 4rem;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 mat-icon {
-  opacity: .8;
+  opacity: 0.8;
 }
 
 form {
   margin-bottom: 1rem;
 }
 
-::ng-deep .example-radio-button.red-appointment.mat-radio-checked .mat-radio-outer-circle {
-  border-color: #f44336; 
+::ng-deep
+  .example-radio-button.red-appointment.mat-radio-checked
+  .mat-radio-outer-circle {
+  border-color: #f44336;
 }
 
 ::ng-deep .example-radio-button.red-appointment .mat-radio-inner-circle {
   background-color: #f44336;
 }
 
-::ng-deep .example-radio-button.red-appointment.mat-radio-checked .mat-radio-persistent-ripple {
+::ng-deep
+  .example-radio-button.red-appointment.mat-radio-checked
+  .mat-radio-persistent-ripple {
   background-color: #f44336;
 }
 
-::ng-deep .example-radio-button.orange-appointment.mat-radio-checked .mat-radio-outer-circle{
-  border-color: #ff723b; 
+::ng-deep
+  .example-radio-button.orange-appointment.mat-radio-checked
+  .mat-radio-outer-circle {
+  border-color: #ff723b;
 }
 
 ::ng-deep .example-radio-button.orange-appointment .mat-radio-inner-circle {
   background-color: #ff723b;
 }
 
-::ng-deep .example-radio-button.orange-appointment.mat-radio-checked .mat-radio-persistent-ripple {
+::ng-deep
+  .example-radio-button.orange-appointment.mat-radio-checked
+  .mat-radio-persistent-ripple {
   background-color: #ff723b;
 }
 
-::ng-deep .example-radio-button.yellow-appointment.mat-radio-checked .mat-radio-outer-circle{
-  border-color: #d3b614; 
+::ng-deep
+  .example-radio-button.yellow-appointment.mat-radio-checked
+  .mat-radio-outer-circle {
+  border-color: #d3b614;
 }
 
 ::ng-deep .example-radio-button.yellow-appointment .mat-radio-inner-circle {
   background-color: #d3b614;
 }
 
-::ng-deep .example-radio-button.yellow-appointment.mat-radio-checked .mat-radio-persistent-ripple {
+::ng-deep
+  .example-radio-button.yellow-appointment.mat-radio-checked
+  .mat-radio-persistent-ripple {
   background-color: #d3b614;
 }
 
-::ng-deep .example-radio-button.green-appointment.mat-radio-checked .mat-radio-outer-circle{
-  border-color: #7cfc00; 
+::ng-deep
+  .example-radio-button.green-appointment.mat-radio-checked
+  .mat-radio-outer-circle {
+  border-color: #7cfc00;
 }
 
 ::ng-deep .example-radio-button.green-appointment .mat-radio-inner-circle {
   background-color: #7cfc00;
 }
 
-::ng-deep .example-radio-button.green-appointment.mat-radio-checked .mat-radio-persistent-ripple {
+::ng-deep
+  .example-radio-button.green-appointment.mat-radio-checked
+  .mat-radio-persistent-ripple {
   background-color: #7cfc00;
 }
 
-::ng-deep .example-radio-button.blue-appointment.mat-radio-checked .mat-radio-outer-circle{
-  border-color: #36aad7; 
+::ng-deep
+  .example-radio-button.blue-appointment.mat-radio-checked
+  .mat-radio-outer-circle {
+  border-color: #36aad7;
 }
 
 ::ng-deep .example-radio-button.blue-appointment .mat-radio-inner-circle {
   background-color: #36aad7;
 }
 
-::ng-deep .example-radio-button.blue-appointment.mat-radio-checked .mat-radio-persistent-ripple {
+::ng-deep
+  .example-radio-button.blue-appointment.mat-radio-checked
+  .mat-radio-persistent-ripple {
   background-color: #36aad7;
 }
 
 .monthly-content-wrapper {
   display: flex;
-  width: 100%;
+  width: 50%;
 }
 
 .trimestral-content-wrapper {
   display: flex;
-  width: 100%;
+  width: 50%;
 }
 
 .semestral-content-wrapper {
   display: flex;
-  width: 100%;
+  width: 50%;
 }
 
 .daily-appointments-wrapper {
@@ -145,14 +217,13 @@ form {
 }
 
 .appointments-calendar-wrapper {
-  flex: 2;
-  padding: 16px;
+  /* flex: 2; */
+  padding: 10px;
 }
 
 .appointments-calendars-list {
-  display: flex;
-  flex-direction: column;
-  flex: 2;
+  flex-direction: row;
+  /* flex: 2; */
 }
 
 ::ng-deep .red-date .mat-calendar-body-cell-content {
@@ -177,7 +248,7 @@ form {
   color: #ff723b !important;
   transition: all 0.3s ease;
   background-color: #fbded3;
-} 
+}
 
 ::ng-deep .orange-date:hover .mat-calendar-body-cell-content {
   background-color: #ff723b !important;
@@ -194,7 +265,7 @@ form {
   color: #d3b614 !important;
   transition: all 0.3s ease;
   background-color: #fff6c6;
-} 
+}
 
 ::ng-deep .yellow-date:hover .mat-calendar-body-cell-content {
   background-color: #d3b614 !important;
@@ -228,7 +299,7 @@ form {
   color: #36aad7 !important;
   transition: all 0.3s ease;
   background-color: #c5ecfb;
-} 
+}
 
 ::ng-deep .blue-date:hover .mat-calendar-body-cell-content {
   background-color: #36aad7 !important;

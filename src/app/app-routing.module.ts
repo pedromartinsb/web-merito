@@ -18,6 +18,7 @@ import { HoldingFormComponent } from './pages/holding/holding-form/holding-form.
 import { HoldingListComponent } from './pages/holding/holding-list/holding-list.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
+import { PermissionFormComponent } from './pages/permission/permission-form/permission-form.component';
 import { PersonFormComponent } from './pages/person/person-form/person-form.component';
 import { PersonListComponent } from './pages/person/person-list/person-list.component';
 import { ResponsibilityFormComponent } from './pages/responsibility/responsibility-form/responsibility-form.component';
@@ -40,13 +41,6 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
 
       // APPOINTMENT
-      // {
-      //   path: 'appointment', component: AppointmentListComponent,
-      //   canActivate: [AuthGuard],
-      //   data: {
-      //     role: 'ROLE_USER'
-      //   }
-      // },
       {
         path: 'appointment',
         component: AppointmentCreateComponent,
@@ -368,6 +362,16 @@ const routes: Routes = [
       {
         path: 'document/upload',
         component: DocumentFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+
+      // PERMITIONS
+      {
+        path: 'permission',
+        component: PermissionFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',

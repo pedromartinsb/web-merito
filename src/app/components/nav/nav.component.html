@@ -25,8 +25,8 @@
     <button mat-menu-item routerLink="#">
       <mat-icon>person</mat-icon><span>Minha Conta</span>
     </button>
-    <button mat-menu-item routerLink="#">
-      <mat-icon>settings</mat-icon><span>Configurações</span>
+    <button mat-menu-item routerLink="permission" *ngIf="canAdminAccess">
+      <mat-icon>settings</mat-icon><span>Permissões</span>
     </button>
     <button mat-menu-item routerLink="#">
       <mat-icon>help</mat-icon><span>Ajuda</span>
@@ -185,6 +185,11 @@
           </a>
         </mat-nav-list>
       </mat-expansion-panel>
+
+      <!-- Permissões -->
+      <mat-list-item routerLink="permission" *ngIf="canAdminAccess">
+        <mat-icon>settings</mat-icon> <span>Permissões</span>
+      </mat-list-item>
 
       <!-- Logout -->
       <mat-list-item (click)="logout()">

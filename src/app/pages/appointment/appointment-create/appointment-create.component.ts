@@ -1,31 +1,30 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { ThemePalette } from '@angular/material/core';
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { finalize, forkJoin } from 'rxjs';
-import { Assignment } from 'src/app/models/assignment';
+import { finalize } from 'rxjs';
+import { Activity, Appointment } from 'src/app/models/appointment';
 import { Company } from 'src/app/models/company';
 import { Department } from 'src/app/models/department';
 import { Person } from 'src/app/models/person';
-import { Routine } from 'src/app/models/routine';
 import { Sector } from 'src/app/models/sector';
-import { Tag, monthlyTag } from 'src/app/models/tag';
-import { Task } from 'src/app/models/task';
-import { AssignmentService } from 'src/app/services/assignment.service';
+import { monthlyTag, Tag } from 'src/app/models/tag';
+import { AppointmentService } from 'src/app/services/appointment.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import { PersonService } from 'src/app/services/person.service';
-import { RoutineService } from 'src/app/services/routine.service';
 import { TagService } from 'src/app/services/tag.service';
-import { TaskService } from 'src/app/services/task.service';
+
 import { DescriptionModalComponent } from '../../../components/description/description-modal';
-import { Activity, Appointment } from 'src/app/models/appointment';
-import { AppointmentService } from 'src/app/services/appointment.service';
-import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 
 interface DescriptionDialogData {
   activity: Activity;
@@ -35,10 +34,9 @@ interface DescriptionDialogData {
 @Component({
   selector: 'app-appointment-create',
   templateUrl: './appointment-create.component.html',
-  styleUrls: ['./appointment-create.component.css']
+  styleUrls: ['./appointment-create.component.css'],
 })
 export class AppointmentCreateComponent implements OnInit {
-
   appointment: Appointment = {
     id: '',
     name: '',
@@ -62,19 +60,19 @@ export class AppointmentCreateComponent implements OnInit {
 
     createdAt: '',
     updatedAt: '',
-    deletedAt: ''
+    deletedAt: '',
   };
 
   isSelected: boolean = false;
-  companyId:    string;
+  companyId: string;
   departmentId: string = '';
-  sectorId:     string = '';
-  personId:     string = '';
+  sectorId: string = '';
+  personId: string = '';
 
-  companies:   Company[] = [];
+  companies: Company[] = [];
   departments: Department[] = [];
-  sectors:     Sector[] = [];
-  persons:     Person[] = [];
+  sectors: Sector[] = [];
+  persons: Person[] = [];
 
   tags: Tag[] = [];
 
@@ -93,17 +91,16 @@ export class AppointmentCreateComponent implements OnInit {
   monthlyTagsKey: number = 0;
   calendarKeys: number[] = [];
 
-  company:    FormControl = new FormControl(null, [Validators.required]);
+  company: FormControl = new FormControl(null, [Validators.required]);
   department: FormControl = new FormControl(null, []);
-  sector:     FormControl = new FormControl(null, []);
-  person:     FormControl = new FormControl(null, [Validators.required]);
+  sector: FormControl = new FormControl(null, []);
+  person: FormControl = new FormControl(null, [Validators.required]);
 
   floatLabelControl = new FormControl('auto' as FloatLabelType);
 
   selectedDateMonthly: Date | null;
 
   colors = ['blue', 'green', 'yellow', 'orange', 'red'];
-
 
   constructor(
     private companyService: CompanyService,
@@ -116,7 +113,7 @@ export class AppointmentCreateComponent implements OnInit {
     private tagService: TagService,
     private appointmentService: AppointmentService,
     private el: ElementRef,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) {
     this.startDate = new Date();
     this.startDate.setUTCHours(0, 0, 0, 0);
@@ -133,7 +130,7 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   findAllCompanies(): void {
-    this.companyService.findAll().subscribe(response => {
+    this.companyService.findAll().subscribe((response) => {
       if (response.values != null) {
         this.toast.success('Unidades carregadas com sucesso');
         this.companies = response;
@@ -142,7 +139,7 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   findAllDepartments(companyId: string): void {
-    this.departmentService.findAllByCompany(companyId).subscribe(response => {
+    this.departmentService.findAllByCompany(companyId).subscribe((response) => {
       if (response.values != null) {
         this.toast.success('Departamentos carregados com sucesso');
         this.departments = response;
@@ -151,7 +148,7 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   findAllPersonByCompany(companyId: string): void {
-    this.personService.findAllByCompany(companyId).subscribe(response => {
+    this.personService.findAllByCompany(companyId).subscribe((response) => {
       if (response.values != null) {
         this.toast.success('Colaboradores carregados com sucesso');
         this.persons = response;
@@ -168,35 +165,49 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   findPersonAppointments(): void {
-    this.appointmentService.findByPersonAndDate(this.person.value, this.startDate, this.endDate).pipe(
-      finalize(() => {
-        this.categorizeActivities();
-        this.toast.success('Pesquisa realizada com sucesso.');
-        this.isSelected = true;
-      })
-    ).subscribe((response: Appointment[]) => {
-      this.personAppointments = response;
-      if (this.personAppointments && this.personAppointments.length > 0) {
-        this.personAppointments.forEach((appointment) => {
-          this.personActivities.forEach((activity) => {
-            if (activity.id === appointment.routineId || activity.id === appointment.taskId || activity.id === appointment.assignmentId) {
-              activity.description = appointment.description;
-              activity.justification = appointment.justification;
-            }
-          })
+    this.appointmentService
+      .findByPersonAndDate(this.person.value, this.startDate, this.endDate)
+      .pipe(
+        finalize(() => {
+          this.categorizeActivities();
+          this.toast.success('Pesquisa realizada com sucesso.');
+          this.isSelected = true;
         })
-      }
-    });
+      )
+      .subscribe((response: Appointment[]) => {
+        this.personAppointments = response;
+        if (this.personAppointments && this.personAppointments.length > 0) {
+          this.personAppointments.forEach((appointment) => {
+            this.personActivities.forEach((activity) => {
+              if (
+                activity.id === appointment.routineId ||
+                activity.id === appointment.taskId ||
+                activity.id === appointment.assignmentId
+              ) {
+                activity.description = appointment.description;
+                activity.justification = appointment.justification;
+              }
+            });
+          });
+        }
+      });
   }
 
   findPersonActivities(): void {
-    this.appointmentService.findActivitiesByPersonAndDate(this.person.value, this.startDate, this.endDate).pipe(
-      finalize(() => {
-        this.findPersonAppointments();
-      })
-    ).subscribe((response: Activity[]) => {
-      this.personActivities = response;
-    });
+    this.appointmentService
+      .findActivitiesByPersonAndDate(
+        this.person.value,
+        this.startDate,
+        this.endDate
+      )
+      .pipe(
+        finalize(() => {
+          this.findPersonAppointments();
+        })
+      )
+      .subscribe((response: Activity[]) => {
+        this.personActivities = response;
+      });
   }
 
   categorizeActivities() {
@@ -204,11 +215,11 @@ export class AppointmentCreateComponent implements OnInit {
     this.personTasks = [];
     this.personAssignments = [];
     for (const activity of this.personActivities) {
-      if (activity.type === "routine") {
+      if (activity.type === 'routine') {
         this.personRoutines.push(activity);
-      } else if (activity.type === "task") {
+      } else if (activity.type === 'task') {
         this.personTasks.push(activity);
-      } else if (activity.type === "assignment") {
+      } else if (activity.type === 'assignment') {
         this.personAssignments.push(activity);
       }
     }
@@ -233,14 +244,16 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   private updateAppointment(): void {
-    this.appointmentService.update(this.appointment.id, this.appointment).subscribe({
-      next: () => {
-        this.toast.success('Avaliação atualizada com sucesso', 'Atualização');
-      },
-      error: (ex) => {
-        this.handleErrors(ex);
-      },
-    });
+    this.appointmentService
+      .update(this.appointment.id, this.appointment)
+      .subscribe({
+        next: () => {
+          this.toast.success('Avaliação atualizada com sucesso', 'Atualização');
+        },
+        error: (ex) => {
+          this.handleErrors(ex);
+        },
+      });
   }
 
   private saveAppointment() {
@@ -253,7 +266,7 @@ export class AppointmentCreateComponent implements OnInit {
 
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach(element => {
+      ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
       });
     } else {
@@ -266,28 +279,28 @@ export class AppointmentCreateComponent implements OnInit {
       const tagName = tag.name;
 
       switch (tagName) {
-        case "Red":
-          tag.description = "Falha Grave";
+        case 'Red':
+          tag.description = 'Falha Grave';
           tag.class = 'red-appointment';
           break;
-        case "Orange":
-          tag.description = "Alerta (Erro cometido as vezes)";
+        case 'Orange':
+          tag.description = 'Alerta (Erro cometido as vezes)';
           tag.class = 'orange-appointment';
           break;
-        case "Yellow":
-          tag.description = "Atenção (Corrigir de forma educativa)";
+        case 'Yellow':
+          tag.description = 'Atenção (Corrigir de forma educativa)';
           tag.class = 'yellow-appointment';
           break;
-        case "Green":
-          tag.description = "Dever cumprido!";
+        case 'Green':
+          tag.description = 'Dever cumprido!';
           tag.class = 'green-appointment';
           break;
-        case "Blue":
-          tag.description = " Ótimo, Parábens, Excelente!";
+        case 'Blue':
+          tag.description = ' Ótimo, Parábens, Excelente!';
           tag.class = 'blue-appointment';
           break;
       }
-    })
+    });
   }
 
   openDescriptionDialog(data: DescriptionDialogData): void {
@@ -297,7 +310,7 @@ export class AppointmentCreateComponent implements OnInit {
       data: {
         description: data.activity.description || '',
         justification: data.activity.justification || '',
-        isDescriptionEditable: data.isDescriptionEditable
+        isDescriptionEditable: data.isDescriptionEditable,
       },
     });
 
@@ -307,21 +320,23 @@ export class AppointmentCreateComponent implements OnInit {
     this.appointment.tagId = data.activity.tag.id;
     this.appointment.personId = this.personId;
 
-    dialogRef.componentInstance.descriptionSave.subscribe((result: { description: string; justification: string }) => {
-      if (isEditable) {
-        this.appointment.description = result.description;
-        this.appointment.justification = result.justification;
-        this.saveAppointment();
-      } else {
-        this.appointment.justification = result.justification;
-        this.updateAppointment();
+    dialogRef.componentInstance.descriptionSave.subscribe(
+      (result: { description: string; justification: string }) => {
+        if (isEditable) {
+          this.appointment.description = result.description;
+          this.appointment.justification = result.justification;
+          this.saveAppointment();
+        } else {
+          this.appointment.justification = result.justification;
+          this.updateAppointment();
+        }
+
+        data.activity.description = result.description;
+        data.activity.justification = result.justification;
+
+        dialogRef.close();
       }
-
-      data.activity.description = result.description;
-      data.activity.justification = result.justification;
-
-      dialogRef.close();
-    });
+    );
 
     dialogRef.componentInstance.descriptionCancel.subscribe(() => {
       dialogRef.close();
@@ -357,7 +372,9 @@ export class AppointmentCreateComponent implements OnInit {
     );
 
     this.startDate = new Date(this.selectedDateMonthly.setUTCHours(0, 0, 0, 0));
-    this.endDate = new Date(this.selectedDateMonthly.setUTCHours(23, 59, 59, 999));
+    this.endDate = new Date(
+      this.selectedDateMonthly.setUTCHours(23, 59, 59, 999)
+    );
 
     this.allowAppointmentCreation = this.isCurrentDay(this.selectedDateMonthly);
 
@@ -367,7 +384,11 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   getStartOfMonth(offset: number): Date {
-    const date = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth() + offset, 1);
+    const date = new Date(
+      this.selectedDateMonthly.getFullYear(),
+      this.selectedDateMonthly.getMonth() + offset,
+      1
+    );
     return date;
   }
 
@@ -376,15 +397,25 @@ export class AppointmentCreateComponent implements OnInit {
       this.selectedDateMonthly = new Date();
     }
 
-    const startOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth(), 1);
-    let endOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth() + 1, 0);
+    const startOfMonth = new Date(
+      this.selectedDateMonthly.getFullYear(),
+      this.selectedDateMonthly.getMonth(),
+      1
+    );
+    let endOfMonth = new Date(
+      this.selectedDateMonthly.getFullYear(),
+      this.selectedDateMonthly.getMonth() + 1,
+      0
+    );
     endOfMonth = new Date(endOfMonth.setHours(23, 59, 59, 999));
 
-    this.appointmentService.getMonthlyTags(this.personId, startOfMonth, endOfMonth).subscribe(tags => {
-      this.monthlyTags = tags;
-      this.monthlyTagsKey++;
-      this.cdr.detectChanges();
-    });
+    this.appointmentService
+      .getMonthlyTags(this.personId, startOfMonth, endOfMonth)
+      .subscribe((tags) => {
+        this.monthlyTags = tags;
+        this.monthlyTagsKey++;
+        this.cdr.detectChanges();
+      });
   }
 
   fetchTagsForRange(months: number): void {
@@ -392,15 +423,27 @@ export class AppointmentCreateComponent implements OnInit {
       this.selectedDateMonthly = new Date();
     }
 
-    const startOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth(), 1);
-    let endOfMonth = new Date(this.selectedDateMonthly.getFullYear(), this.selectedDateMonthly.getMonth() + months, 0);
+    const startOfMonth = new Date(
+      this.selectedDateMonthly.getFullYear(),
+      this.selectedDateMonthly.getMonth(),
+      1
+    );
+    let endOfMonth = new Date(
+      this.selectedDateMonthly.getFullYear(),
+      this.selectedDateMonthly.getMonth() + months,
+      0
+    );
     endOfMonth = new Date(endOfMonth.setHours(23, 59, 59, 999));
 
-    this.appointmentService.getMonthlyTags(this.personId, startOfMonth, endOfMonth).subscribe(tags => {
-      this.monthlyTags = tags;
-      this.calendarKeys = Array.from({length: months}, (_, i) => Math.random());
-      this.cdr.detectChanges();
-    });
+    this.appointmentService
+      .getMonthlyTags(this.personId, startOfMonth, endOfMonth)
+      .subscribe((tags) => {
+        this.monthlyTags = tags;
+        this.calendarKeys = Array.from({ length: months }, (_, i) =>
+          Math.random()
+        );
+        this.cdr.detectChanges();
+      });
   }
 
   dateClass = (d: Date): MatCalendarCellCssClasses => {
@@ -410,7 +453,7 @@ export class AppointmentCreateComponent implements OnInit {
 
     const localDateString = d.toISOString().split('T')[0];
 
-    const foundTag = this.monthlyTags.find(tag => {
+    const foundTag = this.monthlyTags.find((tag) => {
       const tagDate = new Date(tag.date);
 
       const tagDateString = tagDate.toISOString().split('T')[0];
@@ -424,4 +467,8 @@ export class AppointmentCreateComponent implements OnInit {
 
     return '';
   };
+
+  validateFields(): boolean {
+    return this.company.valid && this.person.valid;
+  }
 }

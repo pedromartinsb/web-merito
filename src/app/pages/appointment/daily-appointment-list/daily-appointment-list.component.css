@@ -30,7 +30,7 @@ h1 {
   margin: 10px;
 }
 
-.person-routines-container, 
+.person-routines-container,
 .person-tasks-container,
 .person-assignments-container {
   margin-top: 8px;
@@ -65,4 +65,3 @@ h1 {
 .person-assignments-container {
   margin-bottom: 16px;
 }
-
