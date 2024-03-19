@@ -100,7 +100,7 @@ export class RoutineFormComponent implements OnInit {
     this.isSaving = true;
     this.routineService.create(this.routine).subscribe({
       next: () => {
-        this.addPersonsToRoutine();
+        // this.addPersonsToRoutine();
         this.toast.success('Rotina cadastrada com sucesso', 'Cadastro');
         this.router.navigate(['routine']);
         this.isSaving = false;

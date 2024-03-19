@@ -34,7 +34,7 @@
         </mat-grid-tile>
 
         <!-- Coluna 2 -->
-        <mat-grid-tile colspan="1">
+        <mat-grid-tile colspan="1" *ngIf="routineId != null">
           <mat-form-field class="fullWidth" appearance="outline">
             <mat-label>Adicionar Pessoas à Rotina (opcional)</mat-label>
             <mat-select
