@@ -69,8 +69,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     name: '',
     cpfCnpj: '',
     personType: 'EMPLOYEE',
-    gender: '',
-    contractType: '',
+    gender: 'Male',
+    contractType: 'CLT',
 
     department: null,
     departmentId: '',
@@ -408,6 +408,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (ex) => {
         this.handleErrors(ex);
+        this.isSaving = false;
       },
     });
   }
@@ -580,8 +581,10 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.person.contractType = contractType;
     if (contractType === 'CLT') {
       this.isCpf = true;
+      this.person.contractType = 'CLT';
     } else if (contractType === 'Professional') {
       this.isCpf = false;
+      this.person.contractType = 'Professional';
     }
   }
 
