@@ -62,12 +62,12 @@
             [(ngModel)]="radioContractTypeOptions"
             name="radioButtons"
           >
-            <mat-radio-button (click)="selectContractType('CLT')" value="CLT"
+            <mat-radio-button (click)="selectContractType('Clt')" value="Clt"
               >CLT</mat-radio-button
             >
             <mat-radio-button
-              (click)="selectContractType('Professional')"
-              value="Professional"
+              (click)="selectContractType('Autônomo')"
+              value="Autônomo"
               >Profissional</mat-radio-button
             >
           </mat-radio-group>
@@ -79,10 +79,14 @@
             [(ngModel)]="radioGenderOptions"
             name="radioGenderButtons"
           >
-            <mat-radio-button (click)="selectGender('Male')" value="Male"
+            <mat-radio-button
+              (click)="selectGender('Masculino')"
+              value="Masculino"
               >Masculino</mat-radio-button
             >
-            <mat-radio-button (click)="selectGender('Female')" value="Female"
+            <mat-radio-button
+              (click)="selectGender('Feminino')"
+              value="Feminino"
               >Feminino</mat-radio-button
             >
           </mat-radio-group>
@@ -123,26 +127,6 @@
             />
             <mat-icon matSuffix>email</mat-icon>
             <mat-hint *ngIf="!email.value" align="end" style="color: red"
-              >Campo obrigatório</mat-hint
-            >
-          </mat-form-field>
-        </mat-grid-tile>
-
-        <!-- Coluna 3 -->
-        <mat-grid-tile colspan="1">
-          <mat-form-field class="fullWidth" appearance="legacy">
-            <mat-label>Senha</mat-label>
-            <input
-              matInput
-              [(ngModel)]="person.user.password"
-              [type]="hide ? 'password' : 'text'"
-              [formControl]="password"
-              required
-            />
-            <mat-icon matSuffix (click)="hide = !hide">{{
-              hide ? "visibility_off" : "visibility"
-            }}</mat-icon>
-            <mat-hint *ngIf="!password.value" align="end" style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>
@@ -223,29 +207,6 @@
               style="color: red"
               >Campo obrigatório</mat-hint
             >
-          </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
-      <!-- Colunas -->
-      <mat-grid-list cols="1" rowHeight="100px">
-        <!-- Coluna 1 -->
-        <mat-grid-tile colspan="1">
-          <mat-form-field class="fullWidth" appearance="outline">
-            <mat-label>Selecione as permissões</mat-label>
-            <mat-select
-              [(ngModel)]="person.user.roles"
-              [compareWith]="compareRoles"
-              name="role"
-              [formControl]="role"
-              required
-              multiple
-            >
-              <mat-option
-                *ngFor="let role of roleLabels"
-                [value]="role.value"
-                >{{ role.label }}</mat-option
-              >
-            </mat-select>
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>

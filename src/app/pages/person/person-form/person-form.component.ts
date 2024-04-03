@@ -68,9 +68,9 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   person: Person = {
     name: '',
     cpfCnpj: '',
-    personType: 'EMPLOYEE',
-    gender: 'Male',
-    contractType: 'CLT',
+    personType: 'Colaborador',
+    gender: 'Masculino',
+    contractType: 'Clt',
 
     department: null,
     departmentId: '',
@@ -112,7 +112,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   username: FormControl = new FormControl(null, Validators.minLength(3));
   email: FormControl = new FormControl(null, Validators.email);
-  password: FormControl = new FormControl(null, []);
   role: FormControl = new FormControl(null, Validators.minLength(1));
 
   // Contact
@@ -176,12 +175,9 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private cepValueChangesSubscription: Subscription;
 
-  public radioContractTypeOptions: string = 'CLT';
-  public radioGenderOptions: string = 'Male';
+  public radioContractTypeOptions: string = 'Clt';
+  public radioGenderOptions: string = 'Masculino';
   public hide: boolean = true;
-  get passwordInput() {
-    return this.password;
-  }
 
   @ViewChild('routinePaginator') routinePaginator: MatPaginator;
   @ViewChild('taskPaginator') taskPaginator: MatPaginator;
@@ -323,15 +319,16 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe((response) => {
-        console.log(response['contractType']);
-        if (response['contractType'] === 'PROFESSIONAL') {
-          response['contractType'] = 'Professional';
-          this.radioContractTypeOptions = 'Professional';
+        console.log('gender: ' + response.gender);
+
+        if (response['contractType'] === 'Autônomo') {
+          response['contractType'] = 'Autônomo';
+          this.radioContractTypeOptions = 'Autônomo';
           this.isCpf = false;
         }
-        if (response['gender'] === 'FEMALE') {
-          response['gender'] = 'Female';
-          this.radioGenderOptions = 'Female';
+        if (response['gender'] === 'Feminino') {
+          response['gender'] = 'Feminino';
+          this.radioGenderOptions = 'Feminino';
         }
         this.person = response;
       });
@@ -417,6 +414,9 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSaving = true;
     this.person.department = null;
     this.person.responsibility = null;
+    console.log('gender: ' + this.person.gender);
+    console.log('contractType: ' + this.person.contractType);
+
     this.personService.update(this.person.id, this.person).subscribe({
       next: () => {
         this.toast.success('Colaborador atualizado com sucesso', 'Atualização');
@@ -425,6 +425,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (ex) => {
         this.handleErrors(ex);
+        this.isSaving = false;
       },
     });
   }
@@ -438,7 +439,9 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       this.name.valid &&
       this.cpf.valid &&
       this.email.valid &&
-      this.password.valid
+      this.company.valid &&
+      this.department.valid &&
+      this.responsibility.valid
     );
   }
 
@@ -579,12 +582,12 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectContractType(contractType: string): void {
     this.person.contractType = contractType;
-    if (contractType === 'CLT') {
+    if (contractType === 'Clt') {
       this.isCpf = true;
-      this.person.contractType = 'CLT';
-    } else if (contractType === 'Professional') {
+      this.person.contractType = 'Clt';
+    } else if (contractType === 'Autônomo') {
       this.isCpf = false;
-      this.person.contractType = 'Professional';
+      this.person.contractType = 'Autônomo';
     }
   }
 

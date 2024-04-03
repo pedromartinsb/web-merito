@@ -89,11 +89,4 @@ export class PersonListComponent implements OnInit {
       this.findAll();
     });
   }
-
-  getPersonTypeLabel(personType: string) {
-    if (personType === 'EMPLOYEE') {
-      return 'Colaborador';
-    }
-    return '';
-  }
 }
