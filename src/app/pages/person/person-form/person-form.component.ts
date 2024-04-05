@@ -123,7 +123,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   streetName: FormControl = new FormControl(null, Validators.minLength(3));
   neighborhood: FormControl = new FormControl(null, Validators.minLength(3));
   city: FormControl = new FormControl(null, Validators.minLength(3));
-  uf: FormControl = new FormControl(null, Validators.minLength(3));
+  uf: FormControl = new FormControl(null, Validators.minLength(2));
   complement: FormControl = new FormControl(null, Validators.minLength(3));
 
   task: FormControl = new FormControl(null, []);
