@@ -33,6 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -76,6 +77,7 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -123,6 +125,7 @@ export const maskConfig: Partial<IConfig> = {
     DocumentFormComponent,
     DocumentListComponent,
     PermissionFormComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -160,6 +163,7 @@ export const maskConfig: Partial<IConfig> = {
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     MatMenuModule,
+    NgxChartsModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,

@@ -271,38 +271,9 @@
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
-      <!-- Listas -->
-      <mat-grid-list cols="3" rowHeight="100px">
-        <!-- Lista de Rotinas -->
-        <mat-grid-tile colspan="1">
-          <mat-list>
-            <mat-list-item *ngFor="let routine of routines">
-              <mat-icon mat-list-icon>drag_indicator</mat-icon>
-              <div mat-line>{{ routine.name }}</div>
-            </mat-list-item>
-          </mat-list>
-        </mat-grid-tile>
-        <!-- Lista de Atribuições -->
-        <mat-grid-tile colspan="1">
-          <mat-list>
-            <mat-list-item *ngFor="let assignmentof; assignments">
-              <mat-icon mat-list-icon>drag_indicator</mat-icon>
-              <div mat-line>{{ assignmentof.name }}</div>
-            </mat-list-item>
-          </mat-list>
-        </mat-grid-tile>
-        <!-- Lista de Tarefas -->
-        <mat-grid-tile colspan="1">
-          <mat-list>
-            <mat-list-item *ngFor="let task of tasks">
-              <mat-icon mat-list-icon>drag_indicator</mat-icon>
-              <div mat-line>{{ task.name }}</div>
-            </mat-list-item>
-          </mat-list>
-        </mat-grid-tile>
-      </mat-grid-list>
+
       <!-- Tables -->
-      <!-- <mat-grid-list cols="3" rowHeight="200px">
+      <mat-grid-list cols="3" rowHeight="40vh" *ngIf="personId">
         <mat-grid-tile colspan="1">
           <table
             mat-table
@@ -362,7 +333,7 @@
             ></tr>
           </table>
         </mat-grid-tile>
-      </mat-grid-list> -->
+      </mat-grid-list>
 
       <!-- Divider -->
       <hr class="solid" />
