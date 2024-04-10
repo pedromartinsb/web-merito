@@ -6,6 +6,7 @@ import { Routine } from 'src/app/models/routine';
 import { Person } from 'src/app/models/person';
 import { RoutineService } from 'src/app/services/routine.service';
 import { PersonService } from 'src/app/services/person.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-routine-form',
@@ -42,7 +43,8 @@ export class RoutineFormComponent implements OnInit {
     private toast: ToastrService,
     private route: ActivatedRoute,
     private routineService: RoutineService,
-    private personService: PersonService
+    private personService: PersonService,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +59,10 @@ export class RoutineFormComponent implements OnInit {
     } else {
       this.findAllPersons();
     }
+  }
+
+  backClicked() {
+    this._location.back();
   }
 
   findAllPersons(): void {

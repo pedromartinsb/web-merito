@@ -12,6 +12,7 @@ import {
 import { SegmentService } from 'src/app/services/segment.service';
 import { Segment } from 'src/app/models/segment';
 import { PersonService } from 'src/app/services/person.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-holding-form',
@@ -82,7 +83,8 @@ export class HoldingFormComponent implements OnInit {
     private router: Router,
     private toast: ToastrService,
     private route: ActivatedRoute,
-    private segmentService: SegmentService
+    private segmentService: SegmentService,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -96,6 +98,10 @@ export class HoldingFormComponent implements OnInit {
         this.findAddress();
       }
     });
+  }
+
+  backClicked() {
+    this._location.back();
   }
 
   findAllSegments(): void {

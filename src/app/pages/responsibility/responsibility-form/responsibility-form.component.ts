@@ -4,15 +4,14 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Responsibility } from 'src/app/models/responsibility';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-responsibility-form',
   templateUrl: './responsibility-form.component.html',
-  styleUrls: ['./responsibility-form.component.css']
+  styleUrls: ['./responsibility-form.component.css'],
 })
 export class ResponsibilityFormComponent implements OnInit {
-
-
   responsibility: Responsibility = {
     name: '',
     createdAt: '',
@@ -30,8 +29,9 @@ export class ResponsibilityFormComponent implements OnInit {
     private responsibilityService: ResponsibilityService,
     private router: Router,
     private toast: ToastrService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private _location: Location
+  ) {}
 
   ngOnInit(): void {
     this.responsibilityId = this.route.snapshot.params['id'];
@@ -40,10 +40,16 @@ export class ResponsibilityFormComponent implements OnInit {
     }
   }
 
+  backClicked() {
+    this._location.back();
+  }
+
   loadResponsibility(): void {
-    this.responsibilityService.findById(this.responsibilityId).subscribe(response => {
-      this.responsibility = response;
-    });
+    this.responsibilityService
+      .findById(this.responsibilityId)
+      .subscribe((response) => {
+        this.responsibility = response;
+      });
   }
 
   openResponsibilityForm(): void {
@@ -70,21 +76,23 @@ export class ResponsibilityFormComponent implements OnInit {
 
   private updateResponsibility(): void {
     this.isSaving = true;
-    this.responsibilityService.update(this.responsibilityId, this.responsibility).subscribe({
-      next: () => {
-        this.toast.success('Cargo atualizado com sucesso', 'Atualização');
-        this.router.navigate(['responsibility']);
-        this.isSaving = false;
-      },
-      error: (ex) => {
-        this.handleErrors(ex);
-      },
-    });
+    this.responsibilityService
+      .update(this.responsibilityId, this.responsibility)
+      .subscribe({
+        next: () => {
+          this.toast.success('Cargo atualizado com sucesso', 'Atualização');
+          this.router.navigate(['responsibility']);
+          this.isSaving = false;
+        },
+        error: (ex) => {
+          this.handleErrors(ex);
+        },
+      });
   }
 
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach(element => {
+      ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
       });
     } else {
@@ -95,5 +103,4 @@ export class ResponsibilityFormComponent implements OnInit {
   validateFields(): boolean {
     return this.name.valid;
   }
-
 }

@@ -1,6 +1,9 @@
 <mat-card class="card mat-elevation-z8">
   <!-- Header -->
   <mat-card-header>
+    <mat-card-subtitle (click)="backClicked()" style="cursor: pointer"
+      >Voltar</mat-card-subtitle
+    >
     <mat-card-title
       >{{ companyId ? "Editar " + company.fantasyName : "Cadastrar Empresas" }}
     </mat-card-title>

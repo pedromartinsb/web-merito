@@ -13,14 +13,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { finalize } from 'rxjs';
 import { Company } from 'src/app/models/company';
 import { CompanyService } from 'src/app/services/company.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-department-form',
   templateUrl: './department-form.component.html',
-  styleUrls: ['./department-form.component.css']
+  styleUrls: ['./department-form.component.css'],
 })
 export class DepartmentFormComponent implements OnInit {
-
   companies: Company[] = [];
 
   department: Department = {
@@ -50,7 +50,12 @@ export class DepartmentFormComponent implements OnInit {
 
   newLinkedPerson: Person;
 
-  personDisplayedColumns: string[] = ['personName', 'personDepartment', 'personType', 'personActions'];
+  personDisplayedColumns: string[] = [
+    'personName',
+    'personDepartment',
+    'personType',
+    'personActions',
+  ];
   personDataSource = new MatTableDataSource<Person>(this.departmentPersons);
 
   public isSaving: boolean = false;
@@ -63,8 +68,9 @@ export class DepartmentFormComponent implements OnInit {
     private route: ActivatedRoute,
     private toast: ToastrService,
     private personService: PersonService,
-    private companyService: CompanyService
-  ) { }
+    private companyService: CompanyService,
+    private _location: Location
+  ) {}
 
   ngOnInit(): void {
     this.departmentId = this.route.snapshot.params['id'];
@@ -81,6 +87,10 @@ export class DepartmentFormComponent implements OnInit {
       this.findAllCompanies();
       this.company.setValue(null);
     }
+  }
+
+  backClicked() {
+    this._location.back();
   }
 
   ngAfterViewInit(): void {
@@ -113,16 +123,21 @@ export class DepartmentFormComponent implements OnInit {
 
   private updateDepartment(): void {
     this.isSaving = true;
-    this.departmentService.update(this.departmentId, this.department).subscribe({
-      next: () => {
-        this.toast.success('Departamento atualizado com sucesso', 'Atualização');
-        this.router.navigate(['department']);
-        this.isSaving = false;
-      },
-      error: (ex) => {
-        this.handleErrors(ex);
-      },
-    });
+    this.departmentService
+      .update(this.departmentId, this.department)
+      .subscribe({
+        next: () => {
+          this.toast.success(
+            'Departamento atualizado com sucesso',
+            'Atualização'
+          );
+          this.router.navigate(['department']);
+          this.isSaving = false;
+        },
+        error: (ex) => {
+          this.handleErrors(ex);
+        },
+      });
   }
 
   findAllCompanies(): void {
@@ -132,32 +147,40 @@ export class DepartmentFormComponent implements OnInit {
   }
 
   findDepartmentCompany(): void {
-    this.companyService.findById(this.companyId).subscribe((response: Company) => {
-      this.department.company = response;
-      this.company.patchValue(response);
-    });
+    this.companyService
+      .findById(this.companyId)
+      .subscribe((response: Company) => {
+        this.department.company = response;
+        this.company.patchValue(response);
+      });
   }
 
   loadDepartment(): void {
-    this.departmentService.findById(this.departmentId).pipe(
-      finalize(() => {
-        this.findDepartmentPersons();
+    this.departmentService
+      .findById(this.departmentId)
+      .pipe(
+        finalize(() => {
+          this.findDepartmentPersons();
+          this.company.patchValue(this.department.company.id);
+        })
+      )
+      .subscribe((response: Department) => {
+        this.department = response;
         this.company.patchValue(this.department.company.id);
-      })
-    ).subscribe((response: Department) => {
-      this.department = response;
-      this.company.patchValue(this.department.company.id);
-    });
+      });
   }
 
   findDepartmentPersons() {
-    if (this.department.person && this.department.person.length > 0 ) this.departmentPersons = this.department.person;
-    this.personDataSource = new MatTableDataSource<Person>(this.department.person);
+    if (this.department.person && this.department.person.length > 0)
+      this.departmentPersons = this.department.person;
+    this.personDataSource = new MatTableDataSource<Person>(
+      this.department.person
+    );
   }
 
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach(element => {
+      ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
       });
     } else {
@@ -183,5 +206,4 @@ export class DepartmentFormComponent implements OnInit {
       this.department.companyId = company;
     }
   }
-
 }

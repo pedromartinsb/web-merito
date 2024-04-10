@@ -7,14 +7,14 @@ import { Goal } from 'src/app/models/goal';
 import { PersonService } from 'src/app/services/person.service';
 import { Person } from 'src/app/models/person';
 import { finalize } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-goal-form',
   templateUrl: './goal-form.component.html',
-  styleUrls: ['./goal-form.component.css']
+  styleUrls: ['./goal-form.component.css'],
 })
 export class GoalFormComponent implements OnInit {
-
   persons: Person[] = [];
 
   goal: Goal = {
@@ -38,8 +38,9 @@ export class GoalFormComponent implements OnInit {
     private router: Router,
     private toast: ToastrService,
     private route: ActivatedRoute,
-    private personService: PersonService
-  ) { }
+    private personService: PersonService,
+    private _location: Location
+  ) {}
 
   ngOnInit(): void {
     this.goalId = this.route.snapshot.params['id'];
@@ -50,24 +51,33 @@ export class GoalFormComponent implements OnInit {
     }
   }
 
+  backClicked() {
+    this._location.back();
+  }
+
   findAllPersons(): void {
     this.personService.findAll().subscribe((response: Person[]) => {
       this.persons = response;
       if (this.goalId) {
-        this.person.setValue(response.find(p => p.id === this.goal.person.id));
+        this.person.setValue(
+          response.find((p) => p.id === this.goal.person.id)
+        );
         this.goal.personId = this.goal.person.id;
       }
     });
   }
 
   loadGoal(): void {
-    this.goalService.findById(this.goalId).pipe(
-      finalize(() => {
-        this.findAllPersons();
-      })
-    ).subscribe((response: Goal) => {
-      this.goal = response;
-    });
+    this.goalService
+      .findById(this.goalId)
+      .pipe(
+        finalize(() => {
+          this.findAllPersons();
+        })
+      )
+      .subscribe((response: Goal) => {
+        this.goal = response;
+      });
   }
 
   openGoalForm(): void {
@@ -108,7 +118,7 @@ export class GoalFormComponent implements OnInit {
 
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach(element => {
+      ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
       });
     } else {
@@ -119,5 +129,4 @@ export class GoalFormComponent implements OnInit {
   validateFields(): boolean {
     return this.name.valid;
   }
-
 }

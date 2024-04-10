@@ -1,8 +1,11 @@
 <mat-card class="card mat-elevation-z8">
   <!-- Header -->
   <mat-card-header>
-    <mat-card-title
-      >{{ personId ? "Editar " + person.name : "Cadastrar Colaborador" }}
+    <mat-card-subtitle (click)="backClicked()" style="cursor: pointer"
+      >Voltar</mat-card-subtitle
+    >
+    <mat-card-title>
+      {{ personId ? "Editar " + person.name : "Cadastrar Colaborador" }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
   </mat-card-header>
@@ -15,9 +18,9 @@
 
       <!-- General -->
       <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
-      <!-- Colunas -->
+      <!-- Name, CPF, ContractType, Gender -->
       <mat-grid-list cols="5" rowHeight="100px">
-        <!-- Coluna 1 -->
+        <!-- Name -->
         <mat-grid-tile colspan="2">
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Nome</mat-label>
@@ -36,7 +39,7 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <!-- Coluna 2 -->
+        <!-- CPF -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth cpf-field" appearance="legacy">
             <mat-label>{{ isCpf ? "CPF" : "CNPJ" }}</mat-label>
@@ -56,7 +59,7 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <!-- Coluna 3 -->
+        <!-- ContractType -->
         <mat-grid-tile colspan="1">
           <mat-radio-group
             [(ngModel)]="radioContractTypeOptions"
@@ -73,7 +76,7 @@
           </mat-radio-group>
         </mat-grid-tile>
 
-        <!-- Coluna 4 -->
+        <!-- Gender -->
         <mat-grid-tile colspan="1">
           <mat-radio-group
             [(ngModel)]="radioGenderOptions"
@@ -92,9 +95,9 @@
           </mat-radio-group>
         </mat-grid-tile>
       </mat-grid-list>
-      <!-- Colunas -->
+      <!-- Username, Email -->
       <mat-grid-list cols="3" rowHeight="100px">
-        <!-- Coluna 1 -->
+        <!-- Username -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Nome de Usuário</mat-label>
@@ -113,7 +116,7 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <!-- Coluna 2 -->
+        <!-- Email -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>E-mail</mat-label>
@@ -132,9 +135,9 @@
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
-      <!-- Colunas -->
+      <!-- Company, Department, Responsibility -->
       <mat-grid-list cols="3" rowHeight="100px">
-        <!-- Coluna 1 -->
+        <!-- Company -->
         <mat-grid-tile colspan="1">
           <mat-form-field
             class="fullWidth"
@@ -160,7 +163,7 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <!-- Coluna 2 -->
+        <!-- Department -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth" appearance="outline">
             <mat-label>{{
@@ -186,7 +189,7 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <!-- Coluna 3 -->
+        <!-- Responsibility -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth" appearance="outline">
             <mat-label>Selecione o Cargo</mat-label>
@@ -210,6 +213,156 @@
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
+      <!-- Tasks, Assignments, Routines -->
+      <mat-grid-list cols="3" rowHeight="100px">
+        <!-- Routines -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione as Rotinas</mat-label>
+            <mat-select
+              [(ngModel)]="person.routines"
+              (ngModelChange)="findAllRoutines()"
+              name="routines"
+              [formControl]="routinesFormControl"
+              multiple
+            >
+              <mat-option
+                *ngFor="let routine of routines"
+                [value]="routine.id"
+                >{{ routine.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Assignments -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione as Atribuições</mat-label>
+            <mat-select
+              [(ngModel)]="person.assignments"
+              (ngModelChange)="findAllAssignments()"
+              name="assignments"
+              [formControl]="assingmentsFormControl"
+              multiple
+            >
+              <mat-option
+                *ngFor="let assignment of assignments"
+                [value]="assignment.id"
+                >{{ assignment.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Tasks -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione as Tarefas</mat-label>
+            <mat-select
+              [formControl]="tasksFormControl"
+              [(ngModel)]="person.tasks"
+              multiple
+            >
+              <mat-option *ngFor="let task of tasks" [value]="task.id">{{
+                task.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <!-- Listas -->
+      <mat-grid-list cols="3" rowHeight="100px">
+        <!-- Lista de Rotinas -->
+        <mat-grid-tile colspan="1">
+          <mat-list>
+            <mat-list-item *ngFor="let routine of routines">
+              <mat-icon mat-list-icon>drag_indicator</mat-icon>
+              <div mat-line>{{ routine.name }}</div>
+            </mat-list-item>
+          </mat-list>
+        </mat-grid-tile>
+        <!-- Lista de Atribuições -->
+        <mat-grid-tile colspan="1">
+          <mat-list>
+            <mat-list-item *ngFor="let assignmentof; assignments">
+              <mat-icon mat-list-icon>drag_indicator</mat-icon>
+              <div mat-line>{{ assignmentof.name }}</div>
+            </mat-list-item>
+          </mat-list>
+        </mat-grid-tile>
+        <!-- Lista de Tarefas -->
+        <mat-grid-tile colspan="1">
+          <mat-list>
+            <mat-list-item *ngFor="let task of tasks">
+              <mat-icon mat-list-icon>drag_indicator</mat-icon>
+              <div mat-line>{{ task.name }}</div>
+            </mat-list-item>
+          </mat-list>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <!-- Tables -->
+      <!-- <mat-grid-list cols="3" rowHeight="200px">
+        <mat-grid-tile colspan="1">
+          <table
+            mat-table
+            [dataSource]="routineDataSource"
+            class="mat-elevation-z8"
+          >
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Rotinas atribuídas</th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="routineDisplayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: routineDisplayedColumns"
+            ></tr>
+          </table>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="1">
+          <table
+            mat-table
+            [dataSource]="assignmentDataSource"
+            class="mat-elevation-z8"
+          >
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Atribuições atribuídas</th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="assignmentDisplayedColumns"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: assignmentDisplayedColumns"
+            ></tr>
+          </table>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="1">
+          <table
+            mat-table
+            [dataSource]="taskDataSource"
+            class="mat-elevation-z8"
+          >
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Tarefas atribuídas</th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="taskDisplayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: taskDisplayedColumns"
+            ></tr>
+          </table>
+        </mat-grid-tile>
+      </mat-grid-list> -->
 
       <!-- Divider -->
       <hr class="solid" />

@@ -32,6 +32,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Assignment } from 'src/app/models/assignment';
 import { MatPaginator } from '@angular/material/paginator';
 import { AssignmentService } from 'src/app/services/assignment.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-person-form',
@@ -133,51 +134,32 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isSaving: boolean = false;
 
-  ROUTINE_ELEMENT_DATA: Routine[] = [];
-  ROUTINE_FILTERED_DATA: Routine[] = [];
-
+  assignments: Assignment[] = [];
+  personAssignments: Assignment[] = [];
   routines: Routine[] = [];
   personRoutines: Routine[] = [];
-
-  routineDisplayedColumns: string[] = ['routineName', 'routineActions'];
-  routineDataSource = new MatTableDataSource<Routine>(this.routines);
-
-  TASK_ELEMENT_DATA: Task[] = [];
-  TASK_FILTERED_DATA: Task[] = [];
-
   tasks: Task[] = [];
   personTasks: Task[] = [];
 
-  taskDisplayedColumns: string[] = [
-    'taskName',
-    'taskStartDate',
-    'taskEndDate',
-    'taskActions',
-  ];
+  taskDisplayedColumns: string[] = ['name'];
   taskDataSource = new MatTableDataSource<Task>(this.tasks);
-
-  ASSIGNMENT_ELEMENT_DATA: Assignment[] = [];
-  ASSIGNMENT_FILTERED_DATA: Assignment[] = [];
-
-  assignments: Assignment[] = [];
-  personAssignments: Assignment[] = [];
+  routineDisplayedColumns: string[] = ['name'];
+  routineDataSource = new MatTableDataSource<Routine>(this.routines);
+  assignmentDisplayedColumns: string[] = ['name'];
+  assignmentDataSource = new MatTableDataSource<Assignment>(this.assignments);
 
   isCpf: boolean = true;
   contractType: string = '';
-
-  assignmentDisplayedColumns: string[] = [
-    'assignmentName',
-    'assignmentStartDate',
-    'assignmentEndDate',
-    'assignmentActions',
-  ];
-  assignmentDataSource = new MatTableDataSource<Assignment>(this.assignments);
 
   private cepValueChangesSubscription: Subscription;
 
   public radioContractTypeOptions: string = 'Clt';
   public radioGenderOptions: string = 'Masculino';
   public hide: boolean = true;
+
+  routinesFormControl = new FormControl('');
+  assingmentsFormControl = new FormControl('');
+  tasksFormControl = new FormControl('');
 
   @ViewChild('routinePaginator') routinePaginator: MatPaginator;
   @ViewChild('taskPaginator') taskPaginator: MatPaginator;
@@ -193,7 +175,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     private routineService: RoutineService,
     private assignmentService: AssignmentService,
     private departmentService: DepartmentService,
-    private responsibilityService: ResponsibilityService
+    private responsibilityService: ResponsibilityService,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -211,6 +194,10 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     );
+  }
+
+  backClicked() {
+    this._location.back();
   }
 
   ngAfterViewInit(): void {
@@ -319,8 +306,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe((response) => {
-        console.log('gender: ' + response.gender);
-
         if (response['contractType'] === 'Autônomo') {
           response['contractType'] = 'Autônomo';
           this.radioContractTypeOptions = 'Autônomo';
@@ -340,12 +325,12 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((response: Routine[]) => {
         this.personRoutines = response;
         this.routineDataSource = new MatTableDataSource<Routine>(response);
-        this.routines = this.routines.filter(
-          (routine) =>
-            !this.personRoutines.some(
-              (personRoutine) => personRoutine.id === routine.id
-            )
-        );
+        // this.routines = this.routines.filter(
+        //   (routine) =>
+        //     !this.personRoutines.some(
+        //       (personRoutine) => personRoutine.id === routine.id
+        //     )
+        // );
       });
   }
 
@@ -355,10 +340,10 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((response: Task[]) => {
         this.personTasks = response;
         this.taskDataSource = new MatTableDataSource<Task>(response);
-        this.tasks = this.tasks.filter(
-          (task) =>
-            !this.personTasks.some((personTask) => personTask.id === task.id)
-        );
+        // this.tasks = this.tasks.filter(
+        //   (task) =>
+        //     !this.personTasks.some((personTask) => personTask.id === task.id)
+        // );
       });
   }
 
@@ -370,12 +355,12 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
         this.assignmentDataSource = new MatTableDataSource<Assignment>(
           response
         );
-        this.assignments = this.assignments.filter(
-          (assignment) =>
-            !this.personAssignments.some(
-              (personAssignment) => personAssignment.id === assignment.id
-            )
-        );
+        // this.assignments = this.assignments.filter(
+        //   (assignment) =>
+        //     !this.personAssignments.some(
+        //       (personAssignment) => personAssignment.id === assignment.id
+        //     )
+        // );
       });
   }
 
@@ -414,8 +399,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSaving = true;
     this.person.department = null;
     this.person.responsibility = null;
-    console.log('gender: ' + this.person.gender);
-    console.log('contractType: ' + this.person.contractType);
 
     this.personService.update(this.person.id, this.person).subscribe({
       next: () => {
