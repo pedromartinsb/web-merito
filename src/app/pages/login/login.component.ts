@@ -17,12 +17,12 @@ export class LoginComponent implements OnInit {
   };
   isLoggedIn = false;
   isLoginFailed = false;
-  errorMessage = '';
 
   login: Login = {
     username: '',
     token: '',
     roles: [],
+    firstAccess: false,
   };
 
   username: FormControl = new FormControl(null, [Validators.required]);
@@ -66,8 +66,7 @@ export class LoginComponent implements OnInit {
       },
       error: (err) => {
         this.isLoggin = false;
-        this.toast.error('Usuário e/ou senha inválidos');
-        this.errorMessage = err.error.message;
+        this.toast.error(err);
       },
     });
   }
