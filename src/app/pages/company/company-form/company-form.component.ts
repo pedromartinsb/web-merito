@@ -18,6 +18,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DepartmentService } from 'src/app/services/department.service';
 import { PersonService } from 'src/app/services/person.service';
 import { Department } from 'src/app/models/department';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-company-form',
@@ -128,7 +129,8 @@ export class CompanyFormComponent implements OnInit {
     private departmentService: DepartmentService,
     private router: Router,
     private route: ActivatedRoute,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -143,6 +145,10 @@ export class CompanyFormComponent implements OnInit {
         this.findAddress();
       }
     });
+  }
+
+  backClicked() {
+    this._location.back();
   }
 
   ngAfterViewInit(): void {

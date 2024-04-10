@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Assignment } from 'src/app/models/assignment';
 import { PersonService } from 'src/app/services/person.service';
 import { Person } from 'src/app/models/person';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-assignment-form',
@@ -47,7 +48,8 @@ export class AssignmentFormComponent implements OnInit {
     private router: Router,
     private toast: ToastrService,
     private route: ActivatedRoute,
-    private personService: PersonService
+    private personService: PersonService,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +65,10 @@ export class AssignmentFormComponent implements OnInit {
       this.findAllPersons();
     }
     this.initializeDate();
+  }
+
+  backClicked() {
+    this._location.back();
   }
 
   findAllPersons(): void {

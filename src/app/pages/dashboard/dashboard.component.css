@@ -42,13 +42,3 @@ mat-card {
 hr.solid {
   border-top: 0.5px solid #bbb;
 }
-
-mat-radio-button {
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-}
-
-table {
-  width: 100%;
-}

@@ -7,6 +7,7 @@ import { Task } from 'src/app/models/task';
 import { Person } from 'src/app/models/person';
 import { RoutineService } from 'src/app/services/routine.service';
 import { PersonService } from 'src/app/services/person.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-task-form',
@@ -49,7 +50,8 @@ export class TaskFormComponent implements OnInit {
     private toast: ToastrService,
     private route: ActivatedRoute,
     private routineService: RoutineService,
-    private personService: PersonService
+    private personService: PersonService,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -65,6 +67,10 @@ export class TaskFormComponent implements OnInit {
       this.findAllPersons();
     }
     this.initializeDate();
+  }
+
+  backClicked() {
+    this._location.back();
   }
 
   findAllPersons(): void {

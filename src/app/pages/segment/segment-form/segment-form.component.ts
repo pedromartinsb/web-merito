@@ -4,14 +4,14 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Segment } from 'src/app/models/segment';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-segment-form',
   templateUrl: './segment-form.component.html',
-  styleUrls: ['./segment-form.component.css']
+  styleUrls: ['./segment-form.component.css'],
 })
 export class SegmentFormComponent implements OnInit {
-
   segment: Segment = {
     name: '',
     createdAt: '',
@@ -29,8 +29,9 @@ export class SegmentFormComponent implements OnInit {
     private segmentService: SegmentService,
     private router: Router,
     private toast: ToastrService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private _location: Location
+  ) {}
 
   ngOnInit(): void {
     this.segmentId = this.route.snapshot.params['id'];
@@ -39,8 +40,12 @@ export class SegmentFormComponent implements OnInit {
     }
   }
 
+  backClicked() {
+    this._location.back();
+  }
+
   loadSegment(): void {
-    this.segmentService.findById(this.segmentId).subscribe(response => {
+    this.segmentService.findById(this.segmentId).subscribe((response) => {
       this.segment = response;
     });
   }
@@ -83,7 +88,7 @@ export class SegmentFormComponent implements OnInit {
 
   private handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach(element => {
+      ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
       });
     } else {
@@ -94,5 +99,4 @@ export class SegmentFormComponent implements OnInit {
   validateFields(): boolean {
     return this.name.valid;
   }
-
 }

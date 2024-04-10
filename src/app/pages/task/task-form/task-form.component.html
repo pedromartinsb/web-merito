@@ -1,6 +1,9 @@
 <mat-card class="card mat-elevation-z8">
   <!-- Header -->
   <mat-card-header>
+    <mat-card-subtitle (click)="backClicked()" style="cursor: pointer"
+      >Voltar</mat-card-subtitle
+    >
     <mat-card-title
       >{{ taskId ? "Editar " + task.name : "Cadastrar Tarefa" }}
     </mat-card-title>
