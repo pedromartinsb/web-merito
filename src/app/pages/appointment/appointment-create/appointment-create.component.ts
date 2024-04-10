@@ -12,6 +12,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { DialogOverviewComponent } from 'src/app/components/dialog-overview/dialog-overview.component';
 import { Activity, Appointment } from 'src/app/models/appointment';
 import { Company } from 'src/app/models/company';
 import { Department } from 'src/app/models/department';
@@ -28,6 +29,12 @@ import { DescriptionModalComponent } from '../../../components/description/descr
 
 interface DescriptionDialogData {
   activity: Activity;
+  isDescriptionEditable: boolean;
+}
+
+export interface DialogData {
+  description: string;
+  justification: string;
   isDescriptionEditable: boolean;
 }
 
@@ -127,6 +134,44 @@ export class AppointmentCreateComponent implements OnInit {
   ngOnInit(): void {
     this.findAllCompanies();
     this.findAllTags();
+  }
+
+  updateSelectedTag(activity: Activity, selectedTag: Tag): void {
+    activity.tag = selectedTag;
+    this.openDialog(activity);
+  }
+
+  openDialog(activity: Activity): void {
+    const dialogRef = this.dialog.open(DialogOverviewComponent, {
+      width: '250px',
+      height: '250px',
+      data: {
+        description: this.appointment.description,
+        justification: this.appointment.justification,
+      },
+    });
+
+    const isEditable = this.isCurrentDay(this.selectedDateMonthly);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.appointment.description = result.description;
+      this.appointment.justification = result.justification;
+
+      this.appointment.activityId = activity.id;
+      this.appointment.activityType = activity.type;
+      this.appointment.tag = activity.tag;
+      this.appointment.tagId = activity.tag.id;
+      this.appointment.personId = this.personId;
+
+      if (isEditable) {
+        this.appointment.description = result.description;
+        this.appointment.justification = result.justification;
+        this.saveAppointment();
+      } else {
+        this.appointment.justification = result.justification;
+        this.updateAppointment();
+      }
+    });
   }
 
   findAllCompanies(): void {
