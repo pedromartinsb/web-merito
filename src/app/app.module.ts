@@ -28,6 +28,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatBadgeModule } from '@angular/material/badge';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxFileDropModule } from 'ngx-file-drop';
@@ -76,6 +77,8 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
+import { DialogOverviewComponent } from './components/dialog-overview/dialog-overview.component';
+import { FirstAccessComponent } from './pages/first-access/first-access.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -123,6 +126,8 @@ export const maskConfig: Partial<IConfig> = {
     DocumentFormComponent,
     DocumentListComponent,
     PermissionFormComponent,
+    DialogOverviewComponent,
+    FirstAccessComponent,
   ],
   imports: [
     BrowserModule,
@@ -160,6 +165,7 @@ export const maskConfig: Partial<IConfig> = {
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     MatMenuModule,
+    MatBadgeModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,

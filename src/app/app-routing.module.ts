@@ -29,6 +29,7 @@ import { SegmentFormComponent } from './pages/segment/segment-form/segment-form.
 import { SegmentListComponent } from './pages/segment/segment-list/segment-list.component';
 import { TaskFormComponent } from './pages/task/task-form/task-form.component';
 import { TaskListComponent } from './pages/task/task-list/task-list.component';
+import { FirstAccessComponent } from './pages/first-access/first-access.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -39,6 +40,15 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
+
+      {
+        path: 'first-access',
+        component: FirstAccessComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: ['ROLE_ADMIN', 'ROLE_USER'],
+        },
+      },
 
       // APPOINTMENT
       {
