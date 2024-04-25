@@ -1,3 +1,4 @@
+import { Office } from './office';
 import { Responsibility } from './responsibility';
 import { Role } from './role';
 
@@ -8,14 +9,13 @@ export interface Person {
   cpfCnpj: string;
   gender: string;
   contractType: string;
-
+  office: Office;
+  officeId: string;
   responsibility: Responsibility;
   responsibilityId: string;
-
   user: User;
   address: Address;
   contact: Contact;
-
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

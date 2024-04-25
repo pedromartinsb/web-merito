@@ -15,6 +15,8 @@ import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { Responsibility } from 'src/app/models/responsibility';
 import { Subscription, finalize } from 'rxjs';
 import { Location } from '@angular/common';
+import { Office } from 'src/app/models/office';
+import { OfficeService } from 'src/app/services/office.service';
 
 @Component({
   selector: 'app-person-form',
@@ -23,6 +25,7 @@ import { Location } from '@angular/common';
 })
 export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   roles: Roles[] = [];
+  officies: Office[] = [];
   responsibilities: Responsibility[] = [];
 
   user: User = {
@@ -52,6 +55,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     personType: 'Colaborador',
     gender: 'Masculino',
     contractType: 'Clt',
+    office: null,
+    officeId: '',
     responsibility: null,
     responsibilityId: '',
     user: this.user,
@@ -73,6 +78,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   name: FormControl = new FormControl(null, Validators.minLength(3));
   cpf: FormControl = new FormControl(null, Validators.required);
 
+  office: FormControl = new FormControl(null, Validators.required);
   responsibility: FormControl = new FormControl(null, Validators.required);
 
   username: FormControl = new FormControl(null, Validators.minLength(3));
@@ -107,6 +113,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     private toast: ToastrService,
     private router: Router,
     private route: ActivatedRoute,
+    private officeService: OfficeService,
     private responsibilityService: ResponsibilityService,
     private _location: Location
   ) {}
@@ -140,8 +147,21 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadList() {
+    this.findAllOfficies();
     this.findAllResponsibilities();
     this.loadRoles();
+  }
+
+  findAllOfficies(): void {
+    this.officeService.findAll().subscribe((response: Office[]) => {
+      this.officies = response;
+      if (this.personId) {
+        this.office.setValue(
+          response.find((p) => p.id === this.person.office.id)
+        );
+        this.person.officeId = this.person.office.id;
+      }
+    });
   }
 
   findAllResponsibilities(): void {

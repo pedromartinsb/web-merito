@@ -106,8 +106,9 @@ export class AppointmentCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.findAllCompanies();
+    this.findAllPersons();
     this.findAllTags();
+    // this.findAllCompanies();
   }
 
   updateSelectedTag(activity: Activity, selectedTag: Tag): void {
@@ -144,6 +145,15 @@ export class AppointmentCreateComponent implements OnInit {
       } else {
         this.appointment.justification = result.justification;
         this.updateAppointment();
+      }
+    });
+  }
+
+  findAllPersons(): void {
+    this.personService.findAll().subscribe((response) => {
+      if (response.values != null) {
+        this.toast.success('Profissionais carregadas com sucesso');
+        this.persons = response;
       }
     });
   }
@@ -482,6 +492,6 @@ export class AppointmentCreateComponent implements OnInit {
   };
 
   validateFields(): boolean {
-    return this.company.valid && this.person.valid;
+    return this.person.valid;
   }
 }

@@ -134,6 +134,28 @@
             >
           </mat-form-field>
         </mat-grid-tile>
+      </mat-grid-list>
+
+      <!-- Unidade, Função -->
+      <mat-grid-list cols="2" rowHeight="100px">
+        <!-- Unidade -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione a Unidade</mat-label>
+            <mat-select
+              [(ngModel)]="person.officeId"
+              name="office"
+              [formControl]="office"
+            >
+              <mat-option *ngFor="let office of officies" [value]="office.id">{{
+                office.fantasyName
+              }}</mat-option>
+            </mat-select>
+            <mat-hint *ngIf="!office.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
 
         <!-- Função -->
         <mat-grid-tile colspan="1">

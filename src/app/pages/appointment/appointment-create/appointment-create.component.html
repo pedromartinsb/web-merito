@@ -7,70 +7,18 @@
 
   <!-- Content -->
   <mat-card-content>
-    <!-- Colunas -->
     <mat-grid-list cols="4" rowHeight="100px">
-      <!-- Coluna 1 -->
-      <mat-grid-tile colspan="1">
+      <mat-grid-tile colspan="3">
         <mat-form-field appearance="outline">
-          <mat-label>Empresa</mat-label>
-          <mat-select
-            [(ngModel)]="companyId"
-            name="company"
-            [formControl]="company"
-            required
-            (selectionChange)="findAllReponsibilityByCompany($event.value)"
-            #companySelected
-          >
-            <mat-option
-              *ngFor="let company of companies"
-              value="{{ company.id }}"
-              >{{ company.fantasyName }}</mat-option
-            >
-          </mat-select>
-          <mat-hint *ngIf="!company.value" align="end" style="color: red"
-            >Campo obrigatório</mat-hint
-          >
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <!-- Coluna 2 -->
-      <mat-grid-tile colspan="1">
-        <mat-form-field appearance="outline">
-          <mat-label>Função</mat-label>
-          <mat-select
-            [(ngModel)]="responsibilityId"
-            name="reponsibility"
-            [formControl]="reponsibility"
-            required
-            (selectionChange)="findAllPersonByResponsibility($event.value)"
-            #companySelected
-          >
-            <mat-option
-              *ngFor="let reponsibility of responsibilities"
-              value="{{ reponsibility.id }}"
-              >{{ reponsibility.name }}</mat-option
-            >
-          </mat-select>
-          <mat-hint *ngIf="!reponsibility.value" align="end" style="color: red"
-            >Campo obrigatório</mat-hint
-          >
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <!-- Coluna 3 -->
-      <mat-grid-tile colspan="1">
-        <mat-form-field class="fourColumn" appearance="outline">
           <mat-label>Profissional</mat-label>
           <mat-select
             [(ngModel)]="personId"
-            name="holding"
+            name="person"
             [formControl]="person"
             required
           >
-            <mat-option
-              *ngFor="let person of persons"
-              value="{{ person.id }}"
-              >{{ person.name }}</mat-option
+            <mat-option *ngFor="let person of persons" value="{{ person.id }}"
+              >{{ person.name }} - {{ person.office.fantasyName }}</mat-option
             >
           </mat-select>
           <mat-hint *ngIf="!person.value" align="end" style="color: red"

@@ -4,6 +4,8 @@
     Ainda não há rotinas vinculadas a esta função
   </div>
 
+  <div mat-subheader *ngIf="tags.length == 0">TAGS</div>
+
   <mat-list-item *ngFor="let routine of routines">
     <div mat-line>{{ routine.name }}</div>
     <div mat-line>
