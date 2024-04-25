@@ -23,12 +23,7 @@ import { RoutineFormComponent } from './pages/routine/routine-form/routine-form.
 import { RoutineListComponent } from './pages/routine/routine-list/routine-list.component';
 import { SegmentFormComponent } from './pages/segment/segment-form/segment-form.component';
 import { SegmentListComponent } from './pages/segment/segment-list/segment-list.component';
-<<<<<<< HEAD
-=======
-import { TaskFormComponent } from './pages/task/task-form/task-form.component';
-import { TaskListComponent } from './pages/task/task-list/task-list.component';
 import { FirstAccessComponent } from './pages/first-access/first-access.component';
->>>>>>> 035c9899c8f2f43cbddb143a03a993c8bc591a9c
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { OfficeListComponent } from './pages/office/office-list/office-list.component';
 import { OfficeFormComponent } from './pages/office/office-form/office-form.component';
