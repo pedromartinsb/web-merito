@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <mat-list>
   <div mat-subheader>Rotinas:</div>
   <div mat-subheader *ngIf="routines.length == 0">
@@ -8,6 +9,21 @@
     <div mat-line>{{ routine.name }}</div>
     <div mat-line>
       <mat-radio-group aria-label="Select an option">
+=======
+<div class="person-routines-container">
+  <div
+    class="person-routine-list"
+    *ngIf="personRoutines.length; else noRoutineData"
+  >
+    <span class="person-routine-list__title"><strong>Rotinas</strong></span>
+    <div
+      class="person-routine-list__item"
+      *ngFor="let routine of personRoutines"
+    >
+      <label
+        ><strong>{{ routine.name }}</strong></label
+      >
+      <div class="routine-appointment-wrapper">
         <mat-radio-group
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
@@ -18,6 +34,47 @@
             [value]="tag"
             [disabled]="!isCurrentDay"
             [ngClass]="tag.class"
+            [checked]="tag.id == routine.tag?.id"
+            [matTooltip]="tag.description"
+            (change)="updateSelectedTag(routine, tag)"
+          ></mat-radio-button>
+        </mat-radio-group>
+        <i
+          class="material-icons edit"
+          *ngIf="routine.tag"
+          (click)="handleOpenDescription(routine)"
+          >chat</i
+        >
+      </div>
+    </div>
+  </div>
+  <ng-template #noRoutineData>
+    <div>
+      <span>Ainda não há rotinas vinculadas a este colaborador</span>
+    </div>
+  </ng-template>
+</div>
+
+<div class="person-tasks-container">
+  <div class="person-task-list" *ngIf="personTasks.length; else noTaskData">
+    <span class="person-task-list__title"><strong>Tarefas</strong></span>
+    <div class="person-task-list__item" *ngFor="let task of personTasks">
+      <label
+        ><strong>{{ task.name }}</strong></label
+      >
+      <div class="task-appointment-wrapper">
+>>>>>>> 035c9899c8f2f43cbddb143a03a993c8bc591a9c
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+        >
+          <mat-radio-button
+            class="example-radio-button"
+            *ngFor="let tag of tags"
+            [value]="tag"
+            [disabled]="!isCurrentDay"
+            [ngClass]="tag.class"
+<<<<<<< HEAD
             [checked]="tag.id == routine.tag?.id"
             [matTooltip]="tag.description"
             (change)="updateSelectedTag(routine, tag)"
@@ -50,6 +107,45 @@
         ><strong>{{ routine.name }}</strong></label
       >
       <div class="routine-appointment-wrapper">
+=======
+            [checked]="tag.id == task.tag?.id"
+            [matTooltip]="tag.description"
+            (change)="updateSelectedTag(task, tag)"
+          ></mat-radio-button>
+        </mat-radio-group>
+        <i
+          class="material-icons edit"
+          *ngIf="task.tag"
+          (click)="handleOpenDescription(task)"
+          >chat</i
+        >
+      </div>
+    </div>
+  </div>
+  <ng-template #noTaskData>
+    <div>
+      <span>Ainda não há tarefas vinculadas a este colaborador</span>
+    </div>
+  </ng-template>
+</div>
+
+<div class="person-assignments-container">
+  <div
+    class="person-assignment-list"
+    *ngIf="personAssignments.length; else noAssignmentData"
+  >
+    <span class="person-assignment-list__title"
+      ><strong>Atribuições</strong></span
+    >
+    <div
+      class="person-assignment-list__item"
+      *ngFor="let assignment of personAssignments"
+    >
+      <label
+        ><strong>{{ assignment.name }}</strong></label
+      >
+      <div class="assignment-appointment-wrapper">
+>>>>>>> 035c9899c8f2f43cbddb143a03a993c8bc591a9c
         <mat-radio-group
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
@@ -60,23 +156,43 @@
             [value]="tag"
             [disabled]="!isCurrentDay"
             [ngClass]="tag.class"
+<<<<<<< HEAD
             [checked]="tag.id == routine.tag?.id"
             [matTooltip]="tag.description"
             (change)="updateSelectedTag(routine, tag)"
+=======
+            [checked]="tag.id == assignment.tag?.id"
+            [matTooltip]="tag.description"
+            (change)="updateSelectedTag(assignment, tag)"
+>>>>>>> 035c9899c8f2f43cbddb143a03a993c8bc591a9c
           ></mat-radio-button>
         </mat-radio-group>
         <i
           class="material-icons edit"
+<<<<<<< HEAD
           *ngIf="routine.tag"
           (click)="handleOpenDescription(routine)"
+=======
+          *ngIf="assignment.tag"
+          (click)="handleOpenDescription(assignment)"
+>>>>>>> 035c9899c8f2f43cbddb143a03a993c8bc591a9c
           >chat</i
         >
       </div>
     </div>
   </div>
+<<<<<<< HEAD
   <ng-template #noRoutineData>
     <div>
       <span>Ainda não há rotinas vinculadas a esta função</span>
     </div>
   </ng-template>
 </div> -->
+=======
+  <ng-template #noAssignmentData>
+    <div>
+      <span>Ainda não há atribuições vinculadas a este colaborador</span>
+    </div>
+  </ng-template>
+</div>
+>>>>>>> 035c9899c8f2f43cbddb143a03a993c8bc591a9c

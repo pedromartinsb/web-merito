@@ -28,6 +28,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatBadgeModule } from '@angular/material/badge';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxFileDropModule } from 'ngx-file-drop';
@@ -71,6 +72,8 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
+import { DialogOverviewComponent } from './components/dialog-overview/dialog-overview.component';
+import { FirstAccessComponent } from './pages/first-access/first-access.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { OfficeListComponent } from './pages/office/office-list/office-list.component';
 import { OfficeFormComponent } from './pages/office/office-form/office-form.component';
@@ -114,6 +117,8 @@ export const maskConfig: Partial<IConfig> = {
     DocumentFormComponent,
     DocumentListComponent,
     PermissionFormComponent,
+    DialogOverviewComponent,
+    FirstAccessComponent,
     DashboardComponent,
     OfficeListComponent,
     OfficeFormComponent,
@@ -154,6 +159,7 @@ export const maskConfig: Partial<IConfig> = {
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     MatMenuModule,
+    MatBadgeModule,
     NgxChartsModule,
     MatChipsModule,
     ToastrModule.forRoot({
