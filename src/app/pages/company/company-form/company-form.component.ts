@@ -15,9 +15,7 @@ import { finalize } from 'rxjs';
 import { Person } from 'src/app/models/person';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { DepartmentService } from 'src/app/services/department.service';
 import { PersonService } from 'src/app/services/person.service';
-import { Department } from 'src/app/models/department';
 import { Location } from '@angular/common';
 
 @Component({
@@ -68,7 +66,6 @@ export class CompanyFormComponent implements OnInit {
   ]);
   email: FormControl = new FormControl();
   website: FormControl = new FormControl();
-  segment: FormControl = new FormControl(null, [Validators.required]);
   holding: FormControl = new FormControl(null, [Validators.required]);
   companyType: FormControl = new FormControl(null, [Validators.required]);
 
@@ -106,27 +103,19 @@ export class CompanyFormComponent implements OnInit {
   DEPARTMENT_ELEMENT_DATA: Person[] = [];
   DEPARTMENT_FILTERED_DATA: Person[] = [];
 
-  departments: Department[] = [];
-  companyDepartments: Department[] = [];
-
-  newLinkedDepartment: Department;
-
   departmentDisplayedColumns: string[] = [
     'departmentName',
     'departmentActions',
   ];
-  departmentDataSource = new MatTableDataSource<Department>(this.departments);
 
   isSaving: boolean = false;
 
   @ViewChild('personPaginator') personPaginator: MatPaginator;
-  @ViewChild('departmentPaginator') departmentPaginator: MatPaginator;
 
   constructor(
     private companyService: CompanyService,
     private holdingService: HoldingService,
     private personService: PersonService,
-    private departmentService: DepartmentService,
     private router: Router,
     private route: ActivatedRoute,
     private toast: ToastrService,
@@ -155,9 +144,6 @@ export class CompanyFormComponent implements OnInit {
     if (this.personPaginator) {
       this.personDataSource.paginator = this.personPaginator;
     }
-    if (this.departmentPaginator) {
-      this.departmentDataSource.paginator = this.departmentPaginator;
-    }
   }
 
   loadList() {
@@ -184,7 +170,6 @@ export class CompanyFormComponent implements OnInit {
         finalize(() => {
           this.findAllHolding();
           this.findCompanyPersons();
-          this.findCompanyDepartments();
           this.companyType.setValue(this.company.companyType);
         })
       )
@@ -246,21 +231,11 @@ export class CompanyFormComponent implements OnInit {
 
   findCompanyPersons() {
     this.personService
-      .findAllByCompany(this.company.id)
+      // .findAllByCompany(this.company.id)
+      .findAll()
       .subscribe((response: Person[]) => {
         this.companyPersons = response;
         this.personDataSource = new MatTableDataSource<Person>(response);
-      });
-  }
-
-  findCompanyDepartments() {
-    this.departmentService
-      .findAllByCompany(this.company.id)
-      .subscribe((response: Department[]) => {
-        this.companyDepartments = response;
-        this.departmentDataSource = new MatTableDataSource<Department>(
-          response
-        );
       });
   }
 
@@ -284,7 +259,7 @@ export class CompanyFormComponent implements OnInit {
 
   private findAddress() {
     if (this.cep.value.length === 8) {
-      this.personService
+      this.companyService
         .findAddress(this.cep.value)
         .subscribe((response: AddressSearch) => {
           if (response.cep && response.cep.length > 0) {

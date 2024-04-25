@@ -37,19 +37,27 @@
         </mat-grid-tile>
 
         <!-- Coluna 2 -->
-        <mat-grid-tile colspan="1" *ngIf="routineId != null">
-          <mat-form-field class="fullWidth" appearance="outline">
-            <mat-label>Adicionar Pessoas à Rotina (opcional)</mat-label>
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione a Função</mat-label>
             <mat-select
-              [(ngModel)]="routine.persons"
-              name="person"
-              [formControl]="person"
-              multiple
+              [(ngModel)]="routine.responsibilityId"
+              name="responsibility"
+              [formControl]="responsibility"
+              required
             >
-              <mat-option *ngFor="let person of persons" [value]="person">{{
-                person.name
-              }}</mat-option>
+              <mat-option
+                *ngFor="let responsibility of responsibilities"
+                [value]="responsibility.id"
+                >{{ responsibility.name }}</mat-option
+              >
             </mat-select>
+            <mat-hint
+              *ngIf="!responsibility.value"
+              align="end"
+              style="color: red"
+              >Campo obrigatório</mat-hint
+            >
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>

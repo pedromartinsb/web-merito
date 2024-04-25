@@ -1,16 +1,12 @@
-import { Person } from "./person";
-import { Tag } from "./tag";
-import { Task } from "./task";
+import { Responsibility } from './responsibility';
+import { Tag } from './tag';
 
 export interface Routine {
   id?: string;
   name: string;
-
-  persons: Person[];
-  personId: string;
-
+  responsibility: Responsibility;
+  responsibilityId: string;
   appointment: Tag;
-
   startedAt: string;
   finishedAt: string;
   createdAt: string;

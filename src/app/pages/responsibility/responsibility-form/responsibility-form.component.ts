@@ -5,6 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Responsibility } from 'src/app/models/responsibility';
 import { Location } from '@angular/common';
+import { Company } from 'src/app/models/company';
+import { CompanyService } from 'src/app/services/company.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-responsibility-form',
@@ -14,19 +17,27 @@ import { Location } from '@angular/common';
 export class ResponsibilityFormComponent implements OnInit {
   responsibility: Responsibility = {
     name: '',
+    company: null,
+    companyId: '',
+    routines: [],
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
   };
 
+  companies: Company[] = [];
+
   responsibilityId: string;
+  companyId: string;
 
   name: FormControl = new FormControl(null, Validators.minLength(3));
+  company: FormControl = new FormControl(null, Validators.required);
 
   public isSaving: boolean = false;
 
   constructor(
     private responsibilityService: ResponsibilityService,
+    private companyService: CompanyService,
     private router: Router,
     private toast: ToastrService,
     private route: ActivatedRoute,
@@ -35,8 +46,11 @@ export class ResponsibilityFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.responsibilityId = this.route.snapshot.params['id'];
+    this.companyId = this.route.snapshot.params['companyId'];
     if (this.responsibilityId) {
       this.loadResponsibility();
+    } else {
+      this.findAllCompanies();
     }
   }
 
@@ -47,9 +61,27 @@ export class ResponsibilityFormComponent implements OnInit {
   loadResponsibility(): void {
     this.responsibilityService
       .findById(this.responsibilityId)
+      .pipe(
+        finalize(() => {
+          this.findAllCompanies();
+        })
+      )
       .subscribe((response) => {
         this.responsibility = response;
       });
+  }
+
+  findAllCompanies(): void {
+    this.companyService.findAll().subscribe((response: Company[]) => {
+      this.companies = response;
+
+      if (this.responsibilityId) {
+        this.company.setValue(
+          response.find((p) => p.id === this.responsibility.company.id)
+        );
+        this.responsibility.companyId = this.responsibility.company.id;
+      }
+    });
   }
 
   openResponsibilityForm(): void {
@@ -64,7 +96,7 @@ export class ResponsibilityFormComponent implements OnInit {
     this.isSaving = true;
     this.responsibilityService.create(this.responsibility).subscribe({
       next: () => {
-        this.toast.success('Cargo cadastrado com sucesso', 'Cadastro');
+        this.toast.success('Função cadastrada com sucesso', 'Cadastro');
         this.router.navigate(['responsibility']);
         this.isSaving = false;
       },
@@ -80,7 +112,7 @@ export class ResponsibilityFormComponent implements OnInit {
       .update(this.responsibilityId, this.responsibility)
       .subscribe({
         next: () => {
-          this.toast.success('Cargo atualizado com sucesso', 'Atualização');
+          this.toast.success('Função atualizada com sucesso', 'Atualização');
           this.router.navigate(['responsibility']);
           this.isSaving = false;
         },

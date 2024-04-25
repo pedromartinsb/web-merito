@@ -1,12 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { PersonService } from '../../../services/person.service';
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -17,21 +11,9 @@ import {
   AddressSearch,
   Contact,
 } from 'src/app/models/person';
-import { TaskService } from 'src/app/services/task.service';
-import { RoutineService } from 'src/app/services/routine.service';
-import { Routine } from 'src/app/models/routine';
-import { Task } from 'src/app/models/task';
-import { DepartmentService } from 'src/app/services/department.service';
 import { ResponsibilityService } from 'src/app/services/responsibility.service';
-import { Department } from 'src/app/models/department';
 import { Responsibility } from 'src/app/models/responsibility';
 import { Subscription, finalize } from 'rxjs';
-import { CompanyService } from 'src/app/services/company.service';
-import { Company } from 'src/app/models/company';
-import { MatTableDataSource } from '@angular/material/table';
-import { Assignment } from 'src/app/models/assignment';
-import { MatPaginator } from '@angular/material/paginator';
-import { AssignmentService } from 'src/app/services/assignment.service';
 import { Location } from '@angular/common';
 
 @Component({
@@ -41,8 +23,6 @@ import { Location } from '@angular/common';
 })
 export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   roles: Roles[] = [];
-  companies: Company[] = [];
-  departments: Department[] = [];
   responsibilities: Responsibility[] = [];
 
   user: User = {
@@ -72,22 +52,11 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     personType: 'Colaborador',
     gender: 'Masculino',
     contractType: 'Clt',
-
-    department: null,
-    departmentId: '',
     responsibility: null,
     responsibilityId: '',
-    company: null,
-    companyId: '',
-
     user: this.user,
     address: this.address,
     contact: this.contact,
-
-    tasks: null,
-    routines: null,
-    assignments: null,
-
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
@@ -100,15 +69,10 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   personId: string;
-  companyId: string;
-
-  personCompany: Company;
 
   name: FormControl = new FormControl(null, Validators.minLength(3));
   cpf: FormControl = new FormControl(null, Validators.required);
 
-  company: FormControl = new FormControl(null, Validators.required);
-  department: FormControl = new FormControl(null, Validators.required);
   responsibility: FormControl = new FormControl(null, Validators.required);
 
   username: FormControl = new FormControl(null, Validators.minLength(3));
@@ -127,26 +91,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   uf: FormControl = new FormControl(null, Validators.minLength(2));
   complement: FormControl = new FormControl(null, Validators.minLength(3));
 
-  task: FormControl = new FormControl(null, []);
-  routine: FormControl = new FormControl(null, []);
-
-  isCompanyLinkedCreation: boolean = false;
-
   public isSaving: boolean = false;
-
-  assignments: Assignment[] = [];
-  personAssignments: Assignment[] = [];
-  routines: Routine[] = [];
-  personRoutines: Routine[] = [];
-  tasks: Task[] = [];
-  personTasks: Task[] = [];
-
-  taskDisplayedColumns: string[] = ['name'];
-  taskDataSource = new MatTableDataSource<Task>(this.tasks);
-  routineDisplayedColumns: string[] = ['name'];
-  routineDataSource = new MatTableDataSource<Routine>(this.routines);
-  assignmentDisplayedColumns: string[] = ['name'];
-  assignmentDataSource = new MatTableDataSource<Assignment>(this.assignments);
 
   isCpf: boolean = true;
   contractType: string = '';
@@ -157,31 +102,17 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   public radioGenderOptions: string = 'Masculino';
   public hide: boolean = true;
 
-  routinesFormControl = new FormControl('');
-  assingmentsFormControl = new FormControl('');
-  tasksFormControl = new FormControl('');
-
-  @ViewChild('routinePaginator') routinePaginator: MatPaginator;
-  @ViewChild('taskPaginator') taskPaginator: MatPaginator;
-  @ViewChild('assignmentPaginator') assignmentPaginator: MatPaginator;
-
   constructor(
     private personService: PersonService,
-    private companyService: CompanyService,
     private toast: ToastrService,
     private router: Router,
     private route: ActivatedRoute,
-    private taskService: TaskService,
-    private routineService: RoutineService,
-    private assignmentService: AssignmentService,
-    private departmentService: DepartmentService,
     private responsibilityService: ResponsibilityService,
     private _location: Location
   ) {}
 
   ngOnInit(): void {
     this.personId = this.route.snapshot.params['id'];
-    this.companyId = this.route.snapshot.params['idCompany'];
     if (this.personId) {
       this.loadPerson();
     } else {
@@ -196,21 +127,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  backClicked() {
-    this._location.back();
-  }
-
-  ngAfterViewInit(): void {
-    if (this.routinePaginator) {
-      this.routineDataSource.paginator = this.routinePaginator;
-    }
-    if (this.taskPaginator) {
-      this.taskDataSource.paginator = this.taskPaginator;
-    }
-    if (this.assignmentPaginator) {
-      this.assignmentDataSource.paginator = this.assignmentPaginator;
-    }
-  }
+  ngAfterViewInit(): void {}
 
   ngOnDestroy(): void {
     if (this.cepValueChangesSubscription) {
@@ -218,48 +135,13 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  backClicked() {
+    this._location.back();
+  }
+
   loadList() {
-    if (this.companyId) {
-      this.findAllDepartments(this.companyId);
-      this.loadCompany();
-      this.isCompanyLinkedCreation = true;
-    } else {
-      this.findAllCompanies();
-    }
     this.findAllResponsibilities();
-    this.findAllTasks();
-    this.findAllRoutines();
-    this.findAllAssignments();
     this.loadRoles();
-  }
-
-  findAllCompanies(): void {
-    this.companyService
-      .findAll()
-      .pipe(
-        finalize(() => {
-          if (this.personId) this.setCompanyAndDepartment();
-        })
-      )
-      .subscribe((response: Company[]) => {
-        this.companies = response;
-      });
-  }
-
-  findAllDepartments(companyId: string): void {
-    this.departmentService
-      .findAllByCompany(companyId)
-      .subscribe((response: Department[]) => {
-        this.departments = response;
-      });
-  }
-
-  setCompanyAndDepartment(): void {
-    this.company.setValue(this.person.department.company.id);
-    this.person.companyId = this.person.department.company.id;
-    this.companyId = this.person.department.company.id;
-    this.department.setValue(this.person.department.id);
-    this.person.departmentId = this.person.department.id;
   }
 
   findAllResponsibilities(): void {
@@ -276,33 +158,12 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  findAllTasks(): void {
-    this.taskService.findAll().subscribe((response) => {
-      this.tasks = response;
-    });
-  }
-
-  findAllRoutines(): void {
-    this.routineService.findAll().subscribe((response) => {
-      this.routines = response;
-    });
-  }
-
-  findAllAssignments(): void {
-    this.assignmentService.findAll().subscribe((response) => {
-      this.assignments = response;
-    });
-  }
-
   loadPerson(): void {
     this.personService
       .findById(this.personId)
       .pipe(
         finalize(() => {
           this.loadList();
-          this.findPersonRoutines();
-          this.findPersonTasks();
-          this.findPersonAssignments();
         })
       )
       .subscribe((response) => {
@@ -316,59 +177,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
           this.radioGenderOptions = 'Feminino';
         }
         this.person = response;
-      });
-  }
-
-  findPersonRoutines() {
-    this.routineService
-      .findAllByPerson(this.person.id)
-      .subscribe((response: Routine[]) => {
-        this.personRoutines = response;
-        this.routineDataSource = new MatTableDataSource<Routine>(response);
-        // this.routines = this.routines.filter(
-        //   (routine) =>
-        //     !this.personRoutines.some(
-        //       (personRoutine) => personRoutine.id === routine.id
-        //     )
-        // );
-      });
-  }
-
-  findPersonTasks() {
-    this.taskService
-      .findAllByPerson(this.person.id)
-      .subscribe((response: Task[]) => {
-        this.personTasks = response;
-        this.taskDataSource = new MatTableDataSource<Task>(response);
-        // this.tasks = this.tasks.filter(
-        //   (task) =>
-        //     !this.personTasks.some((personTask) => personTask.id === task.id)
-        // );
-      });
-  }
-
-  findPersonAssignments() {
-    this.assignmentService
-      .findAllByPerson(this.person.id)
-      .subscribe((response: Assignment[]) => {
-        this.personAssignments = response;
-        this.assignmentDataSource = new MatTableDataSource<Assignment>(
-          response
-        );
-        // this.assignments = this.assignments.filter(
-        //   (assignment) =>
-        //     !this.personAssignments.some(
-        //       (personAssignment) => personAssignment.id === assignment.id
-        //     )
-        // );
-      });
-  }
-
-  loadCompany(): void {
-    this.companyService
-      .findById(this.companyId)
-      .subscribe((response: Company) => {
-        this.company.setValue(response);
       });
   }
 
@@ -397,8 +205,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updatePerson(): void {
     this.isSaving = true;
-    this.person.department = null;
-    this.person.responsibility = null;
 
     this.personService.update(this.person.id, this.person).subscribe({
       next: () => {
@@ -422,8 +228,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       this.name.valid &&
       this.cpf.valid &&
       this.email.valid &&
-      this.company.valid &&
-      this.department.valid &&
       this.responsibility.valid
     );
   }
@@ -466,62 +270,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       (role) => role.value.name === value
     );
     return matchingRole ? matchingRole.label : undefined;
-  }
-
-  selectCompany() {
-    if (this.company.value) {
-      let company: string = this.company.value;
-      this.companyId = company;
-      this.findAllDepartments(company);
-    }
-  }
-
-  addRoutinesToPerson(): void {
-    let personNewRoutineIds = this.person.routines.map((r) => r.id);
-    this.personService
-      .addRoutinesToPerson(personNewRoutineIds, this.personId)
-      .subscribe({
-        next: () => {
-          this.toast.success('Rotinas adicionadas com sucesso', 'Atualização');
-          this.findPersonRoutines();
-        },
-        error: (ex) => {
-          this.handleErrors(ex);
-        },
-      });
-  }
-
-  addTasksToPerson(): void {
-    let personNewTaskIds = this.person.tasks.map((t) => t.id);
-    this.personService
-      .addTasksToPerson(personNewTaskIds, this.personId)
-      .subscribe({
-        next: () => {
-          this.toast.success('Tarefas adicionadas com sucesso', 'Atualização');
-          this.findPersonTasks();
-        },
-        error: (ex) => {
-          this.handleErrors(ex);
-        },
-      });
-  }
-
-  addAssignmentsToPerson(): void {
-    let personNewAssignmentIds = this.person.assignments.map((r) => r.id);
-    this.personService
-      .addAssignmentsToPerson(personNewAssignmentIds, this.personId)
-      .subscribe({
-        next: () => {
-          this.toast.success(
-            'Atribuições adicionadas com sucesso',
-            'Atualização'
-          );
-          this.findPersonAssignments();
-        },
-        error: (ex) => {
-          this.handleErrors(ex);
-        },
-      });
   }
 
   findAddress() {

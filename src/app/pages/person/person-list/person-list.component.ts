@@ -23,11 +23,8 @@ export class PersonListComponent implements OnInit {
     'name',
     'email',
     'cpfCnpj',
-    'department',
-    'phone',
     'responsibility',
     'fantasyName',
-    'personType',
     'actions',
   ];
   dataSource = new MatTableDataSource<Person>(this.persons);

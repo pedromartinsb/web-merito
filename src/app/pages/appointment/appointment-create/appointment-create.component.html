@@ -12,13 +12,13 @@
       <!-- Coluna 1 -->
       <mat-grid-tile colspan="1">
         <mat-form-field appearance="outline">
-          <mat-label>Unidade</mat-label>
+          <mat-label>Empresa</mat-label>
           <mat-select
             [(ngModel)]="companyId"
-            name="holding"
+            name="company"
             [formControl]="company"
             required
-            (selectionChange)="findAllPersonByCompany($event.value)"
+            (selectionChange)="findAllReponsibilityByCompany($event.value)"
             #companySelected
           >
             <mat-option
@@ -34,6 +34,30 @@
       </mat-grid-tile>
 
       <!-- Coluna 2 -->
+      <mat-grid-tile colspan="1">
+        <mat-form-field appearance="outline">
+          <mat-label>Função</mat-label>
+          <mat-select
+            [(ngModel)]="responsibilityId"
+            name="reponsibility"
+            [formControl]="reponsibility"
+            required
+            (selectionChange)="findAllPersonByResponsibility($event.value)"
+            #companySelected
+          >
+            <mat-option
+              *ngFor="let reponsibility of responsibilities"
+              value="{{ reponsibility.id }}"
+              >{{ reponsibility.name }}</mat-option
+            >
+          </mat-select>
+          <mat-hint *ngIf="!reponsibility.value" align="end" style="color: red"
+            >Campo obrigatório</mat-hint
+          >
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Coluna 3 -->
       <mat-grid-tile colspan="1">
         <mat-form-field class="fourColumn" appearance="outline">
           <mat-label>Profissional</mat-label>
@@ -69,9 +93,7 @@
       <mat-tab label="Diária">
         <div class="daily-appointments-wrapper">
           <app-daily-appointment-list
-            [personRoutines]="personRoutines"
-            [personTasks]="personTasks"
-            [personAssignments]="personAssignments"
+            [routines]="routines"
             [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
             [tags]="tags"
             (openDescriptionDialog)="openDescriptionDialog($event)"
@@ -82,13 +104,11 @@
       </mat-tab>
 
       <!-- Tab 2 -->
-      <mat-tab label="Mensal">
+      <!-- <mat-tab label="Mensal">
         <div class="monthly-content-wrapper">
           <div class="daily-appointments-wrapper">
             <app-daily-appointment-list
               [personRoutines]="personRoutines"
-              [personTasks]="personTasks"
-              [personAssignments]="personAssignments"
               [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
               [tags]="tags"
               (openDescriptionDialog)="openDescriptionDialog($event)"
@@ -106,16 +126,14 @@
             </mat-card>
           </div>
         </div>
-      </mat-tab>
+      </mat-tab> -->
 
       <!-- Tab 3 -->
-      <mat-tab label="Trimestral">
+      <!-- <mat-tab label="Trimestral">
         <div class="trimestral-content-wrapper">
           <div class="daily-appointments-wrapper">
             <app-daily-appointment-list
               [personRoutines]="personRoutines"
-              [personTasks]="personTasks"
-              [personAssignments]="personAssignments"
               [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
               [tags]="tags"
               (openDescriptionDialog)="openDescriptionDialog($event)"
@@ -143,16 +161,14 @@
             </div>
           </div>
         </div>
-      </mat-tab>
+      </mat-tab> -->
 
       <!-- Tab 4 -->
-      <mat-tab label="Semestral">
+      <!-- <mat-tab label="Semestral">
         <div class="semestral-content-wrapper">
           <div class="daily-appointments-wrapper">
             <app-daily-appointment-list
               [personRoutines]="personRoutines"
-              [personTasks]="personTasks"
-              [personAssignments]="personAssignments"
               [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
               [tags]="tags"
               (openDescriptionDialog)="openDescriptionDialog($event)"
@@ -179,7 +195,7 @@
             </div>
           </div>
         </div>
-      </mat-tab>
+      </mat-tab> -->
     </mat-tab-group>
   </mat-card-content>
 
@@ -202,171 +218,3 @@
     <mat-progress-bar mode="indeterminate" *ngIf="isSaving"></mat-progress-bar>
   </mat-card-footer> -->
 </mat-card>
-
-<div class="container mat-elevation-z8">
-  <form class="form">
-    <h1 class="fullWidth">Projeção Profissional</h1>
-
-    <mat-form-field class="fourColumn" appearance="outline">
-      <mat-label>Unidade</mat-label>
-      <mat-select
-        [(ngModel)]="companyId"
-        name="holding"
-        [formControl]="company"
-        required
-        (selectionChange)="findAllPersonByCompany($event.value)"
-        #companySelected
-      >
-        <mat-option
-          *ngFor="let company of companies"
-          value="{{ company.id }}"
-          >{{ company.fantasyName }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="fourColumn" appearance="outline">
-      <mat-label>Profissional</mat-label>
-      <mat-select
-        [(ngModel)]="personId"
-        name="holding"
-        [formControl]="person"
-        required
-      >
-        <mat-option *ngFor="let person of persons" value="{{ person.id }}">{{
-          person.name
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <button
-      (click)="search()"
-      class="fourColumn"
-      mat-flat-button
-      color="primary"
-    >
-      Pesquisar
-    </button>
-  </form>
-
-  <mat-tab-group
-    *ngIf="isSelected"
-    animationDuration="300ms"
-    (selectedTabChange)="onTabChange($event)"
-  >
-    <!-- Tab 1-->
-    <mat-tab label="Diária">
-      <div class="daily-appointments-wrapper">
-        <app-daily-appointment-list
-          [personRoutines]="personRoutines"
-          [personTasks]="personTasks"
-          [personAssignments]="personAssignments"
-          [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
-          [tags]="tags"
-          (openDescriptionDialog)="openDescriptionDialog($event)"
-        >
-        </app-daily-appointment-list>
-      </div>
-      <div class="appointments-calendar-wrapper"></div>
-    </mat-tab>
-
-    <!-- Tab 2 -->
-    <mat-tab label="Mensal">
-      <div class="monthly-content-wrapper">
-        <div class="daily-appointments-wrapper">
-          <app-daily-appointment-list
-            [personRoutines]="personRoutines"
-            [personTasks]="personTasks"
-            [personAssignments]="personAssignments"
-            [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
-            [tags]="tags"
-            (openDescriptionDialog)="openDescriptionDialog($event)"
-          >
-          </app-daily-appointment-list>
-        </div>
-        <div class="appointments-calendar-wrapper" id="calendarContainer">
-          <mat-card class="appointments-calendar-card" *ngIf="monthlyTagsKey">
-            <mat-calendar
-              class="appointments-calendar"
-              [(selected)]="selectedDateMonthly"
-              (selectedChange)="onDateChange($event, 0)"
-              [dateClass]="dateClass"
-            ></mat-calendar>
-          </mat-card>
-        </div>
-      </div>
-    </mat-tab>
-
-    <!-- Tab 3 -->
-    <mat-tab label="Trimestral">
-      <div class="trimestral-content-wrapper">
-        <div class="daily-appointments-wrapper">
-          <app-daily-appointment-list
-            [personRoutines]="personRoutines"
-            [personTasks]="personTasks"
-            [personAssignments]="personAssignments"
-            [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
-            [tags]="tags"
-            (openDescriptionDialog)="openDescriptionDialog($event)"
-          >
-          </app-daily-appointment-list>
-        </div>
-        <div class="appointments-calendars-list">
-          <div
-            class="appointments-calendar-wrapper"
-            *ngFor="let offset of [0, 1, 2]; let i = index"
-          >
-            <mat-card
-              class="appointments-calendar-card"
-              *ngIf="monthlyTagsKey && calendarKeys[i]"
-            >
-              <mat-calendar
-                class="appointments-calendar"
-                [startAt]="getStartOfMonth(offset)"
-                (selectedChange)="onDateChange($event, offset)"
-                [dateClass]="dateClass"
-              >
-              </mat-calendar>
-            </mat-card>
-          </div>
-        </div>
-      </div>
-    </mat-tab>
-
-    <!-- Tab 4 -->
-    <mat-tab label="Semestral">
-      <div class="semestral-content-wrapper">
-        <div class="daily-appointments-wrapper">
-          <app-daily-appointment-list
-            [personRoutines]="personRoutines"
-            [personTasks]="personTasks"
-            [personAssignments]="personAssignments"
-            [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
-            [tags]="tags"
-            (openDescriptionDialog)="openDescriptionDialog($event)"
-          >
-          </app-daily-appointment-list>
-        </div>
-        <div class="appointments-calendars-list">
-          <div
-            class="appointments-calendar-wrapper"
-            *ngFor="let offset of [0, 1, 2, 3, 4, 5]; let i = index"
-          >
-            <mat-card
-              class="appointments-calendar-card"
-              *ngIf="monthlyTagsKey && calendarKeys[i]"
-            >
-              <mat-calendar
-                class="appointments-calendar"
-                [startAt]="getStartOfMonth(offset)"
-                (selectedChange)="onDateChange($event, offset)"
-                [dateClass]="dateClass"
-              >
-              </mat-calendar>
-            </mat-card>
-          </div>
-        </div>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-</div>

@@ -3,10 +3,10 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Routine } from 'src/app/models/routine';
-import { Person } from 'src/app/models/person';
 import { RoutineService } from 'src/app/services/routine.service';
-import { PersonService } from 'src/app/services/person.service';
 import { Location } from '@angular/common';
+import { ResponsibilityService } from 'src/app/services/responsibility.service';
+import { Responsibility } from 'src/app/models/responsibility';
 
 @Component({
   selector: 'app-routine-form',
@@ -14,12 +14,10 @@ import { Location } from '@angular/common';
   styleUrls: ['./routine-form.component.css'],
 })
 export class RoutineFormComponent implements OnInit {
-  persons: Person[] = [];
-
   routine: Routine = {
     name: '',
-    personId: '',
-    persons: null,
+    responsibilityId: '',
+    responsibility: null,
     appointment: null,
     startedAt: '',
     finishedAt: '',
@@ -28,13 +26,13 @@ export class RoutineFormComponent implements OnInit {
     deletedAt: '',
   };
 
-  routineId: string;
-  personId: string;
+  responsibilities: Responsibility[] = [];
 
-  isPersonLinkedCreation: boolean = false;
+  routineId: string;
+  responsibilityId: string;
 
   name: FormControl = new FormControl(null, Validators.minLength(3));
-  person: FormControl = new FormControl(null, []);
+  responsibility: FormControl = new FormControl(null, []);
 
   public isSaving: boolean = false;
 
@@ -43,21 +41,17 @@ export class RoutineFormComponent implements OnInit {
     private toast: ToastrService,
     private route: ActivatedRoute,
     private routineService: RoutineService,
-    private personService: PersonService,
+    private responsibilityService: ResponsibilityService,
     private _location: Location
   ) {}
 
   ngOnInit(): void {
     this.routineId = this.route.snapshot.params['id'];
-    this.personId = this.route.snapshot.params['idPerson'];
+    this.responsibilityId = this.route.snapshot.params['responsibilityId'];
     if (this.routineId) {
       this.loadRoutine();
-    }
-    if (this.personId) {
-      this.loadPerson();
-      this.isPersonLinkedCreation = true;
     } else {
-      this.findAllPersons();
+      this.findAllResponsibilities();
     }
   }
 
@@ -65,15 +59,14 @@ export class RoutineFormComponent implements OnInit {
     this._location.back();
   }
 
-  findAllPersons(): void {
-    this.personService.findAll().subscribe((response) => {
-      this.persons = response;
-      if (this.routineId && this.persons.length > 0 && this.routine.persons) {
-        const tempPersonsList: Person[] = this.persons.filter((person) =>
-          this.routine.persons.some((p) => p.id === person.id)
+  findAllResponsibilities(): void {
+    this.responsibilityService.findAll().subscribe((response) => {
+      this.responsibilities = response;
+      if (this.routineId) {
+        this.responsibility.setValue(
+          response.find((p) => p.id === this.routine.responsibility.id)
         );
-
-        this.person.patchValue(tempPersonsList);
+        this.routine.responsibilityId = this.routine.responsibility.id;
       }
     });
   }
@@ -83,15 +76,16 @@ export class RoutineFormComponent implements OnInit {
       .findById(this.routineId)
       .subscribe((response: Routine) => {
         this.routine = response;
-        this.person.setValue(response.persons);
+        this.findAllResponsibilities();
       });
   }
 
-  loadPerson(): void {
-    this.personService.findById(this.personId).subscribe((response: Person) => {
-      this.person.setValue(response);
-      this.routine.persons.push(response);
-    });
+  loadResponsibility(): void {
+    this.responsibilityService
+      .findById(this.responsibilityId)
+      .subscribe((response: Responsibility) => {
+        this.responsibility.setValue(response);
+      });
   }
 
   openRoutineForm(): void {
@@ -106,7 +100,6 @@ export class RoutineFormComponent implements OnInit {
     this.isSaving = true;
     this.routineService.create(this.routine).subscribe({
       next: () => {
-        // this.addPersonsToRoutine();
         this.toast.success('Rotina cadastrada com sucesso', 'Cadastro');
         this.router.navigate(['routine']);
         this.isSaving = false;
@@ -121,7 +114,6 @@ export class RoutineFormComponent implements OnInit {
     this.isSaving = true;
     this.routineService.update(this.routineId, this.routine).subscribe({
       next: () => {
-        if (this.routine.persons.length > 0) this.addPersonsToRoutine();
         this.toast.success('Rotina atualizada com sucesso', 'Atualização');
         this.router.navigate(['routine']);
         this.isSaving = false;
@@ -130,27 +122,6 @@ export class RoutineFormComponent implements OnInit {
         this.handleErrors(ex);
       },
     });
-  }
-
-  private addPersonToRoutine(): void {
-    this.routineService
-      .addPersonToRoutine(this.personId, this.routineId)
-      .subscribe({
-        error: (ex) => {
-          this.handleErrors(ex);
-        },
-      });
-  }
-
-  private addPersonsToRoutine(): void {
-    let routineNewPersonsIds = this.routine.persons.map((p) => p.id);
-    this.routineService
-      .addPersonsToRoutine(routineNewPersonsIds, this.routineId)
-      .subscribe({
-        error: (ex) => {
-          this.handleErrors(ex);
-        },
-      });
   }
 
   private handleErrors(ex: any): void {
@@ -167,10 +138,10 @@ export class RoutineFormComponent implements OnInit {
     return this.name.valid;
   }
 
-  selectPerson() {
-    if (this.person.value) {
-      let person: Person = this.person.value;
-      this.personId = person.id;
+  selectResponsibility() {
+    if (this.responsibility.value) {
+      let responsibility: Responsibility = this.responsibility.value;
+      this.responsibilityId = responsibility.id;
     }
   }
 }

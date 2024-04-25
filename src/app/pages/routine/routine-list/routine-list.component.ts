@@ -3,7 +3,7 @@ import { Routine } from '../../../models/routine';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +17,7 @@ export class RoutineListComponent implements OnInit {
   ELEMENT_DATA: Routine[] = [];
   FILTERED_DATA: Routine[] = [];
 
-  displayedColumns: string[] = ['name', 'persons', 'actions'];
+  displayedColumns: string[] = ['name', 'responsibility', 'actions'];
   dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -28,7 +28,6 @@ export class RoutineListComponent implements OnInit {
     private routineService: RoutineService,
     private router: Router,
     private dialog: MatDialog,
-    private route: ActivatedRoute,
     private toast: ToastrService
   ) {
     this.dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);

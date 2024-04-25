@@ -1,6 +1,6 @@
 <mat-card class="card mat-elevation-z8">
   <mat-card-header>
-    <mat-card-title>Cargos</mat-card-title>
+    <mat-card-title>Funções</mat-card-title>
     <mat-card-subtitle>Listagem</mat-card-subtitle>
   </mat-card-header>
 
@@ -13,7 +13,7 @@
       <!-- Coluna 1 -->
       <mat-grid-tile colspan="2">
         <mat-form-field appearance="standard">
-          <mat-label>Consulte o Cargo</mat-label>
+          <mat-label>Consulte a Função</mat-label>
           <input matInput (keyup)="applyFilter($event)" #input />
         </mat-form-field>
       </mat-grid-tile>
@@ -24,7 +24,7 @@
       <!-- Coluna 3 -->
       <mat-grid-tile colspan="1">
         <button routerLink="create" mat-raised-button color="primary">
-          Cadastrar Cargo
+          Cadastrar Função
         </button>
       </mat-grid-tile>
     </mat-grid-list>
@@ -44,6 +44,17 @@
               (click)="editResponsibility(element.id)"
             >
               {{ element.name }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fantasyName">
+            <th mat-header-cell *matHeaderCellDef>Empresa</th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+              (click)="editResponsibility(element.id)"
+            >
+              {{ element?.company?.fantasyName }}
             </td>
           </ng-container>
 

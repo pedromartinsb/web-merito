@@ -17,7 +17,7 @@ export class ResponsibilityListComponent implements OnInit {
   ELEMENT_DATA: Responsibility[] = [];
   FILTERED_DATA: Responsibility[] = [];
 
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name', 'fantasyName', 'actions'];
   dataSource = new MatTableDataSource<Responsibility>(this.ELEMENT_DATA);
 
   public isLoading: boolean = false;

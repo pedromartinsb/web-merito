@@ -47,16 +47,14 @@
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="persons">
-            <th mat-header-cell *matHeaderCellDef>Adicionar Colaborador</th>
-            <td mat-cell *matCellDef="let element">
-              <button
-                mat-icon-button
-                routerLink="edit/{{ element.id }}"
-                aria-label="Example icon-button with a menu"
-              >
-                <mat-icon>person_add</mat-icon>
-              </button>
+          <ng-container matColumnDef="responsibility">
+            <th mat-header-cell *matHeaderCellDef>Função</th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+              (click)="editRoutine(element.id)"
+            >
+              {{ element.responsibility.name }}
             </td>
           </ng-container>
 

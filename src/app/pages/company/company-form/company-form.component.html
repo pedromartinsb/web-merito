@@ -5,7 +5,7 @@
       >Voltar</mat-card-subtitle
     >
     <mat-card-title
-      >{{ companyId ? "Editar " + company.fantasyName : "Cadastrar Empresas" }}
+      >{{ companyId ? "Editar " + company.fantasyName : "Cadastrar Empresa" }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
   </mat-card-header>
@@ -113,8 +113,8 @@
       <!-- Colunas -->
       <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
-        <mat-grid-tile colspan="1">
-          <mat-form-field class="halfWidth" appearance="outline">
+        <mat-grid-tile colspan="2">
+          <mat-form-field appearance="outline">
             <mat-label>Selecione uma Rede de Empresa</mat-label>
             <mat-select
               [(ngModel)]="company.holding"
@@ -135,7 +135,7 @@
 
         <!-- Coluna 2 -->
         <mat-grid-tile colspan="1">
-          <mat-form-field class="halfWidth" appearance="outline">
+          <mat-form-field appearance="outline">
             <mat-label>Selecione o Tipo da Empresa</mat-label>
             <mat-select
               [(ngModel)]="company.companyType"
@@ -294,52 +294,6 @@
         </mat-grid-tile>
       </mat-grid-list>
     </form>
-
-    <!-- Department -->
-    <div *ngIf="companyId">
-      <!-- Divider -->
-      <hr class="solid" />
-      <mat-card-subtitle>Departamentos:</mat-card-subtitle>
-
-      <!-- Colunas -->
-      <mat-grid-list cols="1" rowHeight="100px">
-        <!-- Coluna 1 -->
-        <mat-grid-tile colspan="1">
-          <button
-            routerLink="/company/{{ companyId }}/department/create"
-            class="mat-elevation-z4"
-            id="linkDepartmentToCompany"
-            mat-flat-button
-            color="primary"
-          >
-            Vincular novo departamento à unidade
-          </button>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-
-    <!-- Person -->
-    <div *ngIf="companyId">
-      <!-- Divider -->
-      <hr class="solid" />
-      <mat-card-subtitle>Colaboradores:</mat-card-subtitle>
-
-      <!-- Colunas -->
-      <mat-grid-list cols="1" rowHeight="100px">
-        <!-- Coluna 1 -->
-        <mat-grid-tile colspan="1">
-          <button
-            routerLink="/company/{{ companyId }}/person/create"
-            class="mat-elevation-z4"
-            id="linkPersonToCompany"
-            mat-flat-button
-            color="primary"
-          >
-            Vincular novo colaborador à unidade
-          </button>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
   </mat-card-content>
 
   <!-- Actions -->

@@ -1,19 +1,19 @@
 import { Component, Output, EventEmitter, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Activity } from 'src/app/models/appointment';
 
 @Component({
   selector: 'app-description-modal',
   templateUrl: './description-modal.html',
-  styleUrls: ['./description-modal.css']
+  styleUrls: ['./description-modal.css'],
 })
-
 export class DescriptionModalComponent {
-
-  isDescriptionEditable: boolean = true;
-  @Output() descriptionSave = new EventEmitter<{ description: string; justification: string }>();
+  @Output() descriptionSave = new EventEmitter<{
+    description: string;
+    justification: string;
+  }>();
   @Output() descriptionCancel = new EventEmitter<void>();
 
+  isDescriptionEditable: boolean = true;
   description: string = '';
   justification: string = '';
 
@@ -24,7 +24,10 @@ export class DescriptionModalComponent {
   }
 
   save(): void {
-    this.descriptionSave.emit({ description: this.description, justification: this.justification });
+    this.descriptionSave.emit({
+      description: this.description,
+      justification: this.justification,
+    });
   }
 
   cancel(): void {

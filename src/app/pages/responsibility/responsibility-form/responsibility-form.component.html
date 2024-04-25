@@ -5,7 +5,7 @@
     >
     <mat-card-title
       >{{
-        responsibilityId ? "Editar " + responsibility.name : "Cadastrar Cargo"
+        responsibilityId ? "Editar " + responsibility.name : "Cadastrar Função"
       }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
@@ -39,7 +39,25 @@
         </mat-grid-tile>
 
         <!-- Coluna 2 -->
-        <mat-grid-tile colspan="1"></mat-grid-tile>
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione a Empresa</mat-label>
+            <mat-select
+              [(ngModel)]="responsibility.companyId"
+              name="company"
+              [formControl]="company"
+            >
+              <mat-option
+                *ngFor="let company of companies"
+                [value]="company.id"
+                >{{ company.fantasyName }}</mat-option
+              >
+            </mat-select>
+            <mat-hint *ngIf="!company.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
       </mat-grid-list>
     </form>
   </mat-card-content>

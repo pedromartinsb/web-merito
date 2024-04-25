@@ -23,7 +23,6 @@ export class CompanyListComponent implements OnInit {
     'cnpj',
     'companyType',
     'holding',
-    'phone',
     'actions',
   ];
   dataSource = new MatTableDataSource<Company>(this.ELEMENT_DATA);
@@ -81,7 +80,7 @@ export class CompanyListComponent implements OnInit {
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deleteCompany(companyId);
       dialogRef.close();
-      this.toast.success('Unidade deletada com sucesso', 'Excluir');
+      this.toast.success('Empresa deletada com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {

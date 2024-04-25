@@ -88,7 +88,7 @@
             routerLink="holding"
             *ngIf="canAdminAccess || canModeratorAccess"
           >
-            <mat-icon>domain_add</mat-icon><span>Rede de Empresas</span>
+            <mat-icon>domain_add</mat-icon><span>Grupos</span>
           </a>
 
           <!-- Company -->
@@ -97,16 +97,16 @@
             routerLink="company"
             *ngIf="canAdminAccess || canModeratorAccess"
           >
-            <mat-icon>apartment</mat-icon><span>Unidades</span>
+            <mat-icon>apartment</mat-icon><span>Empresas</span>
           </a>
 
-          <!-- Department -->
+          <!-- Office -->
           <a
             mat-list-item
-            routerLink="department"
+            routerLink="office"
             *ngIf="canAdminAccess || canModeratorAccess"
           >
-            <mat-icon>meeting_room</mat-icon><span>Departamentos</span>
+            <mat-icon>storefront</mat-icon><span>Unidades</span>
           </a>
 
           <!-- Responsibility -->
@@ -115,7 +115,7 @@
             routerLink="responsibility"
             *ngIf="canAdminAccess || canModeratorAccess"
           >
-            <mat-icon>badge</mat-icon><span>Cargos</span>
+            <mat-icon>badge</mat-icon><span>Funções</span>
           </a>
 
           <!-- Person -->
@@ -125,24 +125,6 @@
             *ngIf="canAdminAccess || canModeratorAccess"
           >
             <mat-icon>person_add</mat-icon><span>Colaboradores</span>
-          </a>
-
-          <!-- Assignment -->
-          <a
-            mat-list-item
-            routerLink="assignment"
-            *ngIf="canAdminAccess || canModeratorAccess"
-          >
-            <mat-icon>support_agent</mat-icon><span>Atribuições</span>
-          </a>
-
-          <!-- Task -->
-          <a
-            mat-list-item
-            routerLink="task"
-            *ngIf="canAdminAccess || canModeratorAccess"
-          >
-            <mat-icon>add_task</mat-icon><span>Tarefas</span>
           </a>
 
           <!-- Routine -->

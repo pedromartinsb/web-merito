@@ -34,6 +34,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,13 +48,8 @@ import { NavComponent } from './components/nav/nav.component';
 import { AuthInterceptorProvider } from './helpers/auth.interceptor';
 import { AppointmentCreateComponent } from './pages/appointment/appointment-create/appointment-create.component';
 import { DailyAppointmentListComponent } from './pages/appointment/daily-appointment-list/daily-appointment-list.component';
-import { AssignmentFormComponent } from './pages/assignment/assignment-form/assignment-form.component';
-import { AssignmentListComponent } from './pages/assignment/assignment-list/assignment-list.component';
 import { CompanyFormComponent } from './pages/company/company-form/company-form.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
-import { DepartmentFormComponent } from './pages/department/department-form/department-form.component';
-import { DepartmentListComponent } from './pages/department/department-list/department-list.component';
-import { DepartmentPersonListComponent } from './pages/department/department-person-list/department-person-list.component';
 import { DocumentFormComponent } from './pages/document/document-form/document-form.component';
 import { DocumentListComponent } from './pages/document/document-list/document-list.component';
 import { GoalFormComponent } from './pages/goal/goal-form/goal-form.component';
@@ -71,13 +67,13 @@ import { RoutineFormComponent } from './pages/routine/routine-form/routine-form.
 import { RoutineListComponent } from './pages/routine/routine-list/routine-list.component';
 import { SegmentFormComponent } from './pages/segment/segment-form/segment-form.component';
 import { SegmentListComponent } from './pages/segment/segment-list/segment-list.component';
-import { TaskFormComponent } from './pages/task/task-form/task-form.component';
-import { TaskListComponent } from './pages/task/task-list/task-list.component';
 import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { OfficeListComponent } from './pages/office/office-list/office-list.component';
+import { OfficeFormComponent } from './pages/office/office-form/office-form.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -99,15 +95,8 @@ export const maskConfig: Partial<IConfig> = {
     ResponsibilityFormComponent,
     GoalListComponent,
     GoalFormComponent,
-    DepartmentListComponent,
-    DepartmentFormComponent,
-    DepartmentPersonListComponent,
-    TaskListComponent,
-    TaskFormComponent,
     RoutineListComponent,
     RoutineFormComponent,
-    AssignmentListComponent,
-    AssignmentFormComponent,
     AppointmentCreateComponent,
     SegmentListComponent,
     SegmentFormComponent,
@@ -126,6 +115,8 @@ export const maskConfig: Partial<IConfig> = {
     DocumentListComponent,
     PermissionFormComponent,
     DashboardComponent,
+    OfficeListComponent,
+    OfficeFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -164,6 +155,7 @@ export const maskConfig: Partial<IConfig> = {
     MatSlideToggleModule,
     MatMenuModule,
     NgxChartsModule,
+    MatChipsModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,

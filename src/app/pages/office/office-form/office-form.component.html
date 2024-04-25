@@ -4,8 +4,8 @@
     <mat-card-subtitle (click)="backClicked()" style="cursor: pointer"
       >Voltar</mat-card-subtitle
     >
-    <mat-card-title>
-      {{ personId ? "Editar " + person.name : "Cadastrar Colaborador" }}
+    <mat-card-title
+      >{{ officeId ? "Editar " + office.fantasyName : "Cadastrar Unidade" }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
   </mat-card-header>
@@ -18,142 +18,116 @@
 
       <!-- General -->
       <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
-      <!-- Name, CPF, ContractType, Gender -->
-      <mat-grid-list cols="5" rowHeight="100px">
-        <!-- Name -->
-        <mat-grid-tile colspan="2">
-          <mat-form-field class="fullWidth" appearance="legacy">
-            <mat-label>Nome</mat-label>
+      <!-- Colunas -->
+      <mat-grid-list cols="2" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
+            <mat-label>Razão Social</mat-label>
             <input
-              [(ngModel)]="person.name"
-              name="name"
-              [formControl]="name"
+              [(ngModel)]="office.corporateReason"
+              name="corporateReason"
+              [formControl]="corporateReason"
               required
               matInput
-              maxlength="100"
             />
-            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-            <mat-hint *ngIf="!name.value" align="end" style="color: red"
-              >Campo obrigatório</mat-hint
-            >
-          </mat-form-field>
-        </mat-grid-tile>
-
-        <!-- CPF -->
-        <mat-grid-tile colspan="1">
-          <mat-form-field class="fullWidth cpf-field" appearance="legacy">
-            <mat-label>{{ isCpf ? "CPF" : "CNPJ" }}</mat-label>
-            <input
-              [(ngModel)]="person.cpfCnpj"
-              name="cpf"
-              [formControl]="cpf"
-              required
-              matInput
-              maxlength="isCpf ? 14 : 18"
-              [placeholder]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'"
-              [mask]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'"
-            />
-            <mat-hint *ngIf="!cpf.value" align="end" style="color: red"
-              >Campo obrigatório</mat-hint
-            >
-          </mat-form-field>
-        </mat-grid-tile>
-
-        <!-- ContractType -->
-        <mat-grid-tile colspan="1">
-          <mat-radio-group
-            [(ngModel)]="radioContractTypeOptions"
-            name="radioButtons"
-          >
-            <mat-radio-button (click)="selectContractType('Clt')" value="Clt"
-              >CLT</mat-radio-button
-            >
-            <mat-radio-button
-              (click)="selectContractType('Autônomo')"
-              value="Autônomo"
-              >Profissional</mat-radio-button
-            >
-          </mat-radio-group>
-        </mat-grid-tile>
-
-        <!-- Gender -->
-        <mat-grid-tile colspan="1">
-          <mat-radio-group
-            [(ngModel)]="radioGenderOptions"
-            name="radioGenderButtons"
-          >
-            <mat-radio-button
-              (click)="selectGender('Masculino')"
-              value="Masculino"
-              >Masculino</mat-radio-button
-            >
-            <mat-radio-button
-              (click)="selectGender('Feminino')"
-              value="Feminino"
-              >Feminino</mat-radio-button
-            >
-          </mat-radio-group>
-        </mat-grid-tile>
-      </mat-grid-list>
-      <!-- Username, Email -->
-      <mat-grid-list cols="3" rowHeight="100px">
-        <!-- Username -->
-        <mat-grid-tile colspan="1">
-          <mat-form-field class="fullWidth" appearance="legacy">
-            <mat-label>Nome de Usuário</mat-label>
-            <input
-              [(ngModel)]="person.user.username"
-              name="username"
-              [formControl]="username"
-              required
-              matInput
-              placeholder="Ex.. fulano44"
-            />
-            <mat-icon matSuffix>person</mat-icon>
-            <mat-hint *ngIf="!username.value" align="end" style="color: red"
-              >Campo obrigatório</mat-hint
-            >
-          </mat-form-field>
-        </mat-grid-tile>
-
-        <!-- Email -->
-        <mat-grid-tile colspan="1">
-          <mat-form-field class="fullWidth" appearance="legacy">
-            <mat-label>E-mail</mat-label>
-            <input
-              [(ngModel)]="person.user.email"
-              name="email"
-              [formControl]="email"
-              required
-              matInput
-              placeholder="Ex.. fulano@mail.com"
-            />
-            <mat-icon matSuffix>email</mat-icon>
-            <mat-hint *ngIf="!email.value" align="end" style="color: red"
-              >Campo obrigatório</mat-hint
-            >
-          </mat-form-field>
-        </mat-grid-tile>
-
-        <!-- Função -->
-        <mat-grid-tile colspan="1">
-          <mat-form-field appearance="outline">
-            <mat-label>Selecione a Função</mat-label>
-            <mat-select
-              [(ngModel)]="person.responsibilityId"
-              name="responsibility"
-              [formControl]="responsibility"
-            >
-              <mat-option
-                *ngFor="let responsibility of responsibilities"
-                [value]="responsibility.id"
-                >{{ responsibility.name }}</mat-option
-              >
-            </mat-select>
+            <mat-icon matSuffix>add_business</mat-icon>
             <mat-hint
-              *ngIf="!responsibility.value"
+              *ngIf="!corporateReason.value"
               align="end"
               style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 2 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
+            <mat-label>Nome Fantasia</mat-label>
+            <input
+              [(ngModel)]="office.fantasyName"
+              name="fantasyName"
+              [formControl]="fantasyName"
+              required
+              matInput
+            />
+            <mat-icon matSuffix>domain</mat-icon>
+            <mat-hint *ngIf="!fantasyName.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <!-- Colunas -->
+      <mat-grid-list cols="4" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
+            <mat-label>CNPJ</mat-label>
+            <input
+              [(ngModel)]="office.cnpj"
+              name="cnpj"
+              [formControl]="cnpj"
+              required
+              matInput
+              [mask]="'00.000.000/0000-00'"
+              maxlength="18"
+              placeholder="00.000.000/0000-00"
+            />
+            <mat-icon matSuffix>cases</mat-icon>
+            <mat-hint *ngIf="!cnpj.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 2 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
+            <mat-label>E-mail</mat-label>
+            <input
+              [(ngModel)]="office.email"
+              name="email"
+              [formControl]="email"
+              matInput
+            />
+            <mat-icon matSuffix>alternate_email</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 3 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
+            <mat-label>Website</mat-label>
+            <input
+              [(ngModel)]="office.website"
+              name="website"
+              [formControl]="website"
+              matInput
+            />
+            <mat-icon matSuffix>language</mat-icon>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <!-- Colunas -->
+      <mat-grid-list cols="4" rowHeight="100px">
+        <!-- Coluna 1 -->
+        <mat-grid-tile colspan="2">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione uma Empresa</mat-label>
+            <mat-select
+              [(ngModel)]="office.company"
+              (ngModelChange)="selectCompany()"
+              name="company"
+              [formControl]="company"
+              required
+            >
+              <mat-option *ngFor="let company of companies" [value]="company">{{
+                company.fantasyName
+              }}</mat-option>
+            </mat-select>
+            <mat-hint *ngIf="!company.value" align="end" style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>
@@ -166,13 +140,13 @@
       <!-- Contact -->
       <mat-card-subtitle>Contatos:</mat-card-subtitle>
       <!-- Colunas -->
-      <mat-grid-list cols="2" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
             <mat-label>Telefone</mat-label>
             <input
-              [(ngModel)]="person.contact.phone"
+              [(ngModel)]="office.contact.phone"
               name="phone"
               [formControl]="phone"
               matInput
@@ -186,7 +160,7 @@
           <mat-form-field appearance="legacy">
             <mat-label>Celular</mat-label>
             <input
-              [(ngModel)]="person.contact.cellphone"
+              [(ngModel)]="office.contact.cellphone"
               name="cellphone"
               [formControl]="cellphone"
               matInput
@@ -202,17 +176,18 @@
       <!-- Address -->
       <mat-card-subtitle>Endereço:</mat-card-subtitle>
       <!-- Colunas -->
-      <mat-grid-list cols="3" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
             <mat-label>CEP</mat-label>
             <input
-              [(ngModel)]="person.address.cep"
+              [(ngModel)]="office.address.cep"
               name="cep"
               [formControl]="cep"
               type="text"
               matInput
+              placeholder="Ex.. 12444-666"
               mask="00000-000"
             />
             <mat-icon matSuffix>location_on</mat-icon>
@@ -224,7 +199,7 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Estado</mat-label>
             <input
-              [(ngModel)]="person.address.uf"
+              [(ngModel)]="office.address.uf"
               name="uf"
               [formControl]="uf"
               type="uf"
@@ -239,7 +214,7 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Cidade</mat-label>
             <input
-              [(ngModel)]="person.address.city"
+              [(ngModel)]="office.address.city"
               name="city"
               [formControl]="city"
               type="city"
@@ -250,13 +225,13 @@
         </mat-grid-tile>
       </mat-grid-list>
       <!-- Colunas -->
-      <mat-grid-list cols="3" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Rua</mat-label>
             <input
-              [(ngModel)]="person.address.streetName"
+              [(ngModel)]="office.address.streetName"
               name="streetName"
               [formControl]="streetName"
               type="streetName"
@@ -271,7 +246,7 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Bairro</mat-label>
             <input
-              [(ngModel)]="person.address.neighborhood"
+              [(ngModel)]="office.address.neighborhood"
               name="neighborhood"
               [formControl]="neighborhood"
               type="neighborhood"
@@ -286,7 +261,7 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Complemento</mat-label>
             <input
-              [(ngModel)]="person.address.complement"
+              [(ngModel)]="office.address.complement"
               name="complement"
               [formControl]="complement"
               type="complement"
@@ -302,7 +277,7 @@
   <!-- Actions -->
   <mat-card-actions align="end">
     <button
-      (click)="openPersonForm()"
+      (click)="openOfficeForm()"
       [disabled]="!validateFields()"
       class="success-button mat-elevation-z4"
       mat-raised-button
@@ -312,7 +287,7 @@
       <mat-icon>check</mat-icon> SALVAR
     </button>
     <button
-      *ngIf="personId"
+      *ngIf="officeId"
       routerLink="../../"
       class="mat-elevation-z4"
       mat-raised-button
@@ -323,7 +298,7 @@
       <mat-icon>block</mat-icon> CANCELAR
     </button>
     <button
-      *ngIf="!personId"
+      *ngIf="!officeId"
       routerLink="../"
       class="mat-elevation-z4"
       mat-raised-button

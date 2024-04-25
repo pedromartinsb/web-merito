@@ -4,12 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { NavComponent } from './components/nav/nav.component';
 import { AppointmentCreateComponent } from './pages/appointment/appointment-create/appointment-create.component';
-import { AssignmentFormComponent } from './pages/assignment/assignment-form/assignment-form.component';
-import { AssignmentListComponent } from './pages/assignment/assignment-list/assignment-list.component';
 import { CompanyFormComponent } from './pages/company/company-form/company-form.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
-import { DepartmentFormComponent } from './pages/department/department-form/department-form.component';
-import { DepartmentListComponent } from './pages/department/department-list/department-list.component';
 import { DocumentFormComponent } from './pages/document/document-form/document-form.component';
 import { DocumentListComponent } from './pages/document/document-list/document-list.component';
 import { GoalFormComponent } from './pages/goal/goal-form/goal-form.component';
@@ -27,9 +23,9 @@ import { RoutineFormComponent } from './pages/routine/routine-form/routine-form.
 import { RoutineListComponent } from './pages/routine/routine-list/routine-list.component';
 import { SegmentFormComponent } from './pages/segment/segment-form/segment-form.component';
 import { SegmentListComponent } from './pages/segment/segment-list/segment-list.component';
-import { TaskFormComponent } from './pages/task/task-form/task-form.component';
-import { TaskListComponent } from './pages/task/task-list/task-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { OfficeListComponent } from './pages/office/office-list/office-list.component';
+import { OfficeFormComponent } from './pages/office/office-form/office-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -94,61 +90,27 @@ const routes: Routes = [
           role: 'ROLE_ADMIN',
         },
       },
-      {
-        path: 'company/:idCompany/department/create',
-        component: DepartmentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
 
-      // DEPARTMENT
+      // OFFICE
       {
-        path: 'department',
-        component: DepartmentListComponent,
+        path: 'office',
+        component: OfficeListComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',
         },
       },
       {
-        path: 'department/create',
-        component: DepartmentFormComponent,
+        path: 'office/create',
+        component: OfficeFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',
         },
       },
       {
-        path: 'department/edit/:id',
-        component: DepartmentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-
-      // ASSIGNMENT
-      {
-        path: 'assignment',
-        component: AssignmentListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-      {
-        path: 'assignment/create',
-        component: AssignmentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-      {
-        path: 'assignment/edit/:id',
-        component: AssignmentFormComponent,
+        path: 'office/edit/:id',
+        component: OfficeFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',
@@ -287,48 +249,6 @@ const routes: Routes = [
       {
         path: 'person/:idPerson/routine/create',
         component: RoutineFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-      {
-        path: 'person/:idPerson/task/create',
-        component: TaskFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-      {
-        path: 'person/:idPerson/assignment/create',
-        component: AssignmentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-
-      // TASK
-      {
-        path: 'task',
-        component: TaskListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-      {
-        path: 'task/create',
-        component: TaskFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-      {
-        path: 'task/edit/:id',
-        component: TaskFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',

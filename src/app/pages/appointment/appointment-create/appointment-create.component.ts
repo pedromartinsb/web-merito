@@ -1,30 +1,23 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { Activity, Appointment } from 'src/app/models/appointment';
 import { Company } from 'src/app/models/company';
-import { Department } from 'src/app/models/department';
 import { Person } from 'src/app/models/person';
-import { Sector } from 'src/app/models/sector';
 import { monthlyTag, Tag } from 'src/app/models/tag';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { CompanyService } from 'src/app/services/company.service';
-import { DepartmentService } from 'src/app/services/department.service';
 import { PersonService } from 'src/app/services/person.service';
 import { TagService } from 'src/app/services/tag.service';
 
 import { DescriptionModalComponent } from '../../../components/description/description-modal';
+import { Responsibility } from 'src/app/models/responsibility';
+import { ResponsibilityService } from 'src/app/services/responsibility.service';
 
 interface DescriptionDialogData {
   activity: Activity;
@@ -40,24 +33,15 @@ export class AppointmentCreateComponent implements OnInit {
   appointment: Appointment = {
     id: '',
     name: '',
-
     person: null,
     personId: '',
-
     tag: null,
     tagId: '',
-
     activityType: '',
-
     description: '',
     justification: '',
-
     activityId: '',
-
     routineId: '',
-    taskId: '',
-    assignmentId: '',
-
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
@@ -65,23 +49,17 @@ export class AppointmentCreateComponent implements OnInit {
 
   isSelected: boolean = false;
   companyId: string;
-  departmentId: string = '';
-  sectorId: string = '';
+  responsibilityId: string = '';
   personId: string = '';
 
   companies: Company[] = [];
-  departments: Department[] = [];
-  sectors: Sector[] = [];
+  responsibilities: Responsibility[] = [];
   persons: Person[] = [];
-
   tags: Tag[] = [];
 
-  personAppointments: Appointment[] = [];
-  personActivities: Activity[] = [];
-
-  personRoutines: Activity[] = [];
-  personTasks: Activity[] = [];
-  personAssignments: Activity[] = [];
+  appointments: Appointment[] = [];
+  activities: Activity[] = [];
+  routines: Activity[] = [];
 
   startDate: Date = new Date();
   endDate: Date = new Date();
@@ -92,8 +70,7 @@ export class AppointmentCreateComponent implements OnInit {
   calendarKeys: number[] = [];
 
   company: FormControl = new FormControl(null, [Validators.required]);
-  department: FormControl = new FormControl(null, []);
-  sector: FormControl = new FormControl(null, []);
+  reponsibility: FormControl = new FormControl(null, []);
   person: FormControl = new FormControl(null, [Validators.required]);
 
   floatLabelControl = new FormControl('auto' as FloatLabelType);
@@ -104,15 +81,12 @@ export class AppointmentCreateComponent implements OnInit {
 
   constructor(
     private companyService: CompanyService,
-    private departmentService: DepartmentService,
     private personService: PersonService,
-    private router: Router,
-    private route: ActivatedRoute,
+    private responsibilityService: ResponsibilityService,
     private toast: ToastrService,
     private dialog: MatDialog,
     private tagService: TagService,
     private appointmentService: AppointmentService,
-    private el: ElementRef,
     private cdr: ChangeDetectorRef
   ) {
     this.startDate = new Date();
@@ -132,39 +106,43 @@ export class AppointmentCreateComponent implements OnInit {
   findAllCompanies(): void {
     this.companyService.findAll().subscribe((response) => {
       if (response.values != null) {
-        this.toast.success('Unidades carregadas com sucesso');
+        this.toast.success('Empresas carregadas com sucesso');
         this.companies = response;
       }
     });
   }
 
-  findAllDepartments(companyId: string): void {
-    this.departmentService.findAllByCompany(companyId).subscribe((response) => {
-      if (response.values != null) {
-        this.toast.success('Departamentos carregados com sucesso');
-        this.departments = response;
-      }
-    });
+  findAllReponsibilityByCompany(companyId: string): void {
+    this.responsibilityService
+      .findAllByCompany(companyId)
+      .subscribe((response) => {
+        if (response.values != null) {
+          this.toast.success('Funções carregadas com sucesso');
+          this.responsibilities = response;
+        }
+      });
   }
 
-  findAllPersonByCompany(companyId: string): void {
-    this.personService.findAllByCompany(companyId).subscribe((response) => {
-      if (response.values != null) {
-        this.toast.success('Colaboradores carregados com sucesso');
-        this.persons = response;
-      }
-    });
+  findAllPersonByResponsibility(reponsibilityId: string) {
+    this.personService
+      .findAllByResponsibility(reponsibilityId)
+      .subscribe((response) => {
+        if (response.values != null) {
+          this.toast.success('Funcionários carregados com sucesso');
+          this.persons = response;
+        }
+      });
   }
 
   search(): void {
     if (this.person && this.person.value) {
-      this.findPersonActivities();
+      this.findActivities();
     } else {
       this.toast.warning('Selecione uma pessoa antes de pesquisar.');
     }
   }
 
-  findPersonAppointments(): void {
+  findAppointments(): void {
     this.appointmentService
       .findByPersonAndDate(this.person.value, this.startDate, this.endDate)
       .pipe(
@@ -175,15 +153,11 @@ export class AppointmentCreateComponent implements OnInit {
         })
       )
       .subscribe((response: Appointment[]) => {
-        this.personAppointments = response;
-        if (this.personAppointments && this.personAppointments.length > 0) {
-          this.personAppointments.forEach((appointment) => {
-            this.personActivities.forEach((activity) => {
-              if (
-                activity.id === appointment.routineId ||
-                activity.id === appointment.taskId ||
-                activity.id === appointment.assignmentId
-              ) {
+        this.appointments = response;
+        if (this.appointments && this.appointments.length > 0) {
+          this.appointments.forEach((appointment) => {
+            this.activities.forEach((activity) => {
+              if (activity.id === appointment.routineId) {
                 activity.description = appointment.description;
                 activity.justification = appointment.justification;
               }
@@ -193,7 +167,7 @@ export class AppointmentCreateComponent implements OnInit {
       });
   }
 
-  findPersonActivities(): void {
+  findActivities(): void {
     this.appointmentService
       .findActivitiesByPersonAndDate(
         this.person.value,
@@ -202,25 +176,19 @@ export class AppointmentCreateComponent implements OnInit {
       )
       .pipe(
         finalize(() => {
-          this.findPersonAppointments();
+          this.findAppointments();
         })
       )
       .subscribe((response: Activity[]) => {
-        this.personActivities = response;
+        this.activities = response;
       });
   }
 
   categorizeActivities() {
-    this.personRoutines = [];
-    this.personTasks = [];
-    this.personAssignments = [];
-    for (const activity of this.personActivities) {
+    this.routines = [];
+    for (const activity of this.activities) {
       if (activity.type === 'routine') {
-        this.personRoutines.push(activity);
-      } else if (activity.type === 'task') {
-        this.personTasks.push(activity);
-      } else if (activity.type === 'assignment') {
-        this.personAssignments.push(activity);
+        this.routines.push(activity);
       }
     }
   }
@@ -379,7 +347,7 @@ export class AppointmentCreateComponent implements OnInit {
     this.allowAppointmentCreation = this.isCurrentDay(this.selectedDateMonthly);
 
     if (this.person && this.person.value) {
-      this.findPersonActivities();
+      this.findActivities();
     }
   }
 
