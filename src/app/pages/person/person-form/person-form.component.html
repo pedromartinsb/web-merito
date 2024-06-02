@@ -324,8 +324,8 @@
       <hr class="solid" />
 
       <!-- Routines -->
-      <mat-card-subtitle>Rotinas:</mat-card-subtitle>
-      <mat-grid-list cols="1">
+      <mat-card-subtitle *ngIf="person.id">Rotinas:</mat-card-subtitle>
+      <mat-grid-list cols="1" *ngIf="person.id">
         <!-- Tabela -->
         <div class="container">
           <div class="mat-elevation-z8">
