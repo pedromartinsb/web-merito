@@ -20,6 +20,12 @@ export class PersonService {
     );
   }
 
+  findAllByContractType(contractType: string): Observable<Person[]> {
+    return this.http.get<Person[]>(
+      `${Config.webApiUrl}/v1/person/${contractType}/contract-type`
+    );
+  }
+
   findById(id: any): Observable<Person> {
     return this.http.get<Person>(`${Config.webApiUrl}/v1/person/${id}`);
   }

@@ -22,7 +22,7 @@
     <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-    <button mat-menu-item routerLink="#">
+    <button mat-menu-item routerLink="account">
       <mat-icon>person</mat-icon><span>Minha Conta</span>
     </button>
     <button mat-menu-item routerLink="permission" *ngIf="canAdminAccess">
@@ -125,6 +125,15 @@
             *ngIf="canAdminAccess || canModeratorAccess"
           >
             <mat-icon>person_add</mat-icon><span>Colaboradores</span>
+          </a>
+
+          <!-- Person -->
+          <a
+            mat-list-item
+            routerLink="autonomous"
+            *ngIf="canAdminAccess || canModeratorAccess"
+          >
+            <mat-icon>engineering</mat-icon><span>Profissionais</span>
           </a>
 
           <!-- Routine -->

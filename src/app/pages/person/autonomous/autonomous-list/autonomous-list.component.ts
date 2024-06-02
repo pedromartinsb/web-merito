@@ -1,19 +1,19 @@
-import { PersonService } from '../../../services/person.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { Person } from '../../../models/person';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { ToastrService } from 'ngx-toastr';
+import { DeleteConfirmationModalComponent } from 'src/app/components/delete/delete-confirmation-modal';
+import { Person } from 'src/app/models/person';
+import { PersonService } from 'src/app/services/person.service';
 
 @Component({
-  selector: 'app-person-list',
-  templateUrl: './person-list.component.html',
-  styleUrls: ['./person-list.component.css'],
+  selector: 'app-autonomous-list',
+  templateUrl: './autonomous-list.component.html',
+  styleUrls: ['./autonomous-list.component.css'],
 })
-export class PersonListComponent implements OnInit {
+export class AutonomousListComponent implements OnInit {
   persons: Person[] = [];
 
   ELEMENT_DATA: Person[] = [];
@@ -47,12 +47,14 @@ export class PersonListComponent implements OnInit {
   }
 
   findAll() {
-    this.personService.findAllByContractType('CLT').subscribe((response) => {
-      this.persons = response;
-      this.dataSource = new MatTableDataSource<Person>(response);
-      this.dataSource.paginator = this.paginator;
-      this.isLoading = false;
-    });
+    this.personService
+      .findAllByContractType('Professional')
+      .subscribe((response) => {
+        this.persons = response;
+        this.dataSource = new MatTableDataSource<Person>(response);
+        this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
+      });
   }
 
   applyFilter(event: Event) {
@@ -61,19 +63,19 @@ export class PersonListComponent implements OnInit {
   }
 
   editPerson(personId: string): void {
-    this.router.navigate(['person', 'edit', personId]);
+    this.router.navigate(['autonomous', 'edit', personId]);
   }
 
   openDeleteConfirmationModal(personId: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
     dialogRef.componentInstance.message =
-      'Tem certeza que deseja deletar este colaborador?';
+      'Tem certeza que deseja deletar este profissional?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deletePerson(personId);
       dialogRef.close();
-      this.toast.success('Colaborador deletado com sucesso', 'Excluir');
+      this.toast.success('Profissional deletado com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {

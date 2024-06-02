@@ -71,3 +71,8 @@ export enum Gender {
   MALE = 'Masculino',
   FEMALE = 'Feminino',
 }
+
+export enum ContractType {
+  CLT = 'Clt',
+  AUTONOMO = 'Autônomo',
+}

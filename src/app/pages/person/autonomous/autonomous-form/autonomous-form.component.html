@@ -5,7 +5,7 @@
       >Voltar</mat-card-subtitle
     >
     <mat-card-title>
-      {{ personId ? "Editar " + person.name : "Cadastrar Colaborador" }}
+      {{ personId ? "Editar " + person.name : "Cadastrar Profissional" }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
   </mat-card-header>
@@ -42,7 +42,7 @@
         <!-- CPF -->
         <mat-grid-tile colspan="1">
           <mat-form-field class="fullWidth cpf-field" appearance="legacy">
-            <mat-label>{{ "CPF" }}</mat-label>
+            <mat-label>{{ "CNPJ" }}</mat-label>
             <input
               [(ngModel)]="person.cpfCnpj"
               name="cpf"
@@ -96,6 +96,7 @@
           </mat-radio-group>
         </mat-grid-tile>
       </mat-grid-list>
+
       <!-- Username, Email -->
       <mat-grid-list cols="3" rowHeight="100px">
         <!-- Username -->
@@ -318,6 +319,42 @@
             <mat-icon matSuffix>edit_location_alt</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
+      </mat-grid-list>
+
+      <!-- Divider -->
+      <hr class="solid" />
+
+      <!-- Routines -->
+      <mat-card-subtitle>Rotinas:</mat-card-subtitle>
+      <mat-grid-list cols="1">
+        <!-- Tabela -->
+        <div class="container">
+          <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Nome</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.name }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="responsibility">
+                <th mat-header-cell *matHeaderCellDef>Função</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.responsibility.name }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+
+            <mat-paginator
+              [pageSizeOptions]="[5, 2, 10, 20, 50, 100]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </div>
       </mat-grid-list>
     </form>
   </mat-card-content>

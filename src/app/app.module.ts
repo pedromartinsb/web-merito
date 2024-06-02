@@ -2,10 +2,12 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -28,37 +30,41 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatBadgeModule } from '@angular/material/badge';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { MatChipsModule } from '@angular/material/chips';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CardComponent } from './components/card/card.component';
 import { DeleteConfirmationModalComponent } from './components/delete/delete-confirmation-modal';
 import { DescriptionModalComponent } from './components/description/description-modal';
+import { DialogOverviewComponent } from './components/dialog-overview/dialog-overview.component';
 import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/fileinfo-form.component';
 import { FileinfoListComponent } from './components/fileinfo/fileinfo-list/fileinfo-list.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
 import { AuthInterceptorProvider } from './helpers/auth.interceptor';
+import { AccountFormComponent } from './pages/account/account-form/account-form.component';
 import { AppointmentCreateComponent } from './pages/appointment/appointment-create/appointment-create.component';
 import { DailyAppointmentListComponent } from './pages/appointment/daily-appointment-list/daily-appointment-list.component';
 import { CompanyFormComponent } from './pages/company/company-form/company-form.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DocumentFormComponent } from './pages/document/document-form/document-form.component';
 import { DocumentListComponent } from './pages/document/document-list/document-list.component';
+import { FirstAccessComponent } from './pages/first-access/first-access.component';
 import { GoalFormComponent } from './pages/goal/goal-form/goal-form.component';
 import { GoalListComponent } from './pages/goal/goal-list/goal-list.component';
 import { HoldingFormComponent } from './pages/holding/holding-form/holding-form.component';
 import { HoldingListComponent } from './pages/holding/holding-list/holding-list.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
+import { OfficeFormComponent } from './pages/office/office-form/office-form.component';
+import { OfficeListComponent } from './pages/office/office-list/office-list.component';
 import { PermissionFormComponent } from './pages/permission/permission-form/permission-form.component';
 import { PersonFormComponent } from './pages/person/person-form/person-form.component';
 import { PersonListComponent } from './pages/person/person-list/person-list.component';
@@ -72,11 +78,8 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
-import { DialogOverviewComponent } from './components/dialog-overview/dialog-overview.component';
-import { FirstAccessComponent } from './pages/first-access/first-access.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { OfficeListComponent } from './pages/office/office-list/office-list.component';
-import { OfficeFormComponent } from './pages/office/office-form/office-form.component';
+import { AutonomousListComponent } from './pages/person/autonomous/autonomous-list/autonomous-list.component';
+import { AutonomousFormComponent } from './pages/person/autonomous/autonomous-form/autonomous-form.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -122,6 +125,9 @@ export const maskConfig: Partial<IConfig> = {
     DashboardComponent,
     OfficeListComponent,
     OfficeFormComponent,
+    AccountFormComponent,
+    AutonomousListComponent,
+    AutonomousFormComponent,
   ],
   imports: [
     BrowserModule,
