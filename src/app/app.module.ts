@@ -78,8 +78,8 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
-import { AutonomousListComponent } from './pages/person/autonomous/autonomous-list/autonomous-list.component';
-import { AutonomousFormComponent } from './pages/person/autonomous/autonomous-form/autonomous-form.component';
+import { AutonomousListComponent } from './pages/autonomous/autonomous-list/autonomous-list.component';
+import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/autonomous-form.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -174,7 +174,7 @@ export const maskConfig: Partial<IConfig> = {
       progressBar: true,
       progressAnimation: 'increasing',
       tapToDismiss: true,
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-top-right',
     }),
     NgxMaskModule.forRoot(maskConfig),
   ],

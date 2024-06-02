@@ -28,8 +28,8 @@ import { RoutineFormComponent } from './pages/routine/routine-form/routine-form.
 import { RoutineListComponent } from './pages/routine/routine-list/routine-list.component';
 import { SegmentFormComponent } from './pages/segment/segment-form/segment-form.component';
 import { SegmentListComponent } from './pages/segment/segment-list/segment-list.component';
-import { AutonomousListComponent } from './pages/person/autonomous/autonomous-list/autonomous-list.component';
-import { AutonomousFormComponent } from './pages/person/autonomous/autonomous-form/autonomous-form.component';
+import { AutonomousListComponent } from './pages/autonomous/autonomous-list/autonomous-list.component';
+import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/autonomous-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },

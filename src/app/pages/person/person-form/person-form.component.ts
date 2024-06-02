@@ -1,6 +1,12 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { PersonService } from '../../../services/person.service';
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -17,6 +23,10 @@ import { Subscription, finalize } from 'rxjs';
 import { Location } from '@angular/common';
 import { Office } from 'src/app/models/office';
 import { OfficeService } from 'src/app/services/office.service';
+import { Routine } from 'src/app/models/routine';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { RoutineService } from 'src/app/services/routine.service';
 
 @Component({
   selector: 'app-person-form',
@@ -108,6 +118,14 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   public radioGenderOptions: string = 'Masculino';
   public hide: boolean = true;
 
+  // Routines
+  ELEMENT_DATA: Routine[] = [];
+  FILTERED_DATA: Routine[] = [];
+  displayedColumns: string[] = ['name', 'responsibility'];
+  dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  public isLoading: boolean = false;
+
   constructor(
     private personService: PersonService,
     private toast: ToastrService,
@@ -115,6 +133,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private officeService: OfficeService,
     private responsibilityService: ResponsibilityService,
+    private routineService: RoutineService,
     private _location: Location
   ) {}
 
@@ -152,6 +171,19 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadRoles();
   }
 
+  findAllRoutines(): void {
+    this.routineService
+      .findAllByResponsibility(this.person.responsibility.id)
+      .subscribe((response) => {
+        if (response) {
+          this.ELEMENT_DATA = response;
+          this.dataSource = new MatTableDataSource<Routine>(response);
+          this.dataSource.paginator = this.paginator;
+        }
+        this.isLoading = false;
+      });
+  }
+
   findAllOfficies(): void {
     this.officeService.findAll().subscribe((response: Office[]) => {
       this.officies = response;
@@ -184,6 +216,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         finalize(() => {
           this.loadList();
+          this.findAllRoutines();
         })
       )
       .subscribe((response) => {
