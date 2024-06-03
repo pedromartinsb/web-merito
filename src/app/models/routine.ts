@@ -11,5 +11,6 @@ export interface Routine {
   updatedAt: string;
   deletedAt: string;
 
+  responsibility: Responsibility;
   responsibilities: Responsibility[];
 }

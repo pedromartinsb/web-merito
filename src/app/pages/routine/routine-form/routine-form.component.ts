@@ -7,6 +7,7 @@ import { RoutineService } from 'src/app/services/routine.service';
 import { Location } from '@angular/common';
 import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { Responsibility } from 'src/app/models/responsibility';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-routine-form',
@@ -19,6 +20,7 @@ export class RoutineFormComponent implements OnInit {
   routine: Routine = {
     name: '',
     appointment: null,
+    responsibility: null,
     responsibilities: this.responsibilities,
     startedAt: '',
     finishedAt: '',
@@ -32,6 +34,9 @@ export class RoutineFormComponent implements OnInit {
 
   name: FormControl = new FormControl(null, Validators.minLength(3));
   responsibility: FormControl = new FormControl(null, Validators.minLength(1));
+  responsibilitySelected: FormControl = new FormControl(null, [
+    Validators.required,
+  ]);
 
   public isSaving: boolean = false;
 
@@ -46,9 +51,8 @@ export class RoutineFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.routineId = this.route.snapshot.params['id'];
-    this.responsibilities = this.route.snapshot.params['responsibilities'];
     if (this.routineId) {
-      this.loadRoutinesByRoutine();
+      this.loadRoutine();
     } else {
       this.findAllResponsibilities();
     }
@@ -58,7 +62,20 @@ export class RoutineFormComponent implements OnInit {
     this._location.back();
   }
 
-  loadRoutinesByRoutine(): void {}
+  loadRoutine(): void {
+    this.routineService
+      .findById(this.routineId)
+      .pipe(
+        finalize(() => {
+          this.findAllResponsibilities();
+          this.responsibilityId = this.routine.responsibility.id;
+          this.getResponsibility();
+        })
+      )
+      .subscribe((response) => {
+        this.routine = response;
+      });
+  }
 
   findAllResponsibilities(): void {
     this.responsibilityService.findAll().subscribe((response) => {
@@ -66,10 +83,21 @@ export class RoutineFormComponent implements OnInit {
     });
   }
 
-  loadResponsibility(): void {
+  private getResponsibility(): void {
     this.responsibilityService
       .findById(this.responsibilityId)
       .subscribe((response: Responsibility) => {
+        console.log('responsibilityId: ' + response.id);
+        this.responsibilitySelected.setValue(response);
+        console.log('responsibilitySelected: ' + this.responsibilitySelected);
+      });
+  }
+
+  private getResponsibilities(): void {
+    this.responsibilityService
+      .findById(this.responsibilityId)
+      .subscribe((response: Responsibility) => {
+        console.log('responsibilityId: ' + response.id);
         this.responsibility.setValue(response);
       });
   }

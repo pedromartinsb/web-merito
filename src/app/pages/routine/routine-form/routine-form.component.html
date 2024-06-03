@@ -38,7 +38,7 @@
         </mat-grid-tile>
 
         <!-- Função -->
-        <mat-grid-tile colspan="1">
+        <mat-grid-tile colspan="1" *ngIf="!this.routineId">
           <mat-form-field appearance="outline">
             <mat-label>Selecione a Função</mat-label>
             <mat-select
@@ -47,6 +47,29 @@
               [formControl]="responsibility"
               required
               multiple
+            >
+              <mat-option
+                *ngFor="let responsibility of responsibilities"
+                [value]="responsibility.id"
+                >{{ responsibility.name }}</mat-option
+              >
+            </mat-select>
+            <mat-hint
+              *ngIf="!responsibility.value"
+              align="end"
+              style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1" *ngIf="this.routineId">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione a Função</mat-label>
+            <mat-select
+              [(ngModel)]="routine.responsibilities"
+              name="responsibilitySelected"
+              [formControl]="responsibilitySelected"
+              required
             >
               <mat-option
                 *ngFor="let responsibility of responsibilities"

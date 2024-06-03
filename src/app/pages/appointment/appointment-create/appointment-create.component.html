@@ -37,7 +37,7 @@
       animationDuration="300ms"
       (selectedTabChange)="onTabChange($event)"
     >
-      <!-- Tab 1-->
+      <!-- Tab 1 -->
       <mat-tab label="Diária">
         <div class="daily-appointments-wrapper">
           <app-daily-appointment-list
@@ -47,6 +47,14 @@
             (openDescriptionDialog)="openDescriptionDialog($event)"
           >
           </app-daily-appointment-list>
+        </div>
+        <div class="appointments-calendar-wrapper"></div>
+      </mat-tab>
+
+      <!-- Tab 2 -->
+      <mat-tab label="Mensal">
+        <div>
+          <app-monthly-appointment-list></app-monthly-appointment-list>
         </div>
         <div class="appointments-calendar-wrapper"></div>
       </mat-tab>
