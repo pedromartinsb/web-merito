@@ -14,11 +14,12 @@ import { Responsibility } from 'src/app/models/responsibility';
   styleUrls: ['./routine-form.component.css'],
 })
 export class RoutineFormComponent implements OnInit {
+  responsibilities: Responsibility[] = [];
+
   routine: Routine = {
     name: '',
-    responsibilityId: '',
-    responsibility: null,
     appointment: null,
+    responsibilities: this.responsibilities,
     startedAt: '',
     finishedAt: '',
     createdAt: '',
@@ -26,13 +27,11 @@ export class RoutineFormComponent implements OnInit {
     deletedAt: '',
   };
 
-  responsibilities: Responsibility[] = [];
-
   routineId: string;
   responsibilityId: string;
 
   name: FormControl = new FormControl(null, Validators.minLength(3));
-  responsibility: FormControl = new FormControl(null, []);
+  responsibility: FormControl = new FormControl(null, Validators.minLength(1));
 
   public isSaving: boolean = false;
 
@@ -47,9 +46,9 @@ export class RoutineFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.routineId = this.route.snapshot.params['id'];
-    this.responsibilityId = this.route.snapshot.params['responsibilityId'];
+    this.responsibilities = this.route.snapshot.params['responsibilities'];
     if (this.routineId) {
-      this.loadRoutine();
+      this.loadRoutinesByRoutine();
     } else {
       this.findAllResponsibilities();
     }
@@ -59,25 +58,12 @@ export class RoutineFormComponent implements OnInit {
     this._location.back();
   }
 
+  loadRoutinesByRoutine(): void {}
+
   findAllResponsibilities(): void {
     this.responsibilityService.findAll().subscribe((response) => {
       this.responsibilities = response;
-      if (this.routineId) {
-        this.responsibility.setValue(
-          response.find((p) => p.id === this.routine.responsibility.id)
-        );
-        this.routine.responsibilityId = this.routine.responsibility.id;
-      }
     });
-  }
-
-  loadRoutine(): void {
-    this.routineService
-      .findById(this.routineId)
-      .subscribe((response: Routine) => {
-        this.routine = response;
-        this.findAllResponsibilities();
-      });
   }
 
   loadResponsibility(): void {
@@ -106,6 +92,7 @@ export class RoutineFormComponent implements OnInit {
       },
       error: (ex) => {
         this.handleErrors(ex);
+        this.isSaving = false;
       },
     });
   }

@@ -1,4 +1,5 @@
 <mat-card class="card mat-elevation-z8">
+  <!-- Header -->
   <mat-card-header>
     <mat-card-subtitle (click)="backClicked()" style="cursor: pointer"
       >Voltar</mat-card-subtitle
@@ -16,9 +17,9 @@
 
       <!-- General -->
       <mat-card-subtitle>Dados Mestre:</mat-card-subtitle>
-      <!-- Colunas -->
+      <!-- Nome, Função -->
       <mat-grid-list cols="2" rowHeight="100px">
-        <!-- Coluna 1 -->
+        <!-- Nome -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
             <mat-label>Nome</mat-label>
@@ -36,15 +37,16 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <!-- Coluna 2 -->
+        <!-- Função -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="outline">
             <mat-label>Selecione a Função</mat-label>
             <mat-select
-              [(ngModel)]="routine.responsibilityId"
+              [(ngModel)]="routine.responsibilities"
               name="responsibility"
               [formControl]="responsibility"
               required
+              multiple
             >
               <mat-option
                 *ngFor="let responsibility of responsibilities"
@@ -64,6 +66,7 @@
     </form>
   </mat-card-content>
 
+  <!-- Actions -->
   <mat-card-actions align="end">
     <button
       (click)="openRoutineForm()"
@@ -99,6 +102,7 @@
     </button>
   </mat-card-actions>
 
+  <!-- Footer -->
   <mat-card-footer>
     <mat-progress-bar mode="indeterminate" *ngIf="isSaving"></mat-progress-bar>
   </mat-card-footer>
