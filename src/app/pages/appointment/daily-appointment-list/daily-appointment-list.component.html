@@ -1,4 +1,50 @@
-<mat-list>
+<mat-grid-list cols="10" rowHeight="50px" *ngFor="let routine of routines">
+  <mat-grid-tile colspan="1" rowspan="1"> {{ routine.name }} </mat-grid-tile>
+
+  <mat-grid-tile colspan="2" rowspan="1">
+    <mat-radio-group aria-label="Select an option">
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+      >
+        <mat-radio-button
+          class="example-radio-button"
+          *ngFor="let tag of tags"
+          [value]="tag"
+          [disabled]="!isCurrentDay"
+          [ngClass]="tag.class"
+          [checked]="tag.id == routine.tag?.id"
+          [matTooltip]="tag.description"
+          (change)="updateSelectedTag(routine, tag)"
+        ></mat-radio-button>
+      </mat-radio-group>
+    </mat-radio-group>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="1" rowspan="1">
+    <mat-chip-list>
+      <mat-chip
+        color="accent"
+        selected
+        *ngIf="routine.tag"
+        (click)="handleOpenDescription(routine)"
+      >
+        Avaliação
+      </mat-chip>
+    </mat-chip-list>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<!-- <mat-grid-list cols="4" rowHeight="50px">
+  <mat-grid-tile *ngFor="let routine of routines" colspan="1" rowspan="1">
+    One
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="2"> Two </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="1"> Three </mat-grid-tile>
+  <mat-grid-tile colspan="2" rowspan="1"> Four </mat-grid-tile>
+</mat-grid-list> -->
+
+<!-- <mat-list>
   <div mat-subheader>Rotinas:</div>
   <div mat-subheader *ngIf="routines.length == 0">
     Ainda não há rotinas vinculadas a esta função
@@ -43,4 +89,4 @@
       <mat-divider></mat-divider>
     </div>
   </mat-list-item>
-</mat-list>
+</mat-list> -->
