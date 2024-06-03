@@ -1,0 +1,8 @@
+<div class="grid-container">
+  <div class="grid-item">
+    <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
+  </div>
+  <div class="grid-item">
+    <app-details [selectedDate]="selectedDate"></app-details>
+  </div>
+</div>
