@@ -54,7 +54,9 @@
       <!-- Tab 2 -->
       <mat-tab label="Mensal">
         <div>
-          <app-monthly-appointment-list></app-monthly-appointment-list>
+          <app-monthly-appointment-list
+            [personId]="personId"
+          ></app-monthly-appointment-list>
         </div>
         <div class="appointments-calendar-wrapper"></div>
       </mat-tab>

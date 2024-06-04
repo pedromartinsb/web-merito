@@ -26,8 +26,7 @@
     "ngx-mask": "^14.3.3",
     "ngx-toastr": "^12.1.0",
     "rxjs": "~7.5.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.3",

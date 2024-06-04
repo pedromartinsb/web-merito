@@ -1,5 +1,17 @@
 <div *ngIf="selectedDate" class="details-container">
   <h2>Detalhes para {{ selectedDate | date }}</h2>
-  <!-- Exemplo de detalhes -->
-  <p>Informações sobre a data selecionada...</p>
+
+  <div *ngFor="let appointment of appointments">
+    <mat-grid-list cols="4" rowHeight="2:1">
+      <mat-grid-tile colspan="1" rowspan="1">
+        <p>Rotina: {{ appointment.name }}</p>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <p>Por quê?: {{ appointment.description }}</p>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1" rowspan="1">
+        <p>Justificativa: {{ appointment.justification }}</p>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
 </div>

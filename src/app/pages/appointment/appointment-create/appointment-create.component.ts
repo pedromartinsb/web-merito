@@ -79,12 +79,11 @@ export class AppointmentCreateComponent implements OnInit {
   company: FormControl = new FormControl(null, [Validators.required]);
   reponsibility: FormControl = new FormControl(null, []);
   person: FormControl = new FormControl(null, [Validators.required]);
-
   floatLabelControl = new FormControl('auto' as FloatLabelType);
 
   selectedDateMonthly: Date | null;
-
   colors = ['blue', 'green', 'yellow', 'orange', 'red'];
+  timeZone = 'America/Sao_Paulo';
 
   constructor(
     private companyService: CompanyService,

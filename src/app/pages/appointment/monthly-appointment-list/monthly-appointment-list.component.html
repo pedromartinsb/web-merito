@@ -3,6 +3,9 @@
     <app-calendar (dateSelected)="onDateSelected($event)"></app-calendar>
   </div>
   <div class="grid-item">
-    <app-details [selectedDate]="selectedDate"></app-details>
+    <app-details
+      [selectedDate]="selectedDate"
+      [appointments]="appointments"
+    ></app-details>
   </div>
 </div>
