@@ -10,27 +10,39 @@ import { Config } from '../config/api.config';
 export class OfficeService {
   constructor(private http: HttpClient) {}
 
-  findAll(): Observable<Office[]> {
+  public findAll(): Observable<Office[]> {
     return this.http.get<Office[]>(`${Config.webApiUrl}/v1/office`);
   }
 
-  findById(id: any): Observable<Office> {
+  public findAllByHolding(holdingId: string): Observable<Office[]> {
+    return this.http.get<Office[]>(
+      `${Config.webApiUrl}/v1/office/holding/${holdingId}`
+    );
+  }
+
+  public findAllByCompany(companyId: string): Observable<Office[]> {
+    return this.http.get<Office[]>(
+      `${Config.webApiUrl}/v1/office/company/${companyId}`
+    );
+  }
+
+  public findById(id: any): Observable<Office> {
     return this.http.get<Office>(`${Config.webApiUrl}/v1/office/${id}`);
   }
 
-  create(office: Office): Observable<Office> {
+  public create(office: Office): Observable<Office> {
     return this.http.post<Office>(`${Config.webApiUrl}/v1/office`, office);
   }
 
-  update(id: string, office: Office): Observable<Office> {
+  public update(id: string, office: Office): Observable<Office> {
     return this.http.put<Office>(`${Config.webApiUrl}/v1/office/${id}`, office);
   }
 
-  delete(id: string): Observable<Office> {
+  public delete(id: string): Observable<Office> {
     return this.http.delete<Office>(`${Config.webApiUrl}/v1/office/${id}`);
   }
 
-  findAddress(cep: string): Observable<AddressSearch> {
+  public findAddress(cep: string): Observable<AddressSearch> {
     return this.http.get<AddressSearch>(
       `${Config.webApiUrl}/v1/district/${cep}/cep`
     );

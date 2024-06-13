@@ -7,13 +7,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { ToastrService } from 'ngx-toastr';
+import { Holding } from 'src/app/models/holding';
+import { Company } from 'src/app/models/company';
+import { Office } from 'src/app/models/office';
 
 @Component({
   selector: 'app-person-list',
   templateUrl: './person-list.component.html',
-  styleUrls: ['./person-list.component.css'],
+  styleUrls: ['./person-list.component.scss'],
 })
 export class PersonListComponent implements OnInit {
+  holdingId: string;
+  companyId: string;
+  officeId: string;
+  holding: Holding;
+  company: Company;
+  office: Office;
   persons: Person[] = [];
 
   ELEMENT_DATA: Person[] = [];
@@ -42,12 +51,54 @@ export class PersonListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.holdingId = this.route.snapshot.params['holdingId'];
+    this.companyId = this.route.snapshot.params['companyId'];
+    this.officeId = this.route.snapshot.params['officeId'];
+    if (this.holdingId) {
+      this.findAllByHolding();
+    } else if (this.companyId) {
+      this.findAllByCompany();
+    } else if (this.officeId) {
+      this.findAllByOffice();
+    } else {
+      this.findAll();
+    }
     this.isLoading = true;
-    this.findAll();
   }
 
-  findAll() {
+  private findAll() {
     this.personService.findAllByContractType('CLT').subscribe((response) => {
+      this.persons = response;
+      this.dataSource = new MatTableDataSource<Person>(response);
+      this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
+    });
+  }
+
+  private findAllByHolding() {
+    this.personService
+      .findAllByHolding(this.holdingId)
+      .subscribe((response) => {
+        this.persons = response;
+        this.dataSource = new MatTableDataSource<Person>(response);
+        this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
+      });
+  }
+
+  private findAllByCompany() {
+    this.personService
+      .findAllByCompany(this.companyId)
+      .subscribe((response) => {
+        this.persons = response;
+        this.dataSource = new MatTableDataSource<Person>(response);
+        this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
+      });
+  }
+
+  private findAllByOffice() {
+    this.personService.findAllByOffice(this.officeId).subscribe((response) => {
       this.persons = response;
       this.dataSource = new MatTableDataSource<Person>(response);
       this.dataSource.paginator = this.paginator;

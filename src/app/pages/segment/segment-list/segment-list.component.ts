@@ -47,7 +47,6 @@ export class SegmentListComponent implements OnInit {
   }
 
   public findGroupsBySegment(segmentId: string): void {
-    console.log(segmentId);
     this.router.navigate(['holding', 'segment', segmentId]);
   }
 

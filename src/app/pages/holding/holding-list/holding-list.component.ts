@@ -13,7 +13,7 @@ import { Segment } from 'src/app/models/segment';
 @Component({
   selector: 'app-holding-list',
   templateUrl: './holding-list.component.html',
-  styleUrls: ['./holding-list.component.css'],
+  styleUrls: ['./holding-list.component.scss'],
 })
 export class HoldingListComponent implements OnInit {
   segmentId: string;
@@ -48,15 +48,12 @@ export class HoldingListComponent implements OnInit {
   ngOnInit(): void {
     // check if Segment is calling Holding list
     this.segmentId = this.route.snapshot.params['segmentId'];
-    console.log('segmentId: ' + this.segmentId);
-
     if (this.segmentId) {
       this.findAllBySegment();
       this.findSegmentById();
     } else {
       this.findAll();
     }
-
     this.isLoading = true;
   }
 
@@ -84,6 +81,18 @@ export class HoldingListComponent implements OnInit {
     this.segmentService.findById(this.segmentId).subscribe((response) => {
       this.segment = response;
     });
+  }
+
+  public findCompaniesByHolding(holdingId: string): void {
+    this.router.navigate(['company', 'holding', holdingId]);
+  }
+
+  public findOfficesByHolding(holdingId: string): void {
+    this.router.navigate(['office', 'holding', holdingId]);
+  }
+
+  public findPersonsByHolding(personId: string): void {
+    this.router.navigate(['person', 'holding', personId]);
   }
 
   applyFilter(event: Event) {

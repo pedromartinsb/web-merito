@@ -1,15 +1,25 @@
 <mat-card class="card mat-elevation-z8">
   <mat-card-header>
-    <mat-card-title *ngIf="segmentId == null"
-      >Rede de Empresas - Todas</mat-card-title
-    >
-    <mat-card-title *ngIf="segmentId != null"
-      >Rede de Empresas - Segmento: {{ segment.name }}</mat-card-title
-    >
+    <mat-card-title>Rede de Empresas</mat-card-title>
     <mat-card-subtitle>Listagem</mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content>
+  <!-- Content with Element_Data is empty -->
+  <mat-card-content *ngIf="ELEMENT_DATA.length == 0 && !isLoading">
+    <!-- Divider -->
+    <mat-divider></mat-divider>
+
+    <img
+      src="../../../../assets/img/empty-box.png"
+      alt=""
+      width="256"
+      height="256"
+    />
+    <h3>Não existem Redes de Empresas cadastradas para esse Segmento</h3>
+  </mat-card-content>
+
+  <!-- Content with Element_Data is not empty -->
+  <mat-card-content *ngIf="ELEMENT_DATA.length != 0 && !isLoading">
     <!-- Divider -->
     <mat-divider></mat-divider>
 
@@ -68,6 +78,7 @@
             <td mat-cell *matCellDef="let element">
               <button
                 mat-icon-button
+                (click)="findCompaniesByHolding(element.id)"
                 aria-label="Example icon-button with a menu"
               >
                 <mat-icon>visibility</mat-icon>
@@ -80,6 +91,7 @@
             <td mat-cell *matCellDef="let element">
               <button
                 mat-icon-button
+                (click)="findOfficesByHolding(element.id)"
                 aria-label="Example icon-button with a menu"
               >
                 <mat-icon>visibility</mat-icon>
@@ -88,10 +100,11 @@
           </ng-container>
 
           <ng-container matColumnDef="persons">
-            <th mat-header-cell *matHeaderCellDef>Colabroadores</th>
+            <th mat-header-cell *matHeaderCellDef>Colaboradores</th>
             <td mat-cell *matCellDef="let element">
               <button
                 mat-icon-button
+                (click)="findPersonsByHolding(element.id)"
                 aria-label="Example icon-button with a menu"
               >
                 <mat-icon>visibility</mat-icon>

@@ -10,39 +10,59 @@ import { Config } from '../config/api.config';
 export class PersonService {
   constructor(private http: HttpClient) {}
 
-  findAll(): Observable<Person[]> {
+  public findAll(): Observable<Person[]> {
     return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person`);
   }
 
-  findAllByResponsibility(responsibilityId: string): Observable<Person[]> {
+  public findAllByHolding(holdingId: string): Observable<Person[]> {
+    return this.http.get<Person[]>(
+      `${Config.webApiUrl}/v1/person/holding/${holdingId}`
+    );
+  }
+
+  public findAllByCompany(companyId: string): Observable<Person[]> {
+    return this.http.get<Person[]>(
+      `${Config.webApiUrl}/v1/person/company/${companyId}`
+    );
+  }
+
+  public findAllByOffice(officeId: string): Observable<Person[]> {
+    return this.http.get<Person[]>(
+      `${Config.webApiUrl}/v1/person/office/${[officeId]}`
+    );
+  }
+
+  public findAllByResponsibility(
+    responsibilityId: string
+  ): Observable<Person[]> {
     return this.http.get<Person[]>(
       `${Config.webApiUrl}/v1/person/${responsibilityId}/responsibility`
     );
   }
 
-  findAllByContractType(contractType: string): Observable<Person[]> {
+  public findAllByContractType(contractType: string): Observable<Person[]> {
     return this.http.get<Person[]>(
       `${Config.webApiUrl}/v1/person/${contractType}/contract-type`
     );
   }
 
-  findById(id: any): Observable<Person> {
+  public findById(id: any): Observable<Person> {
     return this.http.get<Person>(`${Config.webApiUrl}/v1/person/${id}`);
   }
 
-  create(person: Person): Observable<Person> {
+  public create(person: Person): Observable<Person> {
     return this.http.post<Person>(`${Config.webApiUrl}/v1/person`, person);
   }
 
-  update(id: string, person: Person): Observable<Person> {
+  public update(id: string, person: Person): Observable<Person> {
     return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}`, person);
   }
 
-  delete(id: string): Observable<Person> {
+  public delete(id: string): Observable<Person> {
     return this.http.delete<Person>(`${Config.webApiUrl}/v1/person/${id}`);
   }
 
-  findAddress(cep: string): Observable<AddressSearch> {
+  public findAddress(cep: string): Observable<AddressSearch> {
     return this.http.get<AddressSearch>(
       `${Config.webApiUrl}/v1/district/${cep}/cep`
     );
