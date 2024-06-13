@@ -63,15 +63,16 @@ export class PersonListComponent implements OnInit {
     } else {
       this.findAll();
     }
-    this.isLoading = true;
   }
 
   private findAll() {
     this.personService.findAllByContractType('CLT').subscribe((response) => {
-      this.persons = response;
+      this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Person>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
+
+      console.log(this.dataSource);
     });
   }
 
@@ -79,7 +80,7 @@ export class PersonListComponent implements OnInit {
     this.personService
       .findAllByHolding(this.holdingId)
       .subscribe((response) => {
-        this.persons = response;
+        this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Person>(response);
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
@@ -90,7 +91,7 @@ export class PersonListComponent implements OnInit {
     this.personService
       .findAllByCompany(this.companyId)
       .subscribe((response) => {
-        this.persons = response;
+        this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Person>(response);
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
@@ -99,7 +100,7 @@ export class PersonListComponent implements OnInit {
 
   private findAllByOffice() {
     this.personService.findAllByOffice(this.officeId).subscribe((response) => {
-      this.persons = response;
+      this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Person>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;

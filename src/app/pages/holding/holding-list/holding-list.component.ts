@@ -46,6 +46,7 @@ export class HoldingListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     // check if Segment is calling Holding list
     this.segmentId = this.route.snapshot.params['segmentId'];
     if (this.segmentId) {
@@ -54,7 +55,6 @@ export class HoldingListComponent implements OnInit {
     } else {
       this.findAll();
     }
-    this.isLoading = true;
   }
 
   private findAllBySegment(): void {
