@@ -30,10 +30,10 @@ export class PersonListComponent implements OnInit {
 
   displayedColumns: string[] = [
     'name',
-    'email',
-    'cpfCnpj',
-    'responsibility',
     'fantasyName',
+    'responsibility',
+    'routines',
+    'goals',
     'actions',
   ];
   dataSource = new MatTableDataSource<Person>(this.persons);
@@ -105,6 +105,10 @@ export class PersonListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
     });
+  }
+
+  public findRoutinesByPerson(personId: string): void {
+    this.router.navigate(['routine', 'person', personId]);
   }
 
   applyFilter(event: Event) {

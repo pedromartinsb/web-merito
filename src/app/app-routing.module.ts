@@ -334,6 +334,40 @@ const routes: Routes = [
         },
       },
 
+      // ROUTINE
+      {
+        path: 'routine',
+        component: RoutineListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+      {
+        path: 'routine/person/:personId',
+        component: RoutineListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+      {
+        path: 'routine/create',
+        component: RoutineFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+      {
+        path: 'routine/edit/:id',
+        component: RoutineFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+
       // SEGMENT
       {
         path: 'segment',
@@ -354,32 +388,6 @@ const routes: Routes = [
       {
         path: 'segment/edit/:id',
         component: SegmentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-
-      // ROUTINE
-      {
-        path: 'routine',
-        component: RoutineListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-      {
-        path: 'routine/create',
-        component: RoutineFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-      {
-        path: 'routine/edit/:id',
-        component: RoutineFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',

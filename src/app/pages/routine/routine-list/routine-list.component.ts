@@ -3,7 +3,7 @@ import { Routine } from '../../../models/routine';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { ToastrService } from 'ngx-toastr';
@@ -11,9 +11,11 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-routine-list',
   templateUrl: './routine-list.component.html',
-  styleUrls: ['./routine-list.component.css'],
+  styleUrls: ['./routine-list.component.scss'],
 })
 export class RoutineListComponent implements OnInit {
+  personId: string;
+
   ELEMENT_DATA: Routine[] = [];
   FILTERED_DATA: Routine[] = [];
 
@@ -27,6 +29,7 @@ export class RoutineListComponent implements OnInit {
   constructor(
     private routineService: RoutineService,
     private router: Router,
+    private route: ActivatedRoute,
     private dialog: MatDialog,
     private toast: ToastrService
   ) {
@@ -35,10 +38,26 @@ export class RoutineListComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.findAll();
+    this.personId = this.route.snapshot.params['personId'];
+    if (this.personId) {
+      this.findAllByPerson();
+    } else {
+      this.findAll();
+    }
   }
 
-  findAll(): void {
+  private findAllByPerson(): void {
+    this.routineService.findAllByPerson(this.personId).subscribe((response) => {
+      if (response) {
+        this.ELEMENT_DATA = response;
+        this.dataSource = new MatTableDataSource<Routine>(response);
+        this.dataSource.paginator = this.paginator;
+      }
+      this.isLoading = false;
+    });
+  }
+
+  private findAll(): void {
     this.routineService.findAll().subscribe((response) => {
       if (response) {
         this.ELEMENT_DATA = response;
