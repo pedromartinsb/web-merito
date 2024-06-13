@@ -48,18 +48,6 @@
             </td>
           </ng-container>
 
-          <!-- Razão Social -->
-          <ng-container matColumnDef="corporateReason">
-            <th mat-header-cell *matHeaderCellDef>Razão Social</th>
-            <td
-              mat-cell
-              *matCellDef="let element"
-              (click)="editOffice(element.id)"
-            >
-              {{ element.corporateReason }}
-            </td>
-          </ng-container>
-
           <!-- CNPJ -->
           <ng-container matColumnDef="cnpj">
             <th mat-header-cell *matHeaderCellDef>CNPJ</th>
@@ -72,15 +60,15 @@
             </td>
           </ng-container>
 
-          <!-- Empresas -->
-          <ng-container matColumnDef="company">
-            <th mat-header-cell *matHeaderCellDef>Empresa</th>
-            <td
-              mat-cell
-              *matCellDef="let element"
-              (click)="editOffice(element.id)"
-            >
-              {{ element.company.fantasyName }}
+          <ng-container matColumnDef="persons">
+            <th mat-header-cell *matHeaderCellDef>Colabroadores</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                aria-label="Example icon-button with a menu"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
             </td>
           </ng-container>
 

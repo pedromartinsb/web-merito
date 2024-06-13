@@ -140,6 +140,40 @@ const routes: Routes = [
         },
       },
 
+      // HOLDING
+      {
+        path: 'holding',
+        component: HoldingListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_USER',
+        },
+      },
+      {
+        path: 'holding/segment/:segmentId',
+        component: HoldingListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_USER',
+        },
+      },
+      {
+        path: 'holding/create',
+        component: HoldingFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+      {
+        path: 'holding/edit/:id',
+        component: HoldingFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+
       // OFFICE
       {
         path: 'office',
@@ -238,32 +272,6 @@ const routes: Routes = [
       {
         path: 'segment/edit/:id',
         component: SegmentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-
-      // HOLDING
-      {
-        path: 'holding',
-        component: HoldingListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_USER',
-        },
-      },
-      {
-        path: 'holding/create',
-        component: HoldingFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-      {
-        path: 'holding/edit/:id',
-        component: HoldingFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',

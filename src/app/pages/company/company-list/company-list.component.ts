@@ -19,10 +19,9 @@ export class CompanyListComponent implements OnInit {
 
   displayedColumns: string[] = [
     'fantasyName',
-    'corporateReason',
     'cnpj',
-    'companyType',
-    'holding',
+    'offices',
+    'persons',
     'actions',
   ];
   dataSource = new MatTableDataSource<Company>(this.ELEMENT_DATA);

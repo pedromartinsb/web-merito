@@ -3,10 +3,12 @@ import { Holding } from '../../../models/holding';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { ToastrService } from 'ngx-toastr';
+import { SegmentService } from 'src/app/services/segment.service';
+import { Segment } from 'src/app/models/segment';
 
 @Component({
   selector: 'app-holding-list',
@@ -14,13 +16,18 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./holding-list.component.css'],
 })
 export class HoldingListComponent implements OnInit {
+  segmentId: string;
+  segment: Segment;
+
   ELEMENT_DATA: Holding[] = [];
   FILTERED_DATA: Holding[] = [];
 
   displayedColumns: string[] = [
     'fantasyName',
-    'corporateReason',
     'cnpj',
+    'companies',
+    'offices',
+    'persons',
     'actions',
   ];
   dataSource = new MatTableDataSource<Holding>(this.ELEMENT_DATA);
@@ -31,22 +38,51 @@ export class HoldingListComponent implements OnInit {
 
   constructor(
     private holdingService: HoldingService,
+    private segmentService: SegmentService,
     private router: Router,
+    private route: ActivatedRoute,
     private dialog: MatDialog,
     private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
+    // check if Segment is calling Holding list
+    this.segmentId = this.route.snapshot.params['segmentId'];
+    console.log('segmentId: ' + this.segmentId);
+
+    if (this.segmentId) {
+      this.findAllBySegment();
+      this.findSegmentById();
+    } else {
+      this.findAll();
+    }
+
     this.isLoading = true;
-    this.findAll();
   }
 
-  findAll(): void {
+  private findAllBySegment(): void {
+    this.holdingService
+      .findAllBySegment(this.segmentId)
+      .subscribe((response) => {
+        this.ELEMENT_DATA = response;
+        this.dataSource = new MatTableDataSource<Holding>(response);
+        this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
+      });
+  }
+
+  private findAll(): void {
     this.holdingService.findAll().subscribe((response) => {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Holding>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
+    });
+  }
+
+  private findSegmentById(): void {
+    this.segmentService.findById(this.segmentId).subscribe((response) => {
+      this.segment = response;
     });
   }
 

@@ -18,7 +18,7 @@ export class SegmentListComponent implements OnInit {
   ELEMENT_DATA: Segment[] = [];
   FILTERED_DATA: Segment[] = [];
 
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name', 'holdings', 'actions'];
   dataSource = new MatTableDataSource<Segment>(this.ELEMENT_DATA);
 
   isLoading: boolean = false;
@@ -44,6 +44,11 @@ export class SegmentListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
     });
+  }
+
+  public findGroupsBySegment(segmentId: string): void {
+    console.log(segmentId);
+    this.router.navigate(['holding', 'segment', segmentId]);
   }
 
   applyFilter(event: Event) {

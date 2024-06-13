@@ -17,13 +17,7 @@ export class OfficeListComponent implements OnInit {
   ELEMENT_DATA: Office[] = [];
   FILTERED_DATA: Office[] = [];
 
-  displayedColumns: string[] = [
-    'fantasyName',
-    'corporateReason',
-    'cnpj',
-    'company',
-    'actions',
-  ];
+  displayedColumns: string[] = ['fantasyName', 'cnpj', 'persons', 'actions'];
   dataSource = new MatTableDataSource<Office>(this.ELEMENT_DATA);
 
   isLoading: boolean = false;

@@ -45,12 +45,16 @@ import { DescriptionModalComponent } from './components/description/description-
 import { DialogOverviewComponent } from './components/dialog-overview/dialog-overview.component';
 import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/fileinfo-form.component';
 import { FileinfoListComponent } from './components/fileinfo/fileinfo-list/fileinfo-list.component';
+import { GridComponent } from './components/grid/grid.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
 import { AuthInterceptorProvider } from './helpers/auth.interceptor';
 import { AccountFormComponent } from './pages/account/account-form/account-form.component';
 import { AppointmentCreateComponent } from './pages/appointment/appointment-create/appointment-create.component';
 import { DailyAppointmentListComponent } from './pages/appointment/daily-appointment-list/daily-appointment-list.component';
+import { MonthlyAppointmentListComponent } from './pages/appointment/monthly-appointment-list/monthly-appointment-list.component';
+import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/autonomous-form.component';
+import { AutonomousListComponent } from './pages/autonomous/autonomous-list/autonomous-list.component';
 import { CompanyFormComponent } from './pages/company/company-form/company-form.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -78,8 +82,6 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
-import { AutonomousListComponent } from './pages/autonomous/autonomous-list/autonomous-list.component';
-import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/autonomous-form.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -128,6 +130,8 @@ export const maskConfig: Partial<IConfig> = {
     AccountFormComponent,
     AutonomousListComponent,
     AutonomousFormComponent,
+    MonthlyAppointmentListComponent,
+    GridComponent,
   ],
   imports: [
     BrowserModule,

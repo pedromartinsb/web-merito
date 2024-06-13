@@ -1,6 +1,11 @@
 <mat-card class="card mat-elevation-z8">
   <mat-card-header>
-    <mat-card-title>Rede de Empresas</mat-card-title>
+    <mat-card-title *ngIf="segmentId == null"
+      >Rede de Empresas - Todas</mat-card-title
+    >
+    <mat-card-title *ngIf="segmentId != null"
+      >Rede de Empresas - Segmento: {{ segment.name }}</mat-card-title
+    >
     <mat-card-subtitle>Listagem</mat-card-subtitle>
   </mat-card-header>
 
@@ -47,17 +52,6 @@
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="corporateReason">
-            <th mat-header-cell *matHeaderCellDef>Razão Social</th>
-            <td
-              mat-cell
-              *matCellDef="let element"
-              (click)="editHolding(element.id)"
-            >
-              {{ element.corporateReason }}
-            </td>
-          </ng-container>
-
           <ng-container matColumnDef="cnpj">
             <th mat-header-cell *matHeaderCellDef>CNPJ</th>
             <td
@@ -66,6 +60,42 @@
               (click)="editHolding(element.id)"
             >
               {{ element.cnpj | cnpj }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="companies">
+            <th mat-header-cell *matHeaderCellDef>Empresas</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                aria-label="Example icon-button with a menu"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="offices">
+            <th mat-header-cell *matHeaderCellDef>Unidades</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                aria-label="Example icon-button with a menu"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="persons">
+            <th mat-header-cell *matHeaderCellDef>Colabroadores</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                aria-label="Example icon-button with a menu"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
             </td>
           </ng-container>
 
