@@ -1,3 +1,32 @@
+mat-grid-list {
+  width: 90%;
+  margin: auto;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.outer-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.inner-grid {
+  display: grid;
+  grid-template-columns: auto 10px;
+}
+
+.success-button {
+  background-color: green;
+  color: white;
+  padding: 10px 24px;
+  margin-top: 0;
+  max-height: 70%;
+  max-width: fit-content;
+}
+
 mat-grid-tile {
   .mat-grid-tile-content {
     width: 90%;
@@ -5,13 +34,9 @@ mat-grid-tile {
 
     mat-form-field {
       width: 100%;
+      line-height: 0;
     }
   }
-}
-
-mat-grid-list {
-  width: 90%;
-  margin: auto;
 }
 
 .grid-button {
@@ -23,11 +48,6 @@ mat-grid-list {
   button {
     margin-right: 8px;
   }
-}
-
-.success-button {
-  background-color: green;
-  color: white;
 }
 
 mat-card {

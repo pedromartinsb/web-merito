@@ -19,16 +19,14 @@ export class DailyAppointmentListComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.routines.map((routine) => console.log(routine));
-  }
+  ngOnInit(): void {}
 
-  updateSelectedTag(activity: Activity, selectedTag: Tag): void {
+  public updateSelectedTag(activity: Activity, selectedTag: Tag): void {
     activity.tag = selectedTag;
     this.handleOpenDescription(activity);
   }
 
-  handleOpenDescription(activity: Activity): void {
+  public handleOpenDescription(activity: Activity): void {
     this.openDescriptionDialog.emit({
       activity,
       isDescriptionEditable: this.isCurrentDay,

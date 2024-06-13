@@ -31,6 +31,9 @@
       >
         Avaliação
       </mat-chip>
+      <mat-chip color="accent" disabled *ngIf="!routine.tag">
+        Avaliação
+      </mat-chip>
     </mat-chip-list>
   </mat-grid-tile>
 </mat-grid-list>

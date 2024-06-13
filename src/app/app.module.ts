@@ -52,7 +52,6 @@ import { AuthInterceptorProvider } from './helpers/auth.interceptor';
 import { AccountFormComponent } from './pages/account/account-form/account-form.component';
 import { AppointmentCreateComponent } from './pages/appointment/appointment-create/appointment-create.component';
 import { DailyAppointmentListComponent } from './pages/appointment/daily-appointment-list/daily-appointment-list.component';
-import { MonthlyAppointmentListComponent } from './pages/appointment/monthly-appointment-list/monthly-appointment-list.component';
 import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/autonomous-form.component';
 import { AutonomousListComponent } from './pages/autonomous/autonomous-list/autonomous-list.component';
 import { CompanyFormComponent } from './pages/company/company-form/company-form.component';
@@ -130,7 +129,6 @@ export const maskConfig: Partial<IConfig> = {
     AccountFormComponent,
     AutonomousListComponent,
     AutonomousFormComponent,
-    MonthlyAppointmentListComponent,
     GridComponent,
   ],
   imports: [

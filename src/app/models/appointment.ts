@@ -25,4 +25,5 @@ export interface Activity {
   justification: string;
   tag: Tag;
   tagId: string;
+  createdAt: string;
 }
