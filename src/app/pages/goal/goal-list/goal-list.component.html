@@ -4,7 +4,22 @@
     <mat-card-subtitle>Listagem</mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content>
+  <!-- Content with Element_Data is empty -->
+  <mat-card-content *ngIf="ELEMENT_DATA.length == 0 && !isLoading">
+    <!-- Divider -->
+    <mat-divider></mat-divider>
+
+    <img
+      src="../../../../assets/img/empty-box.png"
+      alt=""
+      width="256"
+      height="256"
+    />
+    <h3>Não existem Metas cadastradas para esse Colaborador</h3>
+  </mat-card-content>
+
+  <!-- Content with Element_Data is not empty -->
+  <mat-card-content *ngIf="ELEMENT_DATA.length != 0 && !isLoading">
     <!-- Divider -->
     <mat-divider></mat-divider>
 

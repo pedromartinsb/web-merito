@@ -5,29 +5,34 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GoalService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  findAll(): Observable<Goal[]> {
+  public findAll(): Observable<Goal[]> {
     return this.http.get<Goal[]>(`${Config.webApiUrl}/v1/goal`);
   }
 
-  findById(id: any): Observable<Goal> {
+  public findAllByPerson(personId: string): Observable<Goal[]> {
+    return this.http.get<Goal[]>(
+      `${Config.webApiUrl}/v1/goal/person/${personId}`
+    );
+  }
+
+  public findById(id: any): Observable<Goal> {
     return this.http.get<Goal>(`${Config.webApiUrl}/v1/goal/${id}`);
   }
 
-  create(goal: Goal): Observable<Goal> {
+  public create(goal: Goal): Observable<Goal> {
     return this.http.post<Goal>(`${Config.webApiUrl}/v1/goal`, goal);
   }
 
-  update(id: string, goal: Goal): Observable<Goal> {
+  public update(id: string, goal: Goal): Observable<Goal> {
     return this.http.put<Goal>(`${Config.webApiUrl}/v1/goal/${id}`, goal);
   }
 
-  delete(id: string): Observable<Goal> {
+  public delete(id: string): Observable<Goal> {
     return this.http.delete<Goal>(`${Config.webApiUrl}/v1/goal/${id}`);
   }
 }

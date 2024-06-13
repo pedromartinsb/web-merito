@@ -111,6 +111,10 @@ export class PersonListComponent implements OnInit {
     this.router.navigate(['routine', 'person', personId]);
   }
 
+  public findGoalsByPerson(personId: string): void {
+    this.router.navigate(['goal', 'person', personId]);
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

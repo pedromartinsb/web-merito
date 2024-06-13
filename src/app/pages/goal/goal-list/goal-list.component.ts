@@ -3,7 +3,7 @@ import { Goal } from '../../../models/goal';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { ToastrService } from 'ngx-toastr';
@@ -11,9 +11,11 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-goal-list',
   templateUrl: './goal-list.component.html',
-  styleUrls: ['./goal-list.component.css'],
+  styleUrls: ['./goal-list.component.scss'],
 })
 export class GoalListComponent implements OnInit {
+  personId: string;
+
   ELEMENT_DATA: Goal[] = [];
   FILTERED_DATA: Goal[] = [];
 
@@ -27,17 +29,32 @@ export class GoalListComponent implements OnInit {
   constructor(
     private goalService: GoalService,
     private router: Router,
+    private route: ActivatedRoute,
     private dialog: MatDialog,
     private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.findAll();
+    this.personId = this.route.snapshot.params['personId'];
+    if (this.personId) {
+      this.findAllByPerson();
+    } else {
+      this.findAll();
+    }
   }
 
-  findAll(): void {
+  private findAll(): void {
     this.goalService.findAll().subscribe((response) => {
+      this.ELEMENT_DATA = response;
+      this.dataSource = new MatTableDataSource<Goal>(response);
+      this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
+    });
+  }
+
+  private findAllByPerson(): void {
+    this.goalService.findAllByPerson(this.personId).subscribe((response) => {
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Goal>(response);
       this.dataSource.paginator = this.paginator;

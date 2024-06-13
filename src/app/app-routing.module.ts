@@ -158,6 +158,14 @@ const routes: Routes = [
         },
       },
       {
+        path: 'goal/person/:personId',
+        component: GoalListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_USER',
+        },
+      },
+      {
         path: 'goal/create',
         component: GoalFormComponent,
         canActivate: [AuthGuard],
