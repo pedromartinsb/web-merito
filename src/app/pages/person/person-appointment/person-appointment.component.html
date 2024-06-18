@@ -79,7 +79,9 @@
               <mat-radio-button
                 *ngFor="let tag of tags"
                 value="{{ tag.id }}"
+                [ngClass]="tag.class"
                 (click)="openConfirm(tag.id, activity)"
+                matTooltip="{{ tag.description }}"
               ></mat-radio-button>
             </mat-radio-group>
           </div>

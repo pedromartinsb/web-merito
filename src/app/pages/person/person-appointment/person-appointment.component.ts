@@ -52,6 +52,7 @@ export class PersonAppointmentComponent implements OnInit {
     // Create a Tag list
     this.tagService.findAll().subscribe((response) => {
       this.tags = response;
+      this.fillTagDescription();
     });
 
     // Receive all the Appointments
@@ -82,6 +83,35 @@ export class PersonAppointmentComponent implements OnInit {
     var date = new Date();
     this.firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     this.lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  }
+
+  private fillTagDescription(): void {
+    this.tags.forEach((tag) => {
+      const tagName = tag.name;
+
+      switch (tagName) {
+        case 'Red':
+          tag.description = 'Falha Grave';
+          tag.class = 'red-background';
+          break;
+        case 'Orange':
+          tag.description = 'Alerta (Erro cometido as vezes)';
+          tag.class = 'orange-background';
+          break;
+        case 'Yellow':
+          tag.description = 'Atenção (Corrigir de forma educativa)';
+          tag.class = 'yellow-background';
+          break;
+        case 'Green':
+          tag.description = 'Dever cumprido!';
+          tag.class = 'green-background';
+          break;
+        case 'Blue':
+          tag.description = ' Ótimo, Parábens, Excelente!';
+          tag.class = 'blue-background';
+          break;
+      }
+    });
   }
 
   public dateClass: MatCalendarCellClassFunction<Date> = (cellDate, _) => {
