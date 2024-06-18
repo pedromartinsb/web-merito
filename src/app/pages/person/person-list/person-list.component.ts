@@ -1,15 +1,18 @@
-import { PersonService } from '../../../services/person.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { Person } from '../../../models/person';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { ToastrService } from 'ngx-toastr';
-import { Holding } from 'src/app/models/holding';
 import { Company } from 'src/app/models/company';
+import { Holding } from 'src/app/models/holding';
 import { Office } from 'src/app/models/office';
+import { monthlyTag } from 'src/app/models/tag';
+import { AppointmentService } from 'src/app/services/appointment.service';
+
+import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
+import { Person } from '../../../models/person';
+import { PersonService } from '../../../services/person.service';
 
 @Component({
   selector: 'app-person-list',
@@ -17,6 +20,7 @@ import { Office } from 'src/app/models/office';
   styleUrls: ['./person-list.component.scss'],
 })
 export class PersonListComponent implements OnInit {
+  @Input() monthlyTags: monthlyTag[] = [];
   holdingId: string;
   companyId: string;
   officeId: string;
@@ -47,7 +51,8 @@ export class PersonListComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private appointmentService: AppointmentService
   ) {}
 
   ngOnInit(): void {
@@ -71,8 +76,6 @@ export class PersonListComponent implements OnInit {
       this.dataSource = new MatTableDataSource<Person>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
-
-      console.log(this.dataSource);
     });
   }
 
@@ -120,8 +123,21 @@ export class PersonListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  editPerson(personId: string): void {
+  public editPerson(personId: string): void {
     this.router.navigate(['person', 'edit', personId]);
+  }
+
+  public openAppointment(personId: string): void {
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    this.appointmentService
+      .getMonthlyTags(personId, firstDay, lastDay)
+      .subscribe((response) => {
+        this.router.navigate(['person', 'appointment', personId], {
+          state: { monthlyTags: response },
+        });
+      });
   }
 
   openDeleteConfirmationModal(personId: string): void {

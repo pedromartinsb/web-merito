@@ -1,0 +1,8 @@
+<div *ngFor="let actitivy of data.activities">
+  <p>Nome: {{ actitivy.name }}</p>
+  <p>Porquê: {{ actitivy.description }}</p>
+  <p>Justificativa: {{ actitivy.justification }}</p>
+  <mat-radio-group *ngFor="let tag of data.tags">
+    <mat-radio-button value="{{ tag.id }}"></mat-radio-button>
+  </mat-radio-group>
+</div>

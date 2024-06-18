@@ -1,0 +1,84 @@
+<!-- <div class="container">
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Por quê?</mat-label>
+      <input
+        matInput
+        placeholder="Por quê?"
+        [(ngModel)]="appointment.description"
+        [formControl]="description"
+        required
+      />
+      <mat-hint>Digite o porque dessa avaliação.</mat-hint>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Justificativa:</mat-label>
+      <input
+        matInput
+        placeholder="Justificativa"
+        [(ngModel)]="appointment.justification"
+      />
+      <mat-hint>Digite a justificativa que o Colaborador falou.</mat-hint>
+    </mat-form-field>
+  </p>
+
+  <mat-divider></mat-divider>
+  <section>
+    <div class="example-button-row">
+      <button mat-raised-button color="primary" (click)="save()">Salvar</button>
+      <button mat-raised-button color="warn" (click)="cancel()">
+        Cancelar
+      </button>
+    </div>
+  </section>
+</div> -->
+
+<div class="container">
+  <h2 mat-dialog-title>Cadastrar Avaliação:</h2>
+  <mat-dialog-content class="mat-typography">
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Por quê?</mat-label>
+        <input
+          matInput
+          placeholder="Por quê?"
+          [(ngModel)]="appointment.description"
+          [formControl]="description"
+          required
+        />
+        <mat-hint>Digite o porque dessa avaliação.</mat-hint>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Justificativa:</mat-label>
+        <input
+          matInput
+          placeholder="Justificativa"
+          [(ngModel)]="appointment.justification"
+        />
+        <mat-hint>Digite a justificativa que o Colaborador falou.</mat-hint>
+      </mat-form-field>
+    </p>
+  </mat-dialog-content>
+
+  <mat-divider></mat-divider>
+  <mat-dialog-actions align="center">
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    <button
+      mat-raised-button
+      [mat-dialog-close]="true"
+      cdkFocusInitial
+      color="primary"
+      (click)="save()"
+      [disabled]="!validateFields()"
+      matTooltip="Salvar as informações preenchidas"
+    >
+      Salvar
+    </button>
+  </mat-dialog-actions>
+</div>

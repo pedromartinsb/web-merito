@@ -10,6 +10,11 @@ mat-form-field {
   width: 100%;
 }
 
+mat-radio-group {
+  max-width: fit-content;
+  max-height: fit-content;
+}
+
 button {
   width: 100%;
 }

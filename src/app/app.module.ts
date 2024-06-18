@@ -81,6 +81,9 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
+import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
+import { PersonAppointmentDialogComponent } from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog.component';
+import { PersonAppointmentConfirmComponent } from './pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -130,6 +133,9 @@ export const maskConfig: Partial<IConfig> = {
     AutonomousListComponent,
     AutonomousFormComponent,
     GridComponent,
+    PersonAppointmentComponent,
+    PersonAppointmentDialogComponent,
+    PersonAppointmentConfirmComponent,
   ],
   imports: [
     BrowserModule,

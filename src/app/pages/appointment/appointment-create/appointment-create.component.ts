@@ -1,24 +1,22 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { DialogOverviewComponent } from 'src/app/components/dialog-overview/dialog-overview.component';
 import { Activity, Appointment } from 'src/app/models/appointment';
 import { Company } from 'src/app/models/company';
 import { Person } from 'src/app/models/person';
+import { Responsibility } from 'src/app/models/responsibility';
 import { monthlyTag, Tag } from 'src/app/models/tag';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { PersonService } from 'src/app/services/person.service';
+import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { TagService } from 'src/app/services/tag.service';
 
 import { DescriptionModalComponent } from '../../../components/description/description-modal';
-import { Responsibility } from 'src/app/models/responsibility';
-import { ResponsibilityService } from 'src/app/services/responsibility.service';
 
 interface DescriptionDialogData {
   activity: Activity;

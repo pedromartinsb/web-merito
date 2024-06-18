@@ -1,0 +1,21 @@
+.container {
+  width: 300px;
+  text-align: center;
+}
+
+section {
+  display: table;
+}
+
+mat-divider {
+  margin-top: 50px;
+}
+
+.example-button-row {
+  display: table-cell;
+  width: fit-content;
+}
+
+.example-button-row .mat-button-base {
+  margin: 8px 8px 8px 0;
+}

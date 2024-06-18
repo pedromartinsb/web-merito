@@ -30,6 +30,7 @@ import { SegmentFormComponent } from './pages/segment/segment-form/segment-form.
 import { SegmentListComponent } from './pages/segment/segment-list/segment-list.component';
 import { AutonomousListComponent } from './pages/autonomous/autonomous-list/autonomous-list.component';
 import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/autonomous-form.component';
+import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -302,6 +303,14 @@ const routes: Routes = [
       {
         path: 'person/edit/:id',
         component: PersonFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+      {
+        path: 'person/appointment/:personId',
+        component: PersonAppointmentComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',
