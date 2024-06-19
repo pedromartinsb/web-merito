@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { Appointment } from 'src/app/models/appointment';
+import { Activity, Appointment } from 'src/app/models/appointment';
 import { AppointmentService } from 'src/app/services/appointment.service';
 
 export interface DialogData {
@@ -10,6 +10,7 @@ export interface DialogData {
   activityId: string;
   personId: string;
   activityType: string;
+  activity: Activity;
 }
 
 @Component({
@@ -42,7 +43,11 @@ export class PersonAppointmentConfirmComponent implements OnInit {
     private toast: ToastrService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.data.activity.description != null) {
+      this.appointment.description = this.data.activity.description;
+    }
+  }
 
   public save(): void {
     this.appointment.personId = this.data.personId;

@@ -80,6 +80,7 @@
                 *ngFor="let tag of tags"
                 value="{{ tag.id }}"
                 [ngClass]="tag.class"
+                [checked]="tag.id == activity.tag?.id"
                 (click)="openConfirm(tag.id, activity)"
                 matTooltip="{{ tag.description }}"
               ></mat-radio-button>

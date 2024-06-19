@@ -68,7 +68,6 @@ export class PersonAppointmentComponent implements OnInit {
       )
       .subscribe((response) => {
         this.activitiesResponse = response;
-        console.log('response length: ' + response.length);
       });
 
     // Receive the current Month Tags
@@ -166,6 +165,7 @@ export class PersonAppointmentComponent implements OnInit {
         activityId: activity.id,
         personId: this.personId,
         activityType: activity.type,
+        activity: activity,
       },
     });
   }

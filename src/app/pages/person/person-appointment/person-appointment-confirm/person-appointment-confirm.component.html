@@ -47,6 +47,7 @@
           placeholder="Por quê?"
           [(ngModel)]="appointment.description"
           [formControl]="description"
+          [ngModel]="appointment.description"
           required
         />
         <mat-hint>Digite o porque dessa avaliação.</mat-hint>
