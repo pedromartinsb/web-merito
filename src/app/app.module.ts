@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
@@ -69,6 +70,10 @@ import { LoginComponent } from './pages/login/login.component';
 import { OfficeFormComponent } from './pages/office/office-form/office-form.component';
 import { OfficeListComponent } from './pages/office/office-list/office-list.component';
 import { PermissionFormComponent } from './pages/permission/permission-form/permission-form.component';
+import { PersonAppointmentConfirmComponent } from './pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component';
+import { PersonAppointmentDailyComponent } from './pages/person/person-appointment/person-appointment-daily/person-appointment-daily.component';
+import { PersonAppointmentDialogComponent } from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog.component';
+import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
 import { PersonFormComponent } from './pages/person/person-form/person-form.component';
 import { PersonListComponent } from './pages/person/person-list/person-list.component';
 import { ResponsibilityFormComponent } from './pages/responsibility/responsibility-form/responsibility-form.component';
@@ -81,9 +86,7 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
-import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
-import { PersonAppointmentDialogComponent } from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog.component';
-import { PersonAppointmentConfirmComponent } from './pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component';
+import { PersonAppointmentDialogBottomComponent } from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog-bottom/person-appointment-dialog-bottom.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -136,6 +139,8 @@ export const maskConfig: Partial<IConfig> = {
     PersonAppointmentComponent,
     PersonAppointmentDialogComponent,
     PersonAppointmentConfirmComponent,
+    PersonAppointmentDailyComponent,
+    PersonAppointmentDialogBottomComponent,
   ],
   imports: [
     BrowserModule,
@@ -176,6 +181,7 @@ export const maskConfig: Partial<IConfig> = {
     MatBadgeModule,
     NgxChartsModule,
     MatChipsModule,
+    MatBottomSheetModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,

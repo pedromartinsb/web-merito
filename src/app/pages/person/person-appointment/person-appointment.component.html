@@ -57,19 +57,6 @@
 
     <mat-tab-group dynamicHeight>
       <mat-tab label="Diária">
-        <!-- <div class="example-small-box mat-elevation-z4">
-          <div *ngFor="let activity of activitiesResponse">
-            <p>{{ activity.name }}</p>
-            <mat-radio-group aria-label="Select an option">
-              <mat-radio-button
-                value="{{ tag.id }}"
-                *ngFor="let tag of tags"
-                (click)="openConfirm()"
-              ></mat-radio-button>
-            </mat-radio-group>
-          </div>
-        </div> -->
-
         <div class="container" *ngFor="let activity of activitiesResponse">
           <div class="item">
             <p>{{ activity.name }}</p>
@@ -87,20 +74,6 @@
             </mat-radio-group>
           </div>
         </div>
-
-        <!-- <mat-grid-list cols="2" rowHeight="fit">
-          <mat-grid-tile>
-            <p>Rotina Geral 1</p>
-          </mat-grid-tile>
-          <mat-grid-tile>
-            <mat-radio-group aria-label="Select an option">
-              <mat-radio-button value="1">Option 1</mat-radio-button>
-              <mat-radio-button value="2">Option 2</mat-radio-button>
-              <mat-radio-button value="3">Option 1</mat-radio-button>
-              <mat-radio-button value="4">Option 2</mat-radio-button>
-            </mat-radio-group>
-          </mat-grid-tile>
-        </mat-grid-list> -->
       </mat-tab>
 
       <mat-tab label="Mensal">
@@ -116,7 +89,8 @@
         <p>Selected date: {{ selected }}</p>
         <div *ngFor="let activity of activitiesResponse">
           <p>Nome: {{ activity.name }}</p>
-          <p>Tipo: {{ activity.type }}</p>
+          <p>Descrição: {{ activity.description }}</p>
+          <p>Justificativa: {{ activity.justification }}</p>
           <p>Tag: {{ activity.tag?.name }}</p>
         </div>
       </mat-tab>
@@ -131,30 +105,10 @@
             cellspacing="21"
             cellpadding="21"
           >
-            <!-- The tr tag is used to enter
-            rows in the table -->
-
-            <!-- It is used to give the heading to the
-            table. We can give the heading to the
-            top and bottom of the table -->
-
-            <caption align="top">
-              <!-- Here we have used the attribute
-                that is style and we have colored
-                the sentence to make it better
-                depending on the web page-->
-            </caption>
-
-            <!-- Here th stands for the heading of the
-            table that comes in the first row-->
-
-            <!-- The text in this table header tag will
-            appear as bold and is center aligned-->
+            <caption align="top"></caption>
 
             <thead>
               <tr>
-                <!-- Here we have applied inline style
-                     to make it more attractive-->
                 <th style="color: white; background: purple">Sun</th>
                 <th style="color: white; background: purple">Mon</th>
                 <th style="color: white; background: purple">Tue</th>

@@ -1,8 +1,27 @@
-<div *ngFor="let actitivy of data.activities">
-  <p>Nome: {{ actitivy.name }}</p>
-  <p>Porquê: {{ actitivy.description }}</p>
-  <p>Justificativa: {{ actitivy.justification }}</p>
-  <mat-radio-group *ngFor="let tag of data.tags">
-    <mat-radio-button value="{{ tag.id }}"></mat-radio-button>
+<div *ngFor="let activity of data.activities">
+  <!-- <p>Nome: {{ activity.name }}</p>
+  <p>Porquê: {{ activity.description }}</p>
+  <p>Justificativa: {{ activity.justification }}</p> -->
+  <mat-radio-group>
+    <p>{{ activity.name }}</p>
+    <mat-radio-button
+      *ngFor="let tag of data.tags"
+      value="{{ tag.id }}"
+      [ngClass]="tag.class"
+      [checked]="tag.id == activity.tag?.id"
+      matTooltip="{{ tag.description }}"
+      (change)="openConfirm(tag.id, activity)"
+    ></mat-radio-button>
+    <button
+      mat-raised-button
+      color="primary"
+      matBadge="!"
+      matBadgePosition="after"
+      matBadgeColor="accent"
+      *ngIf="activity.tag?.id"
+      (click)="openBottomSheet()"
+    >
+      <mat-icon fontIcon="info"></mat-icon>
+    </button>
   </mat-radio-group>
 </div>

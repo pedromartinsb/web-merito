@@ -3,7 +3,7 @@ import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Activity } from 'src/app/models/appointment';
+import { Activity, Appointment } from 'src/app/models/appointment';
 import { Person } from 'src/app/models/person';
 import { monthlyTag, Tag } from 'src/app/models/tag';
 import { PersonService } from 'src/app/services/person.service';
@@ -12,6 +12,7 @@ import { TagService } from 'src/app/services/tag.service';
 import { AppointmentService } from './../../../services/appointment.service';
 import { PersonAppointmentDialogComponent } from './person-appointment-dialog/person-appointment-dialog.component';
 import { PersonAppointmentConfirmComponent } from './person-appointment-confirm/person-appointment-confirm.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-person-appointment',
@@ -26,12 +27,15 @@ export class PersonAppointmentComponent implements OnInit {
   selected: Date | null;
   selectedDateMonthly: Date | null;
   activitiesResponse: Activity[];
+  appointments: Appointment[] = [];
   tags: Tag[];
   firstDay: Date;
   lastDay: Date;
   daysOfMonth: number[] = [];
   person: Person;
   today: string = new Date().toLocaleDateString('pt-BR');
+  startDate = new Date();
+  endDate = new Date();
 
   constructor(
     private dialog: MatDialog,
@@ -44,41 +48,83 @@ export class PersonAppointmentComponent implements OnInit {
 
   ngOnInit(): void {
     // Receive the person id and get Person
+    this.receivePersonAndPersonId();
+
+    // Create a Tag list
+    this.createTagList();
+
+    // Receive all the Activites with Appointments
+    this.receiveAllActivities();
+
+    // Receive the current Month Tags
+    this.receiveCurrentMonthTags();
+
+    // get the Date to Calendar
+    this.getDateCalendar();
+  }
+
+  private receivePersonAndPersonId(): void {
     this.personId = this.route.snapshot.params['personId'];
     this.personService.findById(this.personId).subscribe((response) => {
       this.person = response;
     });
+  }
 
-    // Create a Tag list
+  private createTagList(): void {
     this.tagService.findAll().subscribe((response) => {
       this.tags = response;
       this.fillTagDescription();
     });
+  }
 
-    // Receive all the Appointments
-    let startDate = new Date();
-    startDate.setUTCHours(0, 0, 0, 0);
-    let endDate = new Date();
-    endDate.setUTCHours(23, 59, 59, 999);
+  private receiveAllActivities(): void {
+    this.startDate.setUTCHours(0, 0, 0, 0);
+    this.endDate.setUTCHours(23, 59, 59, 999);
     this.appointmentService
       .findActivitiesByPersonAndDate(
         this.personId,
-        new Date(startDate),
-        new Date(endDate)
+        new Date(this.startDate),
+        new Date(this.endDate)
+      )
+      .pipe(
+        finalize(() => {
+          this.findAppointments();
+        })
       )
       .subscribe((response) => {
+        this.toast.success('Pesquisa realizada com sucesso.');
         this.activitiesResponse = response;
       });
+  }
 
-    // Receive the current Month Tags
+  private findAppointments(): void {
+    this.appointmentService
+      .findByPersonAndDate(this.personId, this.startDate, this.endDate)
+      .subscribe((response: Appointment[]) => {
+        this.appointments = response;
+        if (this.appointments && this.appointments.length > 0) {
+          this.appointments.forEach((appointment) => {
+            this.activitiesResponse.forEach((activity) => {
+              if (activity.id === appointment.routineId) {
+                activity.description = appointment.description;
+                activity.justification = appointment.justification;
+              }
+            });
+          });
+        }
+      });
+  }
+
+  private receiveCurrentMonthTags(): void {
     this.monthlyTags = history.state.monthlyTags;
     this.monthlyTags.map((month) => {
       let newDate = new Date(month.date);
       newDate.setDate(newDate.getDate() + 1);
       this.daysOfMonth.push(newDate.getDate());
     });
+  }
 
-    // get the Date to Calendar
+  private getDateCalendar(): void {
     var date = new Date();
     this.firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     this.lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -125,7 +171,6 @@ export class PersonAppointmentComponent implements OnInit {
         } else if (this.monthlyTags[i].tag == 'Orange') {
           return 'orange-background';
         } else if (this.monthlyTags[i].tag == 'Yellow') {
-          console.log('amarelo');
           return 'yellow-background';
         } else {
           return 'green-background';
@@ -145,14 +190,13 @@ export class PersonAppointmentComponent implements OnInit {
       )
       .subscribe((response) => {
         this.activitiesResponse = response;
-        console.log('response length: ' + response.length);
-
         this.toast.success('Pesquisa realizada com sucesso.');
 
         this.dialog.open(PersonAppointmentDialogComponent, {
           data: {
             activities: this.activitiesResponse,
             tags: this.tags,
+            personId: this.personId,
           },
         });
       });
