@@ -9,7 +9,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-segment-form',
   templateUrl: './segment-form.component.html',
-  styleUrls: ['./segment-form.component.css'],
+  styleUrls: ['./segment-form.component.scss'],
 })
 export class SegmentFormComponent implements OnInit {
   segment: Segment = {
