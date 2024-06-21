@@ -153,35 +153,51 @@ td {
 }
 
 // Blue rb
-::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.blue-background .mat-radio-outer-circle  {
+::ng-deep
+  .mat-radio-button.mat-accent.mat-radio-checked.blue-background
+  .mat-radio-outer-circle {
   border-color: blue;
 }
 ::ng-deep .mat-radio-button.mat-accent.blue-background .mat-radio-inner-circle {
   background-color: blue;
 }
 // Green rb
-::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.green-background .mat-radio-outer-circle  {
+::ng-deep
+  .mat-radio-button.mat-accent.mat-radio-checked.green-background
+  .mat-radio-outer-circle {
   border-color: green;
 }
-::ng-deep .mat-radio-button.mat-accent.green-background .mat-radio-inner-circle {
+::ng-deep
+  .mat-radio-button.mat-accent.green-background
+  .mat-radio-inner-circle {
   background-color: green;
 }
 // Yellow rb
-::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.yellow-background .mat-radio-outer-circle  {
+::ng-deep
+  .mat-radio-button.mat-accent.mat-radio-checked.yellow-background
+  .mat-radio-outer-circle {
   border-color: yellow;
 }
-::ng-deep .mat-radio-button.mat-accent.yellow-background .mat-radio-inner-circle {
+::ng-deep
+  .mat-radio-button.mat-accent.yellow-background
+  .mat-radio-inner-circle {
   background-color: yellow;
 }
 // Orange rb
-::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.orange-background .mat-radio-outer-circle  {
+::ng-deep
+  .mat-radio-button.mat-accent.mat-radio-checked.orange-background
+  .mat-radio-outer-circle {
   border-color: orangered;
 }
-::ng-deep .mat-radio-button.mat-accent.orange-background .mat-radio-inner-circle {
+::ng-deep
+  .mat-radio-button.mat-accent.orange-background
+  .mat-radio-inner-circle {
   background-color: orangered;
 }
 // Red rb
-::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.red-background .mat-radio-outer-circle  {
+::ng-deep
+  .mat-radio-button.mat-accent.mat-radio-checked.red-background
+  .mat-radio-outer-circle {
   border-color: red;
 }
 ::ng-deep .mat-radio-button.mat-accent.red-background .mat-radio-inner-circle {

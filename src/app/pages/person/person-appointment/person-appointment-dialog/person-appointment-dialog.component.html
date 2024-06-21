@@ -1,27 +1,25 @@
 <div *ngFor="let activity of data.activities">
-  <!-- <p>Nome: {{ activity.name }}</p>
-  <p>Porquê: {{ activity.description }}</p>
-  <p>Justificativa: {{ activity.justification }}</p> -->
-  <mat-radio-group>
-    <p>{{ activity.name }}</p>
-    <mat-radio-button
-      *ngFor="let tag of data.tags"
-      value="{{ tag.id }}"
-      [ngClass]="tag.class"
-      [checked]="tag.id == activity.tag?.id"
-      matTooltip="{{ tag.description }}"
-      (change)="openConfirm(tag.id, activity)"
-    ></mat-radio-button>
-    <button
-      mat-raised-button
-      color="primary"
-      matBadge="!"
-      matBadgePosition="after"
-      matBadgeColor="accent"
-      *ngIf="activity.tag?.id"
-      (click)="openBottomSheet()"
-    >
-      <mat-icon fontIcon="info"></mat-icon>
-    </button>
-  </mat-radio-group>
+  <mat-dialog-content class="mat-typography">
+    <mat-radio-group>
+      <p mat-dialog-title>{{ activity.name }}</p>
+      <mat-radio-button
+        *ngFor="let tag of data.tags"
+        value="{{ tag.id }}"
+        [ngClass]="tag.class"
+        [checked]="tag.id == activity.tag?.id"
+        matTooltip="{{ tag.description }}"
+        (change)="openConfirm(tag.id, activity)"
+        ><mat-icon
+          fontIcon="info"
+          *ngIf="tag.id == activity.tag?.id"
+          (click)="openConfirm(tag.id, activity)"
+        ></mat-icon
+      ></mat-radio-button>
+    </mat-radio-group>
+  </mat-dialog-content>
 </div>
+
+<mat-divider></mat-divider>
+<mat-dialog-actions align="start">
+  <button mat-raised-button color="warn" mat-dialog-close>Fechar</button>
+</mat-dialog-actions>

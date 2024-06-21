@@ -1,23 +1,18 @@
-p {
-  margin-top: 20px;
-  margin-bottom: 5px;
-}
-
 .mat-radio-group {
   margin-top: 5px;
   margin-bottom: 20px;
   flex-direction: row;
 }
 
-// .mat-radio-button {
-//   margin-right: 15px;
-//   margin-left: 15px;
-//   max-width: fit-content;
-//   max-height: fit-content;
-// }
-
 .mat-radio-button ~ .mat-radio-button {
   margin-left: 16px;
-  margin-top: 25px;
   margin-bottom: 25px;
+}
+
+.mat-typography {
+  margin-top: 25px;
+}
+
+.mat-divider {
+  margin-top: 15px;
 }

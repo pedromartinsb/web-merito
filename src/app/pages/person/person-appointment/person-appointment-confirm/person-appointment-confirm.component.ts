@@ -11,6 +11,8 @@ export interface DialogData {
   personId: string;
   activityType: string;
   activity: Activity;
+  description?: string;
+  justification?: string;
 }
 
 @Component({

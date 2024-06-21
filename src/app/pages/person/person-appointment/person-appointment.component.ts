@@ -211,6 +211,8 @@ export class PersonAppointmentComponent implements OnInit {
         activityType: activity.type,
         activity: activity,
       },
+      height: '400px',
+      width: '600px',
     });
   }
 }

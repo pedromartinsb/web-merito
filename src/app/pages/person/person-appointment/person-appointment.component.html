@@ -1,8 +1,8 @@
 <mat-card class="card mat-elevation-z8">
   <mat-card-header>
-    <mat-card-title>Colaborador - {{ person.name }}</mat-card-title>
-    <mat-card-title>Dia: {{ today }}</mat-card-title>
-    <mat-card-subtitle>Tabela de Avaliação</mat-card-subtitle>
+    <mat-card-title>Registrar Ocorrência</mat-card-title>
+    <mat-card-subtitle>Colaborador - {{ person.name }}</mat-card-subtitle>
+    <mat-card-subtitle>Dia: {{ today }}</mat-card-subtitle>
   </mat-card-header>
 
   <div class="grid-first-container">
@@ -86,13 +86,6 @@
             [maxDate]="lastDay"
           ></mat-calendar>
         </mat-card>
-        <p>Selected date: {{ selected }}</p>
-        <div *ngFor="let activity of activitiesResponse">
-          <p>Nome: {{ activity.name }}</p>
-          <p>Descrição: {{ activity.description }}</p>
-          <p>Justificativa: {{ activity.justification }}</p>
-          <p>Tag: {{ activity.tag?.name }}</p>
-        </div>
       </mat-tab>
 
       <mat-tab label="Trimestral">
