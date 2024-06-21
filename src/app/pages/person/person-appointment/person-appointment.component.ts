@@ -28,6 +28,7 @@ export class PersonAppointmentComponent implements OnInit {
   selected: Date | null;
   selectedDateMonthly: Date | null;
   activitiesResponse: Activity[];
+  activitiesDailyResponse: Activity[];
   appointments: Appointment[] = [];
   tags: Tag[];
   firstDay: Date;
@@ -95,7 +96,7 @@ export class PersonAppointmentComponent implements OnInit {
       )
       .subscribe((response) => {
         this.toast.success('Pesquisa realizada com sucesso.');
-        this.activitiesResponse = response;
+        this.activitiesDailyResponse = response;
       });
   }
 

@@ -2,6 +2,8 @@
   <mat-radio-group>
     <p>{{ activity.name }}</p>
     <mat-radio-button
+      name="monthly-dialog"
+      class="monthly-dialog"
       *ngFor="let tag of data.tags"
       value="{{ tag.id }}"
       [ngClass]="tag.class"

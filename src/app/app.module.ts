@@ -71,7 +71,6 @@ import { OfficeFormComponent } from './pages/office/office-form/office-form.comp
 import { OfficeListComponent } from './pages/office/office-list/office-list.component';
 import { PermissionFormComponent } from './pages/permission/permission-form/permission-form.component';
 import { PersonAppointmentConfirmComponent } from './pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component';
-import { PersonAppointmentDailyComponent } from './pages/person/person-appointment/person-appointment-daily/person-appointment-daily.component';
 import { PersonAppointmentDialogComponent } from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog.component';
 import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
 import { PersonFormComponent } from './pages/person/person-form/person-form.component';
@@ -140,7 +139,6 @@ export const maskConfig: Partial<IConfig> = {
     PersonAppointmentComponent,
     PersonAppointmentDialogComponent,
     PersonAppointmentConfirmComponent,
-    PersonAppointmentDailyComponent,
     PersonAppointmentDialogBottomComponent,
     TableComponent,
   ],
