@@ -10,6 +10,7 @@ export interface DialogData {
   activities: Activity[];
   tags: Tag[];
   personId: string;
+  selected: Date;
 }
 
 @Component({
@@ -34,6 +35,7 @@ export class PersonAppointmentDialogComponent implements OnInit {
         personId: this.data.personId,
         activityType: activity.type,
         activity: activity,
+        selected: this.data.selected,
       },
     });
   }

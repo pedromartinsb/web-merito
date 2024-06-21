@@ -59,6 +59,13 @@ export class AppointmentService {
     );
   }
 
+  createByDate(appointment: Appointment): Observable<Appointment> {
+    return this.http.post<Appointment>(
+      `${Config.webApiUrl}/v1/appointment/date`,
+      appointment
+    );
+  }
+
   update(id: string, appointment: Appointment): Observable<Appointment> {
     return this.http.put<Appointment>(
       `${Config.webApiUrl}/v1/appointment/${id}`,

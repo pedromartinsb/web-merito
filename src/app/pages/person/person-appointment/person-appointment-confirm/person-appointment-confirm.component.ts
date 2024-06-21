@@ -11,6 +11,7 @@ export interface DialogData {
   personId: string;
   activityType: string;
   activity: Activity;
+  selected: Date;
   description?: string;
   justification?: string;
 }
@@ -56,7 +57,8 @@ export class PersonAppointmentConfirmComponent implements OnInit {
     this.appointment.tagId = this.data.tagId;
     this.appointment.activityId = this.data.activityId;
     this.appointment.activityType = this.data.activityType;
-    this.appointmentService.create(this.appointment).subscribe({
+    this.appointment.createdAt = this.data.selected.toISOString();
+    this.appointmentService.createByDate(this.appointment).subscribe({
       next: () => {
         this.toast.success('Avaliação criada com sucesso', 'Cadastro');
       },

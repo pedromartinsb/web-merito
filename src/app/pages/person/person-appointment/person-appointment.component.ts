@@ -199,6 +199,7 @@ export class PersonAppointmentComponent implements OnInit {
             activities: this.activitiesResponse,
             tags: this.tags,
             personId: this.personId,
+            selected: this.selected,
           },
         });
       });
