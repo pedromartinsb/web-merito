@@ -91,6 +91,7 @@
                 mat-icon-button
                 (click)="findRoutinesByPerson(element.id)"
                 aria-label="Example icon-button with a menu"
+                matTooltip="Visualize todas as Rotinas para esse Colaborador"
               >
                 <mat-icon>visibility</mat-icon>
               </button>
@@ -104,6 +105,7 @@
                 mat-icon-button
                 (click)="findGoalsByPerson(element.id)"
                 aria-label="Example icon-button with a menu"
+                matTooltip="Visualize todas as Metas para esse Colaborador"
               >
                 <mat-icon>visibility</mat-icon>
               </button>
@@ -117,6 +119,7 @@
                 mat-icon-button
                 [matMenuTriggerFor]="menu"
                 aria-label="Example icon-button with a menu"
+                matTooltip="Editar ou Desativar o Colaborador"
               >
                 <mat-icon>more_vert</mat-icon>
               </button>
@@ -133,7 +136,7 @@
                   "
                 >
                   <mat-icon>delete</mat-icon>
-                  <span>Deletar</span>
+                  <span>Desativar</span>
                 </button>
               </mat-menu>
             </td>

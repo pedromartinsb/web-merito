@@ -80,6 +80,7 @@
                 mat-icon-button
                 (click)="findCompaniesByHolding(element.id)"
                 aria-label="Example icon-button with a menu"
+                matTooltip="Visualize todas as Empresas"
               >
                 <mat-icon>visibility</mat-icon>
               </button>
@@ -93,6 +94,7 @@
                 mat-icon-button
                 (click)="findOfficesByHolding(element.id)"
                 aria-label="Example icon-button with a menu"
+                matTooltip="Visualize todas as Unidades"
               >
                 <mat-icon>visibility</mat-icon>
               </button>
@@ -106,6 +108,7 @@
                 mat-icon-button
                 (click)="findPersonsByHolding(element.id)"
                 aria-label="Example icon-button with a menu"
+                matTooltip="Visualize todos os Colaboradores"
               >
                 <mat-icon>visibility</mat-icon>
               </button>
@@ -119,6 +122,7 @@
                 mat-icon-button
                 [matMenuTriggerFor]="menu"
                 aria-label="Example icon-button with a menu"
+                matTooltip="Editar ou Desativar a Rede de Empresa"
               >
                 <mat-icon>more_vert</mat-icon>
               </button>
@@ -135,7 +139,7 @@
                   "
                 >
                   <mat-icon>delete</mat-icon>
-                  <span>Deletar</span>
+                  <span>Desativar</span>
                 </button>
               </mat-menu>
             </td>

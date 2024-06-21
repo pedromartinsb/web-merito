@@ -55,8 +55,19 @@
       </div>
     </div> -->
 
-    <mat-tab-group dynamicHeight>
-      <mat-tab label="Diária">
+    <mat-tab-group
+      dynamicHeight
+      [selectedIndex]="selectedTab.value"
+      (selectedIndexChange)="selectedTab.setValue($event)"
+    >
+      <!-- Diária -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon *ngIf="selectedTab.value == 0" class="example-tab-icon"
+            >arrow_right</mat-icon
+          >
+          Diária
+        </ng-template>
         <div class="container" *ngFor="let activity of activitiesResponse">
           <div class="item">
             <p>{{ activity.name }}</p>
@@ -76,7 +87,14 @@
         </div>
       </mat-tab>
 
-      <mat-tab label="Mensal">
+      <!-- Mensal -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon *ngIf="selectedTab.value == 1" class="example-tab-icon"
+            >arrow_right</mat-icon
+          >
+          Mensal
+        </ng-template>
         <mat-card class="example-large-box demo-inline-calendar-card">
           <mat-calendar
             [(selected)]="selected"
@@ -88,7 +106,14 @@
         </mat-card>
       </mat-tab>
 
-      <mat-tab label="Trimestral">
+      <!-- Trimestral -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon *ngIf="selectedTab.value == 2" class="example-tab-icon"
+            >arrow_right</mat-icon
+          >
+          Trimestral
+        </ng-template>
         <div class="example-large-box mat-elevation-z4">
           <h2 align="center" style="color: orange">January 2021</h2>
           <br />
@@ -173,7 +198,14 @@
         </div>
       </mat-tab>
 
-      <mat-tab label="Semestral">
+      <!-- Semestral -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon *ngIf="selectedTab.value == 3" class="example-tab-icon"
+            >arrow_right</mat-icon
+          >
+          Semestral
+        </ng-template>
         <div class="example-large-box mat-elevation-z4">
           <h2 align="center" style="color: orange">January 2021</h2>
           <br />

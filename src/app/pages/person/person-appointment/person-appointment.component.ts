@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs';
 import { Activity, Appointment } from 'src/app/models/appointment';
 import { Person } from 'src/app/models/person';
 import { monthlyTag, Tag } from 'src/app/models/tag';
@@ -10,9 +12,8 @@ import { PersonService } from 'src/app/services/person.service';
 import { TagService } from 'src/app/services/tag.service';
 
 import { AppointmentService } from './../../../services/appointment.service';
-import { PersonAppointmentDialogComponent } from './person-appointment-dialog/person-appointment-dialog.component';
 import { PersonAppointmentConfirmComponent } from './person-appointment-confirm/person-appointment-confirm.component';
-import { finalize } from 'rxjs';
+import { PersonAppointmentDialogComponent } from './person-appointment-dialog/person-appointment-dialog.component';
 
 @Component({
   selector: 'app-person-appointment',
@@ -36,6 +37,7 @@ export class PersonAppointmentComponent implements OnInit {
   today: string = new Date().toLocaleDateString('pt-BR');
   startDate = new Date();
   endDate = new Date();
+  selectedTab = new FormControl(0);
 
   constructor(
     private dialog: MatDialog,
