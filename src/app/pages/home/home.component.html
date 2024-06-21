@@ -60,6 +60,11 @@
     mat-card-image
     src="assets/img/home-image.svg"
     alt="Image Home Sistema Mérito"
+    *ngIf="
+      currentScreenSize == 'XLarge' ||
+      currentScreenSize == 'Large' ||
+      currentScreenSize == 'Medium'
+    "
   />
   <mat-card-content>
     <p>
@@ -73,3 +78,8 @@
     </p>
   </mat-card-content>
 </mat-card>
+
+<!-- <p>Resize your browser window to see the current screen size change.</p>
+<p>
+  The current screen size is <strong>{{ currentScreenSize }}</strong>
+</p> -->

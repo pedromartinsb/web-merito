@@ -1,32 +1,66 @@
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from './../../services/auth.service';
 import { StorageService } from './../../services/storage.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatSidenav } from '@angular/material/sidenav';
+import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css'],
 })
-export class NavComponent implements OnInit {
+export class NavComponent implements OnInit, OnDestroy {
   @Input() inputSideNav: MatSidenav;
   @Input() inputLogout: InputEvent;
-
+  destroyed = new Subject<void>();
+  modeNavMenu: MatDrawerMode = 'side';
   showFiller = false;
-
   userRole: string[] = [];
   canAdminAccess: boolean = false;
   canModeratorAccess: boolean = false;
   canUserAccess: boolean = false;
+  currentScreenSize: string;
+  displayNameMap = new Map([
+    [Breakpoints.XSmall, 'XSmall'],
+    [Breakpoints.Small, 'Small'],
+    [Breakpoints.Medium, 'Medium'],
+    [Breakpoints.Large, 'Large'],
+    [Breakpoints.XLarge, 'XLarge'],
+  ]);
 
   constructor(
     private storageService: StorageService,
     private authService: AuthService,
     private toast: ToastrService,
-    private router: Router
-  ) {}
+    private router: Router,
+    breakpointObserver: BreakpointObserver
+  ) {
+    breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((result) => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            if (
+              this.displayNameMap.get(query) === 'Small' ||
+              this.displayNameMap.get(query) === 'XSmall'
+            ) {
+              this.currentScreenSize = this.displayNameMap.get(query);
+              this.modeNavMenu = 'over';
+            }
+          }
+        }
+      });
+  }
 
   ngOnInit(): void {
     this.userRole = this.authService.getRole();
@@ -34,6 +68,11 @@ export class NavComponent implements OnInit {
     this.checkModeratorAccess();
     this.checkUserAccess();
     this.router.navigate(['home']);
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   logout() {
