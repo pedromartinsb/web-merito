@@ -1,3 +1,9 @@
+.container {
+  width: 600px !important;
+  display: flex;
+  align-items: center;
+}
+
 .mat-radio-group {
   margin-top: 5px;
   margin-bottom: 20px;
@@ -7,10 +13,6 @@
 .mat-radio-button ~ .mat-radio-button {
   margin-left: 16px;
   margin-bottom: 25px;
-}
-
-.mat-typography {
-  margin-top: 25px;
 }
 
 .mat-divider {

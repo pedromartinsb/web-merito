@@ -1,7 +1,7 @@
-<div *ngFor="let activity of data.activities">
-  <mat-dialog-content class="mat-typography">
+<div class="container" *ngFor="let activity of data.activities">
+  <mat-dialog-content>
     <mat-radio-group>
-      <p mat-dialog-title>{{ activity.name }}</p>
+      <p>{{ activity.name }}</p>
       <mat-radio-button
         *ngFor="let tag of data.tags"
         value="{{ tag.id }}"

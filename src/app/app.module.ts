@@ -87,6 +87,7 @@ import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
 import { PersonAppointmentDialogBottomComponent } from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog-bottom/person-appointment-dialog-bottom.component';
+import { TableComponent } from './components/table/table.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -141,6 +142,7 @@ export const maskConfig: Partial<IConfig> = {
     PersonAppointmentConfirmComponent,
     PersonAppointmentDailyComponent,
     PersonAppointmentDialogBottomComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
