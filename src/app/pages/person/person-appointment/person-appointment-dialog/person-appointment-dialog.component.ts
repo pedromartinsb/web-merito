@@ -36,6 +36,7 @@ export class PersonAppointmentDialogComponent implements OnInit {
         activityType: activity.type,
         activity: activity,
         selected: this.data.selected,
+        appointmentId: activity.appointmentId,
       },
     });
   }

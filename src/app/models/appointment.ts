@@ -26,4 +26,5 @@ export interface Activity {
   tag: Tag;
   tagId: string;
   createdAt: string;
+  appointmentId: string;
 }
