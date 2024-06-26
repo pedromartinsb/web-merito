@@ -31,6 +31,7 @@ import { SegmentListComponent } from './pages/segment/segment-list/segment-list.
 import { AutonomousListComponent } from './pages/autonomous/autonomous-list/autonomous-list.component';
 import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/autonomous-form.component';
 import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
+import { ProfileFormComponent } from './pages/profile/profile-form/profile-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -322,6 +323,16 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',
+        },
+      },
+
+      // PROFILE
+      {
+        path: 'profile',
+        component: ProfileFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: ['ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER'],
         },
       },
 

@@ -31,7 +31,7 @@ import { RoutineService } from 'src/app/services/routine.service';
 @Component({
   selector: 'app-person-form',
   templateUrl: './person-form.component.html',
-  styleUrls: ['./person-form.component.scss'],
+  styleUrls: ['./person-form.component.css'],
 })
 export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   roles: Roles[] = [];

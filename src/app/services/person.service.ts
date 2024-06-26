@@ -50,6 +50,10 @@ export class PersonService {
     return this.http.get<Person>(`${Config.webApiUrl}/v1/person/${id}`);
   }
 
+  public findByRequest(): Observable<Person> {
+    return this.http.get<Person>(`${Config.webApiUrl}/v1/person/token`);
+  }
+
   public create(person: Person): Observable<Person> {
     return this.http.post<Person>(`${Config.webApiUrl}/v1/person`, person);
   }
