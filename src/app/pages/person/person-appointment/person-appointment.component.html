@@ -19,7 +19,55 @@
           >
           Diária
         </ng-template>
-        <div class="container" *ngFor="let activity of activitiesDailyResponse">
+        <section class="example-container mat-elevation-z8" tabindex="0">
+          <table mat-table [dataSource]="dataSource">
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="radio">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <mat-radio-group>
+                  <mat-radio-button
+                    name="daily"
+                    *ngFor="let tag of tags"
+                    value="{{ tag.id }}"
+                    class="daily"
+                    [ngClass]="tag.class"
+                    [checked]="tag.id == element.tag?.id"
+                    (click)="openConfirm(tag.id, element)"
+                    matTooltip="{{ tag.description }}"
+                  ></mat-radio-button>
+                </mat-radio-group>
+              </td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="radio">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <mat-radio-group>
+                  <mat-radio-button
+                    name="daily"
+                    *ngFor="let tag of tags"
+                    value="{{ tag.id }}"
+                    class="daily"
+                    [ngClass]="tag.class"
+                    [checked]="tag.id == activity.tag?.id"
+                    (click)="openConfirm(tag.id, activity)"
+                    matTooltip="{{ tag.description }}"
+                  ></mat-radio-button>
+                </mat-radio-group>
+              </td>
+            </ng-container> -->
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </section>
+        <!-- <div class="container" *ngFor="let activity of activitiesDailyResponse">
           <div class="item">
             <p>{{ activity.name }}</p>
           </div>
@@ -37,7 +85,7 @@
               ></mat-radio-button>
             </mat-radio-group>
           </div>
-        </div>
+        </div> -->
       </mat-tab>
 
       <!-- Mensal -->

@@ -16,3 +16,30 @@
 .mat-divider {
   margin-top: 15px;
 }
+
+.example-container {
+  height: 100px;
+  width: 450px;
+  max-width: 100%;
+  overflow: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  align-items: center;
+}
+
+:host ::ng-deep thead {
+  display: none;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}

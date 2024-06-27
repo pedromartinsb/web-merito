@@ -19,11 +19,18 @@ export interface DialogData {
   styleUrls: ['./person-appointment-dialog.component.scss'],
 })
 export class PersonAppointmentDialogComponent implements OnInit {
+  displayedColumns = ['name', 'radio'];
+  dataSource: Activity[];
+  tags: Tag[];
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private dialog: MatDialog,
     private _bottomSheet: MatBottomSheet
-  ) {}
+  ) {
+    this.dataSource = data.activities;
+    this.tags = data.tags;
+  }
 
   ngOnInit(): void {}
 

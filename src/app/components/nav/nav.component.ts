@@ -30,6 +30,12 @@ export class NavComponent implements OnInit, OnDestroy {
     [Breakpoints.Large, 'Large'],
     [Breakpoints.XLarge, 'XLarge'],
   ]);
+  isAdmin: boolean = false;
+  isAdminGeral: boolean = false;
+  isAdminEmpresa: boolean = false;
+  isAdminOffice: boolean = false;
+  isUserOffice: boolean = false;
+  isGuest: boolean = false;
 
   constructor(
     private storageService: StorageService,
@@ -64,6 +70,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userRole = this.authService.getRole();
+    this.checkPermission();
     this.checkAdminAccess();
     this.checkModeratorAccess();
     this.checkUserAccess();
@@ -73,6 +80,31 @@ export class NavComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  private checkPermission(): void {
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdminGeral = true;
+          break;
+        case 'ROLE_ADMIN_GERAL':
+          this.isAdminGeral = true;
+          break;
+        case 'ROLE_ADMIN_COMPANY':
+          this.isAdminEmpresa = true;
+          break;
+        case 'ROLE_ADMIN_OFFICE':
+          this.isAdminOffice = true;
+          break;
+        case 'ROLE_USER_OFFICE':
+          this.isUserOffice = true;
+          break;
+        default:
+          this.isGuest = true;
+          break;
+      }
+    });
   }
 
   logout() {

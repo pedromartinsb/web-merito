@@ -21,6 +21,9 @@ import { PersonAppointmentDialogComponent } from './person-appointment-dialog/pe
   styleUrls: ['./person-appointment.component.scss'],
 })
 export class PersonAppointmentComponent implements OnInit {
+  displayedColumns = ['name', 'radio'];
+  dataSource: Activity[];
+
   personId: string;
   monthlyTags: monthlyTag[] = [];
   days: number[] = [];
@@ -97,6 +100,8 @@ export class PersonAppointmentComponent implements OnInit {
       .subscribe((response) => {
         this.toast.success('Pesquisa realizada com sucesso.');
         this.activitiesDailyResponse = response;
+        this.dataSource = response;
+        console.log(this.dataSource);
       });
   }
 
