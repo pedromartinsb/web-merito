@@ -27,6 +27,7 @@ import { Routine } from 'src/app/models/routine';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { RoutineService } from 'src/app/services/routine.service';
+import { AuthGuard } from 'src/app/auth/auth.guard';
 
 @Component({
   selector: 'app-person-form',
@@ -37,14 +38,12 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   roles: Roles[] = [];
   officies: Office[] = [];
   responsibilities: Responsibility[] = [];
-
   user: User = {
     username: '',
     email: '',
     roles: null,
     password: '',
   };
-
   address: Address = {
     cep: '',
     streetName: '',
@@ -53,12 +52,10 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     uf: '',
     complement: '',
   };
-
   contact: Contact = {
     phone: '',
     cellphone: '',
   };
-
   person: Person = {
     name: '',
     cpfCnpj: '',
@@ -76,29 +73,22 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     updatedAt: '',
     deletedAt: '',
   };
-
   roleLabels = [
     { label: 'Usuário', value: { name: 'ROLE_USER' } },
     { label: 'Admin', value: { name: 'ROLE_ADMIN' } },
     { label: 'Moderador', value: { name: 'ROLE_MODERATOR' } },
   ];
-
   personId: string;
-
   name: FormControl = new FormControl(null, Validators.minLength(3));
   cpf: FormControl = new FormControl(null, Validators.required);
-
   office: FormControl = new FormControl(null, Validators.required);
   responsibility: FormControl = new FormControl(null, Validators.required);
-
   username: FormControl = new FormControl(null, Validators.minLength(3));
   email: FormControl = new FormControl(null, Validators.email);
   role: FormControl = new FormControl(null, Validators.minLength(1));
-
   // Contact
   phone: FormControl = new FormControl();
   cellphone: FormControl = new FormControl();
-
   // Address
   cep: FormControl = new FormControl(null, Validators.minLength(3));
   streetName: FormControl = new FormControl(null, Validators.minLength(3));
@@ -106,18 +96,13 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   city: FormControl = new FormControl(null, Validators.minLength(3));
   uf: FormControl = new FormControl(null, Validators.minLength(2));
   complement: FormControl = new FormControl(null, Validators.minLength(3));
-
   public isSaving: boolean = false;
-
   isCpf: boolean = true;
   contractType: string = '';
-
   private cepValueChangesSubscription: Subscription;
-
   public radioContractTypeOptions: string = 'Clt';
   public radioGenderOptions: string = 'Masculino';
   public hide: boolean = true;
-
   // Routines
   ELEMENT_DATA: Routine[] = [];
   FILTERED_DATA: Routine[] = [];
@@ -125,6 +110,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   public isLoading: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(
     private personService: PersonService,
@@ -134,7 +120,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     private officeService: OfficeService,
     private responsibilityService: ResponsibilityService,
     private routineService: RoutineService,
-    private _location: Location
+    private _location: Location,
+    private authGuard: AuthGuard
   ) {}
 
   ngOnInit(): void {
@@ -151,6 +138,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     );
+    this.isAdmin = this.authGuard.checkIsAdmin();
   }
 
   ngAfterViewInit(): void {}
@@ -277,6 +265,10 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   validateFields(): boolean {
+    if (this.isAdmin) {
+      this.name.valid;
+    }
+
     return (
       this.name.valid &&
       this.cpf.valid &&

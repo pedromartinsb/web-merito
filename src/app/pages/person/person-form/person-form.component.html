@@ -138,7 +138,91 @@
       </mat-grid-list>
 
       <!-- Unidade, Função -->
-      <mat-grid-list cols="2" rowHeight="100px">
+      <mat-grid-list cols="4" rowHeight="100px" *ngIf="this.isAdmin">
+        <!-- Rede de Empresa -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione a Rede de Empresa</mat-label>
+            <mat-select
+              [(ngModel)]="person.officeId"
+              name="office"
+              [formControl]="office"
+            >
+              <mat-option *ngFor="let office of officies" [value]="office.id">{{
+                office.fantasyName
+              }}</mat-option>
+            </mat-select>
+            <mat-hint *ngIf="!office.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Empresa -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione a Empresa</mat-label>
+            <mat-select
+              [(ngModel)]="person.officeId"
+              name="office"
+              [formControl]="office"
+            >
+              <mat-option *ngFor="let office of officies" [value]="office.id">{{
+                office.fantasyName
+              }}</mat-option>
+            </mat-select>
+            <mat-hint *ngIf="!office.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Unidade -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione a Unidade</mat-label>
+            <mat-select
+              [(ngModel)]="person.officeId"
+              name="office"
+              [formControl]="office"
+            >
+              <mat-option *ngFor="let office of officies" [value]="office.id">{{
+                office.fantasyName
+              }}</mat-option>
+            </mat-select>
+            <mat-hint *ngIf="!office.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Função -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="outline">
+            <mat-label>Selecione a Função</mat-label>
+            <mat-select
+              [(ngModel)]="person.responsibilityId"
+              name="responsibility"
+              [formControl]="responsibility"
+            >
+              <mat-option
+                *ngFor="let responsibility of responsibilities"
+                [value]="responsibility.id"
+                >{{ responsibility.name }}</mat-option
+              >
+            </mat-select>
+            <mat-hint
+              *ngIf="!responsibility.value"
+              align="end"
+              style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <!-- Unidade, Função -->
+      <mat-grid-list cols="2" rowHeight="100px" *ngIf="!this.isAdmin">
         <!-- Unidade -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="outline">
