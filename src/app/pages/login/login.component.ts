@@ -19,12 +19,14 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
 
   login: Login = {
+    identifier: '',
     username: '',
     token: '',
     roles: [],
     firstAccess: false,
   };
 
+  identifier: FormControl = new FormControl(null, [Validators.required]);
   username: FormControl = new FormControl(null, [Validators.required]);
   password: FormControl = new FormControl(null, [Validators.required]);
 
@@ -53,9 +55,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoggin = true;
-    const { username, password } = this.form;
+    const { username, password, identifier } = this.form;
 
-    this.authService.authenticate(username, password).subscribe({
+    this.authService.authenticate(username, password, identifier).subscribe({
       next: (data) => {
         this.isLoggin = false;
         this.cleanFields();

@@ -16,13 +16,14 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  authenticate(username: string, password: string) {
+  authenticate(username: string, password: string, identifier: string) {
     return this.http
       .post<Login>(
         `${Config.webApiUrl}/v1/auth/signin`,
         {
           username,
           password,
+          identifier,
         },
         {
           observe: 'response',
@@ -57,6 +58,10 @@ export class AuthService {
         return throwError(
           () => new Error('Usuário ou Senha estão incorretos.')
         );
+      }
+      if (error.status === 500) {
+        // Return an observable with a user-facing error message.
+        return throwError(() => new Error(error.error.message));
       }
       // Return an observable with a user-facing error message.
       return throwError(
