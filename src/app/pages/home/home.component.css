@@ -34,15 +34,3 @@ mat-grid-list {
     margin-right: 8px;
   }
 }
-
-.example-spacer {
-  flex: 1 1 auto;
-}
-
-mat-toolbar {
-  height: 40px;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  color: white;
-}

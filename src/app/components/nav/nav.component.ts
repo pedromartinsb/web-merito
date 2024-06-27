@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subject, takeUntil } from 'rxjs';
+import { PersonService } from 'src/app/services/person.service';
 
 @Component({
   selector: 'app-nav',
@@ -36,12 +37,14 @@ export class NavComponent implements OnInit, OnDestroy {
   isAdminOffice: boolean = false;
   isUserOffice: boolean = false;
   isGuest: boolean = false;
+  personName: string;
 
   constructor(
     private storageService: StorageService,
     private authService: AuthService,
     private toast: ToastrService,
     private router: Router,
+    private personService: PersonService,
     breakpointObserver: BreakpointObserver
   ) {
     breakpointObserver
@@ -70,6 +73,9 @@ export class NavComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userRole = this.authService.getRole();
+    this.personService.findByRequest().subscribe((person) => {
+      this.personName = person.name;
+    });
     this.checkPermission();
     this.checkAdminAccess();
     this.checkModeratorAccess();
@@ -86,7 +92,7 @@ export class NavComponent implements OnInit, OnDestroy {
     this.userRole.map((role) => {
       switch (role) {
         case 'ROLE_ADMIN':
-          this.isAdminGeral = true;
+          this.isAdmin = true;
           break;
         case 'ROLE_ADMIN_GERAL':
           this.isAdminGeral = true;
