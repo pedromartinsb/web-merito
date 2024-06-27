@@ -12,7 +12,7 @@ import { SegmentService } from '../../../services/segment.service';
 @Component({
   selector: 'app-segment-list',
   templateUrl: './segment-list.component.html',
-  styleUrls: ['./segment-list.component.scss'],
+  styleUrls: ['./segment-list.component.css'],
 })
 export class SegmentListComponent implements OnInit {
   ELEMENT_DATA: Segment[] = [];

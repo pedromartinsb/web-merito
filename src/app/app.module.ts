@@ -49,6 +49,7 @@ import { FileinfoListComponent } from './components/fileinfo/fileinfo-list/filei
 import { GridComponent } from './components/grid/grid.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
+import { TableComponent } from './components/table/table.component';
 import { AuthInterceptorProvider } from './helpers/auth.interceptor';
 import { AccountFormComponent } from './pages/account/account-form/account-form.component';
 import { AppointmentCreateComponent } from './pages/appointment/appointment-create/appointment-create.component';
@@ -75,6 +76,7 @@ import { PersonAppointmentDialogComponent } from './pages/person/person-appointm
 import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
 import { PersonFormComponent } from './pages/person/person-form/person-form.component';
 import { PersonListComponent } from './pages/person/person-list/person-list.component';
+import { ProfileFormComponent } from './pages/profile/profile-form/profile-form.component';
 import { ResponsibilityFormComponent } from './pages/responsibility/responsibility-form/responsibility-form.component';
 import { ResponsibilityListComponent } from './pages/responsibility/responsibility-list/responsibility-list.component';
 import { RoutineFormComponent } from './pages/routine/routine-form/routine-form.component';
@@ -85,9 +87,7 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
-import { PersonAppointmentDialogBottomComponent } from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog-bottom/person-appointment-dialog-bottom.component';
-import { TableComponent } from './components/table/table.component';
-import { ProfileFormComponent } from './pages/profile/profile-form/profile-form.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -140,9 +140,9 @@ export const maskConfig: Partial<IConfig> = {
     PersonAppointmentComponent,
     PersonAppointmentDialogComponent,
     PersonAppointmentConfirmComponent,
-    PersonAppointmentDialogBottomComponent,
     TableComponent,
     ProfileFormComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

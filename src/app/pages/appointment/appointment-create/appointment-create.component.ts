@@ -32,7 +32,7 @@ export interface DialogData {
 @Component({
   selector: 'app-appointment-create',
   templateUrl: './appointment-create.component.html',
-  styleUrls: ['./appointment-create.component.scss'],
+  styleUrls: ['./appointment-create.component.css'],
 })
 export class AppointmentCreateComponent implements OnInit {
   outerGrids: number[] = [1];

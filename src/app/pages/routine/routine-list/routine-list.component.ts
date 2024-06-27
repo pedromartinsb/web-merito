@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-routine-list',
   templateUrl: './routine-list.component.html',
-  styleUrls: ['./routine-list.component.scss'],
+  styleUrls: ['./routine-list.component.css'],
 })
 export class RoutineListComponent implements OnInit {
   personId: string;

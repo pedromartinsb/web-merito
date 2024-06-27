@@ -5,7 +5,7 @@ import { Tag } from 'src/app/models/tag';
 @Component({
   selector: 'app-daily-appointment-list',
   templateUrl: './daily-appointment-list.component.html',
-  styleUrls: ['./daily-appointment-list.component.scss'],
+  styleUrls: ['./daily-appointment-list.component.css'],
 })
 export class DailyAppointmentListComponent implements OnInit {
   @Input() routines: Activity[] = [];

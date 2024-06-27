@@ -21,7 +21,7 @@ export interface DialogData {
 @Component({
   selector: 'app-person-appointment-confirm',
   templateUrl: './person-appointment-confirm.component.html',
-  styleUrls: ['./person-appointment-confirm.component.scss'],
+  styleUrls: ['./person-appointment-confirm.component.css'],
 })
 export class PersonAppointmentConfirmComponent implements OnInit {
   appointment: Appointment = {

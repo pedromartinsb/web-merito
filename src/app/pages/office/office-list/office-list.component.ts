@@ -14,7 +14,7 @@ import { OfficeService } from 'src/app/services/office.service';
 @Component({
   selector: 'app-office-list',
   templateUrl: './office-list.component.html',
-  styleUrls: ['./office-list.component.scss'],
+  styleUrls: ['./office-list.component.css'],
 })
 export class OfficeListComponent implements OnInit {
   companyId: string;

@@ -18,7 +18,7 @@ import { PersonAppointmentDialogComponent } from './person-appointment-dialog/pe
 @Component({
   selector: 'app-person-appointment',
   templateUrl: './person-appointment.component.html',
-  styleUrls: ['./person-appointment.component.scss'],
+  styleUrls: ['./person-appointment.component.css'],
 })
 export class PersonAppointmentComponent implements OnInit {
   displayedColumns = ['name', 'radio'];

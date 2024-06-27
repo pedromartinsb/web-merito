@@ -6,7 +6,6 @@ mat-card {
   margin-top: 15px;
 }
 
-// FIRST COLUMNS
 .grid-first-container {
   display: grid;
   grid-template-columns: auto auto auto auto;
@@ -21,11 +20,6 @@ mat-card {
   display: grid;
   grid-template-columns: auto auto;
 }
-
-// mat-tab-group {
-//   margin-top: 50px;
-//   margin-bottom: 50px;
-// }
 
 .example-small-box,
 .example-large-box {
@@ -152,7 +146,7 @@ td {
   background-color: firebrick;
 }
 
-// Blue rb
+/* Blue rb */
 ::ng-deep
   .mat-radio-button.mat-accent.mat-radio-checked.blue-background
   .mat-radio-outer-circle {
@@ -161,7 +155,7 @@ td {
 ::ng-deep .mat-radio-button.mat-accent.blue-background .mat-radio-inner-circle {
   background-color: blue;
 }
-// Green rb
+/* Green rb */
 ::ng-deep
   .mat-radio-button.mat-accent.mat-radio-checked.green-background
   .mat-radio-outer-circle {
@@ -172,7 +166,7 @@ td {
   .mat-radio-inner-circle {
   background-color: green;
 }
-// Yellow rb
+/* Yellow rb */
 ::ng-deep
   .mat-radio-button.mat-accent.mat-radio-checked.yellow-background
   .mat-radio-outer-circle {
@@ -183,7 +177,7 @@ td {
   .mat-radio-inner-circle {
   background-color: yellow;
 }
-// Orange rb
+/* Orange rb */
 ::ng-deep
   .mat-radio-button.mat-accent.mat-radio-checked.orange-background
   .mat-radio-outer-circle {
@@ -194,7 +188,7 @@ td {
   .mat-radio-inner-circle {
   background-color: orangered;
 }
-// Red rb
+/* Red rb */
 ::ng-deep
   .mat-radio-button.mat-accent.mat-radio-checked.red-background
   .mat-radio-outer-circle {

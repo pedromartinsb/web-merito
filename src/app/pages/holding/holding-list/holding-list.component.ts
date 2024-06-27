@@ -13,7 +13,7 @@ import { Segment } from 'src/app/models/segment';
 @Component({
   selector: 'app-holding-list',
   templateUrl: './holding-list.component.html',
-  styleUrls: ['./holding-list.component.scss'],
+  styleUrls: ['./holding-list.component.css'],
 })
 export class HoldingListComponent implements OnInit {
   segmentId: string;

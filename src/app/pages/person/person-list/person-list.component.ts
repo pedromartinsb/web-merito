@@ -40,11 +40,10 @@ export class PersonListComponent implements OnInit {
     'goals',
     'actions',
   ];
-  dataSource = new MatTableDataSource<Person>(this.persons);
+  dataSource = new MatTableDataSource<Person>(this.ELEMENT_DATA);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   public isLoading: boolean = false;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private personService: PersonService,

@@ -29,7 +29,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
+  styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];

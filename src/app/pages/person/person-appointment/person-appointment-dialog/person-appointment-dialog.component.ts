@@ -16,7 +16,7 @@ export interface DialogData {
 @Component({
   selector: 'app-person-appointment-dialog',
   templateUrl: './person-appointment-dialog.component.html',
-  styleUrls: ['./person-appointment-dialog.component.scss'],
+  styleUrls: ['./person-appointment-dialog.component.css'],
 })
 export class PersonAppointmentDialogComponent implements OnInit {
   displayedColumns = ['name', 'radio'];
