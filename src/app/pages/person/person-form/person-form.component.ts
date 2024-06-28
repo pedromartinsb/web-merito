@@ -1,5 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { PersonService } from '../../../services/person.service';
+import { Location } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -8,26 +7,29 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { finalize, Subscription } from 'rxjs';
+import { AuthGuard } from 'src/app/auth/auth.guard';
+import { Company } from 'src/app/models/company';
+import { Office } from 'src/app/models/office';
 import {
-  Person,
-  User,
   Address,
-  Roles,
   AddressSearch,
   Contact,
+  Person,
+  Roles,
+  User,
 } from 'src/app/models/person';
-import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { Responsibility } from 'src/app/models/responsibility';
-import { Subscription, finalize } from 'rxjs';
-import { Location } from '@angular/common';
-import { Office } from 'src/app/models/office';
-import { OfficeService } from 'src/app/services/office.service';
 import { Routine } from 'src/app/models/routine';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { OfficeService } from 'src/app/services/office.service';
+import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { RoutineService } from 'src/app/services/routine.service';
-import { AuthGuard } from 'src/app/auth/auth.guard';
+
+import { PersonService } from '../../../services/person.service';
 
 @Component({
   selector: 'app-person-form',
@@ -35,7 +37,7 @@ import { AuthGuard } from 'src/app/auth/auth.guard';
   styleUrls: ['./person-form.component.css'],
 })
 export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
-  roles: Roles[] = [];
+  _companies: Company[] = [];
   officies: Office[] = [];
   responsibilities: Responsibility[] = [];
   user: User = {
@@ -74,9 +76,13 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     deletedAt: '',
   };
   roleLabels = [
-    { label: 'Usuário', value: { name: 'ROLE_USER' } },
-    { label: 'Admin', value: { name: 'ROLE_ADMIN' } },
-    { label: 'Moderador', value: { name: 'ROLE_MODERATOR' } },
+    { label: 'Admin Grupo', value: { name: Roles.ROLE_ADMIN_GERAL } },
+    { label: 'Admin Empresa', value: { name: Roles.ROLE_ADMIN_COMPANY } },
+    { label: 'Admin Unidade', value: { name: Roles.ROLE_ADMIN_OFFICE } },
+    {
+      label: 'Colaborador ou Profissional',
+      value: { name: Roles.ROLE_USER_OFFICE },
+    },
   ];
   personId: string;
   name: FormControl = new FormControl(null, Validators.minLength(3));
@@ -85,7 +91,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   responsibility: FormControl = new FormControl(null, Validators.required);
   username: FormControl = new FormControl(null, Validators.minLength(3));
   email: FormControl = new FormControl(null, Validators.email);
-  role: FormControl = new FormControl(null, Validators.minLength(1));
   // Contact
   phone: FormControl = new FormControl();
   cellphone: FormControl = new FormControl();
@@ -96,6 +101,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   city: FormControl = new FormControl(null, Validators.minLength(3));
   uf: FormControl = new FormControl(null, Validators.minLength(2));
   complement: FormControl = new FormControl(null, Validators.minLength(3));
+  role: FormControl = new FormControl(null, Validators.minLength(1));
   public isSaving: boolean = false;
   isCpf: boolean = true;
   contractType: string = '';
@@ -111,6 +117,14 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   public isLoading: boolean = false;
   isAdmin: boolean = false;
+
+  _roles: Roles[] = [];
+  get roles(): Roles[] {
+    return this._roles;
+  }
+  set roles(value: Roles[]) {
+    this._roles = value;
+  }
 
   constructor(
     private personService: PersonService,
@@ -265,10 +279,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   validateFields(): boolean {
-    if (this.isAdmin) {
-      this.name.valid;
-    }
-
     return (
       this.name.valid &&
       this.cpf.valid &&
