@@ -62,7 +62,11 @@ export class LoginComponent implements OnInit {
         this.isLoggin = false;
         this.cleanFields();
         this.login = data.body;
-        this.authService.successfulLogin(this.login.token, this.login.roles);
+        this.authService.successfulLogin(
+          this.login.token,
+          this.login.roles,
+          this.login.identifier
+        );
         this.router.navigate(['']);
         this.toast.success('Login realizado com sucesso', 'Login');
       },

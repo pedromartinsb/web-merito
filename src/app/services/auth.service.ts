@@ -73,10 +73,11 @@ export class AuthService {
     }
   }
 
-  successfulLogin(authToken: string, role: string[]) {
+  successfulLogin(authToken: string, role: string[], identifier: string) {
     localStorage.setItem('token', authToken);
     this.roleAs = role;
     localStorage.setItem('role', JSON.stringify(this.roleAs));
+    localStorage.setItem('identifier', identifier);
   }
 
   isAuthenticated() {
