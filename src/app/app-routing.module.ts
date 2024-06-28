@@ -32,6 +32,7 @@ import { AutonomousListComponent } from './pages/autonomous/autonomous-list/auto
 import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/autonomous-form.component';
 import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
 import { ProfileFormComponent } from './pages/profile/profile-form/profile-form.component';
+import { Roles } from './models/person';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -41,17 +42,6 @@ const routes: Routes = [
     component: NavComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'home', component: HomeComponent },
-
-      {
-        path: 'first-access',
-        component: FirstAccessComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: ['ROLE_ADMIN', 'ROLE_USER'],
-        },
-      },
-
       // ACCOUNT
       {
         path: 'account',
@@ -98,16 +88,6 @@ const routes: Routes = [
         },
       },
 
-      // DASHBOARD
-      {
-        path: 'dashboard',
-        component: DashboardComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-
       // COMPANY
       {
         path: 'company',
@@ -147,6 +127,44 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',
+        },
+      },
+
+      // DASHBOARD
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+
+      // DOCUMENT
+      {
+        path: 'document',
+        component: DocumentListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+      {
+        path: 'document/upload',
+        component: DocumentFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+
+      // FIRST ACCESS
+      {
+        path: 'first-access',
+        component: FirstAccessComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: ['ROLE_ADMIN', 'ROLE_USER'],
         },
       },
 
@@ -190,7 +208,7 @@ const routes: Routes = [
         component: HoldingListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_USER',
+          role: [Roles.ROLE_ADMIN],
         },
       },
       {
@@ -198,7 +216,7 @@ const routes: Routes = [
         component: HoldingListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_USER',
+          role: [Roles.ROLE_ADMIN],
         },
       },
       {
@@ -206,7 +224,7 @@ const routes: Routes = [
         component: HoldingFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [Roles.ROLE_ADMIN],
         },
       },
       {
@@ -214,9 +232,12 @@ const routes: Routes = [
         component: HoldingFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [Roles.ROLE_ADMIN],
         },
       },
+
+      // HOME
+      { path: 'home', component: HomeComponent },
 
       // OFFICE
       {
@@ -254,6 +275,16 @@ const routes: Routes = [
       {
         path: 'office/edit/:id',
         component: OfficeFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: 'ROLE_ADMIN',
+        },
+      },
+
+      // PERMITIONS
+      {
+        path: 'permission',
+        component: PermissionFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: 'ROLE_ADMIN',
@@ -402,7 +433,7 @@ const routes: Routes = [
         component: SegmentListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_USER',
+          role: [Roles.ROLE_ADMIN],
         },
       },
       {
@@ -410,7 +441,7 @@ const routes: Routes = [
         component: SegmentFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [Roles.ROLE_ADMIN],
         },
       },
       {
@@ -418,35 +449,7 @@ const routes: Routes = [
         component: SegmentFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-
-      // DOCUMENT
-      {
-        path: 'document',
-        component: DocumentListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-      {
-        path: 'document/upload',
-        component: DocumentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
-        },
-      },
-
-      // PERMITIONS
-      {
-        path: 'permission',
-        component: PermissionFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: 'ROLE_ADMIN',
+          role: [Roles.ROLE_ADMIN],
         },
       },
     ],
