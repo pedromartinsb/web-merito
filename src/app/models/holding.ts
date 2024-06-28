@@ -5,15 +5,13 @@ export interface Holding {
   fantasyName: string;
   corporateReason: string;
   cnpj: string;
+  identifier: string;
   email: string;
   website: string;
-
   segment: Segment;
   segmentId: any;
-
   contact: Contact;
   address: Address;
-
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

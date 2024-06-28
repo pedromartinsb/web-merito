@@ -61,7 +61,7 @@
       </mat-grid-list>
 
       <!-- Colunas -->
-      <mat-grid-list cols="2" rowHeight="100px">
+      <mat-grid-list cols="3" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
@@ -85,6 +85,25 @@
 
         <!-- Coluna 2 -->
         <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
+            <mat-label>Identificador de Acesso:</mat-label>
+            <input
+              [(ngModel)]="holding.identifier"
+              name="identifier"
+              [formControl]="identifier"
+              required
+              matInput
+              placeholder="geral"
+            />
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-hint *ngIf="!identifier.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 3 -->
+        <mat-grid-tile colspan="1">
           <mat-form-field appearance="outline">
             <mat-label>Selecione um Segmento</mat-label>
             <mat-select
@@ -107,7 +126,7 @@
       </mat-grid-list>
 
       <!-- Colunas -->
-      <mat-grid-list cols="2" rowHeight="100px">
+      <mat-grid-list cols="3" rowHeight="100px">
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
