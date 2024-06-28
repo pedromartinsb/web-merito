@@ -85,6 +85,25 @@
         <!-- Coluna 2 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
+            <mat-label>Identificador de acesso</mat-label>
+            <input
+              [(ngModel)]="office.identifier"
+              name="identifier"
+              [formControl]="identifier"
+              required
+              matInput
+              placeholder="geral"
+            />
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-hint *ngIf="!identifier.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Coluna 3 -->
+        <mat-grid-tile colspan="1">
+          <mat-form-field appearance="legacy">
             <mat-label>E-mail</mat-label>
             <input
               [(ngModel)]="office.email"
@@ -96,7 +115,7 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <!-- Coluna 3 -->
+        <!-- Coluna 4 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
             <mat-label>Website</mat-label>

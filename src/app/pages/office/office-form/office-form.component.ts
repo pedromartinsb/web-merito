@@ -35,6 +35,7 @@ export class OfficeFormComponent implements OnInit {
     fantasyName: '',
     corporateReason: '',
     cnpj: '',
+    identifier: '',
     email: '',
     website: '',
     contact: this.contact,
@@ -54,6 +55,7 @@ export class OfficeFormComponent implements OnInit {
     Validators.maxLength(14),
     Validators.required,
   ]);
+  identifier: FormControl = new FormControl(null, Validators.minLength(3));
   email: FormControl = new FormControl();
   website: FormControl = new FormControl();
   company: FormControl = new FormControl(null, [Validators.required]);

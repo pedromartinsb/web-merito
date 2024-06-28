@@ -5,15 +5,13 @@ export interface Office {
   fantasyName: string;
   corporateReason: string;
   cnpj: string;
+  identifier: string;
   email: string;
   website: string;
-
   companyId: any;
   company: Company;
-
   contact: Contact;
   address: Address;
-
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
