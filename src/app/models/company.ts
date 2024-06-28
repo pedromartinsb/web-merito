@@ -1,21 +1,18 @@
-import { Holding } from "./holding";
+import { Holding } from './holding';
 
 export interface Company {
   id?: string;
   fantasyName: string;
   corporateReason: string;
   cnpj: string;
+  identifier: string;
   email: string;
   website: string;
-
   companyType: string;
-
   holdingId: any;
   holding: Holding;
-
   contact: Contact;
   address: Address;
-
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
@@ -23,7 +20,7 @@ export interface Company {
 
 export enum CompanyType {
   HEADQUARTERS = 'HEADQUARTERS',
-  FILIAL = 'FILIAL'
+  FILIAL = 'FILIAL',
 }
 
 export interface Contact {
