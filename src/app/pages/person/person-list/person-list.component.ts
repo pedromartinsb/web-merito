@@ -148,7 +148,6 @@ export class PersonListComponent implements OnInit {
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this.deletePerson(personId);
       dialogRef.close();
-      this.toast.success('Colaborador deletado com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {
@@ -158,6 +157,7 @@ export class PersonListComponent implements OnInit {
 
   deletePerson(personId: string): void {
     this.personService.delete(personId).subscribe(() => {
+      this.toast.success('Colaborador deletado com sucesso', 'Excluir');
       this.findAll();
     });
   }
