@@ -18,10 +18,8 @@ import { Segment } from 'src/app/models/segment';
 export class HoldingListComponent implements OnInit {
   segmentId: string;
   segment: Segment;
-
   ELEMENT_DATA: Holding[] = [];
   FILTERED_DATA: Holding[] = [];
-
   displayedColumns: string[] = [
     'fantasyName',
     'cnpj',
@@ -31,9 +29,7 @@ export class HoldingListComponent implements OnInit {
     'actions',
   ];
   dataSource = new MatTableDataSource<Holding>(this.ELEMENT_DATA);
-
   isLoading: boolean = false;
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -47,7 +43,7 @@ export class HoldingListComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    // check if Segment is calling Holding list
+    // check if Holding is called by Segment
     this.segmentId = this.route.snapshot.params['segmentId'];
     if (this.segmentId) {
       this.findAllBySegment();

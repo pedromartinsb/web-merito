@@ -102,20 +102,20 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   uf: FormControl = new FormControl(null, Validators.minLength(2));
   complement: FormControl = new FormControl(null, Validators.minLength(3));
   role: FormControl = new FormControl(null, Validators.minLength(1));
-  public isSaving: boolean = false;
+  isSaving: boolean = false;
   isCpf: boolean = true;
   contractType: string = '';
-  private cepValueChangesSubscription: Subscription;
-  public radioContractTypeOptions: string = 'Clt';
-  public radioGenderOptions: string = 'Masculino';
-  public hide: boolean = true;
+  cepValueChangesSubscription: Subscription;
+  radioContractTypeOptions: string = 'Clt';
+  radioGenderOptions: string = 'Masculino';
+  hide: boolean = true;
   // Routines
   ELEMENT_DATA: Routine[] = [];
   FILTERED_DATA: Routine[] = [];
   displayedColumns: string[] = ['name', 'responsibility'];
   dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  public isLoading: boolean = false;
+  isLoading: boolean = false;
   isAdmin: boolean = false;
 
   _roles: Roles[] = [];

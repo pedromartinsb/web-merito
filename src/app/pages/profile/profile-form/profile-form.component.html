@@ -180,8 +180,9 @@
           <mat-form-field class="fullWidth" appearance="legacy">
             <mat-label>Digite a Nova Senha novamente:</mat-label>
             <input
+              [(ngModel)]="confirmPassword"
               name="confirmPassword"
-              [formControl]="confirmPassword"
+              [formControl]="confirmPasswordFormControl"
               [type]="hideConfirmPassword ? 'password' : 'text'"
               matInput
             />

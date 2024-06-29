@@ -29,7 +29,8 @@ export class ProfileFormComponent implements OnInit {
     phone: '',
     cellphone: '',
   };
-  person: Person = {
+
+  _person: Person = {
     name: '',
     cpfCnpj: '',
     personType: 'Colaborador',
@@ -46,6 +47,13 @@ export class ProfileFormComponent implements OnInit {
     updatedAt: '',
     deletedAt: '',
   };
+  get person(): Person {
+    return this._person;
+  }
+  set person(value: Person) {
+    this._person = value;
+  }
+
   name: FormControl = new FormControl(null, Validators.minLength(3));
   cpf: FormControl = new FormControl(null, Validators.required);
   isCpf: boolean = true;
@@ -56,12 +64,22 @@ export class ProfileFormComponent implements OnInit {
   role: FormControl = new FormControl(null, Validators.minLength(1));
   password: FormControl = new FormControl(null, Validators.minLength(3));
   newPassword: FormControl = new FormControl(null, Validators.minLength(3));
-  confirmPassword: FormControl = new FormControl(null, Validators.minLength(3));
+  confirmPasswordFormControl: FormControl = new FormControl(
+    null,
+    Validators.minLength(3)
+  );
   isSaving: boolean = false;
   hidePassword: boolean = true;
   hideNewPassword: boolean = true;
   hideConfirmPassword: boolean = true;
   isValidated: boolean = false;
+  _confirmPassword: String;
+  get confirmPassword(): String {
+    return this._confirmPassword;
+  }
+  set confirmPassword(value: String) {
+    this._confirmPassword = value;
+  }
 
   constructor(
     private personService: PersonService,
@@ -70,10 +88,6 @@ export class ProfileFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getPerson();
-  }
-
-  private getPerson(): void {
     this.personService.findByRequest().subscribe((response) => {
       this.person = response;
     });
@@ -95,33 +109,37 @@ export class ProfileFormComponent implements OnInit {
   }
 
   public validateFields(): boolean {
-    if (
+    return (
       this.name.valid &&
       this.cpf.valid &&
       this.email.valid &&
       this.username.valid
-    ) {
-      this.isValidated = true;
-    }
-    if (this.newPassword == this.confirmPassword) {
-      this.isValidated = true;
-    }
-    return this.isValidated;
+    );
   }
 
   public update(): void {
     this.isSaving = true;
-    this.personService.update(this.person.id, this.person).subscribe({
-      next: () => {
-        this.toast.success('Usuário alterado com sucesso', 'Alteração');
-        this.router.navigate(['home']);
-        this.isSaving = false;
-      },
-      error: (ex) => {
-        this.handleErrors(ex);
-        this.isSaving = false;
-      },
-    });
+
+    if (this.validatePasswords()) {
+      this.personService.update(this.person.id, this.person).subscribe({
+        next: () => {
+          this.toast.success('Usuário alterado com sucesso', 'Alteração');
+          this.router.navigate(['home']);
+          this.isSaving = false;
+        },
+        error: (ex) => {
+          this.handleErrors(ex);
+          this.isSaving = false;
+        },
+      });
+    } else {
+      this.toast.error('As senhas não são iguais.');
+      this.isSaving = false;
+    }
+  }
+
+  private validatePasswords(): boolean {
+    return this.person.user.password == this.confirmPassword;
   }
 
   private handleErrors(ex: any): void {
