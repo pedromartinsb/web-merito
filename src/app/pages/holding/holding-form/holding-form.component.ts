@@ -1,18 +1,19 @@
-import { HoldingService } from '../../../services/holding.service';
-import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import {
   Address,
   AddressSearch,
   Contact,
   Holding,
 } from 'src/app/models/holding';
-import { SegmentService } from 'src/app/services/segment.service';
 import { Segment } from 'src/app/models/segment';
 import { PersonService } from 'src/app/services/person.service';
-import { Location } from '@angular/common';
+import { SegmentService } from 'src/app/services/segment.service';
+
+import { HoldingService } from '../../../services/holding.service';
 
 @Component({
   selector: 'app-holding-form',
@@ -121,6 +122,7 @@ export class HoldingFormComponent implements OnInit {
   loadHolding(): void {
     this.holdingService.findById(this.holdingId).subscribe((response) => {
       this.holding = response;
+      this.holding.address.id = response.address.id;
     });
   }
 
@@ -151,6 +153,8 @@ export class HoldingFormComponent implements OnInit {
 
   private updateHolding(): void {
     this.isSaving = true;
+    console.log('address id: ' + this.holding.address.id);
+
     this.holdingService.update(this.holdingId, this.holding).subscribe({
       next: () => {
         this.toast.success(
@@ -211,11 +215,19 @@ export class HoldingFormComponent implements OnInit {
     };
 
     this.city.patchValue(addressSearch.localidade);
-    this.complement.patchValue(addressSearch.complemento);
     this.neighborhood.patchValue(addressSearch.bairro);
     this.streetName.patchValue(addressSearch.logradouro);
     this.uf.patchValue(addressSearch.uf);
 
-    this.holding.address = newAddress;
+    if (this.holding.address.id != null) {
+      this.complement.patchValue(this.holding.address.complement);
+      this.holding.address.cep = newAddress.cep;
+      this.holding.address.city = newAddress.city;
+      this.holding.address.neighborhood = newAddress.neighborhood;
+      this.holding.address.streetName = newAddress.streetName;
+      this.holding.address.uf = newAddress.uf;
+    } else {
+      this.holding.address = newAddress;
+    }
   }
 }

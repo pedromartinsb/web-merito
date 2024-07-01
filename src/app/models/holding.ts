@@ -18,11 +18,13 @@ export interface Holding {
 }
 
 export interface Contact {
+  id?: string;
   phone: string;
   cellphone: string;
 }
 
 export interface Address {
+  id?: string;
   cep: string;
   streetName: string;
   neighborhood: string;
