@@ -94,8 +94,10 @@ export class HoldingFormComponent implements OnInit {
     this.holdingId = this.route.snapshot.params['id'];
     if (this.holdingId) {
       this.loadHolding();
+    } else {
+      this.findAllSegments();
     }
-    this.findAllSegments();
+
     this.cep.valueChanges.subscribe((newCep: string) => {
       if (newCep && newCep.length === 8) {
         this.findAddress();
@@ -123,6 +125,7 @@ export class HoldingFormComponent implements OnInit {
     this.holdingService.findById(this.holdingId).subscribe((response) => {
       this.holding = response;
       this.holding.address.id = response.address.id;
+      this.findAllSegments();
     });
   }
 
