@@ -219,6 +219,7 @@ export class PersonAppointmentComponent implements OnInit {
         personId: this.personId,
         activityType: activity.type,
         activity: activity,
+        selected: new Date(),
       },
       height: '400px',
       width: '600px',

@@ -57,6 +57,8 @@ export class PersonAppointmentConfirmComponent implements OnInit {
   }
 
   public save(): void {
+    console.log('aqui');
+
     this.appointment.id = this.data.appointmentId;
     this.appointment.personId = this.data.personId;
     this.appointment.tagId = this.data.tagId;
