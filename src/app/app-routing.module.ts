@@ -48,7 +48,12 @@ const routes: Routes = [
         component: AccountFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: ['ROLE_ADMIN', 'ROLE_USER', 'ROLE_MODERATOR'],
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
 
@@ -58,7 +63,12 @@ const routes: Routes = [
         component: AppointmentCreateComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
 
@@ -68,7 +78,12 @@ const routes: Routes = [
         component: AutonomousListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: ['ROLE_ADMIN', 'ROLE_MODERATOR'],
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -76,7 +91,12 @@ const routes: Routes = [
         component: AutonomousFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: ['ROLE_ADMIN', 'ROLE_MODERATOR'],
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -84,7 +104,12 @@ const routes: Routes = [
         component: AutonomousFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: ['ROLE_ADMIN', 'ROLE_MODERATOR'],
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
 
@@ -94,7 +119,7 @@ const routes: Routes = [
         component: CompanyListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL],
         },
       },
       {
@@ -102,7 +127,7 @@ const routes: Routes = [
         component: CompanyFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL],
         },
       },
       {
@@ -110,7 +135,7 @@ const routes: Routes = [
         component: CompanyListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL],
         },
       },
       {
@@ -118,7 +143,7 @@ const routes: Routes = [
         component: CompanyFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL],
         },
       },
       {
@@ -126,7 +151,7 @@ const routes: Routes = [
         component: PersonFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL],
         },
       },
 
@@ -136,7 +161,12 @@ const routes: Routes = [
         component: DashboardComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
 
@@ -146,7 +176,13 @@ const routes: Routes = [
         component: DocumentListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_USER_OFFICE,
+          ],
         },
       },
       {
@@ -154,7 +190,12 @@ const routes: Routes = [
         component: DocumentFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
 
@@ -164,7 +205,13 @@ const routes: Routes = [
         component: FirstAccessComponent,
         canActivate: [AuthGuard],
         data: {
-          role: ['ROLE_ADMIN', 'ROLE_USER'],
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_USER_OFFICE,
+          ],
         },
       },
 
@@ -174,7 +221,12 @@ const routes: Routes = [
         component: GoalListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_USER',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -182,7 +234,12 @@ const routes: Routes = [
         component: GoalListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_USER',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -190,7 +247,12 @@ const routes: Routes = [
         component: GoalFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -198,7 +260,12 @@ const routes: Routes = [
         component: GoalFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
 
@@ -245,7 +312,11 @@ const routes: Routes = [
         component: OfficeListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+          ],
         },
       },
       {
@@ -253,7 +324,11 @@ const routes: Routes = [
         component: OfficeListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+          ],
         },
       },
       {
@@ -261,7 +336,11 @@ const routes: Routes = [
         component: OfficeListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+          ],
         },
       },
       {
@@ -269,7 +348,11 @@ const routes: Routes = [
         component: OfficeFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+          ],
         },
       },
       {
@@ -277,7 +360,11 @@ const routes: Routes = [
         component: OfficeFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+          ],
         },
       },
 
@@ -287,7 +374,7 @@ const routes: Routes = [
         component: PermissionFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [Roles.ROLE_ADMIN],
         },
       },
 
@@ -297,7 +384,12 @@ const routes: Routes = [
         component: PersonListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -305,7 +397,12 @@ const routes: Routes = [
         component: PersonListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -313,7 +410,12 @@ const routes: Routes = [
         component: PersonListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -321,7 +423,12 @@ const routes: Routes = [
         component: PersonListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -329,7 +436,12 @@ const routes: Routes = [
         component: PersonFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -337,7 +449,12 @@ const routes: Routes = [
         component: PersonFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -345,7 +462,12 @@ const routes: Routes = [
         component: PersonAppointmentComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -353,7 +475,12 @@ const routes: Routes = [
         component: RoutineFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
 
@@ -363,7 +490,13 @@ const routes: Routes = [
         component: ProfileFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: ['ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER'],
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_USER_OFFICE,
+          ],
         },
       },
 
@@ -373,7 +506,12 @@ const routes: Routes = [
         component: ResponsibilityListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_USER',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -381,7 +519,12 @@ const routes: Routes = [
         component: ResponsibilityFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -389,7 +532,12 @@ const routes: Routes = [
         component: ResponsibilityFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
 
@@ -399,7 +547,12 @@ const routes: Routes = [
         component: RoutineListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -407,7 +560,12 @@ const routes: Routes = [
         component: RoutineListComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -415,7 +573,12 @@ const routes: Routes = [
         component: RoutineFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
       {
@@ -423,7 +586,12 @@ const routes: Routes = [
         component: RoutineFormComponent,
         canActivate: [AuthGuard],
         data: {
-          role: 'ROLE_ADMIN',
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
 
