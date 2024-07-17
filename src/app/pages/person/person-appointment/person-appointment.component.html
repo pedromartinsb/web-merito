@@ -98,15 +98,17 @@
           >
           Mensal
         </ng-template>
-        <mat-card class="example-large-box demo-inline-calendar-card">
-          <mat-calendar
-            [(selected)]="selected"
-            [dateClass]="dateClass"
-            (click)="openDialog()"
-            [minDate]="firstDay"
-            [maxDate]="lastDay"
-          ></mat-calendar>
-        </mat-card>
+        <div class="grid-container">
+          <div>
+            <mat-calendar
+              [(selected)]="selected"
+              [dateClass]="dateClass"
+              (click)="openDialog()"
+              [minDate]="firstDay"
+              [maxDate]="lastDay"
+            ></mat-calendar>
+          </div>
+        </div>
       </mat-tab>
 
       <!-- Trimestral -->
