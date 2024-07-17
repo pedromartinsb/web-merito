@@ -36,6 +36,16 @@ export class PersonAppointmentComponent implements OnInit {
   tags: Tag[];
   firstDay: Date;
   lastDay: Date;
+  firstDayLastMonth: Date;
+  lastDayLastMonth: Date;
+  firstDayLastTwoMonth: Date;
+  lastDayLastTwoMonth: Date;
+  firstDayLastThreeMonth: Date;
+  lastDayLastThreeMonth: Date;
+  firstDayLastFourMonth: Date;
+  lastDayLastFourMonth: Date;
+  firstDayLastFiveMonth: Date;
+  lastDayLastFiveMonth: Date;
   daysOfMonth: number[] = [];
   person: Person;
   today: string = new Date().toLocaleDateString('pt-BR');
@@ -136,6 +146,56 @@ export class PersonAppointmentComponent implements OnInit {
     var date = new Date();
     this.firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     this.lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    this.firstDayLastMonth = new Date(
+      date.getFullYear(),
+      date.getMonth() - 1,
+      1
+    );
+    this.lastDayLastMonth = new Date(
+      date.getFullYear(),
+      this.firstDayLastMonth.getMonth() + 1,
+      0
+    );
+    this.firstDayLastTwoMonth = new Date(
+      date.getFullYear(),
+      date.getMonth() - 2,
+      1
+    );
+    this.lastDayLastTwoMonth = new Date(
+      date.getFullYear(),
+      this.firstDayLastTwoMonth.getMonth() + 1,
+      0
+    );
+    this.firstDayLastThreeMonth = new Date(
+      date.getFullYear(),
+      date.getMonth() - 3,
+      1
+    );
+    this.lastDayLastThreeMonth = new Date(
+      date.getFullYear(),
+      this.firstDayLastThreeMonth.getMonth() + 1,
+      0
+    );
+    this.firstDayLastFourMonth = new Date(
+      date.getFullYear(),
+      date.getMonth() - 4,
+      1
+    );
+    this.lastDayLastFourMonth = new Date(
+      date.getFullYear(),
+      this.firstDayLastFourMonth.getMonth() + 1,
+      0
+    );
+    this.firstDayLastFiveMonth = new Date(
+      date.getFullYear(),
+      date.getMonth() - 5,
+      1
+    );
+    this.lastDayLastFiveMonth = new Date(
+      date.getFullYear(),
+      this.firstDayLastFiveMonth.getMonth() + 1,
+      0
+    );
   }
 
   private fillTagDescription(): void {
