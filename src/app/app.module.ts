@@ -46,6 +46,7 @@ import { DescriptionModalComponent } from './components/description/description-
 import { DialogOverviewComponent } from './components/dialog-overview/dialog-overview.component';
 import { FileinfoFormComponent } from './components/fileinfo/fileinfo-form/fileinfo-form.component';
 import { FileinfoListComponent } from './components/fileinfo/fileinfo-list/fileinfo-list.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { GridComponent } from './components/grid/grid.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
@@ -87,7 +88,6 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
-import { FooterComponent } from './components/footer/footer.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,

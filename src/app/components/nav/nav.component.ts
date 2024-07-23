@@ -7,6 +7,7 @@ import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subject, takeUntil } from 'rxjs';
 import { PersonService } from 'src/app/services/person.service';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-nav',
@@ -141,6 +142,18 @@ export class NavComponent implements OnInit, OnDestroy {
       this.canUserAccess = true;
     } else {
       this.canUserAccess = false;
+    }
+  }
+
+  openMyMenu(menuTrigger: MatMenuTrigger) {
+    menuTrigger.openMenu();
+  }
+
+  buttonLeave(menuTrigger: MatMenuTrigger) {
+    if (menuTrigger.menuOpened) {
+      setTimeout(() => {
+        menuTrigger.closeMenu();
+      }, 1000);
     }
   }
 }
