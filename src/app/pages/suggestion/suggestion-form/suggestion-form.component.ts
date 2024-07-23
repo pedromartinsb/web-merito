@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Suggestion } from 'src/app/models/suggestion';
+import { Suggestion, SuggestionType } from 'src/app/models/suggestion';
 import { SuggestionService } from 'src/app/services/suggestion.service';
 import { Location } from '@angular/common';
 
@@ -16,7 +16,7 @@ export class SuggestionFormComponent implements OnInit {
     title: '',
     description: '',
     answer: '',
-    suggestionType: '',
+    suggestionType: SuggestionType.CREATED,
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
