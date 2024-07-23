@@ -33,6 +33,8 @@ import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/auto
 import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
 import { ProfileFormComponent } from './pages/profile/profile-form/profile-form.component';
 import { Roles } from './models/person';
+import { SuggestionListComponent } from './pages/suggestion/suggestion-list/suggestion-list.component';
+import { SuggestionFormComponent } from './pages/suggestion/suggestion-form/suggestion-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -618,6 +620,47 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           role: [Roles.ROLE_ADMIN],
+        },
+      },
+
+      // SUGGESTION
+      {
+        path: 'suggestion',
+        component: SuggestionListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
+        },
+      },
+      {
+        path: 'suggestion/create',
+        component: SuggestionFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
+        },
+      },
+      {
+        path: 'suggestion/edit/:id',
+        component: SuggestionFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
         },
       },
     ],
