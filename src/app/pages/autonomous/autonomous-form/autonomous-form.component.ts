@@ -242,7 +242,7 @@ export class AutonomousFormComponent
 
   private createPerson(): void {
     this.isSaving = true;
-    this.personService.create(this.person).subscribe({
+    this.personService.create(this.person, null).subscribe({
       next: () => {
         this.toast.success('Colaborador cadastrado com sucesso', 'Cadastro');
         this.router.navigate(['person']);

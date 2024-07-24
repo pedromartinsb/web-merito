@@ -30,6 +30,7 @@ import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { RoutineService } from 'src/app/services/routine.service';
 
 import { PersonService } from '../../../services/person.service';
+import { NgxFileDropEntry } from 'ngx-file-drop';
 
 @Component({
   selector: 'app-person-form',
@@ -118,6 +119,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   isLoading: boolean = false;
   isAdmin: boolean = false;
+  documents: NgxFileDropEntry[] = [];
 
   _roles: Roles[] = [];
   get roles(): Roles[] {
@@ -246,16 +248,19 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private createPerson(): void {
     this.isSaving = true;
-    this.personService.create(this.person).subscribe({
-      next: () => {
-        this.toast.success('Colaborador cadastrado com sucesso', 'Cadastro');
-        this.router.navigate(['person']);
-        this.isSaving = false;
-      },
-      error: (ex) => {
-        this.handleErrors(ex);
-        this.isSaving = false;
-      },
+    const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
+    fileEntry.file((document: File) => {
+      this.personService.create(this.person, document).subscribe({
+        next: () => {
+          this.toast.success('Colaborador cadastrado com sucesso', 'Cadastro');
+          this.router.navigate(['person']);
+          this.isSaving = false;
+        },
+        error: (ex) => {
+          this.handleErrors(ex);
+          this.isSaving = false;
+        },
+      });
     });
   }
 
@@ -380,5 +385,9 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectGender(gender: string): void {
     this.person.gender = gender;
+  }
+
+  public dropped(documents: NgxFileDropEntry[]) {
+    this.documents = documents;
   }
 }

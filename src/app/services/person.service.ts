@@ -54,8 +54,12 @@ export class PersonService {
     return this.http.get<Person>(`${Config.webApiUrl}/v1/person/token`);
   }
 
-  public create(person: Person): Observable<Person> {
-    return this.http.post<Person>(`${Config.webApiUrl}/v1/person`, person);
+  public create(person: Person, file: File): Observable<Person> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('personRequest', JSON.stringify(person));
+
+    return this.http.post<Person>(`${Config.webApiUrl}/v1/person`, formData);
   }
 
   public update(id: string, person: Person): Observable<Person> {
