@@ -15,12 +15,24 @@
       <mat-icon>notifications</mat-icon>
     </button>
 
-    <button
+    <!-- <button
       mat-icon-button
       matTooltip="Minha Conta"
       [matMenuTriggerFor]="userAccountMenu"
     >
       <mat-icon>account_circle</mat-icon>
+    </button> -->
+    <button
+      class="btn-picture"
+      matTooltip="Minha Conta"
+      [matMenuTriggerFor]="userAccountMenu"
+    >
+      <img
+        [lazyLoad]="personPicture"
+        defaultImage="https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+        width="30"
+        height="30"
+      />
     </button>
     <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
       <button mat-menu-item routerLink="profile">

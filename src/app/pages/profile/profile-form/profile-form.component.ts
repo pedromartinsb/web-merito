@@ -36,6 +36,7 @@ export class ProfileFormComponent implements OnInit {
     personType: 'Colaborador',
     gender: 'Masculino',
     contractType: 'Clt',
+    picture: '',
     office: null,
     officeId: '',
     responsibility: null,

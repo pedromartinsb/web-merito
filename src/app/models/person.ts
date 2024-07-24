@@ -9,6 +9,7 @@ export interface Person {
   cpfCnpj: string;
   gender: string;
   contractType: string;
+  picture: string;
   office: Office;
   officeId: string;
   responsibility: Responsibility;

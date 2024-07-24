@@ -39,6 +39,8 @@ export class NavComponent implements OnInit, OnDestroy {
   isUserOffice: boolean = false;
   isGuest: boolean = false;
   personName: string;
+  personPicture: string;
+  s3Url = 'https://sistema-merito.s3.amazonaws.com/';
 
   constructor(
     private storageService: StorageService,
@@ -76,6 +78,12 @@ export class NavComponent implements OnInit, OnDestroy {
     this.userRole = this.authService.getRole();
     this.personService.findByRequest().subscribe((person) => {
       this.personName = person.name;
+      if (person.picture != null) {
+        this.personPicture = this.s3Url + person.picture;
+      } else {
+        this.personPicture =
+          'https://s3.amazonaws.com/37assets/svn/765-default-avatar.png';
+      }
     });
     this.checkPermission();
     this.checkAdminAccess();

@@ -90,6 +90,7 @@ import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
 import { SuggestionFormComponent } from './pages/suggestion/suggestion-form/suggestion-form.component';
 import { SuggestionListComponent } from './pages/suggestion/suggestion-list/suggestion-list.component';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -188,6 +189,7 @@ export const maskConfig: Partial<IConfig> = {
     NgxChartsModule,
     MatChipsModule,
     MatBottomSheetModule,
+    LazyLoadImageModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,

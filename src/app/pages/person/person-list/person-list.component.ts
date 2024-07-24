@@ -33,6 +33,7 @@ export class PersonListComponent implements OnInit {
   FILTERED_DATA: Person[] = [];
 
   displayedColumns: string[] = [
+    'picture',
     'name',
     'fantasyName',
     'responsibility',
@@ -44,6 +45,7 @@ export class PersonListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   public isLoading: boolean = false;
+  s3Url = 'https://sistema-merito.s3.amazonaws.com/';
 
   constructor(
     private personService: PersonService,
@@ -71,6 +73,11 @@ export class PersonListComponent implements OnInit {
 
   private findAll() {
     this.personService.findAllByContractType('CLT').subscribe((response) => {
+      response.forEach((r) => {
+        if (r.picture != null) {
+          r.picture = this.s3Url + r.picture;
+        }
+      });
       this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Person>(response);
       this.dataSource.paginator = this.paginator;

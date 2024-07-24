@@ -64,6 +64,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     personType: 'Colaborador',
     gender: 'Masculino',
     contractType: 'Clt',
+    picture: '',
     office: null,
     officeId: '',
     responsibility: null,
