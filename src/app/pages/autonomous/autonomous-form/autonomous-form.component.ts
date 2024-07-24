@@ -258,7 +258,7 @@ export class AutonomousFormComponent
   private updatePerson(): void {
     this.isSaving = true;
 
-    this.personService.update(this.person.id, this.person).subscribe({
+    this.personService.update(this.person.id, this.person, null).subscribe({
       next: () => {
         this.toast.success(
           'Profissional atualizado com sucesso',

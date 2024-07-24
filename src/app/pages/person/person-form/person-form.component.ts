@@ -266,17 +266,24 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updatePerson(): void {
     this.isSaving = true;
-
-    this.personService.update(this.person.id, this.person).subscribe({
-      next: () => {
-        this.toast.success('Colaborador atualizado com sucesso', 'Atualização');
-        this.router.navigate(['person']);
-        this.isSaving = false;
-      },
-      error: (ex) => {
-        this.handleErrors(ex);
-        this.isSaving = false;
-      },
+    const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
+    fileEntry.file((document: File) => {
+      this.personService
+        .update(this.person.id, this.person, document)
+        .subscribe({
+          next: () => {
+            this.toast.success(
+              'Colaborador atualizado com sucesso',
+              'Atualização'
+            );
+            this.router.navigate(['person']);
+            this.isSaving = false;
+          },
+          error: (ex) => {
+            this.handleErrors(ex);
+            this.isSaving = false;
+          },
+        });
     });
   }
 

@@ -62,8 +62,19 @@ export class PersonService {
     return this.http.post<Person>(`${Config.webApiUrl}/v1/person`, formData);
   }
 
-  public update(id: string, person: Person): Observable<Person> {
-    return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}`, person);
+  // public update(id: string, person: Person): Observable<Person> {
+  //   return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}`, person);
+  // }
+
+  public update(id: string, person: Person, file: File): Observable<Person> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('personRequest', JSON.stringify(person));
+
+    return this.http.put<Person>(
+      `${Config.webApiUrl}/v1/person/${id}`,
+      formData
+    );
   }
 
   public delete(id: string): Observable<Person> {

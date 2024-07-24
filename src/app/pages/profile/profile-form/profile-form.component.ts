@@ -122,7 +122,7 @@ export class ProfileFormComponent implements OnInit {
     this.isSaving = true;
 
     if (this.validatePasswords()) {
-      this.personService.update(this.person.id, this.person).subscribe({
+      this.personService.update(this.person.id, this.person, null).subscribe({
         next: () => {
           this.toast.success('Usuário alterado com sucesso', 'Alteração');
           this.router.navigate(['home']);
