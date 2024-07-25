@@ -1,83 +1,249 @@
-<!-- <mat-grid-list cols="2" rowHeight="100px">
-  <mat-grid-tile colspan="1">
-    <mat-form-field appearance="legacy">
-      <mat-label>Nome Fantasia</mat-label>
-      <input
-        name="fantasyName"
-        required
-        matInput
-        placeholder="Ex. Nome da Holding"
-        maxlength="Rede de Supermercados"
-      />
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    </mat-form-field>
-  </mat-grid-tile>
+<div class="wrapper">
+  <div class="box a">
+    <mat-icon class="icon-display">search</mat-icon><br />
+    <a routerLink="/person">Ocorrências</a><br />
+  </div>
+  <div class="box b">
+    <mat-icon>folder</mat-icon><br />
+    <a routerLink="/person">Manual</a><br />
+  </div>
+  <div class="box c">
+    <mat-icon>description</mat-icon><br />
+    <a routerLink="/person">Tarefas</a><br />
+  </div>
+  <div class="box d">
+    <mat-icon>description</mat-icon><br />
+    <a routerLink="/person">Metas</a><br />
+  </div>
+</div>
 
-  <mat-grid-tile colspan="1">
-    <mat-form-field appearance="legacy">
-      <mat-label>Nome Fantasia</mat-label>
-      <input
-        name="fantasyName"
-        required
-        matInput
-        placeholder="Ex. Nome da Holding"
-        maxlength="Rede de Supermercados"
-      />
-      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    </mat-form-field>
-  </mat-grid-tile>
-</mat-grid-list>
+<mat-card class="card mat-elevation-z8">
+  <div id="chart"></div>
+</mat-card>
 
-<mat-grid-list cols="2" rowHeight="100px" class="grid-button">
-  <mat-grid-tile colspan="2">
-    <button
-      mat-raised-button
-      extended
-      color="primary"
-      matTooltip="Info about the action"
-    >
-      <mat-icon>check</mat-icon> Salvar
-    </button>
-    <button
-      mat-raised-button
-      extended
-      color="accent"
-      matTooltip="Info about the action"
-    >
-      <mat-icon>block</mat-icon> Cancelar
-    </button>
+<!-- <div class="grid-container">
+  <mat-grid-list cols="1" rowHeight="1:1">
+    <mat-grid-tile colspan="1" style="background-color: green">
+      <h1>TESTE</h1>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list cols="1" rowHeight="1:1">
+    <mat-grid-tile colspan="1" style="background-color: purple">
+      <h1>TESTE</h1>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list cols="1" rowHeight="1:1">
+    <mat-grid-tile colspan="1" style="background-color: orangered">
+      <h1>TESTE</h1>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div> -->
+
+<!-- <mat-grid-list cols="4" rowHeight="1:1">
+  <mat-grid-tile colspan="1" style="background-color: green">
+    <h1>TESTE</h1>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" style="background-color: purple">
+    TESTE
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" style="background-color: orangered">
+    TESTE
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" style="background-color: blue">
+    TESTE
   </mat-grid-tile>
 </mat-grid-list> -->
 
-<!-- <mat-card class="card mat-elevation-z8">
-  <mat-card-header>
-    <mat-card-title>Sistema Mérito</mat-card-title>
-    <mat-card-subtitle
-      >O seu sistema de controle de meritocracia</mat-card-subtitle
-    >
-  </mat-card-header>
-  <img
-    mat-card-image
-    src="assets/img/home-image.svg"
-    alt="Image Home Sistema Mérito"
-    *ngIf="
-      currentScreenSize == 'XLarge' ||
-      currentScreenSize == 'Large' ||
-      currentScreenSize == 'Medium'
-    "
-  />
-  <mat-card-content>
-    <p>
-      Olá! Seja bem vindo ao sistema Mérito.<br />
-      Aqui é onde todo o controle da sua empresa está na palma da sua mão. Nós
-      iremos te ajudar a ter uma administração apurada a respeito dos seus
-      Colaboradores.
-      <br /><br />
-      Fique a vontade para usar o sistema e deixar sua sugestão. <br />
-      Equipe Mérito
-    </p>
-  </mat-card-content>
-</mat-card> -->
+<!-- <mat-grid-list cols="3" gutterSize="10px" rowHeight="1:.95">
+  <mat-grid-tile
+    ><mat-card class="card mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>Sistema Mérito</mat-card-title>
+        <mat-card-subtitle
+          >O seu sistema de controle de meritocracia</mat-card-subtitle
+        >
+      </mat-card-header>
+      <img
+        mat-card-image
+        src="assets/img/home-image.svg"
+        alt="Image Home Sistema Mérito"
+        *ngIf="
+          currentScreenSize == 'XLarge' ||
+          currentScreenSize == 'Large' ||
+          currentScreenSize == 'Medium'
+        "
+      />
+      <mat-card-content>
+        <p>
+          Olá! Seja bem vindo ao sistema Mérito.<br />
+          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
+          Nós iremos te ajudar a ter uma administração apurada a respeito dos
+          seus Colaboradores.
+          <br /><br />
+          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
+          Equipe Mérito
+        </p>
+      </mat-card-content>
+    </mat-card></mat-grid-tile
+  >
+  <mat-grid-tile
+    ><mat-card class="card mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>Sistema Mérito</mat-card-title>
+        <mat-card-subtitle
+          >O seu sistema de controle de meritocracia</mat-card-subtitle
+        >
+      </mat-card-header>
+      <img
+        mat-card-image
+        src="assets/img/home-image.svg"
+        alt="Image Home Sistema Mérito"
+        *ngIf="
+          currentScreenSize == 'XLarge' ||
+          currentScreenSize == 'Large' ||
+          currentScreenSize == 'Medium'
+        "
+      />
+      <mat-card-content>
+        <p>
+          Olá! Seja bem vindo ao sistema Mérito.<br />
+          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
+          Nós iremos te ajudar a ter uma administração apurada a respeito dos
+          seus Colaboradores.
+          <br /><br />
+          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
+          Equipe Mérito
+        </p>
+      </mat-card-content>
+    </mat-card></mat-grid-tile
+  >
+  <mat-grid-tile
+    ><mat-card class="card mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>Sistema Mérito</mat-card-title>
+        <mat-card-subtitle
+          >O seu sistema de controle de meritocracia</mat-card-subtitle
+        >
+      </mat-card-header>
+      <img
+        mat-card-image
+        src="assets/img/home-image.svg"
+        alt="Image Home Sistema Mérito"
+        *ngIf="
+          currentScreenSize == 'XLarge' ||
+          currentScreenSize == 'Large' ||
+          currentScreenSize == 'Medium'
+        "
+      />
+      <mat-card-content>
+        <p>
+          Olá! Seja bem vindo ao sistema Mérito.<br />
+          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
+          Nós iremos te ajudar a ter uma administração apurada a respeito dos
+          seus Colaboradores.
+          <br /><br />
+          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
+          Equipe Mérito
+        </p>
+      </mat-card-content>
+    </mat-card></mat-grid-tile
+  >
+  <mat-grid-tile
+    ><mat-card class="card mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>Sistema Mérito</mat-card-title>
+        <mat-card-subtitle
+          >O seu sistema de controle de meritocracia</mat-card-subtitle
+        >
+      </mat-card-header>
+      <img
+        mat-card-image
+        src="assets/img/home-image.svg"
+        alt="Image Home Sistema Mérito"
+        *ngIf="
+          currentScreenSize == 'XLarge' ||
+          currentScreenSize == 'Large' ||
+          currentScreenSize == 'Medium'
+        "
+      />
+      <mat-card-content>
+        <p>
+          Olá! Seja bem vindo ao sistema Mérito.<br />
+          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
+          Nós iremos te ajudar a ter uma administração apurada a respeito dos
+          seus Colaboradores.
+          <br /><br />
+          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
+          Equipe Mérito
+        </p>
+      </mat-card-content>
+    </mat-card></mat-grid-tile
+  >
+  <mat-grid-tile
+    ><mat-card class="card mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>Sistema Mérito</mat-card-title>
+        <mat-card-subtitle
+          >O seu sistema de controle de meritocracia</mat-card-subtitle
+        >
+      </mat-card-header>
+      <img
+        mat-card-image
+        src="assets/img/home-image.svg"
+        alt="Image Home Sistema Mérito"
+        *ngIf="
+          currentScreenSize == 'XLarge' ||
+          currentScreenSize == 'Large' ||
+          currentScreenSize == 'Medium'
+        "
+      />
+      <mat-card-content>
+        <p>
+          Olá! Seja bem vindo ao sistema Mérito.<br />
+          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
+          Nós iremos te ajudar a ter uma administração apurada a respeito dos
+          seus Colaboradores.
+          <br /><br />
+          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
+          Equipe Mérito
+        </p>
+      </mat-card-content>
+    </mat-card></mat-grid-tile
+  >
+  <mat-grid-tile
+    ><mat-card class="card mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>Sistema Mérito</mat-card-title>
+        <mat-card-subtitle
+          >O seu sistema de controle de meritocracia</mat-card-subtitle
+        >
+      </mat-card-header>
+      <img
+        mat-card-image
+        src="assets/img/home-image.svg"
+        alt="Image Home Sistema Mérito"
+        *ngIf="
+          currentScreenSize == 'XLarge' ||
+          currentScreenSize == 'Large' ||
+          currentScreenSize == 'Medium'
+        "
+      />
+      <mat-card-content>
+        <p>
+          Olá! Seja bem vindo ao sistema Mérito.<br />
+          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
+          Nós iremos te ajudar a ter uma administração apurada a respeito dos
+          seus Colaboradores.
+          <br /><br />
+          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
+          Equipe Mérito
+        </p>
+      </mat-card-content>
+    </mat-card></mat-grid-tile
+  >
+</mat-grid-list> -->
 
 <!-- <p>Resize your browser window to see the current screen size change.</p>
 <p>

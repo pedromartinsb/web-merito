@@ -21,6 +21,7 @@ h1 {
 
 .mat-card {
   padding: 50px;
+  opacity: 0.95;
 }
 
 .mat-form-field,

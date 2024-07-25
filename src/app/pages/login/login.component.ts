@@ -19,8 +19,9 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
 
   login: Login = {
-    identifier: '',
     username: '',
+    companyId: '',
+    companyNames: [],
     token: '',
     roles: [],
     firstAccess: false,
@@ -55,9 +56,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoggin = true;
-    const { username, password, identifier } = this.form;
+    const { username, password } = this.form;
 
-    this.authService.authenticate(username, password, identifier).subscribe({
+    this.authService.authenticate(username, password).subscribe({
       next: (data) => {
         this.isLoggin = false;
         this.cleanFields();
@@ -65,7 +66,7 @@ export class LoginComponent implements OnInit {
         this.authService.successfulLogin(
           this.login.token,
           this.login.roles,
-          this.login.identifier
+          this.login.companyNames
         );
         this.router.navigate(['']);
         this.toast.success('Login realizado com sucesso', 'Login');

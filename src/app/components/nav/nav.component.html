@@ -8,6 +8,15 @@
 
     <span class="toolbar-item-spacer"></span>
 
+    <button mat-button [matMenuTriggerFor]="menu">
+      {{ firstCompany }} <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <div *ngFor="let element of companies">
+        <button mat-menu-item>{{ element }}</button>
+      </div>
+    </mat-menu>
+
     <button mat-icon-button matTooltip="Suporte">
       <mat-icon>help</mat-icon>
     </button>
@@ -15,13 +24,6 @@
       <mat-icon>notifications</mat-icon>
     </button>
 
-    <!-- <button
-      mat-icon-button
-      matTooltip="Minha Conta"
-      [matMenuTriggerFor]="userAccountMenu"
-    >
-      <mat-icon>account_circle</mat-icon>
-    </button> -->
     <button
       class="btn-picture"
       matTooltip="Minha Conta"

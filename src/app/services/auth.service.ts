@@ -16,14 +16,13 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  authenticate(username: string, password: string, identifier: string) {
+  authenticate(username: string, password: string) {
     return this.http
       .post<Login>(
         `${Config.webApiUrl}/v1/auth/signin`,
         {
           username,
           password,
-          identifier,
         },
         {
           observe: 'response',
@@ -73,11 +72,11 @@ export class AuthService {
     }
   }
 
-  successfulLogin(authToken: string, role: string[], identifier: string) {
+  successfulLogin(authToken: string, role: string[], companyNames: string[]) {
     localStorage.setItem('token', authToken);
     this.roleAs = role;
     localStorage.setItem('role', JSON.stringify(this.roleAs));
-    localStorage.setItem('identifier', identifier);
+    localStorage.setItem('companies', JSON.stringify(companyNames));
   }
 
   isAuthenticated() {

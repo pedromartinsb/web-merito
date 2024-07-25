@@ -1,6 +1,7 @@
 export interface Login {
-  identifier: string;
   username: string;
+  companyId: string;
+  companyNames: string[];
   token: string;
   roles: string[];
   firstAccess: boolean;

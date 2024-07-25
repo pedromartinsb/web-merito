@@ -18,7 +18,7 @@ export class NavComponent implements OnInit, OnDestroy {
   @Input() inputSideNav: MatSidenav;
   @Input() inputLogout: InputEvent;
   destroyed = new Subject<void>();
-  modeNavMenu: MatDrawerMode = 'side';
+  modeNavMenu: MatDrawerMode = 'over';
   showFiller = false;
   userRole: string[] = [];
   canAdminAccess: boolean = false;
@@ -41,6 +41,8 @@ export class NavComponent implements OnInit, OnDestroy {
   personName: string;
   personPicture: string;
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
+  companies: string[] = [];
+  firstCompany: string;
 
   constructor(
     private storageService: StorageService,
@@ -75,6 +77,8 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.companies = JSON.parse(localStorage.getItem('companies'));
+    this.firstCompany = this.companies[0];
     this.userRole = this.authService.getRole();
     this.personService.findByRequest().subscribe((person) => {
       this.personName = person.name;
