@@ -8,6 +8,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subject, takeUntil } from 'rxjs';
 import { PersonService } from 'src/app/services/person.service';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { OfficeResponse } from 'src/app/models/office';
 
 @Component({
   selector: 'app-nav',
@@ -41,8 +42,8 @@ export class NavComponent implements OnInit, OnDestroy {
   personName: string;
   personPicture: string;
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
-  companies: string[] = [];
-  firstCompany: string;
+  firstOffice: OfficeResponse;
+  officeResponses: OfficeResponse[] = [];
 
   constructor(
     private storageService: StorageService,
@@ -77,8 +78,9 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.companies = JSON.parse(localStorage.getItem('companies'));
-    this.firstCompany = this.companies[0];
+    this.officeResponses = JSON.parse(localStorage.getItem('officeResponses'));
+    var officeId = localStorage.getItem('officeId');
+    this.firstOffice = this.officeResponses.filter((o) => o.id === officeId)[0];
     this.userRole = this.authService.getRole();
     this.personService.findByRequest().subscribe((person) => {
       this.personName = person.name;
@@ -93,7 +95,6 @@ export class NavComponent implements OnInit, OnDestroy {
     this.checkAdminAccess();
     this.checkModeratorAccess();
     this.checkUserAccess();
-    this.router.navigate(['home']);
   }
 
   ngOnDestroy() {
@@ -167,5 +168,11 @@ export class NavComponent implements OnInit, OnDestroy {
         menuTrigger.closeMenu();
       }, 1000);
     }
+  }
+
+  changeCurrentOffice(element: OfficeResponse) {
+    this.firstOffice = element;
+    localStorage.setItem('officeId', element.id);
+    window.location.reload();
   }
 }

@@ -1,3 +1,5 @@
+import { OfficeResponse } from './office';
+
 export interface Login {
   username: string;
   companyId: string;
@@ -5,4 +7,6 @@ export interface Login {
   token: string;
   roles: string[];
   firstAccess: boolean;
+
+  officeResponses: OfficeResponse[];
 }

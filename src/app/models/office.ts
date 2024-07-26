@@ -43,3 +43,8 @@ export interface AddressSearch {
   ddd: string;
   siafi: string;
 }
+
+export interface OfficeResponse {
+  id?: string;
+  fantasyName: string;
+}

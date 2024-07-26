@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
     token: '',
     roles: [],
     firstAccess: false,
+    officeResponses: [],
   };
 
   identifier: FormControl = new FormControl(null, [Validators.required]);
@@ -66,9 +67,10 @@ export class LoginComponent implements OnInit {
         this.authService.successfulLogin(
           this.login.token,
           this.login.roles,
-          this.login.companyNames
+          this.login.companyNames,
+          this.login.officeResponses
         );
-        this.router.navigate(['']);
+        this.router.navigate(['home']);
         this.toast.success('Login realizado com sucesso', 'Login');
       },
       error: (err) => {

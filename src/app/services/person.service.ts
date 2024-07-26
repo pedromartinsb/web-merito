@@ -8,7 +8,11 @@ import { Config } from '../config/api.config';
   providedIn: 'root',
 })
 export class PersonService {
-  constructor(private http: HttpClient) {}
+  officeId: string;
+
+  constructor(private http: HttpClient) {
+    this.officeId = localStorage.getItem('officeId');
+  }
 
   public findAll(): Observable<Person[]> {
     return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person`);
@@ -42,7 +46,7 @@ export class PersonService {
 
   public findAllByContractType(contractType: string): Observable<Person[]> {
     return this.http.get<Person[]>(
-      `${Config.webApiUrl}/v1/person/${contractType}/contract-type`
+      `${Config.webApiUrl}/v1/person/${this.officeId}/${contractType}/contract-type`
     );
   }
 
@@ -61,10 +65,6 @@ export class PersonService {
 
     return this.http.post<Person>(`${Config.webApiUrl}/v1/person`, formData);
   }
-
-  // public update(id: string, person: Person): Observable<Person> {
-  //   return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}`, person);
-  // }
 
   public update(id: string, person: Person, file: File): Observable<Person> {
     const formData = new FormData();

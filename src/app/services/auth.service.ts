@@ -5,6 +5,7 @@ import { catchError, retry, throwError } from 'rxjs';
 
 import { Config } from '../config/api.config';
 import { Login } from './../models/login';
+import { OfficeResponse } from '../models/office';
 
 @Injectable({
   providedIn: 'root',
@@ -72,11 +73,18 @@ export class AuthService {
     }
   }
 
-  successfulLogin(authToken: string, role: string[], companyNames: string[]) {
+  successfulLogin(
+    authToken: string,
+    role: string[],
+    companyNames: string[],
+    officeResponse: OfficeResponse[]
+  ) {
     localStorage.setItem('token', authToken);
     this.roleAs = role;
     localStorage.setItem('role', JSON.stringify(this.roleAs));
     localStorage.setItem('companies', JSON.stringify(companyNames));
+    localStorage.setItem('officeResponses', JSON.stringify(officeResponse));
+    localStorage.setItem('officeId', officeResponse[0].id);
   }
 
   isAuthenticated() {

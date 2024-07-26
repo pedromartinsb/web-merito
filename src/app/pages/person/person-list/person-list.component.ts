@@ -73,15 +73,17 @@ export class PersonListComponent implements OnInit {
 
   private findAll() {
     this.personService.findAllByContractType('CLT').subscribe((response) => {
-      response.forEach((r) => {
-        if (r.picture != null) {
-          r.picture = this.s3Url + r.picture;
-        }
-      });
-      this.ELEMENT_DATA = response;
-      this.dataSource = new MatTableDataSource<Person>(response);
-      this.dataSource.paginator = this.paginator;
-      this.isLoading = false;
+      if (response != null) {
+        response.forEach((r) => {
+          if (r.picture != null) {
+            r.picture = this.s3Url + r.picture;
+          }
+        });
+        this.ELEMENT_DATA = response;
+        this.dataSource = new MatTableDataSource<Person>(response);
+        this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
+      }
     });
   }
 
