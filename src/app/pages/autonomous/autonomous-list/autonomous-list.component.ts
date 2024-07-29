@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DeleteConfirmationModalComponent } from 'src/app/components/delete/delete-confirmation-modal';
 import { Person } from 'src/app/models/person';
+import { AppointmentService } from 'src/app/services/appointment.service';
 import { PersonService } from 'src/app/services/person.service';
 
 @Component({
@@ -38,7 +39,8 @@ export class AutonomousListComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private appointmentService: AppointmentService
   ) {}
 
   ngOnInit(): void {
@@ -87,5 +89,26 @@ export class AutonomousListComponent implements OnInit {
     this.personService.delete(personId).subscribe(() => {
       this.findAll();
     });
+  }
+
+  public openAppointment(personId: string): void {
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    this.appointmentService
+      .getMonthlyTags(personId, firstDay, lastDay)
+      .subscribe((response) => {
+        this.router.navigate(['person', 'appointment', personId], {
+          state: { monthlyTags: response },
+        });
+      });
+  }
+
+  public findRoutinesByPerson(personId: string): void {
+    this.router.navigate(['routine', 'person', personId]);
+  }
+
+  public findGoalsByPerson(personId: string): void {
+    this.router.navigate(['goal', 'person', personId]);
   }
 }

@@ -306,10 +306,14 @@
       <!-- ADMIN EMPRESA -->
       <div *ngIf="this.isAdminEmpresa">
         <mat-menu #adminEmpresa="matMenu">
-          <button mat-menu-item [matMenuTriggerFor]="maison">Maison</button>
+          <div *ngFor="let element of officeResponses">
+            <button mat-menu-item [matMenuTriggerFor]="company">
+              {{ element.fantasyName }}
+            </button>
+          </div>
         </mat-menu>
 
-        <mat-menu #maison="matMenu">
+        <mat-menu #company="matMenu">
           <button mat-menu-item routerLink="person">Colaboradores</button>
           <button mat-menu-item routerLink="autonomous">
             Prestadores de Serviços

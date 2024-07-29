@@ -84,3 +84,14 @@ mat-card {
 hr.solid {
   border-top: 0.5px solid #bbb;
 }
+
+.example-header-image {
+  background-image: url("https://s3.amazonaws.com/37assets/svn/765-default-avatar.png");
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+}
+
+img {
+  border-radius: 100%;
+}
