@@ -4,22 +4,7 @@
     <mat-card-subtitle>Listagem</mat-card-subtitle>
   </mat-card-header>
 
-  <!-- Content with Element_Data is empty -->
-  <mat-card-content *ngIf="ELEMENT_DATA.length == 0 && !isLoading">
-    <!-- Divider -->
-    <mat-divider></mat-divider>
-
-    <img
-      src="../../../../assets/img/empty-box.png"
-      alt=""
-      width="256"
-      height="256"
-    />
-    <h3>Não existem Redes de Empresas cadastradas para esse Segmento</h3>
-  </mat-card-content>
-
-  <!-- Content with Element_Data is not empty -->
-  <mat-card-content *ngIf="ELEMENT_DATA.length != 0 && !isLoading">
+  <mat-card-content>
     <!-- Divider -->
     <mat-divider></mat-divider>
 
@@ -147,10 +132,17 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">
+              Não existem dados cadastrados até o momento!
+            </td>
+          </tr>
         </table>
 
         <mat-paginator
-          [pageSizeOptions]="[5, 2, 10, 20, 50, 100]"
+          [pageSizeOptions]="[5, 10, 20, 50, 100]"
           showFirstLastButtons
         ></mat-paginator>
       </div>

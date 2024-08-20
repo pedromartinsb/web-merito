@@ -2,24 +2,24 @@ import { HoldingService } from '../../../services/holding.service';
 import { Holding } from '../../../models/holding';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { ToastrService } from 'ngx-toastr';
 import { SegmentService } from 'src/app/services/segment.service';
 import { Segment } from 'src/app/models/segment';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-holding-list',
   templateUrl: './holding-list.component.html',
   styleUrls: ['./holding-list.component.css'],
 })
-export class HoldingListComponent implements OnInit {
+export class HoldingListComponent implements OnInit, AfterViewInit {
   segmentId: string;
   segment: Segment;
-  ELEMENT_DATA: Holding[] = [];
-  FILTERED_DATA: Holding[] = [];
+
   displayedColumns: string[] = [
     'fantasyName',
     'cnpj',
@@ -28,9 +28,12 @@ export class HoldingListComponent implements OnInit {
     'persons',
     'actions',
   ];
-  dataSource = new MatTableDataSource<Holding>(this.ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Holding>();
+
   isLoading: boolean = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private holdingService: HoldingService,
@@ -39,25 +42,29 @@ export class HoldingListComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private toast: ToastrService
-  ) {}
+  ) {
+    this.isLoading = true;
+    this.segmentId = this.route.snapshot.params['segmentId'];
+  }
 
   ngOnInit(): void {
-    this.isLoading = true;
-    // check if Holding is called by Segment
-    this.segmentId = this.route.snapshot.params['segmentId'];
-    if (this.segmentId) {
+    if (!this.segmentId) {
+      this.findAll();
+    } else {
       this.findAllBySegment();
       this.findSegmentById();
-    } else {
-      this.findAll();
     }
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   private findAllBySegment(): void {
     this.holdingService
       .findAllBySegment(this.segmentId)
       .subscribe((response) => {
-        this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Holding>(response);
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
@@ -66,7 +73,6 @@ export class HoldingListComponent implements OnInit {
 
   private findAll(): void {
     this.holdingService.findAll().subscribe((response) => {
-      this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Holding>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
@@ -94,6 +100,10 @@ export class HoldingListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   editHolding(holdingId: string): void {
