@@ -13,6 +13,7 @@ import { AppointmentService } from 'src/app/services/appointment.service';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { Person } from '../../../models/person';
 import { PersonService } from '../../../services/person.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-person-list',
@@ -29,9 +30,6 @@ export class PersonListComponent implements OnInit {
   office: Office;
   persons: Person[] = [];
 
-  ELEMENT_DATA: Person[] = [];
-  FILTERED_DATA: Person[] = [];
-
   displayedColumns: string[] = [
     'picture',
     'name',
@@ -41,8 +39,10 @@ export class PersonListComponent implements OnInit {
     'goals',
     'actions',
   ];
-  dataSource = new MatTableDataSource<Person>(this.ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Person>();
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   public isLoading: boolean = false;
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
@@ -54,12 +54,13 @@ export class PersonListComponent implements OnInit {
     private route: ActivatedRoute,
     private toast: ToastrService,
     private appointmentService: AppointmentService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.holdingId = this.route.snapshot.params['holdingId'];
     this.companyId = this.route.snapshot.params['companyId'];
     this.officeId = this.route.snapshot.params['officeId'];
+  }
+
+  ngOnInit(): void {
     if (this.holdingId) {
       this.findAllByHolding();
     } else if (this.companyId) {
@@ -79,7 +80,6 @@ export class PersonListComponent implements OnInit {
             r.picture = this.s3Url + r.picture;
           }
         });
-        this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Person>(response);
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
@@ -91,7 +91,6 @@ export class PersonListComponent implements OnInit {
     this.personService
       .findAllByHolding(this.holdingId)
       .subscribe((response) => {
-        this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Person>(response);
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
@@ -102,7 +101,6 @@ export class PersonListComponent implements OnInit {
     this.personService
       .findAllByCompany(this.companyId)
       .subscribe((response) => {
-        this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Person>(response);
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
@@ -111,7 +109,6 @@ export class PersonListComponent implements OnInit {
 
   private findAllByOffice() {
     this.personService.findAllByOffice(this.officeId).subscribe((response) => {
-      this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Person>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
