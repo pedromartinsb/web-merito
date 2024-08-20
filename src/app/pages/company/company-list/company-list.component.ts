@@ -2,25 +2,23 @@ import { CompanyService } from '../../../services/company.service';
 import { Company } from '../../../models/company';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { HoldingService } from 'src/app/services/holding.service';
 import { Holding } from 'src/app/models/holding';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-company-list',
   templateUrl: './company-list.component.html',
   styleUrls: ['./company-list.component.css'],
 })
-export class CompanyListComponent implements OnInit {
+export class CompanyListComponent implements OnInit, AfterViewInit {
   holdingId: string;
   holding: Holding;
-
-  ELEMENT_DATA: Company[] = [];
-  FILTERED_DATA: Company[] = [];
 
   displayedColumns: string[] = [
     'fantasyName',
@@ -29,11 +27,12 @@ export class CompanyListComponent implements OnInit {
     'persons',
     'actions',
   ];
-  dataSource = new MatTableDataSource<Company>(this.ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Company>();
 
   isLoading: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private companyService: CompanyService,
@@ -42,22 +41,27 @@ export class CompanyListComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private toast: ToastrService
-  ) {}
+  ) {
+    this.isLoading = true;
+    this.holdingId = this.route.snapshot.params['holdingId'];
+  }
 
   ngOnInit(): void {
-    this.holdingId = this.route.snapshot.params['holdingId'];
-    if (this.holdingId) {
+    if (!this.holdingId) {
+      this.findAll();
+    } else {
       this.findAllByHolding();
       this.findHoldingById();
-    } else {
-      this.findAll();
     }
-    this.isLoading = true;
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   private findAll(): void {
     this.companyService.findAll().subscribe((response) => {
-      this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Company>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
@@ -68,7 +72,6 @@ export class CompanyListComponent implements OnInit {
     this.companyService
       .findAllByHolding(this.holdingId)
       .subscribe((response) => {
-        this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Company>(response);
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
@@ -92,6 +95,10 @@ export class CompanyListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   getCompanyTypeLabel(companyType: any): string {
