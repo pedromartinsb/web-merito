@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -22,15 +23,13 @@ export class OfficeListComponent implements OnInit {
   company: Company;
   holding: Holding;
 
-  ELEMENT_DATA: Office[] = [];
-  FILTERED_DATA: Office[] = [];
-
   displayedColumns: string[] = ['fantasyName', 'cnpj', 'persons', 'actions'];
-  dataSource = new MatTableDataSource<Office>(this.ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Office>();
 
   isLoading: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private officeService: OfficeService,
@@ -39,11 +38,13 @@ export class OfficeListComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private toast: ToastrService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
+    this.isLoading = true;
     this.holdingId = this.route.snapshot.params['holdingId'];
     this.companyId = this.route.snapshot.params['companyId'];
+  }
+
+  ngOnInit(): void {
     if (this.holdingId) {
       this.findAllByHolding();
     } else if (this.companyId) {
@@ -52,12 +53,10 @@ export class OfficeListComponent implements OnInit {
     } else {
       this.findAll();
     }
-    this.isLoading = true;
   }
 
   private findAll(): void {
     this.officeService.findAll().subscribe((response) => {
-      this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Office>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
@@ -68,7 +67,6 @@ export class OfficeListComponent implements OnInit {
     this.officeService
       .findAllByHolding(this.holdingId)
       .subscribe((response) => {
-        this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Office>(response);
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
@@ -79,7 +77,6 @@ export class OfficeListComponent implements OnInit {
     this.officeService
       .findAllByCompany(this.companyId)
       .subscribe((response) => {
-        this.ELEMENT_DATA = response;
         this.dataSource = new MatTableDataSource<Office>(response);
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
@@ -99,6 +96,10 @@ export class OfficeListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   editOffice(officeId: string): void {
