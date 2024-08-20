@@ -1,30 +1,30 @@
-import { GoalService } from '../../../services/goal.service';
-import { Goal } from '../../../models/goal';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { ToastrService } from 'ngx-toastr';
+
+import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
+import { Goal } from '../../../models/goal';
+import { GoalService } from '../../../services/goal.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-goal-list',
   templateUrl: './goal-list.component.html',
   styleUrls: ['./goal-list.component.css'],
 })
-export class GoalListComponent implements OnInit {
+export class GoalListComponent implements OnInit, AfterViewInit {
   personId: string;
 
-  ELEMENT_DATA: Goal[] = [];
-  FILTERED_DATA: Goal[] = [];
-
   displayedColumns: string[] = ['name', 'person', 'actions'];
-  dataSource = new MatTableDataSource<Goal>(this.ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Goal>();
 
   public isLoading: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private goalService: GoalService,
@@ -35,18 +35,22 @@ export class GoalListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.personId = this.route.snapshot.params['personId'];
-    if (this.personId) {
-      this.findAllByPerson();
-    } else {
+    console.log(this.dataSource);
+
+    if (!this.personId) {
       this.findAll();
+    } else {
+      this.findAllByPerson();
     }
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   private findAll(): void {
     this.goalService.findAll().subscribe((response) => {
-      this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Goal>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
@@ -55,7 +59,6 @@ export class GoalListComponent implements OnInit {
 
   private findAllByPerson(): void {
     this.goalService.findAllByPerson(this.personId).subscribe((response) => {
-      this.ELEMENT_DATA = response;
       this.dataSource = new MatTableDataSource<Goal>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
@@ -65,6 +68,10 @@ export class GoalListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   editGoal(goalId: string): void {
