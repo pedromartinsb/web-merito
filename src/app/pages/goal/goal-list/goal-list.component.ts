@@ -35,8 +35,6 @@ export class GoalListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.dataSource);
-
     if (!this.personId) {
       this.findAll();
     } else {
