@@ -2,29 +2,28 @@ import { RoutineService } from '../../../services/routine.service';
 import { Routine } from '../../../models/routine';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { ToastrService } from 'ngx-toastr';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-routine-list',
   templateUrl: './routine-list.component.html',
   styleUrls: ['./routine-list.component.css'],
 })
-export class RoutineListComponent implements OnInit {
+export class RoutineListComponent implements OnInit, AfterViewInit {
   personId: string;
 
-  ELEMENT_DATA: Routine[] = [];
-  FILTERED_DATA: Routine[] = [];
-
   displayedColumns: string[] = ['name', 'responsibility', 'actions'];
-  dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
-
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  dataSource = new MatTableDataSource<Routine>();
 
   public isLoading: boolean = false;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private routineService: RoutineService,
@@ -32,46 +31,45 @@ export class RoutineListComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private toast: ToastrService
-  ) {
-    this.dataSource = new MatTableDataSource<Routine>(this.ELEMENT_DATA);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
     this.personId = this.route.snapshot.params['personId'];
-    if (this.personId) {
-      this.findAllByPerson();
-    } else {
+    if (!this.personId) {
       this.findAll();
+    } else {
+      this.findAllByPerson();
     }
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   private findAllByPerson(): void {
     this.routineService.findAllByPerson(this.personId).subscribe((response) => {
-      if (response) {
-        this.ELEMENT_DATA = response;
-        this.dataSource = new MatTableDataSource<Routine>(response);
-        this.dataSource.paginator = this.paginator;
-      }
+      this.dataSource = new MatTableDataSource<Routine>(response);
+      this.dataSource.paginator = this.paginator;
       this.isLoading = false;
     });
   }
 
   private findAll(): void {
     this.routineService.findAll().subscribe((response) => {
-      if (response) {
-        this.ELEMENT_DATA = response;
-        this.dataSource = new MatTableDataSource<Routine>(response);
-        this.dataSource.paginator = this.paginator;
-      }
+      this.dataSource = new MatTableDataSource<Routine>(response);
+      this.dataSource.paginator = this.paginator;
       this.isLoading = false;
     });
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    if (this.dataSource) {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
 
