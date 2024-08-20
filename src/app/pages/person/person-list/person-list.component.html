@@ -53,8 +53,8 @@
                   [lazyLoad]="element.picture"
                   defaultImage="https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
                   alt=""
-                  width="100"
-                  height="100"
+                  width="70"
+                  height="70"
                 />
               </div>
             </td>
@@ -152,7 +152,11 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="table-row"
+          ></tr>
 
           <!-- Row shown when there is no matching data. -->
           <tr class="mat-row" *matNoDataRow>

@@ -88,10 +88,14 @@ hr.solid {
 .example-header-image {
   background-image: url("https://s3.amazonaws.com/37assets/svn/765-default-avatar.png");
   background-size: cover;
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
 }
 
 img {
   border-radius: 100%;
+}
+
+.table-row {
+  height: 100px !important;
 }
