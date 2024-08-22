@@ -64,3 +64,8 @@ img {
   border: 0;
   cursor: pointer;
 }
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
