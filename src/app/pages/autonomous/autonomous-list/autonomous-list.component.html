@@ -1,6 +1,6 @@
 <mat-card class="card mat-elevation-z8">
   <mat-card-header>
-    <mat-card-title>Profissionais Autonomos</mat-card-title>
+    <mat-card-title>Profissionais Autônomos</mat-card-title>
     <mat-card-subtitle>Listagem</mat-card-subtitle>
   </mat-card-header>
 
@@ -9,9 +9,9 @@
     <mat-divider></mat-divider>
 
     <!-- Colunas -->
-    <mat-grid-list cols="4" rowHeight="100px">
+    <mat-grid-list cols="2" rowHeight="100px">
       <!-- Coluna 1 -->
-      <mat-grid-tile colspan="2">
+      <mat-grid-tile colspan="1">
         <mat-form-field appearance="standard">
           <mat-label>Consulte o Colaborador</mat-label>
           <input matInput (keyup)="applyFilter($event)" #input />
@@ -19,9 +19,6 @@
       </mat-grid-tile>
 
       <!-- Coluna 2 -->
-      <mat-grid-tile colspan="1"></mat-grid-tile>
-
-      <!-- Coluna 3 -->
       <mat-grid-tile colspan="1">
         <button routerLink="create" mat-raised-button color="primary">
           Cadastrar Colaborador
@@ -31,6 +28,32 @@
 
     <!-- Divider -->
     <mat-divider></mat-divider>
+
+    <!-- TIRAR O COMENTÁRIO QUANDO FOR ADICIONAR OS FILTROS -->
+    <!-- <mat-grid-list cols="1" rowHeight="80px">
+      <mat-grid-tile colspan="1">
+        <section>
+          <div class="example-button-row">
+            <button mat-stroked-button>
+              <mat-icon fontIcon="filter_list"></mat-icon>
+              Basic
+            </button>
+            <button mat-stroked-button>
+              <mat-icon fontIcon="filter_list"></mat-icon>
+              Basic
+            </button>
+            <button mat-stroked-button>
+              <mat-icon fontIcon="filter_list"></mat-icon>
+              Basic
+            </button>
+            <button mat-stroked-button>
+              <mat-icon fontIcon="filter_list"></mat-icon>
+              Basic
+            </button>
+          </div>
+        </section>
+      </mat-grid-tile>
+    </mat-grid-list> -->
 
     <!-- Tabela -->
     <div class="container">

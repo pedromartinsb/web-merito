@@ -19,8 +19,7 @@ export class GoalFormComponent implements OnInit {
 
   goal: Goal = {
     name: '',
-    person: null,
-    personId: '',
+    persons: [],
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
@@ -56,15 +55,15 @@ export class GoalFormComponent implements OnInit {
   }
 
   findAllPersons(): void {
-    this.personService.findAll().subscribe((response: Person[]) => {
-      this.persons = response;
-      if (this.goalId) {
-        this.person.setValue(
-          response.find((p) => p.id === this.goal.person.id)
-        );
-        this.goal.personId = this.goal.person.id;
-      }
-    });
+    // this.personService.findAll().subscribe((response: Person[]) => {
+    //   this.persons = response;
+    //   if (this.goalId) {
+    //     this.person.setValue(
+    //       response.find((p) => p.id === this.goal.person.id)
+    //     );
+    //     this.goal.personId = this.goal.person.id;
+    //   }
+    // });
   }
 
   loadGoal(): void {

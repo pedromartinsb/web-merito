@@ -24,6 +24,12 @@ export class RoutineService {
     return this.http.get<Routine>(`${Config.webApiUrl}/v1/routine/${id}`);
   }
 
+  public findByName(name: any): Observable<Array<Routine>> {
+    return this.http.get<Array<Routine>>(
+      `${Config.webApiUrl}/v1/routine/name/${name}`
+    );
+  }
+
   public create(routine: Routine): Observable<Routine> {
     return this.http.post<Routine>(`${Config.webApiUrl}/v1/routine`, routine);
   }

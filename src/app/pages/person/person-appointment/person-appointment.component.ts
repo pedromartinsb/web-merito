@@ -24,12 +24,29 @@ export class PersonAppointmentComponent implements OnInit {
   displayedColumns = ['name', 'radio'];
   dataSource: Activity[];
 
+  currentMontTags: monthlyTag[] = [];
+  lastMonthTags: monthlyTag[] = [];
+  lastTwoMonthTags: monthlyTag[] = [];
+  lastThreeMonthTags: monthlyTag[] = [];
+  lastFourMonthTags: monthlyTag[] = [];
+  lastFiveMonthTags: monthlyTag[] = [];
+
+  daysOfMonth: number[] = [];
+  daysOfCurrentMonth: number[] = [];
+  daysOfLastMonth: number[] = [];
+  daysOfLastTwoMonth: number[] = [];
+  daysOfLastThreeMonth: number[] = [];
+  daysOfLastFourMonth: number[] = [];
+  daysOfLastFiveMonth: number[] = [];
+
   personId: string;
-  monthlyTags: monthlyTag[] = [];
   days: number[] = [];
   weeks: number[] = [];
   selected: Date | null;
   selectedDateMonthly: Date | null;
+  selectedQuarterly1: Date | null;
+  selectedQuarterly2: Date | null;
+  selectedQuarterly3: Date | null;
   activitiesResponse: Activity[];
   activitiesDailyResponse: Activity[];
   appointments: Appointment[] = [];
@@ -46,12 +63,12 @@ export class PersonAppointmentComponent implements OnInit {
   lastDayLastFourMonth: Date;
   firstDayLastFiveMonth: Date;
   lastDayLastFiveMonth: Date;
-  daysOfMonth: number[] = [];
   person: Person;
   today: string = new Date().toLocaleDateString('pt-BR');
   startDate = new Date();
   endDate = new Date();
   selectedTab = new FormControl(0);
+  s3Url = 'https://sistema-merito.s3.amazonaws.com/';
 
   constructor(
     private dialog: MatDialog,
@@ -72,16 +89,27 @@ export class PersonAppointmentComponent implements OnInit {
     // Receive all the Activites with Appointments
     this.receiveAllActivities();
 
-    // Receive the current Month Tags
-    this.receiveCurrentMonthTags();
-
     // get the Date to Calendar
     this.getDateCalendar();
+
+    // Receive the current Month Tags
+    this.receiveCurrentMonthTags();
+    // Receive the last Month Tags
+    this.receiveLastMonthTags();
+    // Receive the last two Month Tags
+    this.receiveLastTwoMonthTags();
+    // Receive the last three Month Tags
+    this.receiveLastThreeMonthTags();
+    // Receive the last four Month Tags
+    this.receiveLastFourMonthTags();
+    // Receive the last five Month Tags
+    this.receiveLastFiveMonthTags();
   }
 
   private receivePersonAndPersonId(): void {
     this.personId = this.route.snapshot.params['personId'];
     this.personService.findById(this.personId).subscribe((response) => {
+      response.picture = this.s3Url + response.picture;
       this.person = response;
     });
   }
@@ -104,41 +132,89 @@ export class PersonAppointmentComponent implements OnInit {
       )
       .pipe(
         finalize(() => {
-          this.findAppointments();
+          this.findAppointmentsByToday();
         })
       )
       .subscribe((response) => {
         this.toast.success('Pesquisa realizada com sucesso.');
         this.activitiesDailyResponse = response;
         this.dataSource = response;
-        console.log(this.dataSource);
       });
   }
 
-  private findAppointments(): void {
+  private findAppointmentsByToday(): void {
     this.appointmentService
       .findByPersonAndDate(this.personId, this.startDate, this.endDate)
       .subscribe((response: Appointment[]) => {
-        this.appointments = response;
-        if (this.appointments && this.appointments.length > 0) {
-          this.appointments.forEach((appointment) => {
-            this.activitiesResponse.forEach((activity) => {
-              if (activity.id === appointment.routineId) {
-                activity.description = appointment.description;
-                activity.justification = appointment.justification;
+        if (response != null) {
+          this.appointments = response;
+          if (this.appointments && this.appointments.length > 0) {
+            this.appointments.forEach((appointment) => {
+              if (this.activitiesResponse != undefined) {
+                this.activitiesResponse.forEach((activity) => {
+                  if (activity.id === appointment.routineId) {
+                    activity.description = appointment.description;
+                    activity.justification = appointment.justification;
+                  }
+                });
               }
             });
-          });
+          }
         }
       });
   }
 
   private receiveCurrentMonthTags(): void {
-    this.monthlyTags = history.state.monthlyTags;
-    this.monthlyTags.map((month) => {
+    this.currentMontTags = history.state.currentMontTags;
+    this.currentMontTags.map((month) => {
       let newDate = new Date(month.date);
       newDate.setDate(newDate.getDate() + 1);
       this.daysOfMonth.push(newDate.getDate());
+    });
+  }
+
+  private receiveLastMonthTags(): void {
+    this.lastMonthTags = history.state.lastMonthTags;
+    this.lastMonthTags.map((month) => {
+      let newDate = new Date(month.date);
+      newDate.setDate(newDate.getDate() + 1);
+      this.daysOfLastMonth.push(newDate.getDate());
+    });
+  }
+
+  private receiveLastTwoMonthTags(): void {
+    this.lastTwoMonthTags = history.state.lastTwoMonthTags;
+    this.lastTwoMonthTags.map((month) => {
+      let newDate = new Date(month.date);
+      newDate.setDate(newDate.getDate() + 1);
+      this.daysOfLastTwoMonth.push(newDate.getDate());
+    });
+  }
+
+  private receiveLastThreeMonthTags(): void {
+    this.lastThreeMonthTags = history.state.lastThreeMonthTags;
+    this.lastThreeMonthTags.map((month) => {
+      let newDate = new Date(month.date);
+      newDate.setDate(newDate.getDate() + 1);
+      this.daysOfLastThreeMonth.push(newDate.getDate());
+    });
+  }
+
+  private receiveLastFourMonthTags(): void {
+    this.lastFourMonthTags = history.state.lastFourMonthTags;
+    this.lastFourMonthTags.map((month) => {
+      let newDate = new Date(month.date);
+      newDate.setDate(newDate.getDate() + 1);
+      this.daysOfLastFourMonth.push(newDate.getDate());
+    });
+  }
+
+  private receiveLastFiveMonthTags(): void {
+    this.lastFiveMonthTags = history.state.lastFiveMonthTags;
+    this.lastFiveMonthTags.map((month) => {
+      let newDate = new Date(month.date);
+      newDate.setDate(newDate.getDate() + 1);
+      this.daysOfLastFiveMonth.push(newDate.getDate());
     });
   }
 
@@ -227,18 +303,136 @@ export class PersonAppointmentComponent implements OnInit {
     });
   }
 
-  public dateClass: MatCalendarCellClassFunction<Date> = (cellDate, _) => {
+  public dateClassCurrentMonth: MatCalendarCellClassFunction<Date> = (
+    cellDate,
+    _
+  ) => {
     for (let i = 0; i < this.daysOfMonth.length; i++) {
       if (this.daysOfMonth[i] == cellDate.getDate()) {
-        if (this.monthlyTags[i].tag == 'Green') {
+        if (this.currentMontTags[i].tag == 'Green') {
           return 'green-background';
-        } else if (this.monthlyTags[i].tag == 'Red') {
+        } else if (this.currentMontTags[i].tag == 'Red') {
           return 'red-background';
-        } else if (this.monthlyTags[i].tag == 'Blue') {
+        } else if (this.currentMontTags[i].tag == 'Blue') {
           return 'blue-background';
-        } else if (this.monthlyTags[i].tag == 'Orange') {
+        } else if (this.currentMontTags[i].tag == 'Orange') {
           return 'orange-background';
-        } else if (this.monthlyTags[i].tag == 'Yellow') {
+        } else if (this.currentMontTags[i].tag == 'Yellow') {
+          return 'yellow-background';
+        } else {
+          return 'green-background';
+        }
+      }
+    }
+  };
+
+  public dateClassLastMonth: MatCalendarCellClassFunction<Date> = (
+    cellDate,
+    _
+  ) => {
+    for (let i = 0; i < this.daysOfLastMonth.length; i++) {
+      if (this.daysOfLastMonth[i] == cellDate.getDate()) {
+        if (this.lastMonthTags[i].tag == 'Green') {
+          return 'green-background';
+        } else if (this.lastMonthTags[i].tag == 'Red') {
+          return 'red-background';
+        } else if (this.lastMonthTags[i].tag == 'Blue') {
+          return 'blue-background';
+        } else if (this.lastMonthTags[i].tag == 'Orange') {
+          return 'orange-background';
+        } else if (this.lastMonthTags[i].tag == 'Yellow') {
+          return 'yellow-background';
+        } else {
+          return 'green-background';
+        }
+      }
+    }
+  };
+
+  public dateClassLastTwoMonth: MatCalendarCellClassFunction<Date> = (
+    cellDate,
+    _
+  ) => {
+    for (let i = 0; i < this.daysOfLastTwoMonth.length; i++) {
+      if (this.daysOfLastTwoMonth[i] == cellDate.getDate()) {
+        if (this.lastTwoMonthTags[i].tag == 'Green') {
+          return 'green-background';
+        } else if (this.lastTwoMonthTags[i].tag == 'Red') {
+          return 'red-background';
+        } else if (this.lastTwoMonthTags[i].tag == 'Blue') {
+          return 'blue-background';
+        } else if (this.lastTwoMonthTags[i].tag == 'Orange') {
+          return 'orange-background';
+        } else if (this.lastTwoMonthTags[i].tag == 'Yellow') {
+          return 'yellow-background';
+        } else {
+          return 'green-background';
+        }
+      }
+    }
+  };
+
+  public dateClassLastThreeMonth: MatCalendarCellClassFunction<Date> = (
+    cellDate,
+    _
+  ) => {
+    for (let i = 0; i < this.daysOfLastThreeMonth.length; i++) {
+      if (this.daysOfLastThreeMonth[i] == cellDate.getDate()) {
+        if (this.lastThreeMonthTags[i].tag == 'Green') {
+          return 'green-background';
+        } else if (this.lastThreeMonthTags[i].tag == 'Red') {
+          return 'red-background';
+        } else if (this.lastThreeMonthTags[i].tag == 'Blue') {
+          return 'blue-background';
+        } else if (this.lastThreeMonthTags[i].tag == 'Orange') {
+          return 'orange-background';
+        } else if (this.lastThreeMonthTags[i].tag == 'Yellow') {
+          return 'yellow-background';
+        } else {
+          return 'green-background';
+        }
+      }
+    }
+  };
+
+  public dateClassLastFourMonth: MatCalendarCellClassFunction<Date> = (
+    cellDate,
+    _
+  ) => {
+    for (let i = 0; i < this.daysOfLastFourMonth.length; i++) {
+      if (this.daysOfLastFourMonth[i] == cellDate.getDate()) {
+        if (this.lastFourMonthTags[i].tag == 'Green') {
+          return 'green-background';
+        } else if (this.lastFourMonthTags[i].tag == 'Red') {
+          return 'red-background';
+        } else if (this.lastFourMonthTags[i].tag == 'Blue') {
+          return 'blue-background';
+        } else if (this.lastFourMonthTags[i].tag == 'Orange') {
+          return 'orange-background';
+        } else if (this.lastFourMonthTags[i].tag == 'Yellow') {
+          return 'yellow-background';
+        } else {
+          return 'green-background';
+        }
+      }
+    }
+  };
+
+  public dateClassLastFiveMonth: MatCalendarCellClassFunction<Date> = (
+    cellDate,
+    _
+  ) => {
+    for (let i = 0; i < this.daysOfLastFiveMonth.length; i++) {
+      if (this.daysOfLastFiveMonth[i] == cellDate.getDate()) {
+        if (this.lastFiveMonthTags[i].tag == 'Green') {
+          return 'green-background';
+        } else if (this.lastFiveMonthTags[i].tag == 'Red') {
+          return 'red-background';
+        } else if (this.lastFiveMonthTags[i].tag == 'Blue') {
+          return 'blue-background';
+        } else if (this.lastFiveMonthTags[i].tag == 'Orange') {
+          return 'orange-background';
+        } else if (this.lastFiveMonthTags[i].tag == 'Yellow') {
           return 'yellow-background';
         } else {
           return 'green-background';

@@ -42,9 +42,23 @@
           <mat-form-field appearance="outline">
             <mat-label>Selecione a Função</mat-label>
             <mat-select
-              [(ngModel)]="routine.responsibilities"
+              *ngIf="returnedResponsibilities != null"
+              [(ngModel)]="routine.responsibility"
               name="responsibility"
               [formControl]="responsibility"
+              required
+              multiple
+            >
+              <mat-option
+                *ngFor="let responsibility of returnedResponsibilities"
+                [value]="responsibility.id"
+                >{{ responsibility.name }}</mat-option
+              >
+            </mat-select>
+            <mat-select
+              *ngIf="returnedResponsibilities == null"
+              [(ngModel)]="returnedResponsibilities"
+              name="returnedResponsibilities"
               required
               multiple
             >

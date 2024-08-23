@@ -40,18 +40,19 @@
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="outline">
             <mat-label>Selecione um Colaborador</mat-label>
-            <mat-select
+            <!-- <mat-select
               [(ngModel)]="goal.personId"
               name="person"
               [formControl]="person"
               required
+              multiple
             >
               <mat-option
                 *ngFor="let person of persons"
                 value="{{ person.id }}"
                 >{{ person.name }}</mat-option
               >
-            </mat-select>
+            </mat-select> -->
             <mat-hint *ngIf="!person.value" align="end" style="color: red"
               >Campo obrigatório</mat-hint
             >

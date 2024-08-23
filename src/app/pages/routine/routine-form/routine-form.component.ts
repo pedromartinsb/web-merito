@@ -19,7 +19,7 @@ export class RoutineFormComponent implements OnInit {
   routine: Routine = {
     name: '',
     appointment: null,
-    responsibilities: this.responsibilities,
+    responsibility: null,
     startedAt: '',
     finishedAt: '',
     createdAt: '',
@@ -29,6 +29,8 @@ export class RoutineFormComponent implements OnInit {
 
   routineId: string;
   responsibilityId: string;
+  returnedResponsibilities: Responsibility[];
+  returnedResponsibilities2: Routine[];
 
   name: FormControl = new FormControl(null, Validators.minLength(3));
   responsibility: FormControl = new FormControl(null, Validators.minLength(1));
@@ -45,10 +47,26 @@ export class RoutineFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.routineService.findByName('AAAAAAAAAAAAAAAAAAAAAA').subscribe({
+      next: (response) => {
+        this.returnedResponsibilities2 = response;
+      },
+      error: (err) => {},
+      complete() {},
+    });
+
+    this.returnedResponsibilities2.map((item) => console.log(item));
+
+    this.responsibilityService.findAll().subscribe({
+      next: (response) => {
+        this.responsibilities = response;
+      },
+      complete() {},
+    });
+
     this.routineId = this.route.snapshot.params['id'];
-    this.responsibilities = this.route.snapshot.params['responsibilities'];
     if (this.routineId) {
-      this.loadRoutinesByRoutine();
+      this.findRoutineById();
     } else {
       this.findAllResponsibilities();
     }
@@ -58,12 +76,16 @@ export class RoutineFormComponent implements OnInit {
     this._location.back();
   }
 
-  loadRoutinesByRoutine(): void {}
+  findRoutineById(): void {
+    this.routineService.findById(this.routineId).subscribe((response) => {
+      this.routine = response;
+    });
+  }
 
   findAllResponsibilities(): void {
-    this.responsibilityService.findAll().subscribe((response) => {
-      this.responsibilities = response;
-    });
+    // this.responsibilityService.findAll().subscribe((response) => {
+    //   this.responsibilities = response;
+    // });
   }
 
   loadResponsibility(): void {
