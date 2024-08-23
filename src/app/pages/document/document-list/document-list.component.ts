@@ -17,7 +17,12 @@ export class DocumentListComponent implements OnInit {
   ELEMENT_DATA: Document[] = [];
   FILTERED_DATA: Document[] = [];
 
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = [
+    'name',
+    'responsibility',
+    'createdAt',
+    'actions',
+  ];
   dataSource = new MatTableDataSource<Document>(this.documents);
 
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
