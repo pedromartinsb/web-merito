@@ -8,4 +8,7 @@ export interface Document {
   url: string;
   file: NgxFileDropEntry;
   responsibility: Responsibility;
+  responsibilityId: string;
+
+  responsibilities: Array<Responsibility>;
 }
