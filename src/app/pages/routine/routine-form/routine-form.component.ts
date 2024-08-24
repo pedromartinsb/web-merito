@@ -7,6 +7,7 @@ import { RoutineService } from 'src/app/services/routine.service';
 import { Location } from '@angular/common';
 import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { Responsibility } from 'src/app/models/responsibility';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-routine-form',
@@ -15,25 +16,23 @@ import { Responsibility } from 'src/app/models/responsibility';
 })
 export class RoutineFormComponent implements OnInit {
   responsibilities: Responsibility[] = [];
-
   routine: Routine = {
     name: '',
     appointment: null,
     responsibility: null,
+    responsibilities: [],
     startedAt: '',
     finishedAt: '',
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
   };
-
   routineId: string;
-  responsibilityId: string;
-  returnedResponsibilities: Responsibility[];
-  returnedResponsibilities2: Routine[];
+  selectedResponsibility: any = [];
+  selectedResponsibilityId: Array<string> = [];
 
-  name: FormControl = new FormControl(null, Validators.minLength(3));
-  responsibility: FormControl = new FormControl(null, Validators.minLength(1));
+  nameFormControl: FormControl = new FormControl(null, Validators.minLength(3));
+  responsibilityFormControl: FormControl = new FormControl([1]);
 
   public isSaving: boolean = false;
 
@@ -47,64 +46,50 @@ export class RoutineFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.routineService.findByName('AAAAAAAAAAAAAAAAAAAAAA').subscribe({
-      next: (response) => {
-        this.returnedResponsibilities2 = response;
-      },
-      error: (err) => {},
-      complete() {},
-    });
-
-    this.returnedResponsibilities2.map((item) => console.log(item));
-
-    this.responsibilityService.findAll().subscribe({
-      next: (response) => {
-        this.responsibilities = response;
-      },
-      complete() {},
-    });
-
     this.routineId = this.route.snapshot.params['id'];
     if (this.routineId) {
-      this.findRoutineById();
+      this._getRoutineById(this.routineId);
     } else {
-      this.findAllResponsibilities();
+      this._getResponsibilities();
     }
   }
 
-  backClicked() {
+  public backClicked() {
     this._location.back();
   }
 
-  findRoutineById(): void {
-    this.routineService.findById(this.routineId).subscribe((response) => {
+  private _getRoutineById(id: string): void {
+    this.routineService.findById(id).subscribe((response) => {
       this.routine = response;
     });
-  }
 
-  findAllResponsibilities(): void {
-    // this.responsibilityService.findAll().subscribe((response) => {
-    //   this.responsibilities = response;
-    // });
-  }
-
-  loadResponsibility(): void {
-    this.responsibilityService
-      .findById(this.responsibilityId)
-      .subscribe((response: Responsibility) => {
-        this.responsibility.setValue(response);
+    this.routineService
+      .findById(id)
+      .pipe(
+        finalize(() => {
+          this._getResponsibilities();
+          this.selectedResponsibility.map((item: string) => {
+            this.selectedResponsibilityId.push(item);
+          });
+        })
+      )
+      .subscribe({
+        next: (response: Routine) => {
+          this.selectedResponsibility = response.responsibilities;
+          this.routine = response;
+        },
+        error: (ex) => this._handleErrors(ex),
       });
   }
 
-  openRoutineForm(): void {
-    if (this.routineId) {
-      this.updateRoutine();
-    } else {
-      this.createRoutine();
-    }
+  private _getResponsibilities(): void {
+    this.responsibilityService.findAll().subscribe((response) => {
+      this.responsibilities = response;
+    });
   }
 
-  private createRoutine(): void {
+  public save(): void {
+    this.routine.responsibilities = this.selectedResponsibilityId;
     this.isSaving = true;
     this.routineService.create(this.routine).subscribe({
       next: () => {
@@ -113,27 +98,28 @@ export class RoutineFormComponent implements OnInit {
         this.isSaving = false;
       },
       error: (ex) => {
-        this.handleErrors(ex);
+        this._handleErrors(ex);
         this.isSaving = false;
       },
     });
   }
 
-  private updateRoutine(): void {
+  public update(): void {
+    this.routine.responsibilities = this.selectedResponsibilityId;
     this.isSaving = true;
-    this.routineService.update(this.routineId, this.routine).subscribe({
+    this.routineService.updateByName(this.routineId, this.routine).subscribe({
       next: () => {
         this.toast.success('Rotina atualizada com sucesso', 'Atualização');
         this.router.navigate(['routine']);
         this.isSaving = false;
       },
       error: (ex) => {
-        this.handleErrors(ex);
+        this._handleErrors(ex);
       },
     });
   }
 
-  private handleErrors(ex: any): void {
+  private _handleErrors(ex: any): void {
     if (ex.error.errors) {
       ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
@@ -143,14 +129,7 @@ export class RoutineFormComponent implements OnInit {
     }
   }
 
-  validateFields(): boolean {
-    return this.name.valid;
-  }
-
-  selectResponsibility() {
-    if (this.responsibility.value) {
-      let responsibility: Responsibility = this.responsibility.value;
-      this.responsibilityId = responsibility.id;
-    }
+  public validateFields(): boolean {
+    return this.nameFormControl.valid;
   }
 }

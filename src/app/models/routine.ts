@@ -10,6 +10,6 @@ export interface Routine {
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
-
   responsibility: Responsibility;
+  responsibilities: Array<string>;
 }

@@ -41,6 +41,13 @@ export class RoutineService {
     );
   }
 
+  public updateByName(id: string, routine: Routine): Observable<Routine> {
+    return this.http.put<Routine>(
+      `${Config.webApiUrl}/v1/routine/name/${id}`,
+      routine
+    );
+  }
+
   public delete(id: string): Observable<Routine> {
     return this.http.delete<Routine>(`${Config.webApiUrl}/v1/routine/${id}`);
   }
