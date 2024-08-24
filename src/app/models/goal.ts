@@ -6,6 +6,6 @@ export interface Goal {
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
-
-  persons: Array<Person>;
+  person: Person;
+  persons: Array<string>;
 }

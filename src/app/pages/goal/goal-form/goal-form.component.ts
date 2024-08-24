@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Goal } from 'src/app/models/goal';
 import { PersonService } from 'src/app/services/person.service';
 import { Person } from 'src/app/models/person';
-import { finalize } from 'rxjs';
+import { finalize, map, merge } from 'rxjs';
 import { Location } from '@angular/common';
 
 @Component({
@@ -15,22 +15,23 @@ import { Location } from '@angular/common';
   styleUrls: ['./goal-form.component.css'],
 })
 export class GoalFormComponent implements OnInit {
-  persons: Person[] = [];
-
+  persons: Array<Person>;
   goal: Goal = {
     name: '',
+    person: null,
     persons: [],
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
   };
-
   goalId: string;
+  selectedPerson: any = [];
+  selectedPersonId: Array<string> = [];
 
-  name: FormControl = new FormControl(null, Validators.minLength(3));
-  person: FormControl = new FormControl(null, [Validators.required]);
+  nameFormControl: FormControl = new FormControl(null, Validators.minLength(3));
+  personsFormControl: FormControl = new FormControl([1]);
 
-  public isSaving: boolean = false;
+  isSaving: boolean = false;
 
   constructor(
     private goalService: GoalService,
@@ -44,50 +45,45 @@ export class GoalFormComponent implements OnInit {
   ngOnInit(): void {
     this.goalId = this.route.snapshot.params['id'];
     if (this.goalId) {
-      this.loadGoal();
+      this._getGoalById(this.goalId);
     } else {
-      this.findAllPersons();
+      this._getAllPersons();
     }
   }
 
-  backClicked() {
+  public backClicked() {
     this._location.back();
   }
 
-  findAllPersons(): void {
-    // this.personService.findAll().subscribe((response: Person[]) => {
-    //   this.persons = response;
-    //   if (this.goalId) {
-    //     this.person.setValue(
-    //       response.find((p) => p.id === this.goal.person.id)
-    //     );
-    //     this.goal.personId = this.goal.person.id;
-    //   }
-    // });
+  private _getAllPersons(): void {
+    this.personService.findAll().subscribe({
+      next: (response: Array<Person>) => (this.persons = response),
+      error: (ex) => this._handleErrors(ex),
+    });
   }
 
-  loadGoal(): void {
+  private _getGoalById(id: string): void {
     this.goalService
-      .findById(this.goalId)
+      .findById(id)
       .pipe(
         finalize(() => {
-          this.findAllPersons();
+          this._getAllPersons();
+          this.selectedPerson.map((item: string) => {
+            this.selectedPersonId.push(item);
+          });
         })
       )
-      .subscribe((response: Goal) => {
-        this.goal = response;
+      .subscribe({
+        next: (response: Goal) => {
+          this.selectedPerson = response.persons;
+          this.goal = response;
+        },
+        error: (ex) => this._handleErrors(ex),
       });
   }
 
-  openGoalForm(): void {
-    if (this.goalId) {
-      this.updateGoal();
-    } else {
-      this.createGoal();
-    }
-  }
-
-  private createGoal(): void {
+  public save(): void {
+    this.goal.persons = this.selectedPersonId;
     this.isSaving = true;
     this.goalService.create(this.goal).subscribe({
       next: () => {
@@ -96,26 +92,27 @@ export class GoalFormComponent implements OnInit {
         this.isSaving = false;
       },
       error: (ex) => {
-        this.handleErrors(ex);
+        this._handleErrors(ex);
       },
     });
   }
 
-  private updateGoal(): void {
+  public update(): void {
+    this.goal.persons = this.selectedPersonId;
     this.isSaving = true;
-    this.goalService.update(this.goalId, this.goal).subscribe({
+    this.goalService.updateByName(this.goalId, this.goal).subscribe({
       next: () => {
         this.toast.success('Meta atualizada com sucesso', 'Atualização');
         this.router.navigate(['goal']);
         this.isSaving = false;
       },
       error: (ex) => {
-        this.handleErrors(ex);
+        this._handleErrors(ex);
       },
     });
   }
 
-  private handleErrors(ex: any): void {
+  private _handleErrors(ex: any): void {
     if (ex.error.errors) {
       ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
@@ -125,7 +122,7 @@ export class GoalFormComponent implements OnInit {
     }
   }
 
-  validateFields(): boolean {
-    return this.name.valid;
+  public validateFields(): boolean {
+    return this.nameFormControl.valid;
   }
 }

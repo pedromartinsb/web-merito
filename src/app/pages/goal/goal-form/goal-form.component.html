@@ -25,12 +25,15 @@
             <input
               [(ngModel)]="goal.name"
               name="name"
-              [formControl]="name"
+              [formControl]="nameFormControl"
               required
               matInput
             />
             <mat-icon matSuffix>add_business</mat-icon>
-            <mat-hint *ngIf="!name.value" align="end" style="color: red"
+            <mat-hint
+              *ngIf="!nameFormControl.value"
+              align="end"
+              style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>
@@ -40,10 +43,10 @@
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="outline">
             <mat-label>Selecione um Colaborador</mat-label>
-            <!-- <mat-select
-              [(ngModel)]="goal.personId"
+            <mat-select
+              [(ngModel)]="selectedPersonId"
               name="person"
-              [formControl]="person"
+              [formControl]="personsFormControl"
               required
               multiple
             >
@@ -52,8 +55,11 @@
                 value="{{ person.id }}"
                 >{{ person.name }}</mat-option
               >
-            </mat-select> -->
-            <mat-hint *ngIf="!person.value" align="end" style="color: red"
+            </mat-select>
+            <mat-hint
+              *ngIf="!personsFormControl.value"
+              align="end"
+              style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>
@@ -64,7 +70,8 @@
 
   <mat-card-actions align="end">
     <button
-      (click)="openGoalForm()"
+      *ngIf="!this.goalId"
+      (click)="save()"
       [disabled]="!validateFields()"
       class="success-button mat-elevation-z4"
       mat-raised-button
@@ -72,6 +79,17 @@
       matTooltip="Salvar as informações preenchidas"
     >
       <mat-icon>check</mat-icon> SALVAR
+    </button>
+    <button
+      *ngIf="this.goalId"
+      (click)="update()"
+      [disabled]="!validateFields()"
+      class="success-button mat-elevation-z4"
+      mat-raised-button
+      extended
+      matTooltip="Alterar as informações preenchidas"
+    >
+      <mat-icon>check</mat-icon> ALTERAR
     </button>
     <button
       *ngIf="goalId"
