@@ -1,5 +1,17 @@
 <div>
-    <p>{{ message }}</p>
-    <button class="mat-elevation-z8" mat-stroked-button color="primary" (click)="confirmDelete()">Sim</button>
-    <button class="mat-elevation-z8" mat-stroked-button color="warn" style="margin-left: 8px" (click)="cancelDelete()">Não</button>
-  </div>
+  <p>{{ message }}</p>
+  <button
+    class="mat-elevation-z8 confirm"
+    mat-stroked-button
+    (click)="confirmDelete()"
+  >
+    Sim
+  </button>
+  <button
+    class="mat-elevation-z8 cancel"
+    mat-stroked-button
+    (click)="cancelDelete()"
+  >
+    Não
+  </button>
+</div>

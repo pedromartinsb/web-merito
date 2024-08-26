@@ -77,7 +77,7 @@ export class PersonService {
     );
   }
 
-  public delete(id: string): Observable<Person> {
+  public deactivate(id: string): Observable<Person> {
     return this.http.delete<Person>(`${Config.webApiUrl}/v1/person/${id}`);
   }
 

@@ -81,7 +81,7 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
       'Tem certeza que deseja deletar este profissional?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
-      this.deletePerson(personId);
+      this._deactivatePerson(personId);
       dialogRef.close();
       this.toast.success('Profissional deletado com sucesso', 'Excluir');
     });
@@ -91,8 +91,8 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  deletePerson(personId: string): void {
-    this.personService.delete(personId).subscribe(() => {
+  private _deactivatePerson(personId: string): void {
+    this.personService.deactivate(personId).subscribe(() => {
       this.findAll();
     });
   }

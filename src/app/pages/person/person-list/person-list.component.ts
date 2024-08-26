@@ -260,14 +260,13 @@ export class PersonListComponent implements OnInit {
       });
   }
 
-  openDeleteConfirmationModal(personId: string): void {
+  public openDeleteConfirmationModal(personId: string, name: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
-    dialogRef.componentInstance.message =
-      'Tem certeza que deseja deletar este colaborador?';
+    dialogRef.componentInstance.message = `Tem certeza que deseja desativar o colaborador ${name}?`;
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
-      this.deletePerson(personId);
+      this._deactivatePerson(personId);
       dialogRef.close();
     });
 
@@ -276,9 +275,9 @@ export class PersonListComponent implements OnInit {
     });
   }
 
-  deletePerson(personId: string): void {
-    this.personService.delete(personId).subscribe(() => {
-      this.toast.success('Colaborador deletado com sucesso', 'Excluir');
+  private _deactivatePerson(personId: string): void {
+    this.personService.deactivate(personId).subscribe(() => {
+      this.toast.success('Colaborador desativado com sucesso', 'Excluir');
       this.findAll();
     });
   }
