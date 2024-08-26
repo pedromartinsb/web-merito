@@ -261,7 +261,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public save(): void {
     this.isSaving = true;
-    console.log(this.documents[0]);
     if (this.documents[0] == undefined) {
       this.toast.error('É obrigatório cadastrar uma imagem.');
       this.isSaving = false;
@@ -288,25 +287,30 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public update(): void {
     this.isSaving = true;
-    const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
-    fileEntry.file((document: File) => {
-      this.personService
-        .update(this.person.id, this.person, document)
-        .subscribe({
-          next: () => {
-            this.toast.success(
-              'Colaborador atualizado com sucesso',
-              'Atualização'
-            );
-            this.router.navigate(['person']);
-            this.isSaving = false;
-          },
-          error: (ex) => {
-            this._handleErrors(ex);
-            this.isSaving = false;
-          },
-        });
-    });
+    if (this.documents[0] == undefined) {
+      this.toast.error('É obrigatório cadastrar uma imagem.');
+      this.isSaving = false;
+    } else {
+      const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
+      fileEntry.file((document: File) => {
+        this.personService
+          .update(this.person.id, this.person, document)
+          .subscribe({
+            next: () => {
+              this.toast.success(
+                'Colaborador atualizado com sucesso',
+                'Atualização'
+              );
+              this.router.navigate(['person']);
+              this.isSaving = false;
+            },
+            error: (ex) => {
+              this._handleErrors(ex);
+              this.isSaving = false;
+            },
+          });
+      });
+    }
   }
 
   public addPersonType(personTypeRequest: any): void {
@@ -332,7 +336,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  addRole(role: any): void {
+  // ver sobre remover
+  public addRole(role: any): void {
     if (this.person.user.roles.includes(role)) {
       this.person.user.roles.splice(this.person.user.roles.indexOf(role), 1);
     } else {
