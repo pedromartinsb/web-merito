@@ -52,3 +52,10 @@ mat-radio-button {
 table {
   width: 100%;
 }
+
+.example-header-image {
+  background-image: url("https://s3.amazonaws.com/37assets/svn/765-default-avatar.png");
+  background-size: cover;
+  width: 200px;
+  height: 200px;
+}

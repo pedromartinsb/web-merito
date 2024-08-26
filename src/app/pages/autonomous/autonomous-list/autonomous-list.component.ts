@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DeleteConfirmationModalComponent } from 'src/app/components/delete/delete-confirmation-modal';
 import { Person } from 'src/app/models/person';
@@ -27,6 +27,7 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
   ];
   dataSource = new MatTableDataSource<Person>();
   isLoading: boolean = false;
+  s3Url = 'https://sistema-merito.s3.amazonaws.com/';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -35,7 +36,6 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
     private personService: PersonService,
     private router: Router,
     private dialog: MatDialog,
-    private route: ActivatedRoute,
     private toast: ToastrService,
     private appointmentService: AppointmentService
   ) {}
@@ -51,13 +51,21 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
   }
 
   private _getAutonomous() {
-    this.personService
-      .findAllByContractType('Professional')
-      .subscribe((response) => {
-        this.dataSource = new MatTableDataSource<Person>(response);
-        this.dataSource.paginator = this.paginator;
-        this.isLoading = false;
-      });
+    this.personService.findAllByContractType('Professional').subscribe({
+      next: (response) => {
+        if (response != null) {
+          response.forEach((r) => {
+            if (r.picture != null) {
+              r.picture = this.s3Url + r.picture;
+            }
+          });
+          this.dataSource = new MatTableDataSource<Person>(response);
+          this.dataSource.paginator = this.paginator;
+          this.isLoading = false;
+        }
+      },
+      error: (err) => console.log(err),
+    });
   }
 
   public applyFilter(event: Event) {

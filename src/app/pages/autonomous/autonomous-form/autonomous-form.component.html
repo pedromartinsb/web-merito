@@ -27,13 +27,16 @@
             <input
               [(ngModel)]="person.name"
               name="name"
-              [formControl]="name"
+              [formControl]="nameFormControl"
               required
               matInput
               maxlength="100"
             />
             <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-            <mat-hint *ngIf="!name.value" align="end" style="color: red"
+            <mat-hint
+              *ngIf="!nameFormControl.value"
+              align="end"
+              style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>
@@ -46,14 +49,17 @@
             <input
               [(ngModel)]="person.cpfCnpj"
               name="cpf"
-              [formControl]="cpf"
+              [formControl]="cpfFormControl"
               required
               matInput
               maxlength="isCpf ? 14 : 18"
               [placeholder]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'"
               [mask]="isCpf ? '000.000.000-00' : '00.000.000/0000-00'"
             />
-            <mat-hint *ngIf="!cpf.value" align="end" style="color: red"
+            <mat-hint
+              *ngIf="!cpfFormControl.value"
+              align="end"
+              style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>
@@ -66,14 +72,8 @@
             name="radioButtons"
             disabled="true"
           >
-            <mat-radio-button (click)="selectContractType('Clt')" value="Clt"
-              >CLT</mat-radio-button
-            >
-            <mat-radio-button
-              (click)="selectContractType('Autônomo')"
-              value="Autônomo"
-              >Profissional</mat-radio-button
-            >
+            <mat-radio-button value="Clt">CLT</mat-radio-button>
+            <mat-radio-button value="Autônomo">Profissional</mat-radio-button>
           </mat-radio-group>
         </mat-grid-tile>
 
@@ -83,14 +83,10 @@
             [(ngModel)]="radioGenderOptions"
             name="radioGenderButtons"
           >
-            <mat-radio-button
-              (click)="selectGender('Masculino')"
-              value="Masculino"
+            <mat-radio-button (click)="getGender('Masculino')" value="Masculino"
               >Masculino</mat-radio-button
             >
-            <mat-radio-button
-              (click)="selectGender('Feminino')"
-              value="Feminino"
+            <mat-radio-button (click)="getGender('Feminino')" value="Feminino"
               >Feminino</mat-radio-button
             >
           </mat-radio-group>
@@ -106,13 +102,16 @@
             <input
               [(ngModel)]="person.user.username"
               name="username"
-              [formControl]="username"
+              [formControl]="usernameFormControl"
               required
               matInput
               placeholder="Ex.. fulano44"
             />
             <mat-icon matSuffix>person</mat-icon>
-            <mat-hint *ngIf="!username.value" align="end" style="color: red"
+            <mat-hint
+              *ngIf="!usernameFormControl.value"
+              align="end"
+              style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>
@@ -125,13 +124,16 @@
             <input
               [(ngModel)]="person.user.email"
               name="email"
-              [formControl]="email"
+              [formControl]="emailFormControl"
               required
               matInput
               placeholder="Ex.. fulano@mail.com"
             />
             <mat-icon matSuffix>email</mat-icon>
-            <mat-hint *ngIf="!email.value" align="end" style="color: red"
+            <mat-hint
+              *ngIf="!emailFormControl.value"
+              align="end"
+              style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>
@@ -147,13 +149,16 @@
             <mat-select
               [(ngModel)]="person.officeId"
               name="office"
-              [formControl]="office"
+              [formControl]="officeFormControl"
             >
               <mat-option *ngFor="let office of officies" [value]="office.id">{{
                 office.fantasyName
               }}</mat-option>
             </mat-select>
-            <mat-hint *ngIf="!office.value" align="end" style="color: red"
+            <mat-hint
+              *ngIf="!officeFormControl.value"
+              align="end"
+              style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>
@@ -166,7 +171,7 @@
             <mat-select
               [(ngModel)]="person.responsibilityId"
               name="responsibility"
-              [formControl]="responsibility"
+              [formControl]="responsibilityFormControl"
             >
               <mat-option
                 *ngFor="let responsibility of responsibilities"
@@ -175,12 +180,71 @@
               >
             </mat-select>
             <mat-hint
-              *ngIf="!responsibility.value"
+              *ngIf="!responsibilityFormControl.value"
               align="end"
               style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <!-- Picture -->
+      <mat-grid-list cols="4" rowHeight="200px">
+        <mat-grid-tile colspan="1">
+          <div
+            mat-card-avatar
+            class="example-header-image"
+            *ngIf="!person.picture"
+          ></div>
+          <div *ngIf="person.picture">
+            <img
+              [lazyLoad]="person.picture"
+              defaultImage="https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+              alt=""
+              width="200"
+              height="200"
+            />
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1">
+          <div class="file-drop-container">
+            <ngx-file-drop
+              class="file-drop"
+              dropZoneLabel="Drop files here"
+              (onFileDrop)="droppedDocument($event)"
+              [multiple]="false"
+              accept=".png, .jpg, .jpeg"
+            >
+              <ng-template
+                ngx-file-drop-content-tmp
+                let-openFileSelector="openFileSelector"
+              >
+                Arraste a FOTO para cá ou
+                <button
+                  type="button"
+                  mat-flat-button
+                  color="primary"
+                  class="mat-elevation-z4"
+                  id="browseFilesButton"
+                  (click)="openFileSelector()"
+                >
+                  Buscar arquivo
+                </button>
+              </ng-template>
+            </ngx-file-drop>
+            <div class="upload-table-container">
+              <table class="upload-table">
+                <tbody class="upload-name-style">
+                  <tr *ngFor="let item of documents; let i = index">
+                    <td>
+                      <strong>{{ item.relativePath }}</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </mat-grid-tile>
       </mat-grid-list>
 
@@ -198,7 +262,7 @@
             <input
               [(ngModel)]="person.contact.phone"
               name="phone"
-              [formControl]="phone"
+              [formControl]="phoneFormControl"
               matInput
             />
             <mat-icon matSuffix>add_business</mat-icon>
@@ -212,7 +276,7 @@
             <input
               [(ngModel)]="person.contact.cellphone"
               name="cellphone"
-              [formControl]="cellphone"
+              [formControl]="cellphoneFormControl"
               matInput
             />
             <mat-icon matSuffix>domain</mat-icon>
@@ -234,7 +298,7 @@
             <input
               [(ngModel)]="person.address.cep"
               name="cep"
-              [formControl]="cep"
+              [formControl]="cepFormControl"
               type="text"
               matInput
               mask="00000-000"
@@ -250,7 +314,7 @@
             <input
               [(ngModel)]="person.address.uf"
               name="uf"
-              [formControl]="uf"
+              [formControl]="ufFormControl"
               type="uf"
               matInput
             />
@@ -265,7 +329,7 @@
             <input
               [(ngModel)]="person.address.city"
               name="city"
-              [formControl]="city"
+              [formControl]="cityFormControl"
               type="city"
               matInput
             />
@@ -282,7 +346,7 @@
             <input
               [(ngModel)]="person.address.streetName"
               name="streetName"
-              [formControl]="streetName"
+              [formControl]="streetNameFormControl"
               type="streetName"
               matInput
             />
@@ -297,7 +361,7 @@
             <input
               [(ngModel)]="person.address.neighborhood"
               name="neighborhood"
-              [formControl]="neighborhood"
+              [formControl]="neighborhoodFormControl"
               type="neighborhood"
               matInput
             />
@@ -312,7 +376,7 @@
             <input
               [(ngModel)]="person.address.complement"
               name="complement"
-              [formControl]="complement"
+              [formControl]="complementFormControl"
               type="complement"
               matInput
             />
@@ -362,7 +426,8 @@
   <!-- Actions -->
   <mat-card-actions align="end">
     <button
-      (click)="openPersonForm()"
+      *ngIf="!this.personId"
+      (click)="save()"
       [disabled]="!validateFields()"
       class="success-button mat-elevation-z4"
       mat-raised-button
@@ -370,6 +435,17 @@
       matTooltip="Salvar as informações preenchidas"
     >
       <mat-icon>check</mat-icon> SALVAR
+    </button>
+    <button
+      *ngIf="this.personId"
+      (click)="update()"
+      [disabled]="!validateFields()"
+      class="success-button mat-elevation-z4"
+      mat-raised-button
+      extended
+      matTooltip="Salvar as informações preenchidas"
+    >
+      <mat-icon>check</mat-icon> ALTERAR
     </button>
     <button
       *ngIf="personId"
