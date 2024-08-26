@@ -13,7 +13,7 @@
       <!-- Coluna 1 -->
       <mat-grid-tile colspan="1">
         <mat-form-field appearance="standard">
-          <mat-label>Consulte o Colaborador</mat-label>
+          <mat-label>Consulte o Profissional</mat-label>
           <input matInput (keyup)="applyFilter($event)" #input />
         </mat-form-field>
       </mat-grid-tile>
@@ -21,7 +21,7 @@
       <!-- Coluna 2 -->
       <mat-grid-tile colspan="1">
         <button routerLink="create" mat-raised-button color="primary">
-          Cadastrar Colaborador
+          Cadastrar Profissional
         </button>
       </mat-grid-tile>
     </mat-grid-list>
@@ -96,22 +96,14 @@
 
           <ng-container matColumnDef="fantasyName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Unidade</th>
-            <td
-              mat-cell
-              *matCellDef="let element"
-              (click)="editPerson(element.id)"
-            >
+            <td mat-cell *matCellDef="let element" (click)="edit(element.id)">
               {{ element?.office?.fantasyName }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="responsibility">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cargo</th>
-            <td
-              mat-cell
-              *matCellDef="let element"
-              (click)="editPerson(element.id)"
-            >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Função</th>
+            <td mat-cell *matCellDef="let element" (click)="edit(element.id)">
               {{ element.responsibility.name }}
             </td>
           </ng-container>
@@ -121,7 +113,7 @@
             <td mat-cell *matCellDef="let element">
               <button
                 mat-icon-button
-                (click)="findRoutinesByPerson(element.id)"
+                (click)="getRoutinesByPerson(element.id)"
                 aria-label="Example icon-button with a menu"
                 matTooltip="Visualize todas as Rotinas para esse Colaborador"
               >
@@ -135,7 +127,7 @@
             <td mat-cell *matCellDef="let element">
               <button
                 mat-icon-button
-                (click)="findGoalsByPerson(element.id)"
+                (click)="getGoalsByPerson(element.id)"
                 aria-label="Example icon-button with a menu"
                 matTooltip="Visualize todas as Metas para esse Colaborador"
               >
@@ -163,7 +155,7 @@
                 <button
                   mat-menu-item
                   (click)="
-                    openDeleteConfirmationModal(element.id);
+                    openDeleteConfirmationModal(element.id, element.name);
                     $event.stopPropagation()
                   "
                 >

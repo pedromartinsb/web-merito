@@ -26,8 +26,7 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
     'actions',
   ];
   dataSource = new MatTableDataSource<Person>();
-
-  public isLoading: boolean = false;
+  isLoading: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -43,7 +42,7 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.findAll();
+    this._getAutonomous();
   }
 
   ngAfterViewInit() {
@@ -51,7 +50,7 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  findAll() {
+  private _getAutonomous() {
     this.personService
       .findAllByContractType('Professional')
       .subscribe((response) => {
@@ -61,7 +60,7 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
       });
   }
 
-  applyFilter(event: Event) {
+  public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -70,20 +69,19 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  editPerson(personId: string): void {
+  public edit(personId: string): void {
     this.router.navigate(['autonomous', 'edit', personId]);
   }
 
-  openDeleteConfirmationModal(personId: string): void {
+  public openDeleteConfirmationModal(personId: string, name: string): void {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
-    dialogRef.componentInstance.message =
-      'Tem certeza que deseja deletar este profissional?';
+    dialogRef.componentInstance.message = `Tem certeza que deseja desativar o profissional ${name}?`;
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this._deactivatePerson(personId);
       dialogRef.close();
-      this.toast.success('Profissional deletado com sucesso', 'Excluir');
+      this.toast.success('Profissional desativado com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {
@@ -93,7 +91,7 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
 
   private _deactivatePerson(personId: string): void {
     this.personService.deactivate(personId).subscribe(() => {
-      this.findAll();
+      this._getAutonomous();
     });
   }
 
@@ -110,11 +108,11 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
       });
   }
 
-  public findRoutinesByPerson(personId: string): void {
+  public getRoutinesByPerson(personId: string): void {
     this.router.navigate(['routine', 'person', personId]);
   }
 
-  public findGoalsByPerson(personId: string): void {
+  public getGoalsByPerson(personId: string): void {
     this.router.navigate(['goal', 'person', personId]);
   }
 }
