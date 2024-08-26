@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -87,23 +87,6 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   ];
   personId: string;
-  name: FormControl = new FormControl(null, Validators.minLength(3));
-  cpf: FormControl = new FormControl(null, Validators.required);
-  office: FormControl = new FormControl(null, Validators.required);
-  responsibility: FormControl = new FormControl(null, Validators.required);
-  username: FormControl = new FormControl(null, Validators.minLength(3));
-  email: FormControl = new FormControl(null, Validators.email);
-  // Contact
-  phone: FormControl = new FormControl();
-  cellphone: FormControl = new FormControl();
-  // Address
-  cep: FormControl = new FormControl(null, Validators.minLength(3));
-  streetName: FormControl = new FormControl(null, Validators.minLength(3));
-  neighborhood: FormControl = new FormControl(null, Validators.minLength(3));
-  city: FormControl = new FormControl(null, Validators.minLength(3));
-  uf: FormControl = new FormControl(null, Validators.minLength(2));
-  complement: FormControl = new FormControl(null, Validators.minLength(3));
-  role: FormControl = new FormControl(null, Validators.minLength(1));
   isSaving: boolean = false;
   isCpf: boolean = true;
   contractType: string = '';
@@ -120,6 +103,45 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoading: boolean = false;
   isAdmin: boolean = false;
   documents: NgxFileDropEntry[] = [];
+
+  // FormControl
+  nameFormControl: FormControl = new FormControl(null, Validators.minLength(3));
+  cpfFormControl: FormControl = new FormControl(null, Validators.required);
+  officeFormControl: FormControl = new FormControl(null, Validators.required);
+  responsibilityFormControl: FormControl = new FormControl(
+    null,
+    Validators.required
+  );
+  usernameFormControl: FormControl = new FormControl(
+    null,
+    Validators.minLength(3)
+  );
+  emailFormControl: FormControl = new FormControl(null, Validators.email);
+  phoneFormControl: FormControl = new FormControl();
+  cellphoneFormControl: FormControl = new FormControl();
+  cepFormControl: FormControl = new FormControl(null, Validators.minLength(3));
+  streetNameFormControl: FormControl = new FormControl(
+    null,
+    Validators.minLength(3)
+  );
+  neighborhoodFormControl: FormControl = new FormControl(
+    null,
+    Validators.minLength(3)
+  );
+  cityFormControl: FormControl = new FormControl(null, Validators.minLength(3));
+  ufFormControl: FormControl = new FormControl(null, Validators.minLength(2));
+  complementFormControl: FormControl = new FormControl(
+    null,
+    Validators.minLength(3)
+  );
+  roleFormControl: FormControl = new FormControl(null, Validators.minLength(1));
+
+  firstFormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  secondFormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
 
   _roles: Roles[] = [];
   get roles(): Roles[] {
@@ -138,23 +160,24 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     private responsibilityService: ResponsibilityService,
     private routineService: RoutineService,
     private _location: Location,
-    private authGuard: AuthGuard
+    private authGuard: AuthGuard,
+    private _formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.personId = this.route.snapshot.params['id'];
+    this._getContractType('Clt');
     if (this.personId) {
-      this.loadPerson();
+      this._getPersonById(this.personId);
     } else {
-      this.loadList();
+      this._getOfficesAndResponsibilitiesAndRoles();
     }
-    this.cepValueChangesSubscription = this.cep.valueChanges.subscribe(
-      (newCep: string) => {
+    this.cepValueChangesSubscription =
+      this.cepFormControl.valueChanges.subscribe((newCep: string) => {
         if (newCep && newCep.length === 8) {
-          this.findAddress();
+          this._getAddress();
         }
-      }
-    );
+      });
     this.isAdmin = this.authGuard.checkIsAdmin();
   }
 
@@ -170,30 +193,28 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this._location.back();
   }
 
-  loadList() {
-    this.findAllOfficies();
-    this.findAllResponsibilities();
-    this.loadRoles();
+  private _getOfficesAndResponsibilitiesAndRoles() {
+    this._getOfficies();
+    this._getResponsibilities();
+    this._getRoles();
   }
 
-  findAllRoutines(): void {
-    this.routineService
-      .findAllByResponsibility(this.person.responsibility.id)
-      .subscribe((response) => {
-        if (response) {
-          this.ELEMENT_DATA = response;
-          this.dataSource = new MatTableDataSource<Routine>(response);
-          this.dataSource.paginator = this.paginator;
-        }
-        this.isLoading = false;
-      });
+  private _getRoutinesByResponsibilityId(id: string): void {
+    this.routineService.findAllByResponsibility(id).subscribe((response) => {
+      if (response) {
+        this.ELEMENT_DATA = response;
+        this.dataSource = new MatTableDataSource<Routine>(response);
+        this.dataSource.paginator = this.paginator;
+      }
+      this.isLoading = false;
+    });
   }
 
-  findAllOfficies(): void {
+  private _getOfficies(): void {
     this.officeService.findAll().subscribe((response: Office[]) => {
       this.officies = response;
       if (this.personId) {
-        this.office.setValue(
+        this.officeFormControl.setValue(
           response.find((p) => p.id === this.person.office.id)
         );
         this.person.officeId = this.person.office.id;
@@ -201,13 +222,13 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  findAllResponsibilities(): void {
+  private _getResponsibilities(): void {
     this.responsibilityService
       .findAll()
       .subscribe((response: Responsibility[]) => {
         this.responsibilities = response;
         if (this.personId) {
-          this.responsibility.setValue(
+          this.responsibilityFormControl.setValue(
             response.find((p) => p.id === this.person.responsibility.id)
           );
           this.person.responsibilityId = this.person.responsibility.id;
@@ -215,13 +236,13 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  loadPerson(): void {
+  private _getPersonById(id: string): void {
     this.personService
-      .findById(this.personId)
+      .findById(id)
       .pipe(
         finalize(() => {
-          this.loadList();
-          this.findAllRoutines();
+          this._getOfficesAndResponsibilitiesAndRoles();
+          this._getRoutinesByResponsibilityId(this.person.responsibility.id);
         })
       )
       .subscribe((response) => {
@@ -238,33 +259,34 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  openPersonForm(): void {
-    if (this.personId) {
-      this.updatePerson();
+  public save(): void {
+    this.isSaving = true;
+    console.log(this.documents[0]);
+    if (this.documents[0] == undefined) {
+      this.toast.error('É obrigatório cadastrar uma imagem.');
+      this.isSaving = false;
     } else {
-      this.createPerson();
+      const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
+      fileEntry.file((document: File) => {
+        this.personService.create(this.person, document).subscribe({
+          next: () => {
+            this.toast.success(
+              'Colaborador cadastrado com sucesso',
+              'Cadastro'
+            );
+            this.router.navigate(['person']);
+            this.isSaving = false;
+          },
+          error: (ex) => {
+            this._handleErrors(ex);
+            this.isSaving = false;
+          },
+        });
+      });
     }
   }
 
-  private createPerson(): void {
-    this.isSaving = true;
-    const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
-    fileEntry.file((document: File) => {
-      this.personService.create(this.person, document).subscribe({
-        next: () => {
-          this.toast.success('Colaborador cadastrado com sucesso', 'Cadastro');
-          this.router.navigate(['person']);
-          this.isSaving = false;
-        },
-        error: (ex) => {
-          this.handleErrors(ex);
-          this.isSaving = false;
-        },
-      });
-    });
-  }
-
-  private updatePerson(): void {
+  public update(): void {
     this.isSaving = true;
     const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
     fileEntry.file((document: File) => {
@@ -280,27 +302,27 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
             this.isSaving = false;
           },
           error: (ex) => {
-            this.handleErrors(ex);
+            this._handleErrors(ex);
             this.isSaving = false;
           },
         });
     });
   }
 
-  addPersonType(personTypeRequest: any): void {
+  public addPersonType(personTypeRequest: any): void {
     this.person.personType = personTypeRequest;
   }
 
-  validateFields(): boolean {
+  public validateFields(): boolean {
     return (
-      this.name.valid &&
-      this.cpf.valid &&
-      this.email.valid &&
-      this.responsibility.valid
+      this.nameFormControl.valid &&
+      this.cpfFormControl.valid &&
+      this.emailFormControl.valid &&
+      this.responsibilityFormControl.valid
     );
   }
 
-  private handleErrors(ex: any): void {
+  private _handleErrors(ex: any): void {
     if (ex.error.errors) {
       ex.error.errors.forEach((element) => {
         this.toast.error(element.message);
@@ -318,35 +340,28 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  loadRoles(): void {
+  private _getRoles(): void {
     if (this.person.user.roles) {
       let selectedRoles: any[] = this.roleLabels.filter((roleLabel) =>
         this.person.user.roles.some(
           (userRole) => userRole.name === roleLabel.value.name
         )
       );
-      this.role.patchValue(selectedRoles);
+      this.roleFormControl.patchValue(selectedRoles);
     }
   }
 
-  compareRoles(role1: any, role2: any): boolean {
+  public compareRoles(role1: any, role2: any): boolean {
     return role1.name === role2.name;
   }
 
-  getRoleLabel(value: string): string | undefined {
-    const matchingRole = this.roleLabels.find(
-      (role) => role.value.name === value
-    );
-    return matchingRole ? matchingRole.label : undefined;
-  }
-
-  findAddress() {
-    if (this.cep.value.length === 8) {
+  private _getAddress() {
+    if (this.cepFormControl.value.length === 8) {
       this.personService
-        .findAddress(this.cep.value)
+        .findAddress(this.cepFormControl.value)
         .subscribe((response: AddressSearch) => {
           if (response.cep && response.cep.length > 0) {
-            this.fillAddress(response);
+            this._setAddress(response);
             this.toast.success(
               'Endereço preenchido com Sucesso',
               'Atualização'
@@ -358,8 +373,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  fillAddress(addressSearch: AddressSearch) {
-    const currentCep = this.cep.value;
+  private _setAddress(addressSearch: AddressSearch) {
+    const currentCep = this.cepFormControl.value;
 
     let newAddress: Address = {
       cep: currentCep,
@@ -370,16 +385,16 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
       uf: addressSearch.uf,
     };
 
-    this.city.patchValue(addressSearch.localidade);
-    this.complement.patchValue(addressSearch.complemento);
-    this.neighborhood.patchValue(addressSearch.bairro);
-    this.streetName.patchValue(addressSearch.logradouro);
-    this.uf.patchValue(addressSearch.uf);
+    this.cityFormControl.patchValue(addressSearch.localidade);
+    this.complementFormControl.patchValue(addressSearch.complemento);
+    this.neighborhoodFormControl.patchValue(addressSearch.bairro);
+    this.streetNameFormControl.patchValue(addressSearch.logradouro);
+    this.ufFormControl.patchValue(addressSearch.uf);
 
     this.person.address = newAddress;
   }
 
-  selectContractType(contractType: string): void {
+  private _getContractType(contractType: string): void {
     this.person.contractType = contractType;
     if (contractType === 'Clt') {
       this.isCpf = true;
@@ -390,11 +405,11 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  selectGender(gender: string): void {
+  public getGender(gender: string): void {
     this.person.gender = gender;
   }
 
-  public dropped(documents: NgxFileDropEntry[]) {
+  public droppedDocument(documents: NgxFileDropEntry[]) {
     this.documents = documents;
   }
 }
