@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -13,7 +14,6 @@ import { AppointmentService } from 'src/app/services/appointment.service';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { Person } from '../../../models/person';
 import { PersonService } from '../../../services/person.service';
-import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-person-list',
