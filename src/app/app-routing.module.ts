@@ -35,6 +35,7 @@ import { ProfileFormComponent } from './pages/profile/profile-form/profile-form.
 import { Roles } from './models/person';
 import { SuggestionListComponent } from './pages/suggestion/suggestion-list/suggestion-list.component';
 import { SuggestionFormComponent } from './pages/suggestion/suggestion-form/suggestion-form.component';
+import { SupplierFormComponent } from './pages/supplier/supplier-form/supplier-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -653,6 +654,21 @@ const routes: Routes = [
       {
         path: 'suggestion/edit/:id',
         component: SuggestionFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
+        },
+      },
+
+      // SUPPLIER
+      {
+        path: 'supplier',
+        component: SupplierFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: [

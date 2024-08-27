@@ -91,6 +91,7 @@ import { PhonePipe } from './pipe/phone.pipe';
 import { SuggestionFormComponent } from './pages/suggestion/suggestion-form/suggestion-form.component';
 import { SuggestionListComponent } from './pages/suggestion/suggestion-list/suggestion-list.component';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { SupplierFormComponent } from './pages/supplier/supplier-form/supplier-form.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -148,6 +149,7 @@ export const maskConfig: Partial<IConfig> = {
     FooterComponent,
     SuggestionFormComponent,
     SuggestionListComponent,
+    SupplierFormComponent,
   ],
   imports: [
     BrowserModule,
