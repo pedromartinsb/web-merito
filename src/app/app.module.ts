@@ -93,6 +93,7 @@ import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
+import { SupplierFormComponent } from './pages/supplier/supplier-form/supplier-form.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -151,6 +152,7 @@ export const maskConfig: Partial<IConfig> = {
     SuggestionFormComponent,
     SuggestionListComponent,
     PrintPdfComponent,
+    SupplierFormComponent,
   ],
   imports: [
     BrowserModule,
