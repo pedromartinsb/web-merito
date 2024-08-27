@@ -27,6 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -34,6 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr';
@@ -50,6 +52,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { GridComponent } from './components/grid/grid.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
+import { PrintPdfComponent } from './components/print-pdf/print-pdf.component';
 import { TableComponent } from './components/table/table.component';
 import { AuthInterceptorProvider } from './helpers/auth.interceptor';
 import { AccountFormComponent } from './pages/account/account-form/account-form.component';
@@ -84,13 +87,12 @@ import { RoutineFormComponent } from './pages/routine/routine-form/routine-form.
 import { RoutineListComponent } from './pages/routine/routine-list/routine-list.component';
 import { SegmentFormComponent } from './pages/segment/segment-form/segment-form.component';
 import { SegmentListComponent } from './pages/segment/segment-list/segment-list.component';
+import { SuggestionFormComponent } from './pages/suggestion/suggestion-form/suggestion-form.component';
+import { SuggestionListComponent } from './pages/suggestion/suggestion-list/suggestion-list.component';
 import { CnpjPipe } from './pipe/cnpj.pipe';
 import { CpfPipe } from './pipe/cpf.pipe';
 import { PersonTypePipe } from './pipe/person-type.pipe';
 import { PhonePipe } from './pipe/phone.pipe';
-import { SuggestionFormComponent } from './pages/suggestion/suggestion-form/suggestion-form.component';
-import { SuggestionListComponent } from './pages/suggestion/suggestion-list/suggestion-list.component';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -148,6 +150,7 @@ export const maskConfig: Partial<IConfig> = {
     FooterComponent,
     SuggestionFormComponent,
     SuggestionListComponent,
+    PrintPdfComponent,
   ],
   imports: [
     BrowserModule,
@@ -190,6 +193,7 @@ export const maskConfig: Partial<IConfig> = {
     MatChipsModule,
     MatBottomSheetModule,
     LazyLoadImageModule,
+    MatStepperModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       closeButton: true,
