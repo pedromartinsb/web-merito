@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { Subject, takeUntil } from 'rxjs';
+import { AuthGuard } from 'src/app/auth/auth.guard';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
   destroyed = new Subject<void>();
   currentScreenSize: string;
+  isAdmin: boolean = false;
 
   // Create a map to display breakpoint names for demonstration purposes.
   displayNameMap = new Map([
@@ -22,7 +24,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     [Breakpoints.XLarge, 'XLarge'],
   ]);
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private authGuard: AuthGuard
+  ) {
+    this.isAdmin = this.authGuard.checkIsAdmin();
     breakpointObserver
       .observe([
         Breakpoints.XSmall,
