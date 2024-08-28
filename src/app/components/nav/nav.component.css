@@ -69,3 +69,8 @@ a {
   color: #fff;
   text-decoration: none;
 }
+
+.mat-subheader {
+  color: var(--white);
+  font-weight: 200;
+}

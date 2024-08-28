@@ -22,6 +22,9 @@ export class TableComponent implements OnChanges {
   // @Input() dataSource = new MatTableDataSource<Person>();
   @Input() persons: Person[] = [];
   @Input() title: string = '';
+  @Input() iconCardTitle: string = '';
+  @Input() iconSearch: string = '';
+  @Input() iconAdd: string = '';
   @Input() subtitle: string = '';
   @Input() isLoading: boolean = false;
   @Output() openAppointmentEvent = new EventEmitter<string>();

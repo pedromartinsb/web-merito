@@ -305,25 +305,10 @@
 
       <!-- ADMIN EMPRESA -->
       <div *ngIf="this.isAdminEmpresa">
-        <mat-menu #adminEmpresa="matMenu">
-          <div *ngFor="let element of officeResponses">
-            <button mat-menu-item [matMenuTriggerFor]="company">
-              {{ element.fantasyName }}
-            </button>
-          </div>
-        </mat-menu>
-
-        <mat-menu #company="matMenu">
-          <button mat-menu-item routerLink="person">Colaboradores</button>
-          <button mat-menu-item routerLink="autonomous">
-            Prestadores de Serviços
-          </button>
-          <button mat-menu-item>Fornecedores</button>
-        </mat-menu>
-
         <!-- Sidenav List -->
         <mat-nav-list>
           <!-- Personal -->
+          <div mat-subheader>Perfil</div>
           <mat-list-item>
             <mat-icon class="icon-display">account_circle</mat-icon>
             <span>{{ personName }}</span>
@@ -332,75 +317,33 @@
           <mat-list-item routerLink="home">
             <mat-icon>home</mat-icon> <span>Home</span>
           </mat-list-item>
-          <mat-list-item
-            #companyTrigger="matMenuTrigger"
-            (mouseenter)="openMyMenu(companyTrigger)"
-            [matMenuTriggerFor]="adminEmpresa"
-          >
-            <mat-icon>apartment</mat-icon> <span>Empresa</span>
+          <div mat-subheader>Cadastros</div>
+          <mat-list-item routerLink="person">
+            <mat-icon>person</mat-icon> <span>Colaboradores</span>
           </mat-list-item>
-          <mat-list-item routerLink="document">
-            <mat-icon>folder_home</mat-icon> <span>Documentos</span>
+          <mat-list-item routerLink="autonomous">
+            <mat-icon>group</mat-icon> <span>Profissionais</span>
           </mat-list-item>
-          <!-- <mat-list-item>
+          <mat-list-item routerLink="supplier">
+            <mat-icon>engineering</mat-icon> <span>Fornecedores</span>
+          </mat-list-item>
+          <mat-list-item>
             <mat-icon>badge</mat-icon> <span>Funções</span>
-          </mat-list-item> -->
+          </mat-list-item>
           <mat-list-item routerLink="routine">
             <mat-icon>event_available</mat-icon> <span>Rotinas</span>
           </mat-list-item>
           <mat-list-item routerLink="goal">
-            <mat-icon>checklist</mat-icon> <span>Metas</span>
+            <mat-icon>flag</mat-icon> <span>Metas</span>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <div mat-subheader>Documentos</div>
+          <mat-list-item routerLink="document">
+            <mat-icon>folder_home</mat-icon> <span>Documentos</span>
           </mat-list-item>
           <mat-list-item routerLink="suggestion">
             <mat-icon>support_agent</mat-icon> <span>Sugestões</span>
           </mat-list-item>
-
-          <!-- Home -->
-          <!-- <mat-list-item routerLink="home">
-            <mat-icon>home</mat-icon> <span>Home</span>
-          </mat-list-item> -->
-
-          <!-- Cadastros -->
-          <!-- <mat-expansion-panel [class.mat-elevation-z0]="true">
-            <mat-expansion-panel-header
-              ><mat-icon>apartment</mat-icon> Cadastros
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item routerLink="office">
-                <mat-icon>storefront</mat-icon><span>Unidades</span>
-              </a>
-              <a mat-list-item routerLink="responsibility">
-                <mat-icon>badge</mat-icon><span>Funções</span>
-              </a>
-              <a mat-list-item routerLink="person">
-                <mat-icon>person_add</mat-icon><span>Colaboradores</span>
-              </a>
-              <a mat-list-item routerLink="autonomous">
-                <mat-icon>engineering</mat-icon><span>Profissionais</span>
-              </a>
-              <a mat-list-item routerLink="routine">
-                <mat-icon>event_available</mat-icon><span>Rotinas</span>
-              </a>
-              <a mat-list-item routerLink="goal">
-                <mat-icon>checklist</mat-icon><span>Metas</span>
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel> -->
-
-          <!-- Documentos -->
-          <!-- <mat-expansion-panel [class.mat-elevation-z0]="true">
-            <mat-expansion-panel-header
-              ><mat-icon>save</mat-icon> Documentos
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item routerLink="document">
-                <mat-icon>format_list_bulleted</mat-icon><span>Listagem</span>
-              </a>
-              <a mat-list-item routerLink="document/upload">
-                <mat-icon>create_new_folder</mat-icon><span>Adicionar</span>
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel> -->
 
           <!-- Permissões -->
           <mat-list-item routerLink="permission" *ngIf="canAdminAccess">
@@ -408,6 +351,7 @@
           </mat-list-item>
 
           <!-- Logout -->
+          <div mat-subheader>Logout</div>
           <mat-list-item (click)="logout()">
             <mat-icon>exit_to_app</mat-icon> <span>Sair</span>
           </mat-list-item>

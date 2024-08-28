@@ -2,9 +2,10 @@
   <!-- Header -->
   <mat-card-header>
     <mat-card-subtitle (click)="backClicked()" style="cursor: pointer"
-      >Voltar</mat-card-subtitle
+      ><mat-icon>arrow_back</mat-icon> Voltar</mat-card-subtitle
     >
     <mat-card-title>
+      <mat-icon>manage_accounts</mat-icon>
       {{ personId ? "Editar " + person.name : "Cadastrar Colaborador" }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>

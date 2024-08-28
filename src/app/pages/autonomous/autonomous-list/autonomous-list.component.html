@@ -1,6 +1,8 @@
 <mat-card class="card mat-elevation-z8">
   <mat-card-header>
-    <mat-card-title>Profissionais Autônomos</mat-card-title>
+    <mat-card-title
+      ><mat-icon>groups</mat-icon> Profissionais Autônomos</mat-card-title
+    >
     <mat-card-subtitle>Listagem</mat-card-subtitle>
   </mat-card-header>
 
@@ -13,7 +15,10 @@
       <!-- Coluna 1 -->
       <mat-grid-tile colspan="1">
         <mat-form-field appearance="standard">
-          <mat-label>Consulte o Profissional</mat-label>
+          <mat-label
+            ><mat-icon>person_search</mat-icon> Consulte o
+            Profissional</mat-label
+          >
           <input matInput (keyup)="applyFilter($event)" #input />
         </mat-form-field>
       </mat-grid-tile>
@@ -21,7 +26,7 @@
       <!-- Coluna 2 -->
       <mat-grid-tile colspan="1">
         <button routerLink="create" mat-raised-button color="primary">
-          Cadastrar Profissional
+          <mat-icon>person_add</mat-icon> Cadastrar Profissional
         </button>
       </mat-grid-tile>
     </mat-grid-list>
