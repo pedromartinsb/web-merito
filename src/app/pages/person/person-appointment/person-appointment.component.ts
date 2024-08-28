@@ -1,10 +1,4 @@
-import {
-  AfterContentInit,
-  Component,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
@@ -26,9 +20,7 @@ import { PersonAppointmentDialogComponent } from './person-appointment-dialog/pe
   templateUrl: './person-appointment.component.html',
   styleUrls: ['./person-appointment.component.css'],
 })
-export class PersonAppointmentComponent
-  implements OnInit, OnChanges, AfterContentInit
-{
+export class PersonAppointmentComponent {
   displayedColumns = ['name', 'radio'];
   dataSource: Activity[];
 
@@ -86,8 +78,6 @@ export class PersonAppointmentComponent
     private appointmentService: AppointmentService,
     private personService: PersonService
   ) {
-    console.log('constructor');
-
     // Receive the person id and get Person
     this.receivePersonAndPersonId();
 
@@ -112,18 +102,6 @@ export class PersonAppointmentComponent
     this.receiveLastFourMonthTags();
     // Receive the last five Month Tags
     this.receiveLastFiveMonthTags();
-  }
-
-  ngAfterContentInit(): void {
-    console.log('ngAfterContentInit');
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges');
-  }
-
-  ngOnInit(): void {
-    console.log('ngOnInit');
   }
 
   private receivePersonAndPersonId(): void {
