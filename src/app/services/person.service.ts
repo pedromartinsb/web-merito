@@ -77,6 +77,16 @@ export class PersonService {
     );
   }
 
+  public updateWithoutFile(id: string, person: Person): Observable<Person> {
+    const formData = new FormData();
+    formData.append('personRequest', JSON.stringify(person));
+
+    return this.http.put<Person>(
+      `${Config.webApiUrl}/v1/person/${id}/no-picture`,
+      formData
+    );
+  }
+
   public deactivate(id: string): Observable<Person> {
     return this.http.delete<Person>(`${Config.webApiUrl}/v1/person/${id}`);
   }

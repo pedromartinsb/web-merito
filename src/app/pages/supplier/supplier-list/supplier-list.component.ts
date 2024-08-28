@@ -60,11 +60,11 @@ export class SupplierListComponent implements OnInit, AfterViewInit {
           });
           this.dataSource = new MatTableDataSource<Person>(response);
           this.dataSource.paginator = this.paginator;
-          this.isLoading = false;
         }
       },
       error: (err) => console.log(err),
     });
+    this.isLoading = false;
   }
 
   public openAppointment(personId: string): void {
@@ -104,7 +104,7 @@ export class SupplierListComponent implements OnInit, AfterViewInit {
   }
 
   public edit(personId: string): void {
-    this.router.navigate(['autonomous', 'edit', personId]);
+    this.router.navigate(['supplier', 'edit', personId]);
   }
 
   public getRoutinesByPerson(personId: string): void {

@@ -46,9 +46,8 @@ export class FormsComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() personEvent = new EventEmitter<Person>();
   @Output() documentsEvent = new EventEmitter<NgxFileDropEntry[]>();
   @Output() saveEvent = new EventEmitter<{ person: Person; document: any }>();
-  @Output() updateEvent = new EventEmitter<Person>();
+  @Output() updateEvent = new EventEmitter<{ person: Person; document: any }>();
   @Output() addressEvent = new EventEmitter<string>();
-
   @ViewChild(MatSort) sort: MatSort;
 
   roleLabels = [
@@ -61,6 +60,7 @@ export class FormsComponent implements OnInit, AfterViewInit, OnChanges {
     },
   ];
   cepValueChangesSubscription: Subscription;
+  s3Url = 'https://sistema-merito.s3.amazonaws.com/';
 
   // FormControl
   nameFormControl: FormControl = new FormControl(null, Validators.minLength(3));
@@ -167,7 +167,10 @@ export class FormsComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   public update() {
-    // this.saveEvent.emit(this.person);
+    this.updateEvent.emit({
+      person: this.person,
+      document: this.documents[0],
+    });
   }
 
   public compareRoles(role1: any, role2: any): boolean {

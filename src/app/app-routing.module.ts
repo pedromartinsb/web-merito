@@ -3,8 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './auth/auth.guard';
 import { NavComponent } from './components/nav/nav.component';
+import { Roles } from './models/person';
 import { AccountFormComponent } from './pages/account/account-form/account-form.component';
 import { AppointmentCreateComponent } from './pages/appointment/appointment-create/appointment-create.component';
+import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/autonomous-form.component';
+import { AutonomousListComponent } from './pages/autonomous/autonomous-list/autonomous-list.component';
 import { CompanyFormComponent } from './pages/company/company-form/company-form.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -20,21 +23,18 @@ import { LoginComponent } from './pages/login/login.component';
 import { OfficeFormComponent } from './pages/office/office-form/office-form.component';
 import { OfficeListComponent } from './pages/office/office-list/office-list.component';
 import { PermissionFormComponent } from './pages/permission/permission-form/permission-form.component';
+import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
 import { PersonFormComponent } from './pages/person/person-form/person-form.component';
 import { PersonListComponent } from './pages/person/person-list/person-list.component';
+import { ProfileFormComponent } from './pages/profile/profile-form/profile-form.component';
 import { ResponsibilityFormComponent } from './pages/responsibility/responsibility-form/responsibility-form.component';
 import { ResponsibilityListComponent } from './pages/responsibility/responsibility-list/responsibility-list.component';
 import { RoutineFormComponent } from './pages/routine/routine-form/routine-form.component';
 import { RoutineListComponent } from './pages/routine/routine-list/routine-list.component';
 import { SegmentFormComponent } from './pages/segment/segment-form/segment-form.component';
 import { SegmentListComponent } from './pages/segment/segment-list/segment-list.component';
-import { AutonomousListComponent } from './pages/autonomous/autonomous-list/autonomous-list.component';
-import { AutonomousFormComponent } from './pages/autonomous/autonomous-form/autonomous-form.component';
-import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
-import { ProfileFormComponent } from './pages/profile/profile-form/profile-form.component';
-import { Roles } from './models/person';
-import { SuggestionListComponent } from './pages/suggestion/suggestion-list/suggestion-list.component';
 import { SuggestionFormComponent } from './pages/suggestion/suggestion-form/suggestion-form.component';
+import { SuggestionListComponent } from './pages/suggestion/suggestion-list/suggestion-list.component';
 import { SupplierFormComponent } from './pages/supplier/supplier-form/supplier-form.component';
 import { SupplierListComponent } from './pages/supplier/supplier-list/supplier-list.component';
 
@@ -682,6 +682,19 @@ const routes: Routes = [
       },
       {
         path: 'supplier/create',
+        component: SupplierFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
+        },
+      },
+      {
+        path: 'supplier/edit/:id',
         component: SupplierFormComponent,
         canActivate: [AuthGuard],
         data: {

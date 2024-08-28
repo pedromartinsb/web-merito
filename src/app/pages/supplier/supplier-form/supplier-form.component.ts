@@ -21,6 +21,7 @@ import { OfficeService } from 'src/app/services/office.service';
 import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { Responsibility } from 'src/app/models/responsibility';
 import { NgxFileDropEntry } from 'ngx-file-drop';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-supplier-form',
@@ -111,26 +112,20 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
   }
 
   private _getPersonById(id: string): void {
-    // this.personService
-    //   .findById(id)
-    //   .pipe(
-    //     finalize(() => {
-    //       this._getOfficesAndResponsibilitiesAndRoles();
-    //       this._getRoutinesByResponsibilityId(this.person.responsibility.id);
-    //     })
-    //   )
-    //   .subscribe((response) => {
-    //     if (response['contractType'] === 'Autônomo') {
-    //       response['contractType'] = 'Autônomo';
-    //       this.radioContractTypeOptions = 'Autônomo';
-    //       this.isCpf = false;
-    //     }
-    //     if (response['gender'] === 'Feminino') {
-    //       response['gender'] = 'Feminino';
-    //       this.radioGenderOptions = 'Feminino';
-    //     }
-    //     this.person = response;
-    //   });
+    this.personService
+      .findById(id)
+      .pipe(
+        finalize(() => {
+          this._getOfficesAndResponsibilitiesAndRoles();
+          this._getRoutinesByResponsibilityId(this.person.responsibility.id);
+        })
+      )
+      .subscribe((response) => {
+        this.person = response;
+        if (response.picture != null) {
+          this.person.picture = this.s3Url + response.picture;
+        }
+      });
   }
 
   private _getOfficesAndResponsibilitiesAndRoles() {
@@ -141,12 +136,9 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
   private _getOfficies(): void {
     this.officeService.findAll().subscribe((response: Office[]) => {
       this.officies = response;
-      // if (this.personId) {
-      //   this.officeFormControl.setValue(
-      //     response.find((p) => p.id === this.person.office.id)
-      //   );
-      //   this.person.officeId = this.person.office.id;
-      // }
+      if (this.personId) {
+        this.person.officeId = this.person.office.id;
+      }
     });
   }
 
@@ -155,12 +147,9 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
       .findAll()
       .subscribe((response: Responsibility[]) => {
         this.responsibilities = response;
-        // if (this.personId) {
-        //   this.responsibilityFormControl.setValue(
-        //     response.find((p) => p.id === this.person.responsibility.id)
-        //   );
-        //   this.person.responsibilityId = this.person.responsibility.id;
-        // }
+        if (this.personId) {
+          this.person.responsibilityId = this.person.responsibility.id;
+        }
       });
   }
 
@@ -180,29 +169,48 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
         },
       });
     });
+  }
 
-    // if (this.documents[0] == undefined) {
-    //   this.toast.error('É obrigatório cadastrar uma imagem.');
-    //   this.isSaving = false;
-    // } else {
-    //   const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
-    //   fileEntry.file((document: File) => {
-    //     this.personService.create(this.person, document).subscribe({
-    //       next: () => {
-    //         this.toast.success(
-    //           'Colaborador cadastrado com sucesso',
-    //           'Cadastro'
-    //         );
-    //         this.router.navigate(['person']);
-    //         this.isSaving = false;
-    //       },
-    //       error: (ex) => {
-    //         this._handleErrors(ex);
-    //         this.isSaving = false;
-    //       },
-    //     });
-    //   });
-    // }
+  public update(data: any): void {
+    this.isLoading = true;
+    if (data.document != undefined) {
+      const fileEntry = data.document.fileEntry as FileSystemFileEntry;
+      fileEntry.file((document: File) => {
+        this.personService
+          .update(data.person.id, data.person, document)
+          .subscribe({
+            next: () => {
+              this.toast.success(
+                'Fornecedor atualizado com sucesso',
+                'Atualização'
+              );
+              this.router.navigate(['supplier']);
+              this.isLoading = false;
+            },
+            error: (ex) => {
+              this._handleErrors(ex);
+              this.isLoading = false;
+            },
+          });
+      });
+    } else {
+      this.personService
+        .updateWithoutFile(data.person.id, data.person)
+        .subscribe({
+          next: () => {
+            this.toast.success(
+              'Fornecedor atualizado com sucesso',
+              'Atualização'
+            );
+            this.router.navigate(['supplier']);
+            this.isLoading = false;
+          },
+          error: (ex) => {
+            this._handleErrors(ex);
+            this.isLoading = false;
+          },
+        });
+    }
   }
 
   private _handleErrors(ex: any): void {
@@ -244,5 +252,16 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
     // this.streetNameFormControl.patchValue(addressSearch.logradouro);
     // this.ufFormControl.patchValue(addressSearch.uf);
     // this.person.address = newAddress;
+  }
+
+  private _getRoutinesByResponsibilityId(id: string): void {
+    // this.routineService.findAllByResponsibility(id).subscribe((response) => {
+    //   if (response) {
+    //     this.ELEMENT_DATA = response;
+    //     this.dataSource = new MatTableDataSource<Routine>(response);
+    //     this.dataSource.paginator = this.paginator;
+    //   }
+    //   this.isLoading = false;
+    // });
   }
 }

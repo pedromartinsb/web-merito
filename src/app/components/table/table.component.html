@@ -122,7 +122,7 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item routerLink="edit/{{ element.id }}">
+                <button mat-menu-item (click)="edit(element.id)">
                   <mat-icon>edit</mat-icon>
                   <span>Editar</span>
                 </button>
