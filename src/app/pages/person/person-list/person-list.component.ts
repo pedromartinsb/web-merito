@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs';
 import { Company } from 'src/app/models/company';
 import { Holding } from 'src/app/models/holding';
 import { Office } from 'src/app/models/office';
@@ -29,6 +30,7 @@ export class PersonListComponent implements OnInit {
   company: Company;
   office: Office;
   persons: Person[] = [];
+  tags: any;
 
   lastMonth: any;
   lastTwoMonth: any;
@@ -151,21 +153,23 @@ export class PersonListComponent implements OnInit {
     var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     this.appointmentService
       .getMonthlyTags(personId, firstDay, lastDay)
-      .subscribe((response) => {
-        this.router.navigate(['person', 'appointment', personId], {
-          state: {
-            currentMontTags: response,
-            lastMonthTags: this.lastMonth,
-            lastTwoMonthTags: this.lastTwoMonth,
-            lastThreeMonthTags: this.lastThreeMonth,
-            lastFourMonthTags: this.lastFourMonth,
-            lastFiveMonthTags: this.lastFiveMonth,
-          },
-        });
+      .pipe(
+        finalize(() => {
+          this.router.navigate(['person', 'appointment', personId]);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          this.tags = response;
+          localStorage.setItem('currentMonth', JSON.stringify(response));
+        },
+        error: (err) => console.log(err),
       });
   }
 
   private getLastMonth(date: Date, personId: string): void {
+    console.log('getLastMonth aqui');
+
     var firstDayLastMonth = new Date(
       date.getFullYear(),
       date.getMonth() - 1,
@@ -179,12 +183,17 @@ export class PersonListComponent implements OnInit {
     this.appointmentService
       .getMonthlyTags(personId, firstDayLastMonth, lastDayLastMonth)
       .subscribe({
-        next: (response) => (this.lastMonth = response),
+        next: (response) => {
+          this.lastMonth = response;
+          localStorage.setItem('lastMonth', JSON.stringify(response));
+        },
         error: (err) => console.log(err),
       });
   }
 
   private getLastTwoMonth(date: Date, personId: string): void {
+    console.log('getLastTwoMonth aqui');
+
     var firstDayLastTwoMonth = new Date(
       date.getFullYear(),
       date.getMonth() - 2,
@@ -198,12 +207,17 @@ export class PersonListComponent implements OnInit {
     this.appointmentService
       .getMonthlyTags(personId, firstDayLastTwoMonth, lastDayLastTwoMonth)
       .subscribe({
-        next: (response) => (this.lastTwoMonth = response),
+        next: (response) => {
+          this.lastTwoMonth = response;
+          localStorage.setItem('lastTwoMonth', JSON.stringify(response));
+        },
         error: (err) => console.log(err),
       });
   }
 
   private getLastThreeMonth(date: Date, personId: string): void {
+    console.log('getLastThreeMonth aqui');
+
     var firstDayLastThreeMonth = new Date(
       date.getFullYear(),
       date.getMonth() - 3,
@@ -217,12 +231,17 @@ export class PersonListComponent implements OnInit {
     this.appointmentService
       .getMonthlyTags(personId, firstDayLastThreeMonth, lastDayLastThreeMonth)
       .subscribe({
-        next: (response) => (this.lastThreeMonth = response),
+        next: (response) => {
+          this.lastThreeMonth = response;
+          localStorage.setItem('lastThreeMonth', JSON.stringify(response));
+        },
         error: (err) => console.log(err),
       });
   }
 
   private getLastFourMonth(date: Date, personId: string): void {
+    console.log('getLastFourMonth aqui');
+
     var firstDayLastFourMonth = new Date(
       date.getFullYear(),
       date.getMonth() - 4,
@@ -236,12 +255,17 @@ export class PersonListComponent implements OnInit {
     this.appointmentService
       .getMonthlyTags(personId, firstDayLastFourMonth, lastDayLastFourMonth)
       .subscribe({
-        next: (response) => (this.lastFourMonth = response),
+        next: (response) => {
+          this.lastFourMonth = response;
+          localStorage.setItem('lastFourMonth', JSON.stringify(response));
+        },
         error: (err) => console.log(err),
       });
   }
 
   private getLastFiveMonth(date: Date, personId: string): void {
+    console.log('getLastFiveMonth aqui');
+
     var firstDayLastFiveMonth = new Date(
       date.getFullYear(),
       date.getMonth() - 5,
@@ -255,7 +279,10 @@ export class PersonListComponent implements OnInit {
     this.appointmentService
       .getMonthlyTags(personId, firstDayLastFiveMonth, lastDayLastFiveMonth)
       .subscribe({
-        next: (response) => (this.lastFiveMonth = response),
+        next: (response) => {
+          this.lastFiveMonth = response;
+          localStorage.setItem('lastFiveMonth', JSON.stringify(response));
+        },
         error: (err) => console.log(err),
       });
   }

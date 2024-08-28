@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,7 +26,9 @@ import { PersonAppointmentDialogComponent } from './person-appointment-dialog/pe
   templateUrl: './person-appointment.component.html',
   styleUrls: ['./person-appointment.component.css'],
 })
-export class PersonAppointmentComponent implements OnInit {
+export class PersonAppointmentComponent
+  implements OnInit, OnChanges, AfterContentInit
+{
   displayedColumns = ['name', 'radio'];
   dataSource: Activity[];
 
@@ -77,9 +85,9 @@ export class PersonAppointmentComponent implements OnInit {
     private tagService: TagService,
     private appointmentService: AppointmentService,
     private personService: PersonService
-  ) {}
+  ) {
+    console.log('constructor');
 
-  ngOnInit(): void {
     // Receive the person id and get Person
     this.receivePersonAndPersonId();
 
@@ -104,6 +112,18 @@ export class PersonAppointmentComponent implements OnInit {
     this.receiveLastFourMonthTags();
     // Receive the last five Month Tags
     this.receiveLastFiveMonthTags();
+  }
+
+  ngAfterContentInit(): void {
+    console.log('ngAfterContentInit');
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges');
+  }
+
+  ngOnInit(): void {
+    console.log('ngOnInit');
   }
 
   private receivePersonAndPersonId(): void {
@@ -165,57 +185,71 @@ export class PersonAppointmentComponent implements OnInit {
   }
 
   private receiveCurrentMonthTags(): void {
-    this.currentMontTags = history.state.currentMontTags;
-    this.currentMontTags.map((month) => {
-      let newDate = new Date(month.date);
-      newDate.setDate(newDate.getDate() + 1);
-      this.daysOfMonth.push(newDate.getDate());
-    });
+    this.currentMontTags = JSON.parse(localStorage.getItem('currentMonth'));
+    if (this.currentMontTags != undefined) {
+      this.currentMontTags.map((month) => {
+        let newDate = new Date(month.date);
+        newDate.setDate(newDate.getDate() + 1);
+        this.daysOfMonth.push(newDate.getDate());
+      });
+    }
   }
 
   private receiveLastMonthTags(): void {
-    this.lastMonthTags = history.state.lastMonthTags;
-    this.lastMonthTags.map((month) => {
-      let newDate = new Date(month.date);
-      newDate.setDate(newDate.getDate() + 1);
-      this.daysOfLastMonth.push(newDate.getDate());
-    });
+    this.lastMonthTags = JSON.parse(localStorage.getItem('lastMonth'));
+    if (this.lastMonthTags != undefined) {
+      this.lastMonthTags.map((month) => {
+        let newDate = new Date(month.date);
+        newDate.setDate(newDate.getDate() + 1);
+        this.daysOfLastMonth.push(newDate.getDate());
+      });
+    }
   }
 
   private receiveLastTwoMonthTags(): void {
-    this.lastTwoMonthTags = history.state.lastTwoMonthTags;
-    this.lastTwoMonthTags.map((month) => {
-      let newDate = new Date(month.date);
-      newDate.setDate(newDate.getDate() + 1);
-      this.daysOfLastTwoMonth.push(newDate.getDate());
-    });
+    this.lastTwoMonthTags = JSON.parse(localStorage.getItem('lastTwoMonth'));
+    if (this.lastTwoMonthTags != undefined) {
+      this.lastTwoMonthTags.map((month) => {
+        let newDate = new Date(month.date);
+        newDate.setDate(newDate.getDate() + 1);
+        this.daysOfLastTwoMonth.push(newDate.getDate());
+      });
+    }
   }
 
   private receiveLastThreeMonthTags(): void {
-    this.lastThreeMonthTags = history.state.lastThreeMonthTags;
-    this.lastThreeMonthTags.map((month) => {
-      let newDate = new Date(month.date);
-      newDate.setDate(newDate.getDate() + 1);
-      this.daysOfLastThreeMonth.push(newDate.getDate());
-    });
+    this.lastThreeMonthTags = JSON.parse(
+      localStorage.getItem('lastThreeMonth')
+    );
+    if (this.lastThreeMonthTags != undefined) {
+      this.lastThreeMonthTags.map((month) => {
+        let newDate = new Date(month.date);
+        newDate.setDate(newDate.getDate() + 1);
+        this.daysOfLastThreeMonth.push(newDate.getDate());
+      });
+    }
   }
 
   private receiveLastFourMonthTags(): void {
-    this.lastFourMonthTags = history.state.lastFourMonthTags;
-    this.lastFourMonthTags.map((month) => {
-      let newDate = new Date(month.date);
-      newDate.setDate(newDate.getDate() + 1);
-      this.daysOfLastFourMonth.push(newDate.getDate());
-    });
+    this.lastFourMonthTags = JSON.parse(localStorage.getItem('lastFourMonth'));
+    if (this.lastFourMonthTags != undefined) {
+      this.lastFourMonthTags.map((month) => {
+        let newDate = new Date(month.date);
+        newDate.setDate(newDate.getDate() + 1);
+        this.daysOfLastFourMonth.push(newDate.getDate());
+      });
+    }
   }
 
   private receiveLastFiveMonthTags(): void {
-    this.lastFiveMonthTags = history.state.lastFiveMonthTags;
-    this.lastFiveMonthTags.map((month) => {
-      let newDate = new Date(month.date);
-      newDate.setDate(newDate.getDate() + 1);
-      this.daysOfLastFiveMonth.push(newDate.getDate());
-    });
+    this.lastFiveMonthTags = JSON.parse(localStorage.getItem('lastFiveMonth'));
+    if (this.lastFiveMonthTags != undefined) {
+      this.lastFiveMonthTags.map((month) => {
+        let newDate = new Date(month.date);
+        newDate.setDate(newDate.getDate() + 1);
+        this.daysOfLastFiveMonth.push(newDate.getDate());
+      });
+    }
   }
 
   private getDateCalendar(): void {
