@@ -26,20 +26,16 @@ mat-card {
   display: column;
   align-items: center;
   justify-content: center;
+  height: fit-content;
+  width: fit-content;
   margin: 16px;
   padding: 16px;
   border-radius: 8px;
+  border: solid;
 }
 
 .example-small-box {
   display: row;
-  height: fit-content;
-  width: fit-content;
-}
-
-.example-large-box {
-  height: fit-content;
-  width: fit-content;
 }
 
 table {
@@ -213,9 +209,9 @@ td {
   margin-left: 16px;
 }
 
-.example-container {
+.monthly-container {
   height: 300px;
-  width: 850px;
+  width: 600px;
   max-width: 100%;
   overflow: auto;
   margin-top: 40px;

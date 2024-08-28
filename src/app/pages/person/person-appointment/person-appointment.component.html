@@ -24,7 +24,7 @@
               >
               Diária
             </ng-template>
-            <section class="example-container mat-elevation-z8" tabindex="0">
+            <section class="monthly-container mat-elevation-z8" tabindex="0">
               <table mat-table [dataSource]="dataSource">
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
@@ -102,9 +102,7 @@
           <!-- Mensal -->
           <mat-tab>
             <ng-template mat-tab-label>
-              <mat-icon *ngIf="selectedTab.value == 1" class="example-tab-icon"
-                >arrow_right</mat-icon
-              >
+              <mat-icon *ngIf="selectedTab.value == 1">arrow_right</mat-icon>
               Mensal
             </ng-template>
             <div class="grid-container">
@@ -123,128 +121,38 @@
           <!-- Trimestral -->
           <mat-tab>
             <ng-template mat-tab-label>
-              <mat-icon *ngIf="selectedTab.value == 2" class="example-tab-icon"
-                >arrow_right</mat-icon
-              >
+              <mat-icon *ngIf="selectedTab.value == 2">arrow_right</mat-icon>
               Trimestral
             </ng-template>
-            <mat-grid-list cols="3" rowHeight="300px">
-              <mat-grid-tile colspan="1" rowspan="1">
-                <mat-card class="example-large-box demo-inline-calendar-card">
-                  <mat-calendar
-                    [(selected)]="selected"
-                    [dateClass]="dateClassLastTwoMonth"
-                    (click)="openDialog()"
-                    [minDate]="firstDayLastTwoMonth"
-                    [maxDate]="lastDayLastTwoMonth"
-                  ></mat-calendar>
-                </mat-card>
-              </mat-grid-tile>
-              <mat-grid-tile colspan="1" rowspan="1">
-                <mat-card class="example-large-box demo-inline-calendar-card">
-                  <mat-calendar
-                    [(selected)]="selected"
-                    [dateClass]="dateClassLastMonth"
-                    (click)="openDialog()"
-                    [minDate]="firstDayLastMonth"
-                    [maxDate]="lastDayLastMonth"
-                  ></mat-calendar>
-                </mat-card>
-              </mat-grid-tile>
-              <mat-grid-tile colspan="1" rowspan="1">
-                <mat-card class="example-large-box demo-inline-calendar-card">
-                  <mat-calendar
-                    [(selected)]="selected"
-                    [dateClass]="dateClassCurrentMonth"
-                    (click)="openDialog()"
-                    [minDate]="firstDay"
-                    [maxDate]="lastDay"
-                  ></mat-calendar>
-                </mat-card>
-              </mat-grid-tile>
-            </mat-grid-list>
-            <!-- <div class="example-large-box mat-elevation-z4">
-            <h2 align="center" style="color: orange">January 2021</h2>
-            <br />
-            <table
-              bgcolor="lightgrey"
-              align="center"
-              cellspacing="21"
-              cellpadding="21"
-            >
-              <caption align="top"></caption>
-
-              <thead>
-                <tr>
-                  <th style="color: white; background: purple">Sun</th>
-                  <th style="color: white; background: purple">Mon</th>
-                  <th style="color: white; background: purple">Tue</th>
-                  <th style="color: white; background: purple">Wed</th>
-                  <th style="color: white; background: purple">Thu</th>
-                  <th style="color: white; background: purple">Fri</th>
-                  <th style="color: white; background: purple">Sat</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>1</td>
-                  <td>2</td>
-                </tr>
-                <tr></tr>
-                <tr>
-                  <td>3</td>
-                  <td>4</td>
-                  <td>5</td>
-                  <td>6</td>
-                  <td>7</td>
-                  <td>8</td>
-                  <td>9</td>
-                </tr>
-                <tr>
-                  <td>10</td>
-                  <td>11</td>
-                  <td>12</td>
-                  <td>13</td>
-                  <td>14</td>
-                  <td>15</td>
-                  <td>16</td>
-                </tr>
-                <tr>
-                  <td>17</td>
-                  <td>18</td>
-                  <td>19</td>
-                  <td>20</td>
-                  <td>21</td>
-                  <td>22</td>
-                  <td>23</td>
-                </tr>
-                <tr>
-                  <td>24</td>
-                  <td>25</td>
-                  <td>26</td>
-                  <td>27</td>
-                  <td>28</td>
-                  <td>29</td>
-                  <td>30</td>
-                </tr>
-                <tr>
-                  <td>31</td>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>3</td>
-                  <td>4</td>
-                  <td>5</td>
-                  <td>6</td>
-                </tr>
-              </tbody>
-            </table>
-          </div> -->
+            <div class="grid-container">
+              <div>
+                <mat-calendar
+                  [(selected)]="selected"
+                  [dateClass]="dateClassLastTwoMonth"
+                  (click)="openDialog()"
+                  [minDate]="firstDayLastTwoMonth"
+                  [maxDate]="lastDayLastTwoMonth"
+                ></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar
+                  [(selected)]="selected"
+                  [dateClass]="dateClassLastMonth"
+                  (click)="openDialog()"
+                  [minDate]="firstDayLastMonth"
+                  [maxDate]="lastDayLastMonth"
+                ></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar
+                  [(selected)]="selected"
+                  [dateClass]="dateClassCurrentMonth"
+                  (click)="openDialog()"
+                  [minDate]="firstDay"
+                  [maxDate]="lastDay"
+                ></mat-calendar>
+              </div>
+            </div>
           </mat-tab>
 
           <!-- Semestral -->
@@ -255,76 +163,64 @@
               >
               Semestral
             </ng-template>
-            <mat-grid-list cols="3" rowHeight="300px">
-              <mat-grid-tile colspan="1" rowspan="1">
-                <mat-card class="example-large-box demo-inline-calendar-card">
-                  <mat-calendar
-                    [(selected)]="selected"
-                    [dateClass]="dateClassLastFiveMonth"
-                    (click)="openDialog()"
-                    [minDate]="firstDayLastFiveMonth"
-                    [maxDate]="lastDayLastFiveMonth"
-                  ></mat-calendar>
-                </mat-card>
-              </mat-grid-tile>
-              <mat-grid-tile colspan="1" rowspan="1">
-                <mat-card class="example-large-box demo-inline-calendar-card">
-                  <mat-calendar
-                    [(selected)]="selected"
-                    [dateClass]="dateClassLastFourMonth"
-                    (click)="openDialog()"
-                    [minDate]="firstDayLastFourMonth"
-                    [maxDate]="lastDayLastFourMonth"
-                  ></mat-calendar>
-                </mat-card>
-              </mat-grid-tile>
-              <mat-grid-tile colspan="1" rowspan="1">
-                <mat-card class="example-large-box demo-inline-calendar-card">
-                  <mat-calendar
-                    [(selected)]="selected"
-                    [dateClass]="dateClassLastThreeMonth"
-                    (click)="openDialog()"
-                    [minDate]="firstDayLastThreeMonth"
-                    [maxDate]="lastDayLastThreeMonth"
-                  ></mat-calendar>
-                </mat-card>
-              </mat-grid-tile>
-            </mat-grid-list>
-            <mat-grid-list cols="3" rowHeight="300px">
-              <mat-grid-tile colspan="1" rowspan="1">
-                <mat-card class="example-large-box demo-inline-calendar-card">
-                  <mat-calendar
-                    [(selected)]="selected"
-                    [dateClass]="dateClassLastTwoMonth"
-                    (click)="openDialog()"
-                    [minDate]="firstDayLastTwoMonth"
-                    [maxDate]="lastDayLastTwoMonth"
-                  ></mat-calendar>
-                </mat-card>
-              </mat-grid-tile>
-              <mat-grid-tile colspan="1" rowspan="1">
-                <mat-card class="example-large-box demo-inline-calendar-card">
-                  <mat-calendar
-                    [(selected)]="selected"
-                    [dateClass]="dateClassLastMonth"
-                    (click)="openDialog()"
-                    [minDate]="firstDayLastMonth"
-                    [maxDate]="lastDayLastMonth"
-                  ></mat-calendar>
-                </mat-card>
-              </mat-grid-tile>
-              <mat-grid-tile colspan="1" rowspan="1">
-                <mat-card class="example-large-box demo-inline-calendar-card">
-                  <mat-calendar
-                    [(selected)]="selected"
-                    [dateClass]="dateClassCurrentMonth"
-                    (click)="openDialog()"
-                    [minDate]="firstDay"
-                    [maxDate]="lastDay"
-                  ></mat-calendar>
-                </mat-card>
-              </mat-grid-tile>
-            </mat-grid-list>
+            <div class="grid-container">
+              <div>
+                <mat-calendar
+                  [(selected)]="selected"
+                  [dateClass]="dateClassLastFiveMonth"
+                  (click)="openDialog()"
+                  [minDate]="firstDayLastFiveMonth"
+                  [maxDate]="lastDayLastFiveMonth"
+                ></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar
+                  [(selected)]="selected"
+                  [dateClass]="dateClassLastFourMonth"
+                  (click)="openDialog()"
+                  [minDate]="firstDayLastFourMonth"
+                  [maxDate]="lastDayLastFourMonth"
+                ></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar
+                  [(selected)]="selected"
+                  [dateClass]="dateClassLastThreeMonth"
+                  (click)="openDialog()"
+                  [minDate]="firstDayLastThreeMonth"
+                  [maxDate]="lastDayLastThreeMonth"
+                ></mat-calendar>
+              </div>
+            </div>
+            <div class="grid-container">
+              <div>
+                <mat-calendar
+                  [(selected)]="selected"
+                  [dateClass]="dateClassLastTwoMonth"
+                  (click)="openDialog()"
+                  [minDate]="firstDayLastTwoMonth"
+                  [maxDate]="lastDayLastTwoMonth"
+                ></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar
+                  [(selected)]="selected"
+                  [dateClass]="dateClassLastMonth"
+                  (click)="openDialog()"
+                  [minDate]="firstDayLastMonth"
+                  [maxDate]="lastDayLastMonth"
+                ></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar
+                  [(selected)]="selected"
+                  [dateClass]="dateClassCurrentMonth"
+                  (click)="openDialog()"
+                  [minDate]="firstDay"
+                  [maxDate]="lastDay"
+                ></mat-calendar>
+              </div>
+            </div>
           </mat-tab>
         </mat-tab-group>
       </div>
@@ -338,8 +234,8 @@
             [lazyLoad]="person.picture"
             defaultImage="https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
             alt=""
-            width="400"
-            height="400"
+            width="200"
+            height="200"
           />
         </mat-card-title>
         <mat-card-title> Nome: {{ person.name }} </mat-card-title>
