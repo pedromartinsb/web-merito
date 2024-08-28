@@ -80,4 +80,5 @@ export enum Gender {
 export enum ContractType {
   CLT = 'Clt',
   AUTONOMO = 'Autônomo',
+  SUPPLIER = 'Fornecedor',
 }

@@ -5,7 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { PersonService } from 'src/app/services/person.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Person, User } from 'src/app/models/person';
+import {
+  AddressSearch,
+  ContractType,
+  Person,
+  User,
+} from 'src/app/models/person';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Address } from 'src/app/models/address';
@@ -13,6 +18,9 @@ import { Contact } from 'src/app/models/contact';
 import { AuthGuard } from 'src/app/auth/auth.guard';
 import { Office } from 'src/app/models/office';
 import { OfficeService } from 'src/app/services/office.service';
+import { ResponsibilityService } from 'src/app/services/responsibility.service';
+import { Responsibility } from 'src/app/models/responsibility';
+import { NgxFileDropEntry } from 'ngx-file-drop';
 
 @Component({
   selector: 'app-supplier-form',
@@ -23,9 +31,12 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
   personId: string;
   isAdmin: boolean = false;
   isLoading: boolean = false;
+  isCpf: boolean = false;
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
   dataSource = new MatTableDataSource<Person>();
   officies: Office[] = [];
+  responsibilities: Responsibility[] = [];
+  addressSearch: AddressSearch;
 
   user: User = {
     username: '',
@@ -53,7 +64,7 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
     cpfCnpj: '',
     personType: 'Colaborador',
     gender: 'Masculino',
-    contractType: 'Clt',
+    contractType: ContractType.SUPPLIER,
     picture: '',
     office: null,
     officeId: '',
@@ -78,7 +89,8 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
     private toast: ToastrService,
     private route: ActivatedRoute,
     private authGuard: AuthGuard,
-    private officeService: OfficeService
+    private officeService: OfficeService,
+    private responsibilityService: ResponsibilityService
   ) {}
 
   ngOnInit(): void {
@@ -86,10 +98,11 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
     this.personId = this.route.snapshot.params['id'];
     this.isAdmin = this.authGuard.checkIsAdmin();
     if (this.personId) {
-      // this._getPersonById(this.personId);
+      this._getPersonById(this.personId);
     } else {
       this._getOfficesAndResponsibilitiesAndRoles();
     }
+    this.isLoading = false;
   }
 
   ngAfterViewInit() {
@@ -97,35 +110,139 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  private _getPersonById(id: string): void {
+    // this.personService
+    //   .findById(id)
+    //   .pipe(
+    //     finalize(() => {
+    //       this._getOfficesAndResponsibilitiesAndRoles();
+    //       this._getRoutinesByResponsibilityId(this.person.responsibility.id);
+    //     })
+    //   )
+    //   .subscribe((response) => {
+    //     if (response['contractType'] === 'Autônomo') {
+    //       response['contractType'] = 'Autônomo';
+    //       this.radioContractTypeOptions = 'Autônomo';
+    //       this.isCpf = false;
+    //     }
+    //     if (response['gender'] === 'Feminino') {
+    //       response['gender'] = 'Feminino';
+    //       this.radioGenderOptions = 'Feminino';
+    //     }
+    //     this.person = response;
+    //   });
+  }
+
   private _getOfficesAndResponsibilitiesAndRoles() {
     this._getOfficies();
     this._getResponsibilities();
-    // this._getRoles();
   }
 
   private _getOfficies(): void {
-    // this.officeService.findAll().subscribe((response: Office[]) => {
-    //   this.officies = response;
-    //   if (this.personId) {
-    //     this.officeFormControl.setValue(
-    //       response.find((p) => p.id === this.person.office.id)
-    //     );
-    //     this.person.officeId = this.person.office.id;
-    //   }
-    // });
+    this.officeService.findAll().subscribe((response: Office[]) => {
+      this.officies = response;
+      // if (this.personId) {
+      //   this.officeFormControl.setValue(
+      //     response.find((p) => p.id === this.person.office.id)
+      //   );
+      //   this.person.officeId = this.person.office.id;
+      // }
+    });
   }
 
   private _getResponsibilities(): void {
-    // this.responsibilityService
-    //   .findAll()
-    //   .subscribe((response: Responsibility[]) => {
-    //     this.responsibilities = response;
-    //     if (this.personId) {
-    //       this.responsibilityFormControl.setValue(
-    //         response.find((p) => p.id === this.person.responsibility.id)
-    //       );
-    //       this.person.responsibilityId = this.person.responsibility.id;
-    //     }
+    this.responsibilityService
+      .findAll()
+      .subscribe((response: Responsibility[]) => {
+        this.responsibilities = response;
+        // if (this.personId) {
+        //   this.responsibilityFormControl.setValue(
+        //     response.find((p) => p.id === this.person.responsibility.id)
+        //   );
+        //   this.person.responsibilityId = this.person.responsibility.id;
+        // }
+      });
+  }
+
+  public save(data: any) {
+    this.isLoading = true;
+    const fileEntry = data.document.fileEntry as FileSystemFileEntry;
+    fileEntry.file((document: File) => {
+      this.personService.create(data.person, document).subscribe({
+        next: () => {
+          this.toast.success('Fornecedor cadastrado com sucesso', 'Cadastro');
+          this.router.navigate(['supplier']);
+          this.isLoading = false;
+        },
+        error: (ex) => {
+          this._handleErrors(ex);
+          this.isLoading = false;
+        },
+      });
+    });
+
+    // if (this.documents[0] == undefined) {
+    //   this.toast.error('É obrigatório cadastrar uma imagem.');
+    //   this.isSaving = false;
+    // } else {
+    //   const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
+    //   fileEntry.file((document: File) => {
+    //     this.personService.create(this.person, document).subscribe({
+    //       next: () => {
+    //         this.toast.success(
+    //           'Colaborador cadastrado com sucesso',
+    //           'Cadastro'
+    //         );
+    //         this.router.navigate(['person']);
+    //         this.isSaving = false;
+    //       },
+    //       error: (ex) => {
+    //         this._handleErrors(ex);
+    //         this.isSaving = false;
+    //       },
+    //     });
     //   });
+    // }
+  }
+
+  private _handleErrors(ex: any): void {
+    if (ex.error.errors) {
+      ex.error.errors.forEach((element) => {
+        this.toast.error(element.message);
+      });
+    } else {
+      this.toast.error(ex.error.message);
+    }
+  }
+
+  public getAddress(value: string) {
+    this.personService
+      .findAddress(value)
+      .subscribe((response: AddressSearch) => {
+        if (response.cep && response.cep.length > 0) {
+          this.addressSearch = response;
+          this.toast.success('Endereço preenchido com Sucesso', 'Atualização');
+        } else {
+          this.toast.error('CEP não encontrado.');
+        }
+      });
+  }
+
+  private _setAddress(addressSearch: AddressSearch) {
+    // const currentCep = this.cepFormControl.value;
+    // let newAddress: Address = {
+    //   cep: currentCep,
+    //   city: addressSearch.localidade,
+    //   complement: addressSearch.complemento,
+    //   neighborhood: addressSearch.bairro,
+    //   streetName: addressSearch.logradouro,
+    //   uf: addressSearch.uf,
+    // };
+    // this.cityFormControl.patchValue(addressSearch.localidade);
+    // this.complementFormControl.patchValue(addressSearch.complemento);
+    // this.neighborhoodFormControl.patchValue(addressSearch.bairro);
+    // this.streetNameFormControl.patchValue(addressSearch.logradouro);
+    // this.ufFormControl.patchValue(addressSearch.uf);
+    // this.person.address = newAddress;
   }
 }

@@ -4,15 +4,20 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
+  OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxFileDropEntry } from 'ngx-file-drop';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { Office } from 'src/app/models/office';
-import { Person } from 'src/app/models/person';
+import { Address, AddressSearch, Person } from 'src/app/models/person';
 import { Responsibility } from 'src/app/models/responsibility';
 import { Roles } from 'src/app/models/role';
 
@@ -21,11 +26,11 @@ import { Roles } from 'src/app/models/role';
   templateUrl: './forms.component.html',
   styleUrls: ['./forms.component.css'],
 })
-export class FormsComponent implements AfterViewInit {
+export class FormsComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() id: string = '';
   @Input() name: string = '';
   @Input() title: string = '';
-  @Input() isSaving: boolean = false;
+  @Input() isSaving: boolean;
   @Input() isCpf: boolean = true;
   @Input() isAdmin: boolean = false;
   @Input() radioContractTypeOptions: string = 'Autônomo';
@@ -36,11 +41,13 @@ export class FormsComponent implements AfterViewInit {
   @Input() officies: Office[] = [];
   @Input() responsibilities: Responsibility[] = [];
   @Input() displayedColumns: string[] = [];
+  @Input() addressSearch: AddressSearch;
   @Input() dataSource = new MatTableDataSource();
   @Output() personEvent = new EventEmitter<Person>();
   @Output() documentsEvent = new EventEmitter<NgxFileDropEntry[]>();
-  @Output() saveEvent = new EventEmitter<Person>();
+  @Output() saveEvent = new EventEmitter<{ person: Person; document: any }>();
   @Output() updateEvent = new EventEmitter<Person>();
+  @Output() addressEvent = new EventEmitter<string>();
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -53,6 +60,7 @@ export class FormsComponent implements AfterViewInit {
       value: { name: Roles.ROLE_USER_OFFICE },
     },
   ];
+  cepValueChangesSubscription: Subscription;
 
   // FormControl
   nameFormControl: FormControl = new FormControl(null, Validators.minLength(3));
@@ -86,7 +94,36 @@ export class FormsComponent implements AfterViewInit {
   phoneFormControl: FormControl = new FormControl();
   cellphoneFormControl: FormControl = new FormControl();
 
-  constructor(private _location: Location) {}
+  constructor(private _location: Location, private toast: ToastrService) {}
+
+  ngOnInit(): void {
+    this.cepValueChangesSubscription =
+      this.cepFormControl.valueChanges.subscribe((newCep: string) => {
+        if (newCep && newCep.length === 8) {
+          this._getAddress();
+        }
+      });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.cepFormControl.value.length === 8) {
+      const currentCep = this.cepFormControl.value;
+      let newAddress: Address = {
+        cep: currentCep,
+        city: this.addressSearch.localidade,
+        complement: this.addressSearch.complemento,
+        neighborhood: this.addressSearch.bairro,
+        streetName: this.addressSearch.logradouro,
+        uf: this.addressSearch.uf,
+      };
+      this.cityFormControl.patchValue(this.addressSearch.localidade);
+      this.complementFormControl.patchValue(this.addressSearch.complemento);
+      this.neighborhoodFormControl.patchValue(this.addressSearch.bairro);
+      this.streetNameFormControl.patchValue(this.addressSearch.logradouro);
+      this.ufFormControl.patchValue(this.addressSearch.uf);
+      this.person.address = newAddress;
+    }
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -105,7 +142,7 @@ export class FormsComponent implements AfterViewInit {
   }
 
   public droppedDocument(documents: NgxFileDropEntry[]) {
-    this.documentsEvent.emit(documents);
+    this.documents = documents;
   }
 
   public validateFields(): boolean {
@@ -118,14 +155,39 @@ export class FormsComponent implements AfterViewInit {
   }
 
   public save() {
-    this.saveEvent.emit(this.person);
+    if (this.documents[0] == undefined) {
+      this.toast.error('É obrigatório cadastrar uma imagem.');
+    } else {
+      this.saveEvent.emit({
+        person: this.person,
+        document: this.documents[0],
+      });
+    }
+    this.isSaving = false;
   }
 
   public update() {
-    this.saveEvent.emit(this.person);
+    // this.saveEvent.emit(this.person);
   }
 
   public compareRoles(role1: any, role2: any): boolean {
     return role1.name === role2.name;
+  }
+
+  private _getRoles(): void {
+    if (this.person.user.roles) {
+      let selectedRoles: any[] = this.roleLabels.filter((roleLabel) =>
+        this.person.user.roles.some(
+          (userRole) => userRole.name === roleLabel.value.name
+        )
+      );
+      this.roleFormControl.patchValue(selectedRoles);
+    }
+  }
+
+  public _getAddress() {
+    if (this.cepFormControl.value.length === 8) {
+      this.addressEvent.emit(this.cepFormControl.value);
+    }
   }
 }

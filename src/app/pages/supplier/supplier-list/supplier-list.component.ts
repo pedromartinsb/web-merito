@@ -41,7 +41,7 @@ export class SupplierListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this._getAutonomous();
+    this._getSuppliers();
   }
 
   ngAfterViewInit() {
@@ -49,8 +49,8 @@ export class SupplierListComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private _getAutonomous() {
-    this.personService.findAllByContractType('Professional').subscribe({
+  private _getSuppliers() {
+    this.personService.findAllByContractType('Supplier').subscribe({
       next: (response) => {
         if (response != null) {
           response.forEach((r) => {
@@ -84,12 +84,12 @@ export class SupplierListComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
 
     dialogRef.componentInstance.message =
-      'Tem certeza que deseja desativar o profissional?';
+      'Tem certeza que deseja desativar o Fornecedor?';
 
     dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
       this._deactivatePerson(personId);
       dialogRef.close();
-      this.toast.success('Profissional desativado com sucesso', 'Excluir');
+      this.toast.success('Fornecedor desativado com sucesso', 'Excluir');
     });
 
     dialogRef.componentInstance.deleteCanceled.subscribe(() => {
@@ -99,7 +99,7 @@ export class SupplierListComponent implements OnInit, AfterViewInit {
 
   private _deactivatePerson(personId: string): void {
     this.personService.deactivate(personId).subscribe(() => {
-      this._getAutonomous();
+      this._getSuppliers();
     });
   }
 

@@ -4,4 +4,10 @@
   [person]="this.person"
   radioContractTypeOptions="Fornecedor"
   [isAdmin]="this.isAdmin"
+  [isCpf]="this.isCpf"
+  [officies]="this.officies"
+  [addressSearch]="this.addressSearch"
+  [responsibilities]="this.responsibilities"
+  (saveEvent)="save($event)"
+  (addressEvent)="getAddress($event)"
 ></app-forms>
