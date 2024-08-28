@@ -236,24 +236,6 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private _setAddress(addressSearch: AddressSearch) {
-    // const currentCep = this.cepFormControl.value;
-    // let newAddress: Address = {
-    //   cep: currentCep,
-    //   city: addressSearch.localidade,
-    //   complement: addressSearch.complemento,
-    //   neighborhood: addressSearch.bairro,
-    //   streetName: addressSearch.logradouro,
-    //   uf: addressSearch.uf,
-    // };
-    // this.cityFormControl.patchValue(addressSearch.localidade);
-    // this.complementFormControl.patchValue(addressSearch.complemento);
-    // this.neighborhoodFormControl.patchValue(addressSearch.bairro);
-    // this.streetNameFormControl.patchValue(addressSearch.logradouro);
-    // this.ufFormControl.patchValue(addressSearch.uf);
-    // this.person.address = newAddress;
-  }
-
   private _getRoutinesByResponsibilityId(id: string): void {
     // this.routineService.findAllByResponsibility(id).subscribe((response) => {
     //   if (response) {

@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -26,7 +27,9 @@ import { Roles } from 'src/app/models/role';
   templateUrl: './forms.component.html',
   styleUrls: ['./forms.component.css'],
 })
-export class FormsComponent implements OnInit, AfterViewInit, OnChanges {
+export class FormsComponent
+  implements OnInit, AfterViewInit, OnChanges, OnDestroy
+{
   @Input() id: string = '';
   @Input() name: string = '';
   @Input() title: string = '';
@@ -127,6 +130,10 @@ export class FormsComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+  }
+
+  ngOnDestroy(): void {
+    this.cepFormControl.reset();
   }
 
   public backClicked() {

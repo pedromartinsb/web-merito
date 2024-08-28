@@ -71,6 +71,7 @@ export class AuthGuard implements CanActivate {
   }
 
   checkIsAdmin(): boolean {
+    this.isAdmin = false;
     const userRole = this.authService.getRole();
     userRole.forEach((role) => {
       if (role === 'ROLE_ADMIN') {

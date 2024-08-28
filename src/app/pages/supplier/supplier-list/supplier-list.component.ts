@@ -50,6 +50,8 @@ export class SupplierListComponent implements OnInit, AfterViewInit {
   }
 
   private _getSuppliers() {
+    console.log('_getSuppliers');
+
     this.personService.findAllByContractType('Supplier').subscribe({
       next: (response) => {
         if (response != null) {
