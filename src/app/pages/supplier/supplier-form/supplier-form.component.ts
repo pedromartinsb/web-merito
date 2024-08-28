@@ -1,14 +1,18 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppointmentService } from './../../../services/appointment.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { DeleteConfirmationModalComponent } from 'src/app/components/delete/delete-confirmation-modal';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { PersonService } from 'src/app/services/person.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Person } from 'src/app/models/person';
+import { Person, User } from 'src/app/models/person';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { Address } from 'src/app/models/address';
+import { Contact } from 'src/app/models/contact';
+import { AuthGuard } from 'src/app/auth/auth.guard';
+import { Office } from 'src/app/models/office';
+import { OfficeService } from 'src/app/services/office.service';
 
 @Component({
   selector: 'app-supplier-form',
@@ -16,18 +20,53 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./supplier-form.component.css'],
 })
 export class SupplierFormComponent implements OnInit, AfterViewInit {
+  personId: string;
+  isAdmin: boolean = false;
   isLoading: boolean = false;
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
-  displayedColumns: string[] = [
-    'picture',
-    'name',
-    'fantasyName',
-    'responsibility',
-    'routines',
-    'goals',
-    'actions',
-  ];
   dataSource = new MatTableDataSource<Person>();
+  officies: Office[] = [];
+
+  user: User = {
+    username: '',
+    email: '',
+    roles: null,
+    password: '',
+  };
+
+  address: Address = {
+    cep: '',
+    streetName: '',
+    neighborhood: '',
+    city: '',
+    uf: '',
+    complement: '',
+  };
+
+  contact: Contact = {
+    phone: '',
+    cellphone: '',
+  };
+
+  person: Person = {
+    name: '',
+    cpfCnpj: '',
+    personType: 'Colaborador',
+    gender: 'Masculino',
+    contractType: 'Clt',
+    picture: '',
+    office: null,
+    officeId: '',
+    responsibility: null,
+    responsibilityId: '',
+    user: this.user,
+    address: this.address,
+    contact: this.contact,
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: '',
+  };
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -36,12 +75,21 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
     private appointmentService: AppointmentService,
     private router: Router,
     private dialog: MatDialog,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private route: ActivatedRoute,
+    private authGuard: AuthGuard,
+    private officeService: OfficeService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this._getAutonomous();
+    this.personId = this.route.snapshot.params['id'];
+    this.isAdmin = this.authGuard.checkIsAdmin();
+    if (this.personId) {
+      // this._getPersonById(this.personId);
+    } else {
+      this._getOfficesAndResponsibilitiesAndRoles();
+    }
   }
 
   ngAfterViewInit() {
@@ -49,69 +97,35 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private _getAutonomous() {
-    this.personService.findAllByContractType('Professional').subscribe({
-      next: (response) => {
-        if (response != null) {
-          response.forEach((r) => {
-            if (r.picture != null) {
-              r.picture = this.s3Url + r.picture;
-            }
-          });
-          this.dataSource = new MatTableDataSource<Person>(response);
-          this.dataSource.paginator = this.paginator;
-          this.isLoading = false;
-        }
-      },
-      error: (err) => console.log(err),
-    });
+  private _getOfficesAndResponsibilitiesAndRoles() {
+    this._getOfficies();
+    this._getResponsibilities();
+    // this._getRoles();
   }
 
-  public openAppointment(personId: string): void {
-    var date = new Date();
-    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    this.appointmentService
-      .getMonthlyTags(personId, firstDay, lastDay)
-      .subscribe((response) => {
-        this.router.navigate(['person', 'appointment', personId], {
-          state: { monthlyTags: response },
-        });
-      });
+  private _getOfficies(): void {
+    // this.officeService.findAll().subscribe((response: Office[]) => {
+    //   this.officies = response;
+    //   if (this.personId) {
+    //     this.officeFormControl.setValue(
+    //       response.find((p) => p.id === this.person.office.id)
+    //     );
+    //     this.person.officeId = this.person.office.id;
+    //   }
+    // });
   }
 
-  public openDeleteConfirmationModal(personId: string): void {
-    const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
-
-    dialogRef.componentInstance.message =
-      'Tem certeza que deseja desativar o profissional?';
-
-    dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
-      this._deactivatePerson(personId);
-      dialogRef.close();
-      this.toast.success('Profissional desativado com sucesso', 'Excluir');
-    });
-
-    dialogRef.componentInstance.deleteCanceled.subscribe(() => {
-      dialogRef.close();
-    });
-  }
-
-  private _deactivatePerson(personId: string): void {
-    this.personService.deactivate(personId).subscribe(() => {
-      this._getAutonomous();
-    });
-  }
-
-  public edit(personId: string): void {
-    this.router.navigate(['autonomous', 'edit', personId]);
-  }
-
-  public getRoutinesByPerson(personId: string): void {
-    this.router.navigate(['routine', 'person', personId]);
-  }
-
-  public getGoalsByPerson(personId: string): void {
-    this.router.navigate(['goal', 'person', personId]);
+  private _getResponsibilities(): void {
+    // this.responsibilityService
+    //   .findAll()
+    //   .subscribe((response: Responsibility[]) => {
+    //     this.responsibilities = response;
+    //     if (this.personId) {
+    //       this.responsibilityFormControl.setValue(
+    //         response.find((p) => p.id === this.person.responsibility.id)
+    //       );
+    //       this.person.responsibilityId = this.person.responsibility.id;
+    //     }
+    //   });
   }
 }

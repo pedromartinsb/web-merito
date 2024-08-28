@@ -1,0 +1,12 @@
+<app-table
+  title="Fornecedores"
+  subtitle="Listagem"
+  [isLoading]="isLoading"
+  [dataSource]="dataSource"
+  [displayedColumns]="displayedColumns"
+  (openAppointmentEvent)="openAppointment($event)"
+  (editEvent)="edit($event)"
+  (getRoutinesByPersonEvent)="getRoutinesByPerson($event)"
+  (getGoalsByPersonEvent)="getGoalsByPerson($event)"
+  (openDeleteConfirmationModalEvent)="openDeleteConfirmationModal($event)"
+></app-table>

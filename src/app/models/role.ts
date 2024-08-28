@@ -2,3 +2,13 @@ export interface Role {
   id?: string;
   name: string;
 }
+
+export enum Roles {
+  ROLE_ADMIN = 'ROLE_ADMIN',
+  ROLE_ADMIN_GERAL = 'ROLE_ADMIN_GERAL',
+  ROLE_ADMIN_COMPANY = 'ROLE_ADMIN_COMPANY',
+  ROLE_ADMIN_OFFICE = 'ROLE_ADMIN_OFFICE',
+  ROLE_USER_OFFICE = 'ROLE_USER_OFFICE',
+  // ROLE_MODERATOR = 'ROLE_MODERATOR',
+  // ROLE_USER = 'ROLE_USER',
+}
