@@ -1,22 +1,26 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Person } from 'src/app/models/person';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
 })
-export class TableComponent implements AfterViewInit {
+export class TableComponent implements OnChanges {
   @Input() displayedColumns: string[] = [];
-  @Input() dataSource = new MatTableDataSource();
+  // @Input() dataSource = new MatTableDataSource<Person>();
+  @Input() persons: Person[] = [];
   @Input() title: string = '';
   @Input() subtitle: string = '';
   @Input() isLoading: boolean = false;
@@ -25,12 +29,15 @@ export class TableComponent implements AfterViewInit {
   @Output() getRoutinesByPersonEvent = new EventEmitter<string>();
   @Output() getGoalsByPersonEvent = new EventEmitter<string>();
   @Output() openDeleteConfirmationModalEvent = new EventEmitter<string>();
-
+  dataSource = new MatTableDataSource<Person>();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor() {}
 
-  ngAfterViewInit() {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.dataSource = new MatTableDataSource<Person>(this.persons);
+    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 

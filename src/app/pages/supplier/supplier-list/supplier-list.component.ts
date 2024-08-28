@@ -1,8 +1,5 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DeleteConfirmationModalComponent } from 'src/app/components/delete/delete-confirmation-modal';
@@ -15,7 +12,7 @@ import { PersonService } from 'src/app/services/person.service';
   templateUrl: './supplier-list.component.html',
   styleUrls: ['./supplier-list.component.css'],
 })
-export class SupplierListComponent implements OnInit, AfterViewInit {
+export class SupplierListComponent implements OnInit {
   isLoading: boolean = false;
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
   displayedColumns: string[] = [
@@ -27,9 +24,7 @@ export class SupplierListComponent implements OnInit, AfterViewInit {
     'goals',
     'actions',
   ];
-  dataSource = new MatTableDataSource<Person>();
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  persons: Person[] = [];
 
   constructor(
     private personService: PersonService,
@@ -44,14 +39,7 @@ export class SupplierListComponent implements OnInit, AfterViewInit {
     this._getSuppliers();
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
   private _getSuppliers() {
-    console.log('_getSuppliers');
-
     this.personService.findAllByContractType('Supplier').subscribe({
       next: (response) => {
         if (response != null) {
@@ -60,8 +48,7 @@ export class SupplierListComponent implements OnInit, AfterViewInit {
               r.picture = this.s3Url + r.picture;
             }
           });
-          this.dataSource = new MatTableDataSource<Person>(response);
-          this.dataSource.paginator = this.paginator;
+          this.persons = response;
         }
       },
       error: (err) => console.log(err),
