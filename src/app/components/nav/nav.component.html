@@ -63,253 +63,14 @@
       [class.mat-elevation-z4]="true"
       class="app-sidenav"
     >
-      <!-- ADMIN -->
-      <div *ngIf="this.isAdmin">
-        <!-- Sidenav List -->
+      <div>
         <mat-nav-list>
-          <!-- Personal -->
-          <mat-list-item>
-            <mat-icon class="icon-display">account_circle</mat-icon>
-            <span>{{ personName }}</span>
-          </mat-list-item>
-
-          <!-- Home -->
-          <mat-list-item routerLink="home">
-            <mat-icon>home</mat-icon> <span>Home</span>
-          </mat-list-item>
-
-          <!-- Registrar Ocorrência -->
-          <!-- <mat-list-item
-        routerLink="appointment"
-        *ngIf="canAdminAccess || canModeratorAccess"
-      >
-        <mat-icon>menu_book</mat-icon> <span>Registrar Ocorrência</span>
-      </mat-list-item> -->
-
-          <!-- Relatórios -->
-          <!-- <mat-list-item
-        routerLink="dashboard"
-        *ngIf="canAdminAccess || canModeratorAccess"
-      >
-        <mat-icon>pie_chart</mat-icon> <span>Relatórios</span>
-      </mat-list-item> -->
-
-          <!-- Cadastros -->
-          <mat-expansion-panel [class.mat-elevation-z0]="true">
-            <mat-expansion-panel-header
-              ><mat-icon>app_registration</mat-icon> Cadastros
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <!-- Segment -->
-              <a
-                mat-list-item
-                routerLink="segment"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>account_tree</mat-icon> <span>Segmentos</span>
-              </a>
-
-              <!-- Holding -->
-              <a
-                mat-list-item
-                routerLink="holding"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>domain_add</mat-icon><span>Grupos</span>
-              </a>
-
-              <!-- Company -->
-              <a
-                mat-list-item
-                routerLink="company"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>apartment</mat-icon><span>Empresas</span>
-              </a>
-
-              <!-- Office -->
-              <a
-                mat-list-item
-                routerLink="office"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>storefront</mat-icon><span>Unidades</span>
-              </a>
-
-              <!-- Responsibility -->
-              <a
-                mat-list-item
-                routerLink="responsibility"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>badge</mat-icon><span>Funções</span>
-              </a>
-
-              <!-- Person -->
-              <a
-                mat-list-item
-                routerLink="person"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>person_add</mat-icon><span>Colaboradores</span>
-              </a>
-
-              <!-- Person -->
-              <a
-                mat-list-item
-                routerLink="autonomous"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>engineering</mat-icon><span>Profissionais</span>
-              </a>
-
-              <!-- Routine -->
-              <a
-                mat-list-item
-                routerLink="routine"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>event_available</mat-icon><span>Rotinas</span>
-              </a>
-
-              <!-- Goal -->
-              <a
-                mat-list-item
-                routerLink="goal"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>checklist</mat-icon><span>Metas</span>
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-
-          <!-- Documentos -->
-          <mat-expansion-panel [class.mat-elevation-z0]="true">
-            <mat-expansion-panel-header
-              ><mat-icon>save</mat-icon> Documentos
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a
-                mat-list-item
-                routerLink="document"
-                *ngIf="canAdminAccess || canModeratorAccess || canUserAccess"
-              >
-                <mat-icon>format_list_bulleted</mat-icon><span>Listagem</span>
-              </a>
-              <a
-                mat-list-item
-                routerLink="document/upload"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>create_new_folder</mat-icon><span>Adicionar</span>
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-
-          <!-- Permissões -->
-          <mat-list-item routerLink="permission" *ngIf="canAdminAccess">
-            <mat-icon>settings</mat-icon> <span>Permissões</span>
-          </mat-list-item>
-
-          <!-- Logout -->
-          <mat-list-item (click)="logout()">
-            <mat-icon>exit_to_app</mat-icon> <span>Sair</span>
-          </mat-list-item>
-        </mat-nav-list>
-      </div>
-
-      <!-- ADMIN GERAL -->
-      <div *ngIf="this.isAdminGeral">
-        <!-- Sidenav List -->
-        <mat-nav-list>
-          <!-- Personal -->
-          <mat-list-item>
-            <mat-icon class="icon-display">account_circle</mat-icon>
-            <span>{{ personName }}</span>
-          </mat-list-item>
-
-          <!-- Home -->
-          <mat-list-item routerLink="home">
-            <mat-icon>home</mat-icon> <span>Home</span>
-          </mat-list-item>
-
-          <!-- Cadastros -->
-          <mat-expansion-panel [class.mat-elevation-z0]="true">
-            <mat-expansion-panel-header
-              ><mat-icon>apartment</mat-icon> Empresa
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <!-- Company -->
-              <a mat-list-item routerLink="company">
-                <mat-icon>apartment</mat-icon><span>Empresas</span>
-              </a>
-
-              <!-- Office -->
-              <a mat-list-item routerLink="office">
-                <mat-icon>storefront</mat-icon><span>Unidades</span>
-              </a>
-
-              <!-- Responsibility -->
-              <a mat-list-item routerLink="responsibility">
-                <mat-icon>badge</mat-icon><span>Funções</span>
-              </a>
-
-              <!-- Person -->
-              <a mat-list-item routerLink="person">
-                <mat-icon>person_add</mat-icon><span>Colaboradores</span>
-              </a>
-
-              <!-- Person -->
-              <a mat-list-item routerLink="autonomous">
-                <mat-icon>engineering</mat-icon><span>Profissionais</span>
-              </a>
-
-              <!-- Routine -->
-              <a mat-list-item routerLink="routine">
-                <mat-icon>event_available</mat-icon><span>Rotinas</span>
-              </a>
-
-              <!-- Goal -->
-              <a mat-list-item routerLink="goal">
-                <mat-icon>checklist</mat-icon><span>Metas</span>
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-
-          <!-- Documentos -->
-          <mat-expansion-panel [class.mat-elevation-z0]="true">
-            <mat-expansion-panel-header
-              ><mat-icon>save</mat-icon> Documentos
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item routerLink="document">
-                <mat-icon>format_list_bulleted</mat-icon><span>Listagem</span>
-              </a>
-              <a mat-list-item routerLink="document/upload">
-                <mat-icon>create_new_folder</mat-icon><span>Adicionar</span>
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-
-          <!-- Permissões -->
-          <mat-list-item routerLink="permission" *ngIf="canAdminAccess">
-            <mat-icon>settings</mat-icon> <span>Permissões</span>
-          </mat-list-item>
-
-          <!-- Logout -->
-          <mat-list-item (click)="logout()">
-            <mat-icon>exit_to_app</mat-icon> <span>Sair</span>
-          </mat-list-item>
-        </mat-nav-list>
-      </div>
-
-      <!-- ADMIN EMPRESA -->
-      <div *ngIf="this.isAdminEmpresa">
-        <!-- Sidenav List -->
-        <mat-nav-list>
-          <!-- Personal -->
           <div mat-subheader>Perfil</div>
-          <mat-list-item>
+          <mat-list-item *ngIf="this.isAdmin">
+            <mat-icon class="icon-display">account_circle</mat-icon>
+            <span>ADMIN - FULL ACCESS</span>
+          </mat-list-item>
+          <mat-list-item *ngIf="!this.isAdmin">
             <mat-icon class="icon-display">account_circle</mat-icon>
             <span>{{ personName }}</span>
           </mat-list-item>
@@ -318,16 +79,52 @@
             <mat-icon>home</mat-icon> <span>Home</span>
           </mat-list-item>
           <div mat-subheader>Cadastros</div>
-          <mat-list-item routerLink="person">
+          <mat-list-item routerLink="segment" *ngIf="this.isAdmin">
+            <mat-icon>account_tree</mat-icon> <span>Segmentos</span>
+          </mat-list-item>
+          <mat-list-item routerLink="holding" *ngIf="this.isAdmin">
+            <mat-icon>domain_add</mat-icon> <span>Grupos</span>
+          </mat-list-item>
+          <mat-list-item routerLink="company" *ngIf="this.isAdmin">
+            <mat-icon>apartment</mat-icon> <span>Empresas</span>
+          </mat-list-item>
+          <mat-list-item routerLink="office" *ngIf="this.isAdmin">
+            <mat-icon>storefront</mat-icon> <span>Unidades</span>
+          </mat-list-item>
+          <mat-list-item
+            routerLink="person"
+            *ngIf="
+              this.isAdmin ||
+              this.isAdminGeral ||
+              this.isAdminEmpresa ||
+              this.isAdminOffice
+            "
+          >
             <mat-icon>person</mat-icon> <span>Colaboradores</span>
           </mat-list-item>
-          <mat-list-item routerLink="autonomous">
+          <mat-list-item
+            routerLink="autonomous"
+            *ngIf="
+              this.isAdmin ||
+              this.isAdminGeral ||
+              this.isAdminEmpresa ||
+              this.isAdminOffice
+            "
+          >
             <mat-icon>group</mat-icon> <span>Profissionais</span>
           </mat-list-item>
-          <mat-list-item routerLink="supplier">
+          <mat-list-item
+            routerLink="supplier"
+            *ngIf="
+              this.isAdmin ||
+              this.isAdminGeral ||
+              this.isAdminEmpresa ||
+              this.isAdminOffice
+            "
+          >
             <mat-icon>engineering</mat-icon> <span>Fornecedores</span>
           </mat-list-item>
-          <mat-list-item>
+          <mat-list-item routerLink="responsibility">
             <mat-icon>badge</mat-icon> <span>Funções</span>
           </mat-list-item>
           <mat-list-item routerLink="routine">
@@ -341,327 +138,21 @@
           <mat-list-item routerLink="document">
             <mat-icon>folder_home</mat-icon> <span>Documentos</span>
           </mat-list-item>
-          <mat-list-item routerLink="suggestion">
+          <mat-list-item
+            routerLink="suggestion"
+            *ngIf="
+              this.isAdmin ||
+              this.isAdminGeral ||
+              this.isAdminEmpresa ||
+              this.isAdminOffice
+            "
+          >
             <mat-icon>support_agent</mat-icon> <span>Sugestões</span>
           </mat-list-item>
-
-          <!-- Permissões -->
           <mat-list-item routerLink="permission" *ngIf="canAdminAccess">
             <mat-icon>settings</mat-icon> <span>Permissões</span>
           </mat-list-item>
-
-          <!-- Logout -->
           <div mat-subheader>Logout</div>
-          <mat-list-item (click)="logout()">
-            <mat-icon>exit_to_app</mat-icon> <span>Sair</span>
-          </mat-list-item>
-        </mat-nav-list>
-      </div>
-
-      <!-- SUPERVISOR -->
-      <div *ngIf="this.isAdminOffice">
-        <!-- Sidenav List -->
-        <mat-nav-list>
-          <!-- Personal -->
-          <mat-list-item>
-            <mat-icon class="icon-display">account_circle</mat-icon>
-            <span>{{ personName }}</span>
-          </mat-list-item>
-
-          <!-- Home -->
-          <mat-list-item routerLink="home">
-            <mat-icon>home</mat-icon> <span>Home</span>
-          </mat-list-item>
-
-          <!-- Registrar Ocorrência -->
-          <!-- <mat-list-item
-        routerLink="appointment"
-        *ngIf="canAdminAccess || canModeratorAccess"
-      >
-        <mat-icon>menu_book</mat-icon> <span>Registrar Ocorrência</span>
-      </mat-list-item> -->
-
-          <!-- Relatórios -->
-          <!-- <mat-list-item
-        routerLink="dashboard"
-        *ngIf="canAdminAccess || canModeratorAccess"
-      >
-        <mat-icon>pie_chart</mat-icon> <span>Relatórios</span>
-      </mat-list-item> -->
-
-          <!-- Cadastros -->
-          <mat-expansion-panel [class.mat-elevation-z0]="true">
-            <mat-expansion-panel-header
-              ><mat-icon>app_registration</mat-icon> Cadastros
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <!-- Segment -->
-              <a
-                mat-list-item
-                routerLink="segment"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>account_tree</mat-icon> <span>Segmentos</span>
-              </a>
-
-              <!-- Holding -->
-              <a
-                mat-list-item
-                routerLink="holding"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>domain_add</mat-icon><span>Grupos</span>
-              </a>
-
-              <!-- Company -->
-              <a
-                mat-list-item
-                routerLink="company"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>apartment</mat-icon><span>Empresas</span>
-              </a>
-
-              <!-- Office -->
-              <a
-                mat-list-item
-                routerLink="office"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>storefront</mat-icon><span>Unidades</span>
-              </a>
-
-              <!-- Responsibility -->
-              <a
-                mat-list-item
-                routerLink="responsibility"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>badge</mat-icon><span>Funções</span>
-              </a>
-
-              <!-- Person -->
-              <a
-                mat-list-item
-                routerLink="person"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>person_add</mat-icon><span>Colaboradores</span>
-              </a>
-
-              <!-- Person -->
-              <a
-                mat-list-item
-                routerLink="autonomous"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>engineering</mat-icon><span>Profissionais</span>
-              </a>
-
-              <!-- Routine -->
-              <a
-                mat-list-item
-                routerLink="routine"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>event_available</mat-icon><span>Rotinas</span>
-              </a>
-
-              <!-- Goal -->
-              <a
-                mat-list-item
-                routerLink="goal"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>checklist</mat-icon><span>Metas</span>
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-
-          <!-- Documentos -->
-          <mat-expansion-panel [class.mat-elevation-z0]="true">
-            <mat-expansion-panel-header
-              ><mat-icon>save</mat-icon> Documentos
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a
-                mat-list-item
-                routerLink="document"
-                *ngIf="canAdminAccess || canModeratorAccess || canUserAccess"
-              >
-                <mat-icon>format_list_bulleted</mat-icon><span>Listagem</span>
-              </a>
-              <a
-                mat-list-item
-                routerLink="document/upload"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>create_new_folder</mat-icon><span>Adicionar</span>
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-
-          <!-- Permissões -->
-          <mat-list-item routerLink="permission" *ngIf="canAdminAccess">
-            <mat-icon>settings</mat-icon> <span>Permissões</span>
-          </mat-list-item>
-
-          <!-- Logout -->
-          <mat-list-item (click)="logout()">
-            <mat-icon>exit_to_app</mat-icon> <span>Sair</span>
-          </mat-list-item>
-        </mat-nav-list>
-      </div>
-
-      <!-- COLABORADOR/PROFISSIONAL -->
-      <div *ngIf="this.isUserOffice">
-        <!-- Sidenav List -->
-        <mat-nav-list>
-          <!-- Personal -->
-          <mat-list-item>
-            <mat-icon class="icon-display">account_circle</mat-icon>
-            <span>{{ personName }}</span>
-          </mat-list-item>
-
-          <!-- Home -->
-          <mat-list-item routerLink="home">
-            <mat-icon>home</mat-icon> <span>Home</span>
-          </mat-list-item>
-
-          <!-- Registrar Ocorrência -->
-          <!-- <mat-list-item
-        routerLink="appointment"
-        *ngIf="canAdminAccess || canModeratorAccess"
-      >
-        <mat-icon>menu_book</mat-icon> <span>Registrar Ocorrência</span>
-      </mat-list-item> -->
-
-          <!-- Relatórios -->
-          <!-- <mat-list-item
-        routerLink="dashboard"
-        *ngIf="canAdminAccess || canModeratorAccess"
-      >
-        <mat-icon>pie_chart</mat-icon> <span>Relatórios</span>
-      </mat-list-item> -->
-
-          <!-- Cadastros -->
-          <mat-expansion-panel [class.mat-elevation-z0]="true">
-            <mat-expansion-panel-header
-              ><mat-icon>app_registration</mat-icon> Cadastros
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <!-- Segment -->
-              <a
-                mat-list-item
-                routerLink="segment"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>account_tree</mat-icon> <span>Segmentos</span>
-              </a>
-
-              <!-- Holding -->
-              <a
-                mat-list-item
-                routerLink="holding"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>domain_add</mat-icon><span>Grupos</span>
-              </a>
-
-              <!-- Company -->
-              <a
-                mat-list-item
-                routerLink="company"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>apartment</mat-icon><span>Empresas</span>
-              </a>
-
-              <!-- Office -->
-              <a
-                mat-list-item
-                routerLink="office"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>storefront</mat-icon><span>Unidades</span>
-              </a>
-
-              <!-- Responsibility -->
-              <a
-                mat-list-item
-                routerLink="responsibility"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>badge</mat-icon><span>Funções</span>
-              </a>
-
-              <!-- Person -->
-              <a
-                mat-list-item
-                routerLink="person"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>person_add</mat-icon><span>Colaboradores</span>
-              </a>
-
-              <!-- Person -->
-              <a
-                mat-list-item
-                routerLink="autonomous"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>engineering</mat-icon><span>Profissionais</span>
-              </a>
-
-              <!-- Routine -->
-              <a
-                mat-list-item
-                routerLink="routine"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>event_available</mat-icon><span>Rotinas</span>
-              </a>
-
-              <!-- Goal -->
-              <a
-                mat-list-item
-                routerLink="goal"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>checklist</mat-icon><span>Metas</span>
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-
-          <!-- Documentos -->
-          <mat-expansion-panel [class.mat-elevation-z0]="true">
-            <mat-expansion-panel-header
-              ><mat-icon>save</mat-icon> Documentos
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a
-                mat-list-item
-                routerLink="document"
-                *ngIf="canAdminAccess || canModeratorAccess || canUserAccess"
-              >
-                <mat-icon>format_list_bulleted</mat-icon><span>Listagem</span>
-              </a>
-              <a
-                mat-list-item
-                routerLink="document/upload"
-                *ngIf="canAdminAccess || canModeratorAccess"
-              >
-                <mat-icon>create_new_folder</mat-icon><span>Adicionar</span>
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-
-          <!-- Permissões -->
-          <mat-list-item routerLink="permission" *ngIf="canAdminAccess">
-            <mat-icon>settings</mat-icon> <span>Permissões</span>
-          </mat-list-item>
-
-          <!-- Logout -->
           <mat-list-item (click)="logout()">
             <mat-icon>exit_to_app</mat-icon> <span>Sair</span>
           </mat-list-item>

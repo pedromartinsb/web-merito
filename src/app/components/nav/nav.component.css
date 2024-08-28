@@ -1,3 +1,7 @@
+:host {
+  overflow-x: hidden;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -19,7 +23,7 @@
 }
 
 .app-sidenav {
-  width: 230px;
+  width: 300px;
   background: #3f51b5;
   color: white;
 
