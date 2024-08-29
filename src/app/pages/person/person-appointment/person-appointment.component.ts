@@ -106,6 +106,12 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     localStorage.setItem('isLoadedBefore', 'false');
+    localStorage.removeItem('currentMonth');
+    localStorage.removeItem('lastMonth');
+    localStorage.removeItem('lastTwoMonth');
+    localStorage.removeItem('lastThreeMonth');
+    localStorage.removeItem('lastFourMonth');
+    localStorage.removeItem('lastFiveMonth');
   }
 
   ngAfterViewInit(): void {
