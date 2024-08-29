@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,7 +20,7 @@ import { PersonAppointmentDialogComponent } from './person-appointment-dialog/pe
   templateUrl: './person-appointment.component.html',
   styleUrls: ['./person-appointment.component.css'],
 })
-export class PersonAppointmentComponent {
+export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   displayedColumns = ['name', 'radio'];
   dataSource: Activity[];
 
@@ -102,6 +102,20 @@ export class PersonAppointmentComponent {
     this.receiveLastFourMonthTags();
     // Receive the last five Month Tags
     this.receiveLastFiveMonthTags();
+  }
+
+  ngOnDestroy(): void {
+    localStorage.setItem('isLoadedBefore', 'false');
+  }
+
+  ngAfterViewInit(): void {
+    if (
+      localStorage.getItem('isLoadedBefore') === 'false' ||
+      !localStorage.getItem('isLoadedBefore')
+    ) {
+      window.location.reload();
+      localStorage.setItem('isLoadedBefore', 'true');
+    }
   }
 
   private receivePersonAndPersonId(): void {

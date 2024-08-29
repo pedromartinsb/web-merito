@@ -168,8 +168,6 @@ export class PersonListComponent implements OnInit {
   }
 
   private getLastMonth(date: Date, personId: string): void {
-    console.log('getLastMonth aqui');
-
     var firstDayLastMonth = new Date(
       date.getFullYear(),
       date.getMonth() - 1,
@@ -192,8 +190,6 @@ export class PersonListComponent implements OnInit {
   }
 
   private getLastTwoMonth(date: Date, personId: string): void {
-    console.log('getLastTwoMonth aqui');
-
     var firstDayLastTwoMonth = new Date(
       date.getFullYear(),
       date.getMonth() - 2,
@@ -216,8 +212,6 @@ export class PersonListComponent implements OnInit {
   }
 
   private getLastThreeMonth(date: Date, personId: string): void {
-    console.log('getLastThreeMonth aqui');
-
     var firstDayLastThreeMonth = new Date(
       date.getFullYear(),
       date.getMonth() - 3,
@@ -240,8 +234,6 @@ export class PersonListComponent implements OnInit {
   }
 
   private getLastFourMonth(date: Date, personId: string): void {
-    console.log('getLastFourMonth aqui');
-
     var firstDayLastFourMonth = new Date(
       date.getFullYear(),
       date.getMonth() - 4,
@@ -264,8 +256,6 @@ export class PersonListComponent implements OnInit {
   }
 
   private getLastFiveMonth(date: Date, personId: string): void {
-    console.log('getLastFiveMonth aqui');
-
     var firstDayLastFiveMonth = new Date(
       date.getFullYear(),
       date.getMonth() - 5,

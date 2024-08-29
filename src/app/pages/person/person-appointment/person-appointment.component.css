@@ -107,38 +107,44 @@ td {
   align-self: self-start;
 }
 
+/* .mat-calendar-body-cell-content {
+  border-color: #7cfc00 !important;
+  color: #58af04 !important;
+  background-color: #e7ffd1;
+} */
+
 ::ng-deep .green-background .mat-calendar-body-cell-content {
   border-color: #7cfc00 !important;
   color: #58af04 !important;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   background-color: #e7ffd1;
 }
 
 ::ng-deep .blue-background .mat-calendar-body-cell-content {
   border-color: blue !important;
   color: white !important;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   background-color: blue;
 }
 
 ::ng-deep .orange-background .mat-calendar-body-cell-content {
   border-color: orange !important;
   color: black !important;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   background-color: orange;
 }
 
 ::ng-deep .yellow-background .mat-calendar-body-cell-content {
   border-color: yellow !important;
   color: black !important;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   background-color: yellow;
 }
 
 ::ng-deep .red-background .mat-calendar-body-cell-content {
   border-color: brown !important;
   color: white !important;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   background-color: firebrick;
 }
 
