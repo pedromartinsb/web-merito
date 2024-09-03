@@ -288,9 +288,28 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public update(): void {
     this.isSaving = true;
-    if (this.documents[0] == undefined) {
+    console.log(this.person.picture);
+
+    if (this.documents[0] == undefined && this.person.picture == null) {
       this.toast.error('É obrigatório cadastrar uma imagem.');
       this.isSaving = false;
+    } else if (this.documents[0] == undefined && this.person.picture) {
+      this.personService
+        .updateWithoutFile(this.person.id, this.person)
+        .subscribe({
+          next: () => {
+            this.toast.success(
+              'Colaborador atualizado com sucesso',
+              'Atualização'
+            );
+            this.router.navigate(['person']);
+            this.isSaving = false;
+          },
+          error: (ex) => {
+            this._handleErrors(ex);
+            this.isSaving = false;
+          },
+        });
     } else {
       const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
       fileEntry.file((document: File) => {

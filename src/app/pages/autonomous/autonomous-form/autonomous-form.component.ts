@@ -293,6 +293,23 @@ export class AutonomousFormComponent
     if (this.documents[0] == undefined) {
       this.toast.error('É obrigatório cadastrar uma imagem.');
       this.isSaving = false;
+    } else if (this.documents[0] == undefined && this.person.picture) {
+      this.personService
+        .updateWithoutFile(this.person.id, this.person)
+        .subscribe({
+          next: () => {
+            this.toast.success(
+              'Profissional atualizado com sucesso',
+              'Atualização'
+            );
+            this.router.navigate(['autonomous']);
+            this.isSaving = false;
+          },
+          error: (ex) => {
+            this._handleErrors(ex);
+            this.isSaving = false;
+          },
+        });
     } else {
       const fileEntry = this.documents[0].fileEntry as FileSystemFileEntry;
       fileEntry.file((document: File) => {
