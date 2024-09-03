@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Activity, Appointment } from 'src/app/models/appointment';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { Location } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
 
 export interface DialogData {
   tagId: string;
@@ -40,16 +41,26 @@ export class PersonAppointmentConfirmComponent implements OnInit {
     updatedAt: '',
     deletedAt: '',
   };
+  isAdmin: boolean = false;
+  isAdminGeral: boolean = false;
+  isAdminEmpresa: boolean = false;
+  isAdminOffice: boolean = false;
+  isSupervisor: boolean = false;
+  isUserOffice: boolean = false;
+  isGuest: boolean = false;
+  userRole: string[] = [];
   description: FormControl = new FormControl(null, Validators.minLength(3));
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private appointmentService: AppointmentService,
     private toast: ToastrService,
+    private authService: AuthService,
     private location: Location
   ) {}
 
   ngOnInit(): void {
+    this._checkPermission();
     if (this.data.activity.description != null) {
       this.appointment.description = this.data.activity.description;
       this.appointment.justification = this.data.activity.justification;
@@ -102,5 +113,34 @@ export class PersonAppointmentConfirmComponent implements OnInit {
     } else {
       this.toast.error(ex.error.message);
     }
+  }
+
+  private _checkPermission(): void {
+    this.userRole = this.authService.getRole();
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          break;
+        case 'ROLE_ADMIN_GERAL':
+          this.isAdminGeral = true;
+          break;
+        case 'ROLE_ADMIN_COMPANY':
+          this.isAdminEmpresa = true;
+          break;
+        case 'ROLE_ADMIN_OFFICE':
+          this.isAdminOffice = true;
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_USER_OFFICE':
+          this.isUserOffice = true;
+          break;
+        default:
+          this.isGuest = true;
+          break;
+      }
+    });
   }
 }

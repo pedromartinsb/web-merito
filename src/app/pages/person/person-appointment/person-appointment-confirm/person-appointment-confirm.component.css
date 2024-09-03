@@ -1,5 +1,5 @@
 .container {
-  width: 300px;
+  width: 500px;
   text-align: center;
 }
 
@@ -8,14 +8,19 @@ section {
 }
 
 mat-divider {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
-.example-button-row {
-  display: table-cell;
-  width: fit-content;
+mat-form-field {
+  width: 400px;
 }
 
-.example-button-row .mat-button-base {
-  margin: 8px 8px 8px 0;
+.success-button {
+  background-color: var(--success);
+  color: var(--white);
+}
+
+.cancel-button {
+  background-color: var(--warn);
+  color: var(--white);
 }
