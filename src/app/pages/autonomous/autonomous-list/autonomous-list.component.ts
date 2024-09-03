@@ -9,6 +9,7 @@ import { finalize } from 'rxjs';
 import { DeleteConfirmationModalComponent } from 'src/app/components/delete/delete-confirmation-modal';
 import { Person } from 'src/app/models/person';
 import { AppointmentService } from 'src/app/services/appointment.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { PersonService } from 'src/app/services/person.service';
 
 @Component({
@@ -35,6 +36,14 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
   lastThreeMonth: any;
   lastFourMonth: any;
   lastFiveMonth: any;
+  isAdmin: boolean = false;
+  isAdminGeral: boolean = false;
+  isAdminEmpresa: boolean = false;
+  isAdminOffice: boolean = false;
+  isSupervisor: boolean = false;
+  isUserOffice: boolean = false;
+  isGuest: boolean = false;
+  userRole: string[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -44,12 +53,14 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
     private router: Router,
     private dialog: MatDialog,
     private toast: ToastrService,
-    private appointmentService: AppointmentService
+    private appointmentService: AppointmentService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
     this._getAutonomous();
+    this._checkPermission();
   }
 
   ngAfterViewInit() {
@@ -253,5 +264,34 @@ export class AutonomousListComponent implements OnInit, AfterViewInit {
 
   public getGoalsByPerson(personId: string): void {
     this.router.navigate(['goal', 'person', personId]);
+  }
+
+  private _checkPermission(): void {
+    this.userRole = this.authService.getRole();
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          break;
+        case 'ROLE_ADMIN_GERAL':
+          this.isAdminGeral = true;
+          break;
+        case 'ROLE_ADMIN_COMPANY':
+          this.isAdminEmpresa = true;
+          break;
+        case 'ROLE_ADMIN_OFFICE':
+          this.isAdminOffice = true;
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_USER_OFFICE':
+          this.isUserOffice = true;
+          break;
+        default:
+          this.isGuest = true;
+          break;
+      }
+    });
   }
 }

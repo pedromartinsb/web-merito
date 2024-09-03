@@ -1,27 +1,27 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { AppointmentService } from './../../../services/appointment.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { PersonService } from 'src/app/services/person.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs';
+import { AuthGuard } from 'src/app/auth/auth.guard';
+import { Address } from 'src/app/models/address';
+import { Contact } from 'src/app/models/contact';
+import { Office } from 'src/app/models/office';
 import {
   AddressSearch,
   ContractType,
   Person,
   User,
 } from 'src/app/models/person';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { Address } from 'src/app/models/address';
-import { Contact } from 'src/app/models/contact';
-import { AuthGuard } from 'src/app/auth/auth.guard';
-import { Office } from 'src/app/models/office';
-import { OfficeService } from 'src/app/services/office.service';
-import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { Responsibility } from 'src/app/models/responsibility';
-import { NgxFileDropEntry } from 'ngx-file-drop';
-import { finalize } from 'rxjs';
+import { OfficeService } from 'src/app/services/office.service';
+import { PersonService } from 'src/app/services/person.service';
+import { ResponsibilityService } from 'src/app/services/responsibility.service';
+
+import { AppointmentService } from './../../../services/appointment.service';
 
 @Component({
   selector: 'app-supplier-form',

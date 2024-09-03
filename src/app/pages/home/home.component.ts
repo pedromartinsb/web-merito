@@ -4,6 +4,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthGuard } from 'src/app/auth/auth.guard';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   destroyed = new Subject<void>();
   currentScreenSize: string;
   isAdmin: boolean = false;
+  isAdminGeral: boolean = false;
+  isAdminEmpresa: boolean = false;
+  isAdminOffice: boolean = false;
+  isSupervisor: boolean = false;
+  isUserOffice: boolean = false;
+  isGuest: boolean = false;
+  userRole: string[] = [];
 
   // Create a map to display breakpoint names for demonstration purposes.
   displayNameMap = new Map([
@@ -26,9 +34,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private authGuard: AuthGuard
+    private authGuard: AuthGuard,
+    private authService: AuthService
   ) {
     this.isAdmin = this.authGuard.checkIsAdmin();
+    this._checkPermission();
     breakpointObserver
       .observe([
         Breakpoints.XSmall,
@@ -140,5 +150,34 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  private _checkPermission(): void {
+    this.userRole = this.authService.getRole();
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          break;
+        case 'ROLE_ADMIN_GERAL':
+          this.isAdminGeral = true;
+          break;
+        case 'ROLE_ADMIN_COMPANY':
+          this.isAdminEmpresa = true;
+          break;
+        case 'ROLE_ADMIN_OFFICE':
+          this.isAdminOffice = true;
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_USER_OFFICE':
+          this.isUserOffice = true;
+          break;
+        default:
+          this.isGuest = true;
+          break;
+      }
+    });
   }
 }

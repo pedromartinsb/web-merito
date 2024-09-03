@@ -119,6 +119,12 @@
             <th mat-header-cell *matHeaderCellDef>Ações</th>
             <td mat-cell *matCellDef="let element">
               <button
+                *ngIf="
+                  this.isAdmin ||
+                  this.isAdminGeral ||
+                  this.isAdminEmpresa ||
+                  this.isAdminOffice
+                "
                 mat-icon-button
                 [matMenuTriggerFor]="menu"
                 aria-label="Example icon-button with a menu"
@@ -127,6 +133,13 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
+                <button
+                  mat-menu-item
+                  (click)="openNotification(element.id, element.name)"
+                >
+                  <mat-icon>campaign</mat-icon>
+                  <span>Comunicado</span>
+                </button>
                 <button mat-menu-item (click)="edit(element.id)">
                   <mat-icon>edit</mat-icon>
                   <span>Editar</span>

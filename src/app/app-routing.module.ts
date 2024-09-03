@@ -202,6 +202,19 @@ const routes: Routes = [
           ],
         },
       },
+      {
+        path: 'document/edit/:key',
+        component: DocumentFormComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+          ],
+        },
+      },
 
       // FIRST ACCESS
       {

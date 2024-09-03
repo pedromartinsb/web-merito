@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { DeleteConfirmationModalComponent } from 'src/app/components/delete/delete-confirmation-modal';
 import { Document } from 'src/app/models/document';
 import { DocumentService } from 'src/app/services/document.service';
 
@@ -12,30 +15,21 @@ import { DocumentService } from 'src/app/services/document.service';
   styleUrls: ['./document-list.component.css'],
 })
 export class DocumentListComponent implements OnInit {
-  documents: Document[] = [];
-
-  ELEMENT_DATA: Document[] = [];
-  FILTERED_DATA: Document[] = [];
-
-  displayedColumns: string[] = [
-    'name',
-    'responsibility',
-    'createdAt',
-    'actions',
-  ];
-  dataSource = new MatTableDataSource<Document>(this.documents);
+  displayedColumns: string[] = ['picture', 'name', 'createdAt', 'actions'];
+  dataSource = new MatTableDataSource<Document>();
 
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   public isLoading: boolean = false;
 
   constructor(
     private documentService: DocumentService,
-    private router: Router,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private toast: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +39,12 @@ export class DocumentListComponent implements OnInit {
   findAll() {
     this.isLoading = true;
     this.documentService.findAll().subscribe((response) => {
-      this.documents = response;
+      console.log(response.length);
+      response.forEach((r) => {
+        if (r.key != null) {
+          r.picture = this.s3Url + r.key;
+        }
+      });
       this.dataSource = new MatTableDataSource<Document>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
@@ -66,5 +65,31 @@ export class DocumentListComponent implements OnInit {
     a.target = '_blank';
     a.click();
     window.URL.revokeObjectURL(url);
+  }
+
+  public edit(key: string) {
+    this.router.navigate(['document', 'edit', key]);
+  }
+
+  public openDeleteConfirmationModal(key: string): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationModalComponent);
+
+    dialogRef.componentInstance.message = `Tem certeza que deseja deletar o arquivo ${key}?`;
+
+    dialogRef.componentInstance.deleteConfirmed.subscribe(() => {
+      this.deleteFile(key);
+      dialogRef.close();
+    });
+
+    dialogRef.componentInstance.deleteCanceled.subscribe(() => {
+      dialogRef.close();
+    });
+  }
+
+  public deleteFile(key: string) {
+    this.documentService.deleteFile(key).subscribe(() => {
+      this.toast.success('Arquivo deletado com sucesso', 'Excluir');
+      this.findAll();
+    });
   }
 }

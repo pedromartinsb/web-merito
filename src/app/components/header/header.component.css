@@ -8,7 +8,7 @@
 
 mat-toolbar {
   margin-bottom: 100px;
-  color: white;
+  color: var(--white);
   background: cadetblue;
 }
 

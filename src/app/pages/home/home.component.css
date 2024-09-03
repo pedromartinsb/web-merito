@@ -17,8 +17,8 @@ mat-card {
   grid-gap: 10px;
   grid-template-columns: repeat(3, [col] auto);
   grid-template-rows: repeat(3, [row] auto);
-  color: #444;
-  margin: 100px;
+  color: var(--primary);
+  margin: 50px;
 }
 
 .box {

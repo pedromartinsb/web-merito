@@ -9,6 +9,7 @@ export interface Document {
   file: NgxFileDropEntry;
   responsibility: Responsibility;
   responsibilityId: string;
+  picture: string;
 
   responsibilities: Array<Responsibility>;
 }

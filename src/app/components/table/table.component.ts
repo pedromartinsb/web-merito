@@ -7,6 +7,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,6 +15,8 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Person } from 'src/app/models/person';
 import { AppointmentService } from 'src/app/services/appointment.service';
+import { CommunicationComponent } from '../communication/communication.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-table',
@@ -44,11 +47,23 @@ export class TableComponent implements OnChanges {
   lastThreeMonth: any;
   lastFourMonth: any;
   lastFiveMonth: any;
+  isAdmin: boolean = false;
+  isAdminGeral: boolean = false;
+  isAdminEmpresa: boolean = false;
+  isAdminOffice: boolean = false;
+  isSupervisor: boolean = false;
+  isUserOffice: boolean = false;
+  isGuest: boolean = false;
+  userRole: string[] = [];
 
   constructor(
     private appointmentService: AppointmentService,
-    private router: Router
-  ) {}
+    private router: Router,
+    public dialog: MatDialog,
+    private authService: AuthService
+  ) {
+    this._checkPermission();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource = new MatTableDataSource<Person>(this.persons);
@@ -197,6 +212,19 @@ export class TableComponent implements OnChanges {
     this.editEvent.emit(value);
   }
 
+  public openNotification(value: string, name: string) {
+    const dialogRef = this.dialog.open(CommunicationComponent, {
+      data: {
+        id: value,
+        name: name,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
   public getRoutinesByPerson(value: string) {
     this.getRoutinesByPersonEvent.emit(value);
   }
@@ -216,5 +244,34 @@ export class TableComponent implements OnChanges {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  private _checkPermission(): void {
+    this.userRole = this.authService.getRole();
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          break;
+        case 'ROLE_ADMIN_GERAL':
+          this.isAdminGeral = true;
+          break;
+        case 'ROLE_ADMIN_COMPANY':
+          this.isAdminEmpresa = true;
+          break;
+        case 'ROLE_ADMIN_OFFICE':
+          this.isAdminOffice = true;
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_USER_OFFICE':
+          this.isUserOffice = true;
+          break;
+        default:
+          this.isGuest = true;
+          break;
+      }
+    });
   }
 }

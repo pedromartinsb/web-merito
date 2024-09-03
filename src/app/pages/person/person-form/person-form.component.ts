@@ -81,6 +81,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     { label: 'Admin Grupo', value: { name: Roles.ROLE_ADMIN_GERAL } },
     { label: 'Admin Empresa', value: { name: Roles.ROLE_ADMIN_COMPANY } },
     { label: 'Admin Unidade', value: { name: Roles.ROLE_ADMIN_OFFICE } },
+    { label: 'Supervisor', value: { name: Roles.ROLE_SUPERVISOR } },
     {
       label: 'Colaborador ou Profissional',
       value: { name: Roles.ROLE_USER_OFFICE },

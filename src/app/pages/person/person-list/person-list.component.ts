@@ -15,6 +15,7 @@ import { AppointmentService } from 'src/app/services/appointment.service';
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
 import { Person } from '../../../models/person';
 import { PersonService } from '../../../services/person.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-person-list',
@@ -31,6 +32,14 @@ export class PersonListComponent implements OnInit {
   office: Office;
   persons: Person[] = [];
   tags: any;
+  isAdmin: boolean = false;
+  isAdminGeral: boolean = false;
+  isAdminEmpresa: boolean = false;
+  isAdminOffice: boolean = false;
+  isSupervisor: boolean = false;
+  isUserOffice: boolean = false;
+  isGuest: boolean = false;
+  userRole: string[] = [];
 
   lastMonth: any;
   lastTwoMonth: any;
@@ -61,7 +70,8 @@ export class PersonListComponent implements OnInit {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private toast: ToastrService,
-    private appointmentService: AppointmentService
+    private appointmentService: AppointmentService,
+    private authService: AuthService
   ) {
     this.holdingId = this.route.snapshot.params['holdingId'];
     this.companyId = this.route.snapshot.params['companyId'];
@@ -69,6 +79,7 @@ export class PersonListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._checkPermission();
     if (this.holdingId) {
       this.findAllByHolding();
     } else if (this.companyId) {
@@ -296,6 +307,35 @@ export class PersonListComponent implements OnInit {
     this.personService.deactivate(personId).subscribe(() => {
       this.toast.success('Colaborador desativado com sucesso', 'Excluir');
       this.findAll();
+    });
+  }
+
+  private _checkPermission(): void {
+    this.userRole = this.authService.getRole();
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          break;
+        case 'ROLE_ADMIN_GERAL':
+          this.isAdminGeral = true;
+          break;
+        case 'ROLE_ADMIN_COMPANY':
+          this.isAdminEmpresa = true;
+          break;
+        case 'ROLE_ADMIN_OFFICE':
+          this.isAdminOffice = true;
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_USER_OFFICE':
+          this.isUserOffice = true;
+          break;
+        default:
+          this.isGuest = true;
+          break;
+      }
     });
   }
 }

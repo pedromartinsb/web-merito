@@ -1,4 +1,107 @@
-<div class="wrapper">
+<mat-card class="example-card">
+  <mat-card-title>Mural de Comunicados</mat-card-title>
+  <mat-card-subtitle>Avisos importantes</mat-card-subtitle>
+  <mat-card-content>
+    <h1>
+      <strong>Olá! Sejam Bem-Vindo(a)s ao Projeção Profissional! 👋</strong>
+    </h1>
+    <p>
+      Este é o ambiente da sua empresa e ele já está pronto para ser configurado
+      para cadastro dos colaboradores e posterior uso por todos! 🚀
+    </p>
+    <div class="wrapper" *ngIf="this.isAdmin">
+      <div class="box a">
+        <a routerLink="/person">Colaboradores</a>
+        <br />
+      </div>
+      <div class="box b">
+        <a routerLink="/autonomous">Profissionais Autônomos</a>
+        <br />
+      </div>
+      <div class="box c">
+        <a routerLink="/supplier">Fornecedores</a>
+        <br />
+      </div>
+      <div class="box d">
+        <a routerLink="/responsibility">Funções</a>
+        <br />
+      </div>
+      <div class="box e">
+        <a routerLink="/routine">Rotinas</a>
+        <br />
+      </div>
+      <div class="box f">
+        <a routerLink="/goal">Metas</a>
+        <br />
+      </div>
+    </div>
+    <div
+      class="wrapper"
+      *ngIf="this.isAdminGeral || this.isAdminEmpresa || this.isAdminOffice"
+    >
+      <div class="box a">
+        <a routerLink="/person">Colaboradores</a>
+        <br />
+      </div>
+      <div class="box b">
+        <a routerLink="/autonomous">Profissionais Autônomos</a>
+        <br />
+      </div>
+      <div class="box c">
+        <a routerLink="/supplier">Fornecedores</a>
+        <br />
+      </div>
+      <div class="box d">
+        <a routerLink="/routine">Funções</a>
+        <br />
+      </div>
+      <div class="box e">
+        <a routerLink="/routine">Rotinas</a>
+        <br />
+      </div>
+      <div class="box f">
+        <a routerLink="/goal">Metas</a>
+        <br />
+      </div>
+    </div>
+    <div class="wrapper" *ngIf="this.isSupervisor">
+      <div class="box a">
+        <a routerLink="/person">Colaboradores</a>
+        <br />
+      </div>
+      <div class="box b">
+        <a routerLink="/autonomous">Profissionais Autônomos</a>
+        <br />
+      </div>
+      <div class="box c">
+        <a routerLink="/supplier">Fornecedores</a>
+        <br />
+      </div>
+    </div>
+    <div class="wrapper" *ngIf="this.isUserOffice || this.isUserOffice">
+      <div class="box a">
+        <a routerLink="/document">Documentos</a>
+        <br />
+      </div>
+      <div class="box b">
+        <a routerLink="/routine">Rotinas</a>
+        <br />
+      </div>
+      <div class="box c">
+        <a routerLink="/goal">Metas</a>
+        <br />
+      </div>
+    </div>
+
+    <ng-container>
+      <mat-card class="card mat-elevation-z8">
+        <div id="chart"></div>
+      </mat-card>
+    </ng-container>
+  </mat-card-content>
+</mat-card>
+
+<!-- <div class="wrapper">
   <div class="box a">
     <mat-icon>person</mat-icon><br />
     <a routerLink="/person">Colaboradores</a><br />
@@ -23,11 +126,7 @@
     <mat-icon>flag</mat-icon><br />
     <a routerLink="/goal">Metas</a><br />
   </div>
-</div>
-
-<mat-card class="card mat-elevation-z8">
-  <div id="chart"></div>
-</mat-card>
+</div> -->
 
 <!-- <div class="grid-container">
   <mat-grid-list cols="1" rowHeight="1:1">

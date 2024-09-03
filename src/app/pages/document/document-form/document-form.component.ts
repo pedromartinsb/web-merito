@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 import { ToastrService } from 'ngx-toastr';
 import { Document } from 'src/app/models/document';
@@ -17,7 +17,7 @@ export class DocumentFormComponent implements OnInit {
   documents: NgxFileDropEntry[] = [];
   responsibilities: Array<Responsibility>;
   selectedResponsibilities: Array<Responsibility>;
-
+  key: string;
   document: Document = {
     id: '',
     key: '',
@@ -27,21 +27,37 @@ export class DocumentFormComponent implements OnInit {
     responsibilityId: '',
     responsibility: null,
     responsibilities: [],
+    picture: '',
   };
-
-  public isSaving: boolean = false;
-
+  s3Url = 'https://sistema-merito.s3.amazonaws.com/';
+  isSaving: boolean = false;
   responsibility: FormControl = new FormControl(null, [Validators.required]);
+  keyFormControl: FormControl = new FormControl(null, Validators.minLength(3));
 
   constructor(
     private documentService: DocumentService,
     private toast: ToastrService,
     private router: Router,
+    private route: ActivatedRoute,
     private responsibilityService: ResponsibilityService
-  ) {}
+  ) {
+    this.key = this.route.snapshot.params['key'];
+    if (this.key) {
+      this._getDocument(this.key);
+    }
+  }
 
   ngOnInit(): void {
     this.getResponsibilities();
+  }
+
+  private _getDocument(key: string) {
+    this.documentService.findByName(key).subscribe({
+      next: (response) => {
+        this.document = response;
+        console.log(this.document);
+      },
+    });
   }
 
   private getResponsibilities(): void {
@@ -90,5 +106,20 @@ export class DocumentFormComponent implements OnInit {
 
   validateFields(): boolean {
     return this.documents.length > 0;
+  }
+
+  public update() {
+    const firstFile = this.documents[0];
+
+    if (firstFile.fileEntry.isFile) {
+      const fileEntry = firstFile.fileEntry as FileSystemFileEntry;
+      fileEntry.file((document: File) => {
+        this.documentService.updateByName(this.document, document).subscribe({
+          next: (response) => {
+            console.log(response);
+          },
+        });
+      });
+    }
   }
 }

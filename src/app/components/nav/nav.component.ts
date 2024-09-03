@@ -37,6 +37,7 @@ export class NavComponent implements OnInit, OnDestroy {
   isAdminGeral: boolean = false;
   isAdminEmpresa: boolean = false;
   isAdminOffice: boolean = false;
+  isSupervisor: boolean = false;
   isUserOffice: boolean = false;
   isGuest: boolean = false;
   personName: string;
@@ -44,6 +45,10 @@ export class NavComponent implements OnInit, OnDestroy {
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
   firstOffice: OfficeResponse;
   officeResponses: OfficeResponse[] = [];
+  hidden = false;
+  longText = `The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
+  from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
+  originally bred for hunting.`;
 
   constructor(
     private storageService: StorageService,
@@ -117,6 +122,9 @@ export class NavComponent implements OnInit, OnDestroy {
         case 'ROLE_ADMIN_OFFICE':
           this.isAdminOffice = true;
           break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
         case 'ROLE_USER_OFFICE':
           this.isUserOffice = true;
           break;
@@ -174,5 +182,9 @@ export class NavComponent implements OnInit, OnDestroy {
     this.firstOffice = element;
     localStorage.setItem('officeId', element.id);
     window.location.reload();
+  }
+
+  public toggleBadgeVisibility() {
+    this.hidden = !this.hidden;
   }
 }
