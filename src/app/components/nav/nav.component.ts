@@ -19,7 +19,7 @@ export class NavComponent implements OnInit, OnDestroy {
   @Input() inputSideNav: MatSidenav;
   @Input() inputLogout: InputEvent;
   destroyed = new Subject<void>();
-  modeNavMenu: MatDrawerMode = 'over';
+  modeNavMenu: MatDrawerMode = 'side';
   showFiller = false;
   userRole: string[] = [];
   canAdminAccess: boolean = false;
@@ -75,7 +75,7 @@ export class NavComponent implements OnInit, OnDestroy {
               this.displayNameMap.get(query) === 'XSmall'
             ) {
               this.currentScreenSize = this.displayNameMap.get(query);
-              this.modeNavMenu = 'over';
+              this.modeNavMenu = 'side';
             }
           }
         }
