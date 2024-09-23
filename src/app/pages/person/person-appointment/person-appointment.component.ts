@@ -14,6 +14,8 @@ import { TagService } from 'src/app/services/tag.service';
 import { AppointmentService } from './../../../services/appointment.service';
 import { PersonAppointmentConfirmComponent } from './person-appointment-confirm/person-appointment-confirm.component';
 import { PersonAppointmentDialogComponent } from './person-appointment-dialog/person-appointment-dialog.component';
+import { PersonAppointmentTaskComponent } from './person-appointment-task/person-appointment-task.component';
+import { PersonAppointmentGoalComponent } from './person-appointment-goal/person-appointment-goal.component';
 
 @Component({
   selector: 'app-person-appointment',
@@ -69,6 +71,7 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   endDate = new Date();
   selectedTab = new FormControl(0);
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
+  maxCharacters: number = 90; // Set your character limit here
 
   constructor(
     private dialog: MatDialog,
@@ -493,6 +496,8 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
             personId: this.personId,
             selected: this.selected,
           },
+          height: '500px',
+          width: '600px',
         });
       });
   }
@@ -507,8 +512,28 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
         activity: activity,
         selected: new Date(),
       },
-      height: '400px',
-      width: '600px',
+      height: '500px',
+      width: '800px',
+    });
+  }
+
+  public openTask() {
+    this.dialog.open(PersonAppointmentTaskComponent, {
+      data: {
+        personId: this.personId,
+      },
+      height: '450px',
+      width: '450px',
+    });
+  }
+
+  public openGoal() {
+    this.dialog.open(PersonAppointmentGoalComponent, {
+      data: {
+        personId: this.personId,
+      },
+      height: '450px',
+      width: '450px',
     });
   }
 }

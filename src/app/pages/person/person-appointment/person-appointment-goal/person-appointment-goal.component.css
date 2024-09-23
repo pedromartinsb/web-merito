@@ -1,13 +1,7 @@
-section {
-  display: table;
-}
-
-mat-divider {
-  margin-top: 30px;
-}
-
 mat-form-field {
-  width: 500px;
+  width: 300px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .success-button {

@@ -19,53 +19,51 @@
   </mat-radio-group>
 </div> -->
 
-<section class="example-container mat-elevation-z0" tabindex="0">
-  <table mat-table [dataSource]="dataSource">
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <input type="text" maxlength="10" value="{{ element.name }}" />
-      </td>
-    </ng-container>
+<table mat-table [dataSource]="dataSource">
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <input type="text" maxlength="10" value="{{ element.name }}" />
+    </td>
+  </ng-container>
 
-    <ng-container matColumnDef="radio">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <mat-radio-group>
-          <mat-radio-button
-            name="daily"
-            *ngFor="let tag of tags"
-            value="{{ tag.id }}"
-            class="daily"
-            [ngClass]="tag.class"
-            [checked]="tag.id == element.tag?.id"
-            (click)="openConfirm(tag.id, element)"
-            matTooltip="{{ tag.description }}"
-          ></mat-radio-button>
-        </mat-radio-group>
-      </td>
-    </ng-container>
+  <ng-container matColumnDef="radio">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <mat-radio-group>
+        <mat-radio-button
+          name="daily"
+          *ngFor="let tag of tags"
+          value="{{ tag.id }}"
+          class="daily"
+          [ngClass]="tag.class"
+          [checked]="tag.id == element.tag?.id"
+          (click)="openConfirm(tag.id, element)"
+          matTooltip="{{ tag.description }}"
+        ></mat-radio-button>
+      </mat-radio-group>
+    </td>
+  </ng-container>
 
-    <!-- <ng-container matColumnDef="radio">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <mat-radio-group>
-          <mat-radio-button
-            name="daily"
-            *ngFor="let tag of tags"
-            value="{{ tag.id }}"
-            class="daily"
-            [ngClass]="tag.class"
-            [checked]="tag.id == activity.tag?.id"
-            (click)="openConfirm(tag.id, activity)"
-            matTooltip="{{ tag.description }}"
-          ></mat-radio-button>
-        </mat-radio-group>
-      </td>
-    </ng-container> -->
+  <!-- <ng-container matColumnDef="radio">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <mat-radio-group>
+        <mat-radio-button
+          name="daily"
+          *ngFor="let tag of tags"
+          value="{{ tag.id }}"
+          class="daily"
+          [ngClass]="tag.class"
+          [checked]="tag.id == activity.tag?.id"
+          (click)="openConfirm(tag.id, activity)"
+          matTooltip="{{ tag.description }}"
+        ></mat-radio-button>
+      </mat-radio-group>
+    </td>
+  </ng-container> -->
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-</section>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

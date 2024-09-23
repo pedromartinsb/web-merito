@@ -217,7 +217,7 @@ td {
 
 .monthly-container {
   height: 300px;
-  width: 600px;
+  width: 800px;
   max-width: 100%;
   overflow: auto;
   margin-top: 40px;
@@ -269,4 +269,17 @@ mat-card-title {
 mat-card-subtitle {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+mat-card-subtitle > button {
+  color: var(--white);
+  background-color: var(--primary);
+  margin-right: 10px;
+}
+
+::ng-deep .mat-dialog-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center; /* Centers the text content */
 }
