@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +17,11 @@ import { PersonAppointmentDialogComponent } from './person-appointment-dialog/pe
 import { PersonAppointmentTaskComponent } from './person-appointment-task/person-appointment-task.component';
 import { PersonAppointmentAchieveComponent } from './person-appointment-achieve/person-appointment-achieve.component';
 
+export interface Message {
+  description: string;
+  personId: string;
+}
+
 @Component({
   selector: 'app-person-appointment',
   templateUrl: './person-appointment.component.html',
@@ -25,6 +30,11 @@ import { PersonAppointmentAchieveComponent } from './person-appointment-achieve/
 export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   displayedColumns = ['name', 'radio'];
   dataSource: Activity[];
+
+  message: Message = {
+    description: '',
+    personId: '',
+  };
 
   currentMontTags: monthlyTag[] = [];
   lastMonthTags: monthlyTag[] = [];
@@ -72,6 +82,11 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   selectedTab = new FormControl(0);
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
   maxCharacters: number = 60; // Set your character limit here
+
+  messageFormControl: FormControl = new FormControl(
+    null,
+    Validators.minLength(3)
+  );
 
   constructor(
     private dialog: MatDialog,
@@ -535,5 +550,32 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
       height: '450px',
       width: '450px',
     });
+  }
+
+  public sendMessage() {
+    this.message.personId = this.personId;
+    this.personService.sendMessage(this.message).subscribe({
+      next: () => {
+        this.message.description = '';
+        this.toast.success('Mensagem enviada com sucesso', 'Cadastro');
+      },
+      error: (ex) => {
+        this._handleErrors(ex);
+      },
+    });
+  }
+
+  public validateFields(): boolean {
+    return this.message.description != '';
+  }
+
+  private _handleErrors(ex: any): void {
+    if (ex.error.errors) {
+      ex.error.errors.forEach((element) => {
+        this.toast.error(element.message);
+      });
+    } else {
+      this.toast.error(ex.error.message);
+    }
   }
 }

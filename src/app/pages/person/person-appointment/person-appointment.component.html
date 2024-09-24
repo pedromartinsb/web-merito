@@ -15,6 +15,7 @@
         </mat-card-subtitle>
       </mat-card-header>
 
+      <!-- Tabs -->
       <div class="grid-first-container">
         <mat-tab-group
           dynamicHeight
@@ -230,13 +231,29 @@
         </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
-      <mat-card-header>
-        <mat-card-title>Observações do Supervisor:</mat-card-title>
-        <mat-card-subtitle
-          >Edna: Melhorar tratamento interpessoal!</mat-card-subtitle
-        >
-        <mat-card-subtitle>Alexandre: OK!</mat-card-subtitle>
-      </mat-card-header>
+
+      <h3>Digite uma mensagem para o Colaborador:</h3>
+      <mat-form-field appearance="outline">
+        <mat-label>Mensagem:</mat-label>
+        <textarea
+          matInput
+          placeholder="Digite uma mensagem para o Colaborador"
+          rows="5"
+          [(ngModel)]="message.description"
+          [formControl]="messageFormControl"
+        ></textarea>
+      </mat-form-field>
+      <button
+        class="success-button"
+        mat-raised-button
+        [mat-dialog-close]="true"
+        cdkFocusInitial
+        (click)="sendMessage()"
+        [disabled]="!validateFields()"
+        matTooltip="Salvar as informações preenchidas"
+      >
+        <div>Enviar</div>
+      </button>
     </div>
 
     <!-- Three -->

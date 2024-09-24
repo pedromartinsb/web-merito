@@ -1,5 +1,5 @@
 mat-card {
-  width: 90%;
+  width: 95%;
   justify-content: center;
   margin: auto;
   margin-bottom: 15px;
@@ -216,13 +216,14 @@ td {
 }
 
 .monthly-container {
-  height: 300px;
+  height: 350px;
   width: 800px;
   max-width: 100%;
   overflow: auto;
   margin-top: 40px;
   margin-bottom: 40px;
   margin-left: 20px;
+  margin-right: 20px;
 }
 
 table {
@@ -282,4 +283,14 @@ mat-card-subtitle > button {
   justify-content: center;
   align-items: center;
   text-align: center; /* Centers the text content */
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+.success-button {
+  background-color: var(--success);
+  color: var(--white);
+  margin-left: 15px;
 }
