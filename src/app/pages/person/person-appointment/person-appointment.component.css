@@ -114,10 +114,13 @@ td {
 } */
 
 ::ng-deep .green-background .mat-calendar-body-cell-content {
-  border-color: #7cfc00 !important;
-  color: #58af04 !important;
+  /* border-color: #7cfc00 !important; */
+  /* color: #58af04 !important; */
+  /* background-color: #e7ffd1; */
   /* transition: all 0.3s ease; */
-  background-color: #e7ffd1;
+  border-color: var(--green-border-calendar) !important;
+  color: var(--white) !important;
+  background-color: var(--green-border-calendar);
 }
 
 ::ng-deep .blue-background .mat-calendar-body-cell-content {
@@ -142,62 +145,72 @@ td {
 }
 
 ::ng-deep .red-background .mat-calendar-body-cell-content {
-  border-color: brown !important;
+  border-color: var(--red-appointment) !important;
   color: white !important;
   /* transition: all 0.3s ease; */
-  background-color: firebrick;
+  background-color: var(--red-appointment);
 }
 
 /* Blue rb */
 ::ng-deep
   .mat-radio-button.mat-accent.mat-radio-checked.blue-background
   .mat-radio-outer-circle {
-  border-color: blue;
+  /* border-color: blue; */
+  border-color: var(--blue-appointment);
 }
 ::ng-deep .mat-radio-button.mat-accent.blue-background .mat-radio-inner-circle {
-  background-color: blue;
+  /* background-color: blue; */
+  background-color: var(--blue-appointment);
 }
 /* Green rb */
 ::ng-deep
   .mat-radio-button.mat-accent.mat-radio-checked.green-background
   .mat-radio-outer-circle {
-  border-color: green;
+  /* border-color: green; */
+  border-color: var(--green-appointment);
 }
 ::ng-deep
   .mat-radio-button.mat-accent.green-background
   .mat-radio-inner-circle {
-  background-color: green;
+  /* background-color: green; */
+  background-color: var(--green-appointment);
 }
 /* Yellow rb */
 ::ng-deep
   .mat-radio-button.mat-accent.mat-radio-checked.yellow-background
   .mat-radio-outer-circle {
-  border-color: yellow;
+  /* border-color: yellow; */
+  border-color: var(--yellow-appointment);
 }
 ::ng-deep
   .mat-radio-button.mat-accent.yellow-background
   .mat-radio-inner-circle {
-  background-color: yellow;
+  /* background-color: yellow; */
+  background-color: var(--yellow-appointment);
 }
 /* Orange rb */
 ::ng-deep
   .mat-radio-button.mat-accent.mat-radio-checked.orange-background
   .mat-radio-outer-circle {
-  border-color: orangered;
+  /* border-color: orangered; */
+  border-color: var(--orange-appointment);
 }
 ::ng-deep
   .mat-radio-button.mat-accent.orange-background
   .mat-radio-inner-circle {
-  background-color: orangered;
+  /* background-color: orangered; */
+  background-color: var(--orange-appointment);
 }
 /* Red rb */
 ::ng-deep
   .mat-radio-button.mat-accent.mat-radio-checked.red-background
   .mat-radio-outer-circle {
-  border-color: red;
+  /* border-color: red; */
+  border-color: var(--red-appointment);
 }
 ::ng-deep .mat-radio-button.mat-accent.red-background .mat-radio-inner-circle {
-  background-color: red;
+  /* background-color: red; */
+  background-color: var(--red-appointment);
 }
 
 .container {
@@ -293,4 +306,9 @@ mat-form-field {
   background-color: var(--success);
   color: var(--white);
   margin-left: 15px;
+}
+
+.radio-buttons {
+  margin-left: 5%;
+  margin-top: 20px;
 }

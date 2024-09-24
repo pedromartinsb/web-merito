@@ -511,8 +511,8 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
             personId: this.personId,
             selected: this.selected,
           },
-          height: '500px',
-          width: '600px',
+          height: 'fit-content',
+          width: 'fit-content',
         });
       });
   }
@@ -527,8 +527,8 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
         activity: activity,
         selected: new Date(),
       },
-      height: '500px',
-      width: '800px',
+      height: 'fit-content',
+      width: 'fit-content',
     });
   }
 
@@ -537,8 +537,8 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
       data: {
         personId: this.personId,
       },
-      height: '450px',
-      width: '450px',
+      height: 'fit-content',
+      width: 'fit-content',
     });
   }
 
@@ -547,8 +547,8 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
       data: {
         personId: this.personId,
       },
-      height: '450px',
-      width: '450px',
+      height: 'fit-content',
+      width: 'fit-content',
     });
   }
 

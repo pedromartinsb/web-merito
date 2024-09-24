@@ -16,6 +16,11 @@ mat-form-field {
 }
 
 .cancel-button {
-  background-color: var(--warn);
+  background-color: var(--cancel);
+  color: var(--white);
+}
+
+.delete-button {
+  background-color: var(--delete);
   color: var(--white);
 }

@@ -1,5 +1,4 @@
 .mat-radio-group {
-  margin-top: 5px;
   margin-bottom: 20px;
   flex-direction: row;
 }
@@ -18,8 +17,8 @@
 }
 
 .example-container {
-  height: 200px;
-  width: 650px;
+  height: fit-content;
+  width: fit-content;
   max-width: 100%;
   overflow: auto;
   margin-top: 40px;
@@ -31,7 +30,6 @@
 
 table {
   width: 100%;
-  align-items: center;
 }
 
 :host ::ng-deep thead {

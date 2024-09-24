@@ -14,11 +14,15 @@ body {
   --primary: #483535;
   --accent: #ff4081;
   --warn: #f44336;
-  --success: #3c763d;
+  --success: #008000;
+  --cancel: #ff0000;
+  --delete: #ff4500;
   --white: #fff;
-  --red-appointment: #f44336;
-  --orange-appointment: #ff723b;
+  --red-appointment: #ff0000;
+  --orange-appointment: #ff4500;
   --yellow-appointment: #ffd700;
-  --green-appointment: #7cfc00;
-  --blue-appointment: #36aad7;
+  --green-appointment: #008000;
+  --green-border-calendar: #008000;
+  --green-color-calendar: #006400;
+  --blue-appointment: #0000ff;
 }

@@ -22,6 +22,7 @@ export class PersonAppointmentDialogComponent implements OnInit {
   displayedColumns = ['name', 'radio'];
   dataSource: Activity[];
   tags: Tag[];
+  maxCharacters: number = 60; // Set your character limit here
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,

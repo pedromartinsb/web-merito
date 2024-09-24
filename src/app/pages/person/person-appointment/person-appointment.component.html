@@ -30,6 +30,20 @@
               >
               Diária
             </ng-template>
+
+            <div class="radio-buttons" *ngIf="dataSource.length > 0">
+              <mat-radio-group>
+                <mat-radio-button
+                  *ngFor="let tag of tags"
+                  class="daily"
+                  [ngClass]="tag.class"
+                  checked="true"
+                  matTooltip="{{ tag.description }}"
+                >
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
             <section class="monthly-container mat-elevation-z2" tabindex="0">
               <table mat-table [dataSource]="dataSource">
                 <!-- Name Column -->
