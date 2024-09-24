@@ -15,7 +15,7 @@ import { AppointmentService } from './../../../services/appointment.service';
 import { PersonAppointmentConfirmComponent } from './person-appointment-confirm/person-appointment-confirm.component';
 import { PersonAppointmentDialogComponent } from './person-appointment-dialog/person-appointment-dialog.component';
 import { PersonAppointmentTaskComponent } from './person-appointment-task/person-appointment-task.component';
-import { PersonAppointmentGoalComponent } from './person-appointment-goal/person-appointment-goal.component';
+import { PersonAppointmentAchieveComponent } from './person-appointment-achieve/person-appointment-achieve.component';
 
 @Component({
   selector: 'app-person-appointment',
@@ -71,7 +71,7 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   endDate = new Date();
   selectedTab = new FormControl(0);
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
-  maxCharacters: number = 90; // Set your character limit here
+  maxCharacters: number = 60; // Set your character limit here
 
   constructor(
     private dialog: MatDialog,
@@ -527,8 +527,8 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public openGoal() {
-    this.dialog.open(PersonAppointmentGoalComponent, {
+  public openAchieve() {
+    this.dialog.open(PersonAppointmentAchieveComponent, {
       data: {
         personId: this.personId,
       },

@@ -7,6 +7,8 @@
         matInput
         placeholder="Digite a descrição da meta"
         rows="5"
+        [(ngModel)]="achieve.description"
+        [formControl]="descriptionFormControl"
       ></textarea>
       <mat-hint>Digite a descrição da meta.</mat-hint>
     </mat-form-field>
@@ -15,8 +17,18 @@
   <mat-form-field appearance="fill">
     <mat-label>Escolha a data:</mat-label>
     <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-      <input matStartDate formControlName="start" placeholder="Start date" />
-      <input matEndDate formControlName="end" placeholder="End date" />
+      <input
+        matStartDate
+        formControlName="start"
+        placeholder="Data de início"
+        [(ngModel)]="achieve.startDate"
+      />
+      <input
+        matEndDate
+        formControlName="end"
+        placeholder="Data de fim"
+        [(ngModel)]="achieve.endDate"
+      />
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>

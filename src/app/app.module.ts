@@ -98,7 +98,7 @@ import { SupplierListComponent } from './pages/supplier/supplier-list/supplier-l
 import { FormsComponent } from './components/forms/forms.component';
 import { CommunicationComponent } from './components/communication/communication.component';
 import { PersonAppointmentTaskComponent } from './pages/person/person-appointment/person-appointment-task/person-appointment-task.component';
-import { PersonAppointmentGoalComponent } from './pages/person/person-appointment/person-appointment-goal/person-appointment-goal.component';
+import { PersonAppointmentAchieveComponent } from './pages/person/person-appointment/person-appointment-achieve/person-appointment-achieve.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -162,7 +162,7 @@ export const maskConfig: Partial<IConfig> = {
     FormsComponent,
     CommunicationComponent,
     PersonAppointmentTaskComponent,
-    PersonAppointmentGoalComponent,
+    PersonAppointmentAchieveComponent,
   ],
   imports: [
     BrowserModule,
