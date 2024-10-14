@@ -9,12 +9,12 @@ export class Config {
   public static get webApiUrl() {
     if (environment.production) {
       // return 'https://api-merito-66f71383f3bc.herokuapp.com/api';
-      return 'http://201.23.18.233:8080/api';
+      return 'https://201.23.18.233:8080/api';
     }
     if (environment.staging) {
       // return 'https://api-merito-66f71383f3bc.herokuapp.com/api';
-      return 'http://201.23.18.233:8080/api';
+      return 'https://201.23.18.233:8080/api';
     }
-    return 'http://201.23.18.233:8080/api'
+    return 'http://localhost:8080/api'
   }
 }
