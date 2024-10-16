@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { Address, Contact, Person, User } from 'src/app/models/person';
-import { PersonService } from 'src/app/services/person.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {PersonService} from "../../../services/person.service";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
+import {Address, Contact, Person, User} from "../../../models/person";
 
 @Component({
-  selector: 'app-profile-form',
-  templateUrl: './profile-form.component.html',
-  styleUrls: ['./profile-form.component.css'],
+  selector: 'app-change-password',
+  templateUrl: './change-password.component.html',
+  styleUrls: ['./change-password.component.css']
 })
-export class ProfileFormComponent implements OnInit {
+export class ChangePasswordComponent implements OnInit {
   user: User = {
     username: '',
     email: '',
@@ -55,25 +55,22 @@ export class ProfileFormComponent implements OnInit {
     this._person = value;
   }
 
-  name: FormControl = new FormControl(null, Validators.minLength(3));
-  cpf: FormControl = new FormControl(null, Validators.required);
-  isCpf: boolean = true;
-  radioContractTypeOptions: string = 'Clt';
-  radioGenderOptions: string = 'Masculino';
-  username: FormControl = new FormControl(null, Validators.minLength(3));
-  email: FormControl = new FormControl(null, Validators.email);
-  role: FormControl = new FormControl(null, Validators.minLength(1));
-  password: FormControl = new FormControl(null, Validators.minLength(3));
-  newPassword: FormControl = new FormControl(null, Validators.minLength(3));
-  confirmPasswordFormControl: FormControl = new FormControl(
-    null,
-    Validators.minLength(3)
-  );
+  passwordForm = new FormGroup({
+    currentPassword: new FormControl(null, Validators.minLength(3)),
+    newPassword: new FormControl(null, Validators.minLength(3)),
+    confirmPassword: new FormControl(null, Validators.minLength(3))
+  });
+
+  // passwordFormControl: FormControl = new FormControl(null, Validators.minLength(3));
+  // newPasswordFormControl: FormControl = new FormControl(null, Validators.minLength(3));
+  // confirmPasswordFormControl: FormControl = new FormControl(
+  //   null,
+  //   Validators.minLength(3)
+  // );
   isSaving: boolean = false;
   hidePassword: boolean = true;
   hideNewPassword: boolean = true;
   hideConfirmPassword: boolean = true;
-  isValidated: boolean = false;
   _confirmPassword: String;
   get confirmPassword(): String {
     return this._confirmPassword;
@@ -94,37 +91,13 @@ export class ProfileFormComponent implements OnInit {
     });
   }
 
-  public selectContractType(contractType: string): void {
-    this.person.contractType = contractType;
-    if (contractType === 'Clt') {
-      this.isCpf = true;
-      this.person.contractType = 'Clt';
-    } else if (contractType === 'Autônomo') {
-      this.isCpf = false;
-      this.person.contractType = 'Autônomo';
-    }
-  }
-
-  public selectGender(gender: string): void {
-    this.person.gender = gender;
-  }
-
-  public validateFields(): boolean {
-    return (
-      this.name.valid &&
-      this.cpf.valid &&
-      this.email.valid &&
-      this.username.valid
-    );
-  }
-
   public update(): void {
     this.isSaving = true;
 
     if (this.validatePasswords()) {
-      this.personService.updateWithoutFile(this.person.id, this.person).subscribe({
+      this.personService.changePassword(this.person.id, this.passwordForm.get('newPassword').value).subscribe({
         next: () => {
-          this.toast.success('Usuário alterado com sucesso', 'Alteração');
+          this.toast.success('Senha alterada com sucesso', 'Alteração');
           this.router.navigate(['home']);
           this.isSaving = false;
         },
@@ -137,6 +110,15 @@ export class ProfileFormComponent implements OnInit {
       this.toast.error('As senhas não são iguais.');
       this.isSaving = false;
     }
+  }
+
+  public validateFields(): boolean {
+    return (
+      this.passwordForm.get('currentPassword').value != null &&
+      this.passwordForm.get('newPassword').value != null &&
+      this.passwordForm.get('confirmPassword').value != null &&
+      this.passwordForm.valid
+    );
   }
 
   private validatePasswords(): boolean {
@@ -152,4 +134,5 @@ export class ProfileFormComponent implements OnInit {
       this.toast.error(ex.error.message);
     }
   }
+
 }

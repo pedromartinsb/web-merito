@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
 
-import { Config } from '../config/api.config';
-import { AddressSearch, Person } from '../models/person';
-import { Message } from '../pages/person/person-appointment/person-appointment.component';
+import {Config} from '../config/api.config';
+import {AddressSearch, Person} from '../models/person';
+import {Message} from '../pages/person/person-appointment/person-appointment.component';
 
 @Injectable({
   providedIn: 'root',
@@ -85,6 +85,16 @@ export class PersonService {
 
     return this.http.put<Person>(
       `${Config.webApiUrl}/v1/person/${id}/no-picture`,
+      formData
+    );
+  }
+
+  public changePassword(id: string, newPassword: string): Observable<Person> {
+    const formData = new FormData();
+    formData.append('newPassword', newPassword);
+
+    return this.http.put<Person>(
+      `${Config.webApiUrl}/v1/person/${id}/change-password`,
       formData
     );
   }

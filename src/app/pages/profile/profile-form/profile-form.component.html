@@ -193,7 +193,7 @@
                 hideConfirmPassword ? "visibility_off" : "visibility"
               }}</mat-icon
             >
-            <mat-hint *ngIf="newPassword.value" align="end" style="color: red"
+            <mat-hint *ngIf="!newPassword.value" align="end" style="color: red"
               >Campo obrigatório</mat-hint
             >
           </mat-form-field>

@@ -19,8 +19,7 @@ export class NavComponent implements OnInit, OnDestroy {
   @Input() inputSideNav: MatSidenav;
   @Input() inputLogout: InputEvent;
   destroyed = new Subject<void>();
-  modeNavMenu: MatDrawerMode = 'over';
-  showFiller = false;
+  modeNavMenu: MatDrawerMode = 'side';
   userRole: string[] = [];
   canAdminAccess: boolean = false;
   canModeratorAccess: boolean = false;
@@ -46,9 +45,7 @@ export class NavComponent implements OnInit, OnDestroy {
   firstOffice: OfficeResponse;
   officeResponses: OfficeResponse[] = [];
   hidden = false;
-  longText = `The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
-  from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
-  originally bred for hunting.`;
+  currentTime: string;
 
   constructor(
     private storageService: StorageService,
@@ -75,7 +72,7 @@ export class NavComponent implements OnInit, OnDestroy {
               this.displayNameMap.get(query) === 'XSmall'
             ) {
               this.currentScreenSize = this.displayNameMap.get(query);
-              this.modeNavMenu = 'over';
+              this.modeNavMenu = 'side';
             }
           }
         }
@@ -96,6 +93,10 @@ export class NavComponent implements OnInit, OnDestroy {
           'https://s3.amazonaws.com/37assets/svn/765-default-avatar.png';
       }
     });
+    this.updateCurrentTime();
+    setInterval(() => {
+      this.updateCurrentTime();
+    }, 60000); // Atualiza a cada minuto
     this.checkPermission();
     this.checkAdminAccess();
     this.checkModeratorAccess();
@@ -105,6 +106,11 @@ export class NavComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  updateCurrentTime() {
+    const now = new Date();
+    this.currentTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
   private checkPermission(): void {

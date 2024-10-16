@@ -1,10 +1,11 @@
-import { style } from '@angular/animations';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as ApexCharts from 'apexcharts';
-import { Subject, takeUntil } from 'rxjs';
-import { AuthGuard } from 'src/app/auth/auth.guard';
-import { AuthService } from 'src/app/services/auth.service';
+import {Subject, takeUntil} from 'rxjs';
+import {AuthGuard} from 'src/app/auth/auth.guard';
+import {AuthService} from 'src/app/services/auth.service';
+import {ChartDataset, ChartOptions, ChartType} from "chart.js";
+import {Label} from "chartist";
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,68 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  // Dados para o gráfico de barras
+  public barChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  public barChartLabels: Label[] = ['January', 'February', 'March', 'April'];
+  public barChartType: ChartType = 'bar';
+  public barChartLegend = true;
+  public barChartData: ChartDataset<'bar'>[] = [
+    { data: [65, 59, 80, 81], label: 'Series A' }, // Série A
+    { data: [28, 48, 40, 19], label: 'Series B' }, // Série B
+    { data: [15, 25, 35, 45], label: 'Series C' }, // Série C
+    { data: [30, 40, 50, 60], label: 'Series D' }, // Série D
+    { data: [10, 15, 25, 35], label: 'Series E' }  // Série E
+  ];
+
+  // Dados para o gráfico de linha
+  public lineChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  public lineChartLabels: Label[] = ['January', 'February', 'March', 'April'];
+  public lineChartType: ChartType = 'line';
+  public lineChartLegend = true;
+  public lineChartData: ChartDataset<'line'>[] = [
+    { data: [85, 72, 78, 75], label: 'Series A' }, // Série A
+    { data: [40, 60, 50, 70], label: 'Series B' }, // Série B
+    { data: [30, 20, 60, 80], label: 'Series C' }, // Série C
+    { data: [70, 50, 40, 90], label: 'Series D' }, // Série D
+    { data: [50, 70, 80, 90], label: 'Series E' }  // Série E
+  ];
+
+  // Gráfico de Pizza
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false, // Permite que o gráfico seja dimensionado sem manter a proporção
+    aspectRatio: 1, // Define a proporção do gráfico
+    plugins: {
+      legend: {
+        labels: {
+          color: 'black', // Cor do texto da legenda
+        }
+      }
+    },
+    elements: {
+      arc: {
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)', // Vermelho
+          'rgba(153, 102, 255, 0.6)', // Roxo
+          'rgba(255, 206, 86, 0.6)', // Amarelo
+          'rgba(75, 192, 192, 0.6)', // Verde
+          'rgba(54, 162, 235, 0.6)', // Azul
+        ],
+      }
+    },
+  };
+  public pieChartLabels: Label[] = ['Vermelho', 'Laranja', 'Amarelo', 'Verde', 'Azul'];
+  public pieChartType: ChartType = 'pie';
+  public pieChartLegend = true;
+  public pieChartData: ChartDataset<'pie'>[] = [
+    { data: [300, 50, 100, 80, 150], label: 'Distribuição' }
+  ];
+
+
   destroyed = new Subject<void>();
   currentScreenSize: string;
   isAdmin: boolean = false;
@@ -85,7 +148,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       chart: {
         type: 'bar',
         height: 350,
-        stacked: true,
+        stacked: false,
         toolbar: {
           show: false,
         },

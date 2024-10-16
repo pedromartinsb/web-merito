@@ -37,6 +37,7 @@ import { SuggestionFormComponent } from './pages/suggestion/suggestion-form/sugg
 import { SuggestionListComponent } from './pages/suggestion/suggestion-list/suggestion-list.component';
 import { SupplierFormComponent } from './pages/supplier/supplier-form/supplier-form.component';
 import { SupplierListComponent } from './pages/supplier/supplier-list/supplier-list.component';
+import {ChangePasswordComponent} from "./pages/person/change-password/change-password.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -113,6 +114,22 @@ const routes: Routes = [
             Roles.ROLE_ADMIN_GERAL,
             Roles.ROLE_ADMIN_COMPANY,
             Roles.ROLE_ADMIN_OFFICE,
+          ],
+        },
+      },
+
+      // CHANGE PASSWORD
+      {
+        path: 'change-password',
+        component: ChangePasswordComponent,
+        canActivate: [AuthGuard],
+        data: {
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_ADMIN_GERAL,
+            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_USER_OFFICE,
           ],
         },
       },

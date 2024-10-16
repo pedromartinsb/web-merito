@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Login } from 'src/app/models/login';
-import { FormControl, Validators } from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +27,11 @@ export class LoginComponent implements OnInit {
     firstAccess: false,
     officeResponses: [],
   };
+
+  credentials = new FormGroup({
+    username: new FormControl(null, [Validators.required]),
+    password: new FormControl(null, [Validators.required]),
+  });
 
   identifier: FormControl = new FormControl(null, [Validators.required]);
   username: FormControl = new FormControl(null, [Validators.required]);
@@ -57,26 +62,31 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoggin = true;
-    const { username, password } = this.form;
 
-    this.authService.authenticate(username, password).subscribe({
-      next: (data) => {
-        this.isLoggin = false;
-        this.cleanFields();
-        this.login = data.body;
-        this.authService.successfulLogin(
-          this.login.token,
-          this.login.roles,
-          this.login.companyNames,
-          this.login.officeResponses
-        );
-        this.router.navigate(['home']);
-        this.toast.success('Login realizado com sucesso', 'Login');
-      },
-      error: (err) => {
-        this.isLoggin = false;
-        this.toast.error(err);
-      },
-    });
+    if (this.credentials.get('username').value == null || this.credentials.get('password').value == null) {
+      this.toast.error("Usuário e Senha precisam estar preenchidos.")
+    } else {
+      this.authService.authenticate(this.credentials.get('username').value, this.credentials.get('password').value)
+        .subscribe({
+          next: (data) => {
+            this.isLoggin = false;
+            this.cleanFields();
+            this.login = data.body;
+            this.authService.successfulLogin(
+              this.login.token,
+              this.login.roles,
+              this.login.companyNames,
+              this.login.officeResponses
+            );
+            this.router.navigate(['home']);
+            this.toast.success('Login realizado com sucesso', 'Login');
+            console.log('aqui')
+          },
+          error: (err) => {
+            this.isLoggin = false;
+            this.toast.error(err);
+          },
+        });
+    }
   }
 }

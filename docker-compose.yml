@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  angular-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"  # Mapear a porta 4200 do host para a porta 80 do contêiner
+    environment:
+      - NODE_ENV=production
+    restart: always

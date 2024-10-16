@@ -1,358 +1,161 @@
-<mat-card class="example-card">
-  <mat-card-title>Mural de Comunicados</mat-card-title>
-  <mat-card-subtitle>Avisos importantes</mat-card-subtitle>
-  <mat-card-content>
-    <h1>
-      <strong>Olá! Sejam Bem-Vindo(a)s ao Projeção Profissional! 👋</strong>
-    </h1>
-    <p>
-      Este é o ambiente da sua empresa e ele já está pronto para ser configurado
-      para cadastro dos colaboradores e posterior uso por todos! 🚀
-    </p>
-    <div class="wrapper" *ngIf="this.isAdmin">
-      <div class="box a">
-        <a routerLink="/person">Colaboradores</a>
-        <br />
-      </div>
-      <div class="box b">
-        <a routerLink="/autonomous">Profissionais Autônomos</a>
-        <br />
-      </div>
-      <div class="box c">
-        <a routerLink="/supplier">Fornecedores</a>
-        <br />
-      </div>
-      <div class="box d">
-        <a routerLink="/responsibility">Funções</a>
-        <br />
-      </div>
-      <div class="box e">
-        <a routerLink="/routine">Rotinas</a>
-        <br />
-      </div>
-      <div class="box f">
-        <a routerLink="/goal">Metas</a>
-        <br />
-      </div>
-    </div>
-    <div
-      class="wrapper"
-      *ngIf="this.isAdminGeral || this.isAdminEmpresa || this.isAdminOffice"
-    >
-      <div class="box a">
-        <a routerLink="/person">Colaboradores</a>
-        <br />
-      </div>
-      <div class="box b">
-        <a routerLink="/autonomous">Profissionais Autônomos</a>
-        <br />
-      </div>
-      <div class="box c">
-        <a routerLink="/supplier">Fornecedores</a>
-        <br />
-      </div>
-      <div class="box d">
-        <a routerLink="/routine">Funções</a>
-        <br />
-      </div>
-      <div class="box e">
-        <a routerLink="/routine">Rotinas</a>
-        <br />
-      </div>
-      <div class="box f">
-        <a routerLink="/goal">Metas</a>
-        <br />
-      </div>
-    </div>
-    <div class="wrapper" *ngIf="this.isSupervisor">
-      <div class="box a">
-        <a routerLink="/person">Colaboradores</a>
-        <br />
-      </div>
-      <div class="box b">
-        <a routerLink="/autonomous">Profissionais Autônomos</a>
-        <br />
-      </div>
-      <div class="box c">
-        <a routerLink="/supplier">Fornecedores</a>
-        <br />
-      </div>
-    </div>
-    <div class="wrapper" *ngIf="this.isUserOffice || this.isUserOffice">
-      <div class="box a">
-        <a routerLink="/document">Documentos</a>
-        <br />
-      </div>
-      <div class="box b">
-        <a routerLink="/routine">Rotinas</a>
-        <br />
-      </div>
-      <div class="box c">
-        <a routerLink="/goal">Metas</a>
-        <br />
-      </div>
-    </div>
+<!--<mat-card class="example-card">-->
+<!--  <mat-card-title>Mural de Comunicados</mat-card-title>-->
+<!--  <mat-card-subtitle>Avisos importantes</mat-card-subtitle>-->
+<!--  <mat-card-content>-->
+<!--    <h1>-->
+<!--      <strong>Olá! Sejam Bem-Vindo(a)s ao Projeção Profissional! 👋</strong>-->
+<!--    </h1>-->
+<!--    <p>-->
+<!--      Este é o ambiente da sua empresa e ele já está pronto para ser configurado-->
+<!--      para cadastro dos colaboradores e posterior uso por todos! 🚀-->
+<!--    </p>-->
+<!--    <div class="wrapper" *ngIf="this.isAdmin">-->
+<!--      <div class="box a">-->
+<!--        <a routerLink="/person">Colaboradores</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box b">-->
+<!--        <a routerLink="/autonomous">Profissionais Autônomos</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box c">-->
+<!--        <a routerLink="/supplier">Fornecedores</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box d">-->
+<!--        <a routerLink="/responsibility">Funções</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box e">-->
+<!--        <a routerLink="/routine">Rotinas</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box f">-->
+<!--        <a routerLink="/goal">Metas</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div-->
+<!--      class="wrapper"-->
+<!--      *ngIf="this.isAdminGeral || this.isAdminEmpresa || this.isAdminOffice"-->
+<!--    >-->
+<!--      <div class="box a">-->
+<!--        <a routerLink="/person">Colaboradores</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box b">-->
+<!--        <a routerLink="/autonomous">Profissionais Autônomos</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box c">-->
+<!--        <a routerLink="/supplier">Fornecedores</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box d">-->
+<!--        <a routerLink="/routine">Funções</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box e">-->
+<!--        <a routerLink="/routine">Rotinas</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box f">-->
+<!--        <a routerLink="/goal">Metas</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="wrapper" *ngIf="this.isSupervisor">-->
+<!--      <div class="box a">-->
+<!--        <a routerLink="/person">Colaboradores</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box b">-->
+<!--        <a routerLink="/autonomous">Profissionais Autônomos</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box c">-->
+<!--        <a routerLink="/supplier">Fornecedores</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="wrapper" *ngIf="this.isUserOffice || this.isUserOffice">-->
+<!--      <div class="box a">-->
+<!--        <a routerLink="/document">Documentos</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box b">-->
+<!--        <a routerLink="/routine">Rotinas</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--      <div class="box c">-->
+<!--        <a routerLink="/goal">Metas</a>-->
+<!--        <br />-->
+<!--      </div>-->
+<!--    </div>-->
 
-    <ng-container>
-      <mat-card class="card mat-elevation-z8">
-        <div id="chart"></div>
-      </mat-card>
-    </ng-container>
-  </mat-card-content>
-</mat-card>
+<!--&lt;!&ndash;    <ng-container>&ndash;&gt;-->
+<!--&lt;!&ndash;      <mat-card class="card mat-elevation-z8">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div id="chart"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </mat-card>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ng-container>&ndash;&gt;-->
 
-<!-- <div class="wrapper">
-  <div class="box a">
-    <mat-icon>person</mat-icon><br />
-    <a routerLink="/person">Colaboradores</a><br />
+<!--    <div style="display: flex; justify-content: space-between;">-->
+<!--      <div style="flex: 1; margin: 10px; padding: 20px;">-->
+<!--        <h2>Gráfico de Barras</h2>-->
+<!--        <canvas baseChart-->
+<!--                [datasets]="barChartData"-->
+<!--                [labels]="barChartLabels"-->
+<!--                [options]="barChartOptions"-->
+<!--                [legend]="barChartLegend"-->
+<!--                [type]="barChartType">-->
+<!--        </canvas>-->
+<!--      </div>-->
+
+<!--      <div style="flex: 1; margin: 10px; padding: 20px;">-->
+<!--        <h2>Gráfico de Linha</h2>-->
+<!--        <canvas baseChart-->
+<!--                [datasets]="lineChartData"-->
+<!--                [labels]="lineChartLabels"-->
+<!--                [options]="lineChartOptions"-->
+<!--                [legend]="lineChartLegend"-->
+<!--                [type]="lineChartType">-->
+<!--        </canvas>-->
+<!--      </div>-->
+
+<!--      <div style="flex: 1; margin: 10px; padding: 20px;">-->
+<!--        <h2>Gráfico de Linha</h2>-->
+<!--        <div style="width: 100%; height: 300px; margin: 0 auto;">-->
+<!--          <canvas baseChart-->
+<!--                  [datasets]="pieChartData"-->
+<!--                  [labels]="pieChartLabels"-->
+<!--                  [options]="pieChartOptions"-->
+<!--                  [legend]="pieChartLegend"-->
+<!--                  [type]="pieChartType">-->
+<!--          </canvas>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </mat-card-content>-->
+<!--</mat-card>-->
+
+
+
+<div class="home-navigation">
+  <div class="nav-card">
+    <i class="fas fa-users"></i>
+    <h3>Gestão de Usuários</h3>
+    <a href="#" class="btn">Acessar</a>
   </div>
-  <div class="box b">
-    <mat-icon>group</mat-icon><br />
-    <a routerLink="/autonomous">Profissionais Autônomos</a><br />
+
+  <div class="nav-card">
+    <i class="fas fa-chart-line"></i>
+    <h3>Relatórios</h3>
+    <a href="/relatorios" class="btn">Acessar</a>
   </div>
-  <div class="box c">
-    <mat-icon>engineering</mat-icon><br />
-    <a routerLink="/supplier">Fornecedores</a><br />
+
+  <div class="nav-card">
+    <i class="fas fa-cogs"></i>
+    <h3>Configurações</h3>
+    <a href="/configuracoes" class="btn">Acessar</a>
   </div>
-  <div class="box d">
-    <mat-icon>badge</mat-icon><br />
-    <a routerLink="/responsibility">Funções</a><br />
-  </div>
-  <div class="box e">
-    <mat-icon>event_available</mat-icon><br />
-    <a routerLink="/routine">Rotinas</a><br />
-  </div>
-  <div class="box f">
-    <mat-icon>flag</mat-icon><br />
-    <a routerLink="/goal">Metas</a><br />
-  </div>
-</div> -->
-
-<!-- <div class="grid-container">
-  <mat-grid-list cols="1" rowHeight="1:1">
-    <mat-grid-tile colspan="1" style="background-color: green">
-      <h1>TESTE</h1>
-    </mat-grid-tile>
-  </mat-grid-list>
-
-  <mat-grid-list cols="1" rowHeight="1:1">
-    <mat-grid-tile colspan="1" style="background-color: purple">
-      <h1>TESTE</h1>
-    </mat-grid-tile>
-  </mat-grid-list>
-
-  <mat-grid-list cols="1" rowHeight="1:1">
-    <mat-grid-tile colspan="1" style="background-color: orangered">
-      <h1>TESTE</h1>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div> -->
-
-<!-- <mat-grid-list cols="4" rowHeight="1:1">
-  <mat-grid-tile colspan="1" style="background-color: green">
-    <h1>TESTE</h1>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1" style="background-color: purple">
-    TESTE
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1" style="background-color: orangered">
-    TESTE
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1" style="background-color: blue">
-    TESTE
-  </mat-grid-tile>
-</mat-grid-list> -->
-
-<!-- <mat-grid-list cols="3" gutterSize="10px" rowHeight="1:.95">
-  <mat-grid-tile
-    ><mat-card class="card mat-elevation-z8">
-      <mat-card-header>
-        <mat-card-title>Sistema Mérito</mat-card-title>
-        <mat-card-subtitle
-          >O seu sistema de controle de meritocracia</mat-card-subtitle
-        >
-      </mat-card-header>
-      <img
-        mat-card-image
-        src="assets/img/home-image.svg"
-        alt="Image Home Sistema Mérito"
-        *ngIf="
-          currentScreenSize == 'XLarge' ||
-          currentScreenSize == 'Large' ||
-          currentScreenSize == 'Medium'
-        "
-      />
-      <mat-card-content>
-        <p>
-          Olá! Seja bem vindo ao sistema Mérito.<br />
-          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
-          Nós iremos te ajudar a ter uma administração apurada a respeito dos
-          seus Colaboradores.
-          <br /><br />
-          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
-          Equipe Mérito
-        </p>
-      </mat-card-content>
-    </mat-card></mat-grid-tile
-  >
-  <mat-grid-tile
-    ><mat-card class="card mat-elevation-z8">
-      <mat-card-header>
-        <mat-card-title>Sistema Mérito</mat-card-title>
-        <mat-card-subtitle
-          >O seu sistema de controle de meritocracia</mat-card-subtitle
-        >
-      </mat-card-header>
-      <img
-        mat-card-image
-        src="assets/img/home-image.svg"
-        alt="Image Home Sistema Mérito"
-        *ngIf="
-          currentScreenSize == 'XLarge' ||
-          currentScreenSize == 'Large' ||
-          currentScreenSize == 'Medium'
-        "
-      />
-      <mat-card-content>
-        <p>
-          Olá! Seja bem vindo ao sistema Mérito.<br />
-          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
-          Nós iremos te ajudar a ter uma administração apurada a respeito dos
-          seus Colaboradores.
-          <br /><br />
-          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
-          Equipe Mérito
-        </p>
-      </mat-card-content>
-    </mat-card></mat-grid-tile
-  >
-  <mat-grid-tile
-    ><mat-card class="card mat-elevation-z8">
-      <mat-card-header>
-        <mat-card-title>Sistema Mérito</mat-card-title>
-        <mat-card-subtitle
-          >O seu sistema de controle de meritocracia</mat-card-subtitle
-        >
-      </mat-card-header>
-      <img
-        mat-card-image
-        src="assets/img/home-image.svg"
-        alt="Image Home Sistema Mérito"
-        *ngIf="
-          currentScreenSize == 'XLarge' ||
-          currentScreenSize == 'Large' ||
-          currentScreenSize == 'Medium'
-        "
-      />
-      <mat-card-content>
-        <p>
-          Olá! Seja bem vindo ao sistema Mérito.<br />
-          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
-          Nós iremos te ajudar a ter uma administração apurada a respeito dos
-          seus Colaboradores.
-          <br /><br />
-          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
-          Equipe Mérito
-        </p>
-      </mat-card-content>
-    </mat-card></mat-grid-tile
-  >
-  <mat-grid-tile
-    ><mat-card class="card mat-elevation-z8">
-      <mat-card-header>
-        <mat-card-title>Sistema Mérito</mat-card-title>
-        <mat-card-subtitle
-          >O seu sistema de controle de meritocracia</mat-card-subtitle
-        >
-      </mat-card-header>
-      <img
-        mat-card-image
-        src="assets/img/home-image.svg"
-        alt="Image Home Sistema Mérito"
-        *ngIf="
-          currentScreenSize == 'XLarge' ||
-          currentScreenSize == 'Large' ||
-          currentScreenSize == 'Medium'
-        "
-      />
-      <mat-card-content>
-        <p>
-          Olá! Seja bem vindo ao sistema Mérito.<br />
-          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
-          Nós iremos te ajudar a ter uma administração apurada a respeito dos
-          seus Colaboradores.
-          <br /><br />
-          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
-          Equipe Mérito
-        </p>
-      </mat-card-content>
-    </mat-card></mat-grid-tile
-  >
-  <mat-grid-tile
-    ><mat-card class="card mat-elevation-z8">
-      <mat-card-header>
-        <mat-card-title>Sistema Mérito</mat-card-title>
-        <mat-card-subtitle
-          >O seu sistema de controle de meritocracia</mat-card-subtitle
-        >
-      </mat-card-header>
-      <img
-        mat-card-image
-        src="assets/img/home-image.svg"
-        alt="Image Home Sistema Mérito"
-        *ngIf="
-          currentScreenSize == 'XLarge' ||
-          currentScreenSize == 'Large' ||
-          currentScreenSize == 'Medium'
-        "
-      />
-      <mat-card-content>
-        <p>
-          Olá! Seja bem vindo ao sistema Mérito.<br />
-          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
-          Nós iremos te ajudar a ter uma administração apurada a respeito dos
-          seus Colaboradores.
-          <br /><br />
-          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
-          Equipe Mérito
-        </p>
-      </mat-card-content>
-    </mat-card></mat-grid-tile
-  >
-  <mat-grid-tile
-    ><mat-card class="card mat-elevation-z8">
-      <mat-card-header>
-        <mat-card-title>Sistema Mérito</mat-card-title>
-        <mat-card-subtitle
-          >O seu sistema de controle de meritocracia</mat-card-subtitle
-        >
-      </mat-card-header>
-      <img
-        mat-card-image
-        src="assets/img/home-image.svg"
-        alt="Image Home Sistema Mérito"
-        *ngIf="
-          currentScreenSize == 'XLarge' ||
-          currentScreenSize == 'Large' ||
-          currentScreenSize == 'Medium'
-        "
-      />
-      <mat-card-content>
-        <p>
-          Olá! Seja bem vindo ao sistema Mérito.<br />
-          Aqui é onde todo o controle da sua empresa está na palma da sua mão.
-          Nós iremos te ajudar a ter uma administração apurada a respeito dos
-          seus Colaboradores.
-          <br /><br />
-          Fique a vontade para usar o sistema e deixar sua sugestão. <br />
-          Equipe Mérito
-        </p>
-      </mat-card-content>
-    </mat-card></mat-grid-tile
-  >
-</mat-grid-list> -->
-
-<!-- <p>Resize your browser window to see the current screen size change.</p>
-<p>
-  The current screen size is <strong>{{ currentScreenSize }}</strong>
-</p> -->
+</div>

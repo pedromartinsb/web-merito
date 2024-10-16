@@ -1,36 +1,252 @@
+/*:host {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  background-color: var(--primary);*/
+/*  background-position: center top;*/
+/*  background-size: 100% auto;*/
+/*  align-items: center;*/
+/*  height: 100%;*/
+/*  width: 100%;*/
+/*}*/
+
+/*h1 {*/
+/*  font-size: 2rem;*/
+/*  font-weight: bold;*/
+/*}*/
+
+/*.mat-card {*/
+/*  padding: 50px;*/
+/*  opacity: 0.95;*/
+/*}*/
+
+/*.mat-form-field,*/
+/*button {*/
+/*  margin: 20px;*/
+/*  min-width: 500px;*/
+/*}*/
+
+/*.mat-card-footer {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*}*/
+
+
+* {
+  box-sizing: border-box;
+  border: 0 solid #e5e7eb;
+}
+
 :host {
+  margin: 0;
+  font-family: Arial, sans-serif;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  /* background: #3f51b5; */
-  /* background-image: url("https://img.freepik.com/free-vector/abstract-classic-blue-screensaver_23-2148421853.jpg"); */
-  background-image: url("https://e1.pxfuel.com/desktop-wallpaper/581/154/desktop-wallpaper-backgrounds-for-login-page-login-page.jpg");
-  background-position: center top;
-  background-size: 100% auto;
   align-items: center;
-  height: 100%;
+  min-height: 100vh;
+  background-color: #f5f5f5; /* Cor de fundo da página */
+}
+
+.login-container {
+  display: flex;
+  flex: 1 1 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
   width: 100%;
 }
 
-h1 {
+.login-card {
+  background-color: var(--white);
+  border-radius: 1rem;
+  max-width: 56rem;
+  width: 66%;
+  display: flex;
+}
+
+.login-column {
+  padding: 1.25rem;
+  width: 60%;
+}
+
+.signup-column {
+  color: var(--white);
+  padding: 9rem 3rem;
+  background-color: var(--primary);
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  width: 40%;
+}
+
+h2 {
+  color: var(--primary);
+  font-weight: 700;
   font-size: 2rem;
+  line-height: 2.25rem;
+  margin-bottom: 0.5rem;
 }
 
-.avatar {
-  height: 100%;
+form {
+  align-items: center;
+  flex-direction: column;
+  display: flex;
 }
 
-.mat-card {
-  padding: 50px;
-  opacity: 0.95;
+.input-group {
+  padding: .5rem;
+  background-color: rgb(243 244 246);
+  align-items: center;
+  width: 16rem;
+  display: flex;
+  margin-bottom: .75rem;
 }
 
-.mat-form-field,
-button {
-  margin: 20px;
-  min-width: 500px;
+input {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  background-color: rgb(243 244 246);
+  flex: 1 1 0;
 }
 
-.mat-card-footer {
+a {
+  color: var(--primary);
+  font-weight: 600;
+  padding: .5rem 3rem;
+  border-color: var(--primary);
+  border-width: 2px;
+  border-radius: 9999px;
+  display: inline-block;
+  text-decoration: inherit;
+  cursor: pointer;
+}
+
+a:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+p {
+  margin-bottom: 2.5rem;
+}
+
+.sign-up {
+  color: var(--white);
+  font-weight: 600;
+  padding: .5rem 3rem;
+  border-color: var(--white);
+  border-width: 2px;
+  border-radius: 9999px;
+  display: inline-block;
+  text-decoration: inherit;
+}
+
+.sign-up:hover {
+  background-color: var(--white);
+  color: var(--primary);
+}
+
+.spinner-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  /*height: 100vh;*/
 }
+
+.spinner {
+  border: 8px solid var(--primary);
+  border-top: 8px solid var(--white);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+/** {*/
+/*  box-sizing: border-box;*/
+/*}*/
+
+/*:host {*/
+/*  margin: 0;*/
+/*  font-family: Arial, sans-serif;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  height: 100vh;*/
+/*  background-color: #f5f5f5; !* Cor de fundo da página *!*/
+/*}*/
+
+/*.login-container {*/
+/*  width: 100%;*/
+/*  max-width: 800px; !* Largura máxima do card *!*/
+/*}*/
+
+/*.login-card {*/
+/*  display: flex;*/
+/*  border-radius: 8px;*/
+/*  overflow: hidden;*/
+/*  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*.login-column {*/
+/*  flex: 1;*/
+/*  padding: 20px;*/
+/*  background-color: #ffffff; !* Cor de fundo da coluna de login *!*/
+/*}*/
+
+/*.signup-column {*/
+/*  flex: 1;*/
+/*  padding: 20px;*/
+/*  background-color: #f0f8ff; !* Cor de fundo da coluna de cadastro *!*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*}*/
+
+/*h2 {*/
+/*  margin-bottom: 20px;*/
+/*}*/
+
+/*.input-group {*/
+/*  margin-bottom: 15px;*/
+/*}*/
+
+/*label {*/
+/*  display: block;*/
+/*  margin-bottom: 5px;*/
+/*}*/
+
+/*input {*/
+/*  width: 100%;*/
+/*  padding: 10px;*/
+/*  border: 1px solid #ccc;*/
+/*  border-radius: 4px;*/
+/*}*/
+
+/*button {*/
+/*  background-color: #007bff; !* Cor do botão *!*/
+/*  color: white;*/
+/*  padding: 10px;*/
+/*  border: none;*/
+/*  border-radius: 4px;*/
+/*  cursor: pointer;*/
+/*  width: 100%;*/
+/*}*/
+
+/*button:hover {*/
+/*  background-color: #0056b3; !* Cor do botão ao passar o mouse *!*/
+/*}*/

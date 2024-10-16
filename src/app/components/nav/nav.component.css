@@ -1,89 +1,235 @@
-:host {
-  overflow-x: hidden;
+/*:host {*/
+/*  overflow-x: hidden;*/
+/*}*/
+
+/*.container {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*}*/
+
+/*.toolbar-item-spacer {*/
+/*  flex: 1 1 auto;*/
+/*  color: white;*/
+/*}*/
+
+/*.app-container {*/
+/*  height: 100%;*/
+/*  margin: 0;*/
+/*}*/
+
+/*.app-sidenav {*/
+/*  width: 250px;*/
+/*  background: var(--primary);*/
+/*  color: var(--white);*/
+
+/*  span {*/
+/*    color: var(--white);*/
+/*  }*/
+/*}*/
+
+/*.app-sidenav-content {*/
+/*  display: flex;*/
+/*  height: 100%;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*}*/
+
+/*.mat-expansion-panel {*/
+/*  background: var(--primary);*/
+/*  color: var(--white);*/
+
+/*  .mat-expansion-indicator::after {*/
+/*    color: var(--white);*/
+/*  }*/
+/*}*/
+
+/*.mat-list-item {*/
+/*  .mat-icon {*/
+/*    padding-right: 10px;*/
+/*  }*/
+/*}*/
+
+/*.example-header-image {*/
+/*  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");*/
+/*  background-size: cover;*/
+/*}*/
+
+/*img {*/
+/*  border-radius: 100%;*/
+/*}*/
+
+/*.btn-picture {*/
+/*  background-color: transparent;*/
+/*  border: 0;*/
+/*  cursor: pointer;*/
+/*}*/
+
+/*a {*/
+/*  color: var(--white);*/
+/*  text-decoration: none;*/
+/*}*/
+
+/*.mat-subheader {*/
+/*  color: var(--white);*/
+/*  font-weight: 200;*/
+/*}*/
+
+/*.icon-display {*/
+/*  color: var(--white);*/
+/*}*/
+
+/*mat-toolbar {*/
+/*  background-color: var(--primary);*/
+/*  color: var(--white);*/
+/*}*/
+
+
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.container {
+body {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f7f7f7; /* Cor de fundo clara */
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #fff; /* Fundo branco */
+  padding: 20px;
+  position: fixed;
+  height: 100vh;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  gap: 15px;
 }
 
-.toolbar-item-spacer {
-  flex: 1 1 auto;
-  color: white;
-}
-
-.app-container {
-  height: 100%;
-  margin: 0;
-}
-
-.app-sidenav {
-  width: 250px;
-  background: var(--primary);
-  color: var(--white);
-
-  span {
-    color: var(--white);
-  }
-}
-
-.app-sidenav-content {
+.sidebar-header {
   display: flex;
-  height: 100%;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.mat-expansion-panel {
-  background: var(--primary);
-  color: var(--white);
-
-  .mat-expansion-indicator::after {
-    color: var(--white);
-  }
+.logo {
+  width: 40px; /* Largura do logo */
+  height: 40px; /* Altura do logo */
+  border-radius: 5px; /* Bordas arredondadas */
 }
 
-.mat-list-item {
-  .mat-icon {
-    padding-right: 10px;
-  }
+.sidebar-header h2 {
+  color: #333; /* Cor do nome da empresa */
+  font-size: 15px; /* Tamanho da fonte do nome */
 }
 
-.example-header-image {
-  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
-  background-size: cover;
-}
-
-img {
-  border-radius: 100%;
-}
-
-.btn-picture {
-  background-color: transparent;
-  border: 0;
+.menu-item {
+  background-color: transparent; /* Fundo transparente */
+  border-radius: 5px;
+  padding: 15px;
+  color: #333; /* Texto escuro */
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-a {
-  color: var(--white);
-  text-decoration: none;
+.menu-item i {
+  font-size: 20px;
+  margin-right: 15px;
 }
 
-.mat-subheader {
-  color: var(--white);
-  font-weight: 200;
+.menu-item span {
+  font-size: 16px;
 }
 
-.icon-display {
-  color: var(--white);
+/* Estilo para o item ativo */
+.menu-item.active {
+  background-color: #e9e9e9; /* Fundo claro quando ativo */
+  color: var(--primary); /* Cor do texto ativo */
 }
 
-mat-toolbar {
-  background-color: var(--primary);
-  color: var(--white);
+/* Efeito de hover */
+.menu-item:hover:not(.active) {
+  background-color: #f2f2f2; /* Fundo ao passar o mouse */
 }
+
+.sidebar-footer {
+  margin-top: auto; /* Empurra o rodapé para o final da sidebar */
+  text-align: center;
+}
+
+.current-time {
+  font-size: 14px; /* Tamanho do texto do horário */
+  color: #7f8c8d; /* Cor do texto do horário */
+}
+
+.logout-btn {
+  padding: 8px 15px;
+  background-color: #e74c3c; /* Cor de fundo do botão de sair */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b; /* Cor do botão ao passar o mouse */
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 250px); /* Espaço para a sidebar */
+  margin-left: 250px; /* Compensa a largura da sidebar */
+  height: 100vh;
+}
+
+.content {
+  text-align: center;
+  background-color: var(--white);
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%; /* Largura do conteúdo */
+}
+
+h1 {
+  color: #333; /* Cor do título */
+  margin-bottom: 20px;
+}
+
+p {
+  color: #7f8c8d; /* Cor do parágrafo */
+  margin-bottom: 30px;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #3498db; /* Cor do botão */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #2980b9; /* Cor do botão ao passar o mouse */
+}
+
+
+
