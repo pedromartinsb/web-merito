@@ -8,7 +8,7 @@ import { AppointmentService } from 'src/app/services/appointment.service';
 import { PersonService } from 'src/app/services/person.service';
 
 @Component({
-  selector: 'app-supplier-list',
+  selector: 'app-suppliers-list',
   templateUrl: './supplier-list.component.html',
   styleUrls: ['./supplier-list.component.css'],
 })

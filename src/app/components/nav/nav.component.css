@@ -91,6 +91,7 @@
 
 
 
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -112,7 +113,7 @@ body {
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 5px;
 }
 
 .sidebar-header {
@@ -150,13 +151,13 @@ body {
 }
 
 .menu-item span {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 /* Estilo para o item ativo */
 .menu-item.active {
-  background-color: #e9e9e9; /* Fundo claro quando ativo */
-  color: var(--primary); /* Cor do texto ativo */
+  background-color: var(--primary); /* Fundo claro quando ativo */
+  color: var(--white); /* Cor do texto ativo */
 }
 
 /* Efeito de hover */
@@ -195,16 +196,17 @@ body {
   align-items: center;
   width: calc(100% - 250px); /* Espaço para a sidebar */
   margin-left: 250px; /* Compensa a largura da sidebar */
-  height: 100vh;
+  min-height: 100vh;
+  padding-top: 20px; /* Ajusta o espaçamento no topo para evitar sumir */
 }
 
 .content {
   text-align: center;
-  background-color: var(--white);
   padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 80%; /* Largura do conteúdo */
+  /*background-color: var(--white);*/
+  /*border-radius: 8px;*/
+  /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
 }
 
 h1 {
@@ -231,5 +233,20 @@ p {
   background-color: #2980b9; /* Cor do botão ao passar o mouse */
 }
 
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
 
+.dropdown-menu-center {
+  width: 200px; /* Aumentar o espaço para o nome das empresas */
+}
+
+.dropdown-item {
+  text-align: center; /* Centralizar o texto no dropdown */
+  font-size: 16px; /* Ajustar o tamanho da fonte, se necessário */
+  cursor: pointer;
+}
 

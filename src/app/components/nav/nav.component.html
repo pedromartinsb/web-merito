@@ -1,4 +1,4 @@
-<!--;<div class="container">-->
+<!--<div class="container">-->
 <!--  <mat-toolbar>-->
 <!--    <button mat-icon-button (click)="sidenav.toggle()" matTooltip="Menu">-->
 <!--      <mat-icon>menu</mat-icon>-->
@@ -38,7 +38,6 @@
 <!--        <mat-card-subtitle>Dog Breed</mat-card-subtitle>-->
 <!--        <mat-card-content>-->
 <!--          <p>This card indeterminates progress bar.</p>-->
-<!--          <p>{{ longText }}</p>-->
 <!--        </mat-card-content>-->
 <!--        <mat-card-actions>-->
 <!--          <button mat-button>LIKE</button>-->
@@ -47,7 +46,6 @@
 <!--        <mat-divider></mat-divider>-->
 <!--        <mat-card-content>-->
 <!--          <p>This card indeterminates progress bar.</p>-->
-<!--          <p>{{ longText }}</p>-->
 <!--        </mat-card-content>-->
 <!--        <mat-card-actions>-->
 <!--          <button mat-button>LIKE</button>-->
@@ -152,7 +150,7 @@
 <!--            <mat-icon>group</mat-icon> <span>Profissionais</span>-->
 <!--          </mat-list-item>-->
 <!--          <mat-list-item-->
-<!--            routerLink="supplier"-->
+<!--            routerLink="suppliers"-->
 <!--            *ngIf="-->
 <!--              this.isAdmin ||-->
 <!--              this.isAdminGeral ||-->
@@ -222,25 +220,98 @@
     <span>Página Inicial</span>
   </div>
 
-  <div class="menu-item" routerLink="/holding" routerLinkActive="active">
+  <div class="menu-item" routerLink="/employees" routerLinkActive="active" *ngIf="isSupervisor">
     <i class="fas fa-users"></i>
-    <span>Gestão de Usuários</span>
+    <span>Gestão de Colaboradores</span>
   </div>
 
-  <div class="menu-item" routerLink="/company" routerLinkActive="active">
+  <div class="menu-item" routerLink="/professionals" routerLinkActive="active" *ngIf="isSupervisor">
+    <i class="fas fa-users"></i>
+    <span>Gestão de Profissionais</span>
+  </div>
+
+  <div class="menu-item" routerLink="/suppliers" routerLinkActive="active" *ngIf="isSupervisor">
+    <i class="fas fa-users"></i>
+    <span>Gestão de Fornecedores</span>
+  </div>
+
+  <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isSupervisor">
+    <i class="fas fa-users"></i>
+    <span>Gestão de Metas</span>
+  </div>
+
+  <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isSupervisor">
+    <i class="fas fa-users"></i>
+    <span>Gestão de Tarefas</span>
+  </div>
+
+  <div class="menu-item" routerLink="/segments" routerLinkActive="active" *ngIf="isAdmin">
+    <i class="fas fa-users"></i>
+    <span>Gestão de Segmentos</span>
+  </div>
+
+  <div class="menu-item" routerLink="/holdings" routerLinkActive="active" *ngIf="isAdmin">
+    <i class="fas fa-users"></i>
+    <span>Gestão de Holdings</span>
+  </div>
+
+  <div class="menu-item" routerLink="/companies" routerLinkActive="active" *ngIf="isAdmin">
+    <i class="fas fa-users"></i>
+    <span>Gestão de Empresas</span>
+  </div>
+
+  <div class="menu-item" routerLink="/responsibilities" routerLinkActive="active" *ngIf="isAdmin">
+    <i class="fas fa-users"></i>
+    <span>Gestão de Funções</span>
+  </div>
+
+  <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isAdmin">
+    <i class="fas fa-users"></i>
+    <span>Gestão de Rotinas</span>
+  </div>
+
+  <div class="menu-item" routerLink="/document" routerLinkActive="active" *ngIf="isSupervisor && isUser">
+    <i class="fas fa-file-contract"></i>
+    <span>Documentos</span>
+  </div>
+
+  <div class="menu-item" routerLink="/" routerLinkActive="active" *ngIf="isSupervisor && isUser">
     <i class="fas fa-chart-line"></i>
     <span>Relatórios</span>
   </div>
 
-  <div class="menu-item" routerLink="/person" routerLinkActive="active">
+  <div class="menu-item" routerLink="/" routerLinkActive="active">
     <i class="fas fa-cogs"></i>
     <span>Configurações</span>
   </div>
 
   <div class="sidebar-footer">
-    <span>Usuário: Pedro Campos</span>
-    <div class="current-time">{{ currentTime }}</div>
+    <span>Usuário: {{ personName }}</span>
+    <div class="current-time">Horário: {{ currentTime }}</div>
     <button class="logout-btn" (click)="logout()">Sair</button>
+  </div>
+</div>
+
+<div class="floating-btn">
+  <div class="btn-group dropup">
+    <button
+      type="button"
+      class="btn btn-primary dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      Selecionar Empresa
+    </button>
+    <ul class="dropdown-menu dropdown-menu-center w-100">
+      <li *ngFor="let company of officeResponses">
+        <a
+          class="dropdown-item text-center"
+          (click)="changeCurrentOffice(company)"
+        >
+          {{ company.fantasyName }}
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
 

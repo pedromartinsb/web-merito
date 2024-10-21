@@ -1,0 +1,42 @@
+<div class="container mt-4">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6 mb-3" *ngFor="let field of fieldsConfig">
+        <label [for]="field.name">{{ field.label }}</label>
+
+        <!-- Renderizar diferentes tipos de campos dinamicamente -->
+        <input *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'password'"
+               [type]="field.type"
+               [formControlName]="field.name"
+               [id]="field.name"
+               class="form-control"
+               [placeholder]="field.placeholder">
+
+        <select *ngIf="field.type === 'select'"
+                [formControlName]="field.name"
+                [id]="field.name"
+                class="form-select">
+          <option *ngFor="let option of field.options" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+
+        <textarea *ngIf="field.type === 'textarea'"
+                  [formControlName]="field.name"
+                  [id]="field.name"
+                  class="form-control"
+                  [placeholder]="field.placeholder"></textarea>
+
+        <div *ngIf="formGroup.get(field.name).invalid && formGroup.get(field.name).touched" class="text-danger">
+          {{ field.errorMessage }}
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Enviar</button>
+  </form>
+
+  <div class="mt-3">
+    <button class="btn btn-secondary" (click)="goBack()">Voltar</button>
+  </div>
+</div>

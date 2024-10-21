@@ -19,7 +19,7 @@
 <!--        <br />-->
 <!--      </div>-->
 <!--      <div class="box c">-->
-<!--        <a routerLink="/supplier">Fornecedores</a>-->
+<!--        <a routerLink="/suppliers">Fornecedores</a>-->
 <!--        <br />-->
 <!--      </div>-->
 <!--      <div class="box d">-->
@@ -48,7 +48,7 @@
 <!--        <br />-->
 <!--      </div>-->
 <!--      <div class="box c">-->
-<!--        <a routerLink="/supplier">Fornecedores</a>-->
+<!--        <a routerLink="/suppliers">Fornecedores</a>-->
 <!--        <br />-->
 <!--      </div>-->
 <!--      <div class="box d">-->
@@ -74,7 +74,7 @@
 <!--        <br />-->
 <!--      </div>-->
 <!--      <div class="box c">-->
-<!--        <a routerLink="/supplier">Fornecedores</a>-->
+<!--        <a routerLink="/suppliers">Fornecedores</a>-->
 <!--        <br />-->
 <!--      </div>-->
 <!--    </div>-->
@@ -98,53 +98,54 @@
 <!--&lt;!&ndash;        <div id="chart"></div>&ndash;&gt;-->
 <!--&lt;!&ndash;      </mat-card>&ndash;&gt;-->
 <!--&lt;!&ndash;    </ng-container>&ndash;&gt;-->
-
-<!--    <div style="display: flex; justify-content: space-between;">-->
-<!--      <div style="flex: 1; margin: 10px; padding: 20px;">-->
-<!--        <h2>Gráfico de Barras</h2>-->
-<!--        <canvas baseChart-->
-<!--                [datasets]="barChartData"-->
-<!--                [labels]="barChartLabels"-->
-<!--                [options]="barChartOptions"-->
-<!--                [legend]="barChartLegend"-->
-<!--                [type]="barChartType">-->
-<!--        </canvas>-->
-<!--      </div>-->
-
-<!--      <div style="flex: 1; margin: 10px; padding: 20px;">-->
-<!--        <h2>Gráfico de Linha</h2>-->
-<!--        <canvas baseChart-->
-<!--                [datasets]="lineChartData"-->
-<!--                [labels]="lineChartLabels"-->
-<!--                [options]="lineChartOptions"-->
-<!--                [legend]="lineChartLegend"-->
-<!--                [type]="lineChartType">-->
-<!--        </canvas>-->
-<!--      </div>-->
-
-<!--      <div style="flex: 1; margin: 10px; padding: 20px;">-->
-<!--        <h2>Gráfico de Linha</h2>-->
-<!--        <div style="width: 100%; height: 300px; margin: 0 auto;">-->
-<!--          <canvas baseChart-->
-<!--                  [datasets]="pieChartData"-->
-<!--                  [labels]="pieChartLabels"-->
-<!--                  [options]="pieChartOptions"-->
-<!--                  [legend]="pieChartLegend"-->
-<!--                  [type]="pieChartType">-->
-<!--          </canvas>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
 <!--  </mat-card-content>-->
 <!--</mat-card>-->
+
+
 
 
 
 <div class="home-navigation">
   <div class="nav-card">
     <i class="fas fa-users"></i>
-    <h3>Gestão de Usuários</h3>
-    <a href="#" class="btn">Acessar</a>
+    <h3>Gestão de Colaboradores</h3>
+    <a href="/employees" class="btn">Acessar</a>
+  </div>
+
+  <div class="nav-card">
+    <i class="fas fa-users"></i>
+    <h3>Gestão de Profissionais</h3>
+    <a href="/professionals" class="btn">Acessar</a>
+  </div>
+
+  <div class="nav-card">
+    <i class="fas fa-users"></i>
+    <h3>Gestão de Fornecedores</h3>
+    <a href="/suppliers" class="btn">Acessar</a>
+  </div>
+
+  <div class="nav-card">
+    <i class="fas fa-chart-line"></i>
+    <h3>Funções</h3>
+    <a href="/responsibilities" class="btn">Acessar</a>
+  </div>
+
+  <div class="nav-card">
+    <i class="fas fa-chart-line"></i>
+    <h3>Metas</h3>
+    <a href="/goals" class="btn">Acessar</a>
+  </div>
+
+  <div class="nav-card">
+    <i class="fas fa-chart-line"></i>
+    <h3>Rotinas</h3>
+    <a href="/routines" class="btn">Acessar</a>
+  </div>
+
+  <div class="nav-card">
+    <i class="fas fa-chart-line"></i>
+    <h3>Documentos</h3>
+    <a href="/document" class="btn">Acessar</a>
   </div>
 
   <div class="nav-card">
@@ -157,5 +158,42 @@
     <i class="fas fa-cogs"></i>
     <h3>Configurações</h3>
     <a href="/configuracoes" class="btn">Acessar</a>
+  </div>
+</div>
+
+<div style="display: flex; justify-content: space-between;">
+  <div style="flex: 1; margin: 10px; padding: 20px;">
+    <h2>Gráfico de Barras</h2>
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [type]="barChartType">
+    </canvas>
+  </div>
+
+  <div style="flex: 1; margin: 10px; padding: 20px;">
+    <h2>Gráfico de Linha</h2>
+    <canvas baseChart
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [legend]="lineChartLegend"
+            [type]="lineChartType">
+    </canvas>
+  </div>
+
+  <div style="flex: 1; margin: 10px; padding: 20px;">
+    <h2>Gráfico de Linha</h2>
+    <div style="width: 100%; height: 300px; margin: 0 auto;">
+      <canvas baseChart
+              [datasets]="pieChartData"
+              [labels]="pieChartLabels"
+              [options]="pieChartOptions"
+              [legend]="pieChartLegend"
+              [type]="pieChartType">
+      </canvas>
+    </div>
   </div>
 </div>

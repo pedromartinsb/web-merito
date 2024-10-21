@@ -24,7 +24,7 @@ import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { AppointmentService } from './../../../services/appointment.service';
 
 @Component({
-  selector: 'app-supplier-form',
+  selector: 'app-suppliers-form',
   templateUrl: './supplier-form.component.html',
   styleUrls: ['./supplier-form.component.css'],
 })

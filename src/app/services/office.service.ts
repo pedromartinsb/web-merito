@@ -14,6 +14,10 @@ export class OfficeService {
     return this.http.get<Office[]>(`${Config.webApiUrl}/v1/office`);
   }
 
+  public findAllDTO(): Observable<any[]> {
+    return this.http.get<any[]>(`${Config.webApiUrl}/v1/office/dto`);
+  }
+
   public findAllByHolding(holdingId: string): Observable<Office[]> {
     return this.http.get<Office[]>(
       `${Config.webApiUrl}/v1/office/holding/${holdingId}`

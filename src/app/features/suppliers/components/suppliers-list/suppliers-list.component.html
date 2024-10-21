@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Fornecedores</li>
+    </ol>
+  </nav>
+
+  <h1>Lista de Fornecedores</h1>
+
+  <!-- Botão para Criar Novo Usuário -->
+  <div class="text-end mb-3">
+    <button class="btn btn-primary" (click)="router.navigate(['/suppliers/create'])">
+      Criar Novo Usuário
+    </button>
+  </div>
+
+  <!-- Exibe mensagem de carregamento enquanto os dados estão sendo buscados -->
+  <div *ngIf="loading" class="alert alert-info">
+    Carregando fornecedores...
+  </div>
+
+  <app-zebra-employee-table *ngIf="!loading"
+                            [headers]="suppliersHeaders"
+                            [data]="suppliersData"
+                            [itemsPerPage]="5"
+                            (edit)="onEdit($event)"
+                            (delete)="onDelete($event)"
+                            (view)="onView($event)"></app-zebra-employee-table>
+</div>

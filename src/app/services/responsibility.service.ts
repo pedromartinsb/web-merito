@@ -16,6 +16,12 @@ export class ResponsibilityService {
     );
   }
 
+  findAllDTO(): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${Config.webApiUrl}/v1/responsibility/dto`
+    );
+  }
+
   findAllByCompany(companyId: string): Observable<Responsibility[]> {
     return this.http.get<Responsibility[]>(
       `${Config.webApiUrl}/v1/responsibility/${companyId}/company`

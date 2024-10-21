@@ -80,7 +80,6 @@ export class LoginComponent implements OnInit {
             );
             this.router.navigate(['home']);
             this.toast.success('Login realizado com sucesso', 'Login');
-            console.log('aqui')
           },
           error: (err) => {
             this.isLoggin = false;

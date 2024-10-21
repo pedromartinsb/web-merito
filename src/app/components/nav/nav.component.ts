@@ -1,14 +1,14 @@
-import { ToastrService } from 'ngx-toastr';
-import { AuthService } from './../../services/auth.service';
-import { StorageService } from './../../services/storage.service';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Subject, takeUntil } from 'rxjs';
-import { PersonService } from 'src/app/services/person.service';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { OfficeResponse } from 'src/app/models/office';
+import {ToastrService} from 'ngx-toastr';
+import {AuthService} from '../../services/auth.service';
+import {StorageService} from '../../services/storage.service';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {MatDrawerMode, MatSidenav} from '@angular/material/sidenav';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Subject, takeUntil} from 'rxjs';
+import {PersonService} from 'src/app/services/person.service';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {OfficeResponse} from 'src/app/models/office';
 
 @Component({
   selector: 'app-nav',
@@ -21,9 +21,6 @@ export class NavComponent implements OnInit, OnDestroy {
   destroyed = new Subject<void>();
   modeNavMenu: MatDrawerMode = 'side';
   userRole: string[] = [];
-  canAdminAccess: boolean = false;
-  canModeratorAccess: boolean = false;
-  canUserAccess: boolean = false;
   currentScreenSize: string;
   displayNameMap = new Map([
     [Breakpoints.XSmall, 'XSmall'],
@@ -33,12 +30,8 @@ export class NavComponent implements OnInit, OnDestroy {
     [Breakpoints.XLarge, 'XLarge'],
   ]);
   isAdmin: boolean = false;
-  isAdminGeral: boolean = false;
-  isAdminEmpresa: boolean = false;
-  isAdminOffice: boolean = false;
   isSupervisor: boolean = false;
-  isUserOffice: boolean = false;
-  isGuest: boolean = false;
+  isUser: boolean = false;
   personName: string;
   personPicture: string;
   s3Url = 'https://sistema-merito.s3.amazonaws.com/';
@@ -96,11 +89,8 @@ export class NavComponent implements OnInit, OnDestroy {
     this.updateCurrentTime();
     setInterval(() => {
       this.updateCurrentTime();
-    }, 60000); // Atualiza a cada minuto
+    }, 1000); // Executa a cada 1 segundo (1000 milissegundos)
     this.checkPermission();
-    this.checkAdminAccess();
-    this.checkModeratorAccess();
-    this.checkUserAccess();
   }
 
   ngOnDestroy() {
@@ -110,7 +100,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
   updateCurrentTime() {
     const now = new Date();
-    this.currentTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    this.currentTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   }
 
   private checkPermission(): void {
@@ -119,23 +109,11 @@ export class NavComponent implements OnInit, OnDestroy {
         case 'ROLE_ADMIN':
           this.isAdmin = true;
           break;
-        case 'ROLE_ADMIN_GERAL':
-          this.isAdminGeral = true;
-          break;
-        case 'ROLE_ADMIN_COMPANY':
-          this.isAdminEmpresa = true;
-          break;
-        case 'ROLE_ADMIN_OFFICE':
-          this.isAdminOffice = true;
-          break;
         case 'ROLE_SUPERVISOR':
           this.isSupervisor = true;
           break;
-        case 'ROLE_USER_OFFICE':
-          this.isUserOffice = true;
-          break;
         default:
-          this.isGuest = true;
+          this.isUser = true;
           break;
       }
     });
@@ -146,30 +124,6 @@ export class NavComponent implements OnInit, OnDestroy {
     this.storageService.clean();
     this.toast.info('Logout realizado com sucesso', 'Logout');
     this.router.navigate(['login']);
-  }
-
-  checkAdminAccess(): void {
-    if (this.userRole.includes('ROLE_ADMIN')) {
-      this.canAdminAccess = true;
-    } else {
-      this.canAdminAccess = false;
-    }
-  }
-
-  checkModeratorAccess(): void {
-    if (this.userRole.includes('ROLE_MODERATOR')) {
-      this.canModeratorAccess = true;
-    } else {
-      this.canModeratorAccess = false;
-    }
-  }
-
-  checkUserAccess(): void {
-    if (this.userRole.includes('ROLE_USER')) {
-      this.canUserAccess = true;
-    } else {
-      this.canUserAccess = false;
-    }
   }
 
   openMyMenu(menuTrigger: MatMenuTrigger) {

@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Tarefas</li>
+    </ol>
+  </nav>
+
+  <h1>Lista de Tarefas</h1>
+
+  <!-- Botão para Criar Novo Usuário -->
+  <div class="text-end mb-3">
+    <button class="btn btn-primary" (click)="router.navigate(['/tasks/create'])">
+      Criar Nova Tarefa
+    </button>
+  </div>
+
+  <!-- Exibe mensagem de carregamento enquanto os dados estão sendo buscados -->
+  <div *ngIf="loading" class="alert alert-info">
+    Carregando tarefas...
+  </div>
+
+  <app-zebra-employee-table *ngIf="!loading"
+                            [headers]="taskHeaders"
+                            [data]="taskData"
+                            [itemsPerPage]="5"
+                            (edit)="onEdit($event)"
+                            (delete)="onDelete($event)"
+                            (view)="onView($event)"></app-zebra-employee-table>
+</div>

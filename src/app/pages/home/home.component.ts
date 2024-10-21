@@ -13,6 +13,38 @@ import {Label} from "chartist";
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  employeeHeaders = ['Nome', 'Email', 'Cargo', 'Telefone'];
+
+  employeeData = [
+    ['João Silva', 'joao@email.com', 'Gerente', '(11) 98765-4321'],
+    ['Maria Oliveira', 'maria@email.com', 'Desenvolvedor', '(21) 91234-5678'],
+    ['Carlos Souza', 'carlos@email.com', 'Desenvolvedor', '(31) 92345-6789'],
+    ['Ana Maria', 'ana@email.com', 'Designer', '(41) 98765-4321'],
+    ['Lucas Lima', 'lucas@email.com', 'Gerente', '(51) 91234-5678'],
+    ['Beatriz Costa', 'beatriz@email.com', 'Desenvolvedor', '(61) 92345-6789'],
+    ['Rafael Ramos', 'rafael@email.com', 'Designer', '(71) 98765-4321'],
+    ['Juliana Souza', 'juliana@email.com', 'Desenvolvedor', '(81) 91234-5678']
+  ];
+
+  // Configuração dos campos do formulário
+  userFormConfig = [
+    { name: 'username', label: 'Nome de Usuário', type: 'text', required: true, placeholder: 'Digite seu nome de usuário', errorMessage: 'Este campo é obrigatório' },
+    { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'Digite seu email', errorMessage: 'Email inválido' },
+    { name: 'password', label: 'Senha', type: 'password', required: true, placeholder: 'Digite sua senha', errorMessage: 'A senha é obrigatória' },
+    { name: 'bio', label: 'Biografia', type: 'textarea', required: false, placeholder: 'Fale sobre você' },
+    { name: 'role', label: 'Cargo', type: 'select', required: true, options: [
+        { value: 'admin', label: 'Administrador' },
+        { value: 'user', label: 'Usuário' },
+        { value: 'guest', label: 'Convidado' }
+      ], errorMessage: 'Selecione um cargo' }
+  ];
+
+  // Valores iniciais do formulário
+  userDataForm = {
+    username: 'johndoe',
+    email: 'john@example.com'
+  };
+
   // Dados para o gráfico de barras
   public barChartOptions: ChartOptions = {
     responsive: true,
@@ -242,5 +274,21 @@ export class HomeComponent implements OnInit, OnDestroy {
           break;
       }
     });
+  }
+
+  // Métodos de tratamento para os eventos de ação
+  onEdit(row: any) {
+    console.log('Editar:', row);
+    // Implemente a lógica de edição aqui
+  }
+
+  onDelete(row: any) {
+    console.log('Deletar:', row);
+    // Implemente a lógica de exclusão aqui
+  }
+
+  onView(row: any) {
+    console.log('Visualizar:', row);
+    // Implemente a lógica de visualização aqui
   }
 }
