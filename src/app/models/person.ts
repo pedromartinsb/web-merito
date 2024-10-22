@@ -8,6 +8,7 @@ export interface Person {
   name: string;
   cpfCnpj: string;
   gender: string;
+  birthdate: string;
   contractType: string;
   picture: string;
   office: Office;
@@ -82,4 +83,9 @@ export enum ContractType {
   CLT = 'Clt',
   AUTONOMO = 'Autônomo',
   SUPPLIER = 'Fornecedor',
+}
+
+export enum PersonType {
+  EMPLOYEE = 'EMPLOYEE',
+  SUPERVISOR = 'SUPERVISOR',
 }

@@ -226,23 +226,43 @@
   </div>
 
   <div class="menu-item" routerLink="/professionals" routerLinkActive="active" *ngIf="isSupervisor">
-    <i class="fas fa-users"></i>
+    <i class="fas fa-user-tie"></i>
     <span>Gestão de Profissionais</span>
   </div>
 
   <div class="menu-item" routerLink="/suppliers" routerLinkActive="active" *ngIf="isSupervisor">
-    <i class="fas fa-users"></i>
+    <i class="fas fa-truck-field"></i>
     <span>Gestão de Fornecedores</span>
   </div>
 
   <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isSupervisor">
-    <i class="fas fa-users"></i>
+    <i class="fas fa-bullseye"></i>
     <span>Gestão de Metas</span>
   </div>
 
+  <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isUser">
+    <i class="fas fa-bullseye"></i>
+    <span>Minhas Metas</span>
+  </div>
+
   <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isSupervisor">
-    <i class="fas fa-users"></i>
+    <i class="fas fa-list-check"></i>
     <span>Gestão de Tarefas</span>
+  </div>
+
+  <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isUser">
+    <i class="fas fa-list-check"></i>
+    <span>Minhas Tarefas</span>
+  </div>
+
+  <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isSupervisor">
+    <i class="fas fa-briefcase"></i>
+    <span>Gestão de Rotinas</span>
+  </div>
+
+  <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isUser">
+    <i class="fas fa-briefcase"></i>
+    <span>Minhas Rotinas</span>
   </div>
 
   <div class="menu-item" routerLink="/segments" routerLinkActive="active" *ngIf="isAdmin">
@@ -265,34 +285,31 @@
     <span>Gestão de Funções</span>
   </div>
 
-  <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isAdmin">
-    <i class="fas fa-users"></i>
-    <span>Gestão de Rotinas</span>
-  </div>
-
-  <div class="menu-item" routerLink="/document" routerLinkActive="active" *ngIf="isSupervisor && isUser">
-    <i class="fas fa-file-contract"></i>
+  <div class="menu-item" routerLink="/documents" routerLinkActive="active" *ngIf="isSupervisor || isUser">
+    <i class="fas fa-folder-open"></i>
     <span>Documentos</span>
   </div>
 
-  <div class="menu-item" routerLink="/" routerLinkActive="active" *ngIf="isSupervisor && isUser">
+  <div class="menu-item" routerLink="/dashboards" routerLinkActive="active" *ngIf="isSupervisor">
     <i class="fas fa-chart-line"></i>
     <span>Relatórios</span>
   </div>
 
-  <div class="menu-item" routerLink="/" routerLinkActive="active">
-    <i class="fas fa-cogs"></i>
+  <div class="menu-item" routerLink="/configurations" routerLinkActive="active" *ngIf="isSupervisor || isUser">
+    <i class="fas fa-user-gear"></i>
     <span>Configurações</span>
   </div>
 
   <div class="sidebar-footer">
+    <img [src]="personPicture" alt="photo" class="img-thumbnail" width="40" height="40" />
+    <br/>
     <span>Usuário: {{ personName }}</span>
     <div class="current-time">Horário: {{ currentTime }}</div>
     <button class="logout-btn" (click)="logout()">Sair</button>
   </div>
 </div>
 
-<div class="floating-btn">
+<div class="floating-btn" *ngIf="isSupervisor">
   <div class="btn-group dropup">
     <button
       type="button"
@@ -314,6 +331,43 @@
     </ul>
   </div>
 </div>
+
+<!-- Botão Flutuante de Chat -->
+<div class="floating-chat-btn">
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="toggleChat()"
+  >
+    <i class="bi bi-chat"></i> <!-- Ícone de chat (Bootstrap Icons) -->
+  </button>
+</div>
+
+<!-- Janela Lateral de Chat -->
+<div class="chat-window" [class.active]="chatOpen">
+  <div class="chat-header">
+    <h5>Chat</h5>
+    <button type="button" class="btn-close" (click)="toggleChat()"></button>
+  </div>
+  <div class="chat-body">
+    <div *ngFor="let msg of messages" [ngClass]="{'sent': msg.sent, 'received': !msg.sent}">
+      <strong *ngIf="!msg.sent">Supervisor:</strong>
+      <strong *ngIf="msg.sent">Usuário:</strong>
+      <br/>
+      {{ msg.content }}
+    </div>
+  </div>
+  <div class="chat-footer">
+    <input
+      type="text"
+      [(ngModel)]="newMessage"
+      placeholder="Digite sua mensagem..."
+      class="form-control"
+      (keydown.enter)="sendMessage()"
+    />
+  </div>
+</div>
+
 
 <div class="content-wrapper">
   <div class="content">

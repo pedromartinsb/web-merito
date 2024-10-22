@@ -20,6 +20,10 @@ export class PersonService {
     return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person`);
   }
 
+  public findAllSupervisors(): Observable<Person[]> {
+    return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person/supervisors`);
+  }
+
   public findAllByHolding(holdingId: string): Observable<Person[]> {
     return this.http.get<Person[]>(
       `${Config.webApiUrl}/v1/person/holding/${holdingId}`

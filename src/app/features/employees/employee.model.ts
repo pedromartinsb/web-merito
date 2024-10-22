@@ -22,6 +22,21 @@ export interface Employee {
   deletedAt: string;
 }
 
+export interface EmployeeRequest {
+  name: string;
+  cpfCnpj: string;
+  gender: string;
+  contractType: ContractType;
+  personType: PersonType;
+  birthdate: string;
+  officeId: string;
+  responsibilityId: string;
+  supervisorId: string;
+  user: User;
+  address: Address;
+  contact: Contact;
+}
+
 export interface User {
   username: string;
   email: string;
@@ -64,22 +79,15 @@ export interface AddressSearch {
 
 export enum Roles {
   ROLE_ADMIN = 'ROLE_ADMIN',
-  ROLE_ADMIN_GERAL = 'ROLE_ADMIN_GERAL',
-  ROLE_ADMIN_COMPANY = 'ROLE_ADMIN_COMPANY',
-  ROLE_ADMIN_OFFICE = 'ROLE_ADMIN_OFFICE',
-  ROLE_USER_OFFICE = 'ROLE_USER_OFFICE',
+  ROLE_USER = 'ROLE_USE',
   ROLE_SUPERVISOR = 'ROLE_SUPERVISOR',
-  // ROLE_MODERATOR = 'ROLE_MODERATOR',
-  // ROLE_USER = 'ROLE_USER',
-}
-
-export enum Gender {
-  MALE = 'Masculino',
-  FEMALE = 'Feminino',
 }
 
 export enum ContractType {
   CLT = 'Clt',
-  AUTONOMO = 'Autônomo',
-  SUPPLIER = 'Fornecedor',
+}
+
+export enum PersonType {
+  EMPLOYEE = 'Colaborador',
+  SUPERVISOR = 'Supervisor',
 }

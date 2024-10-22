@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EmployeeService} from "../../services/employee.service";
 import {ToastrService} from "ngx-toastr";
@@ -25,7 +25,6 @@ export class EmployeeListComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
-    private route: ActivatedRoute,
     public router: Router,
     private toast: ToastrService
   ) {
@@ -36,7 +35,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.employeeService.findAllByContractType('CLT')
+    this.employeeService.findAllEmployees()
       .subscribe({
         next: (employees) => {
           if (employees != null) {
@@ -64,9 +63,7 @@ export class EmployeeListComponent implements OnInit {
       });
   }
 
-  // Métodos para emitir os eventos de ação
   onEdit(employee: any) {
-    console.log(employee);
     const id = employee[0];
     this.router.navigate(['/employees/edit/', id]);
   }

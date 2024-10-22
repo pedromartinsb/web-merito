@@ -2,22 +2,22 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Colaboradores</li>
+      <li class="breadcrumb-item active" aria-current="page">Funcionários</li>
     </ol>
   </nav>
 
-  <h1>Lista de Colaboradores</h1>
+  <h1>Lista de Funcionários</h1>
 
   <!-- Botão para Criar Novo Usuário -->
   <div class="text-end mb-3">
     <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
-      Criar Novo Usuário
+      Criar Novo Funcionário
     </button>
   </div>
 
   <!-- Exibe mensagem de carregamento enquanto os dados estão sendo buscados -->
   <div *ngIf="loading" class="alert alert-info">
-    Carregando colaboradores...
+    Carregando funcionários...
   </div>
 
   <app-zebra-employee-table *ngIf="!loading"

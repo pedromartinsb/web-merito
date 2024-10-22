@@ -66,6 +66,7 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
     personType: 'Colaborador',
     gender: 'Masculino',
     contractType: ContractType.SUPPLIER,
+    birthdate: '',
     picture: '',
     office: null,
     officeId: '',

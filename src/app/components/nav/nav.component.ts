@@ -7,8 +7,8 @@ import {MatDrawerMode, MatSidenav} from '@angular/material/sidenav';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Subject, takeUntil} from 'rxjs';
 import {PersonService} from 'src/app/services/person.service';
-import {MatMenuTrigger} from '@angular/material/menu';
 import {OfficeResponse} from 'src/app/models/office';
+import {Urls} from "../../config/urls.config";
 
 @Component({
   selector: 'app-nav',
@@ -29,16 +29,23 @@ export class NavComponent implements OnInit, OnDestroy {
     [Breakpoints.Large, 'Large'],
     [Breakpoints.XLarge, 'XLarge'],
   ]);
+
   isAdmin: boolean = false;
   isSupervisor: boolean = false;
   isUser: boolean = false;
+
   personName: string;
   personPicture: string;
-  s3Url = 'https://sistema-merito.s3.amazonaws.com/';
   firstOffice: OfficeResponse;
   officeResponses: OfficeResponse[] = [];
-  hidden = false;
   currentTime: string;
+
+  chatOpen = false;
+  messages = [
+    { content: 'Olá! Como posso ajudar?', sent: false },
+    { content: 'Olá! Preciso de suporte.', sent: true }
+  ];
+  newMessage = '';
 
   constructor(
     private storageService: StorageService,
@@ -74,23 +81,25 @@ export class NavComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.officeResponses = JSON.parse(localStorage.getItem('officeResponses'));
-    var officeId = localStorage.getItem('officeId');
+    const officeId = localStorage.getItem('officeId');
     this.firstOffice = this.officeResponses.filter((o) => o.id === officeId)[0];
     this.userRole = this.authService.getRole();
+
     this.personService.findByRequest().subscribe((person) => {
       this.personName = person.name;
       if (person.picture != null) {
-        this.personPicture = this.s3Url + person.picture;
+        this.personPicture = Urls.getS3() + person.picture;
       } else {
-        this.personPicture =
-          'https://s3.amazonaws.com/37assets/svn/765-default-avatar.png';
+        this.personPicture = Urls.getDefaultPictureS3();
       }
     });
+
+    this.checkPermission();
+
     this.updateCurrentTime();
     setInterval(() => {
       this.updateCurrentTime();
-    }, 1000); // Executa a cada 1 segundo (1000 milissegundos)
-    this.checkPermission();
+    }, 1000);
   }
 
   ngOnDestroy() {
@@ -112,7 +121,7 @@ export class NavComponent implements OnInit, OnDestroy {
         case 'ROLE_SUPERVISOR':
           this.isSupervisor = true;
           break;
-        default:
+        case 'ROLE_USER':
           this.isUser = true;
           break;
       }
@@ -126,25 +135,23 @@ export class NavComponent implements OnInit, OnDestroy {
     this.router.navigate(['login']);
   }
 
-  openMyMenu(menuTrigger: MatMenuTrigger) {
-    menuTrigger.openMenu();
-  }
-
-  buttonLeave(menuTrigger: MatMenuTrigger) {
-    if (menuTrigger.menuOpened) {
-      setTimeout(() => {
-        menuTrigger.closeMenu();
-      }, 1000);
-    }
-  }
-
   changeCurrentOffice(element: OfficeResponse) {
     this.firstOffice = element;
     localStorage.setItem('officeId', element.id);
     window.location.reload();
   }
 
-  public toggleBadgeVisibility() {
-    this.hidden = !this.hidden;
+  toggleChat() {
+    this.chatOpen = !this.chatOpen;
+  }
+
+  sendMessage() {
+    if (this.newMessage.trim()) {
+      this.messages.push({ content: this.newMessage, sent: true });
+      this.newMessage = '';
+      setTimeout(() => {
+        this.messages.push({ content: 'Resposta automática', sent: false });
+      }, 1000);
+    }
   }
 }

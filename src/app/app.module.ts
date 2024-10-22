@@ -117,16 +117,20 @@ import {EmployeeRoutingModule} from "./features/employees/employee-routing.modul
 import {EmployeeListComponent} from "./features/employees/components/employee-list/employee-list.component";
 import {EmployeeFormComponent} from "./features/employees/components/employee-form/employee-form.component";
 import {ZebraPersonTableComponent} from "./components/zebra-employee-table/zebra-employee-table.component";
-import { SuppliersListComponent } from './features/suppliers/components/suppliers-list/suppliers-list.component';
+import {SuppliersListComponent} from './features/suppliers/components/suppliers-list/suppliers-list.component';
 import {SupplierRoutingModule} from "./features/suppliers/supplier-routing.module";
-import { SuppliersFormComponent } from './features/suppliers/components/suppliers-form/suppliers-form.component';
-import { ProfessionalsFormComponent } from './features/professionals/components/professionals-form/professionals-form.component';
-import { ProfessionalsListComponent } from './features/professionals/components/professionals-list/professionals-list.component';
+import {SuppliersFormComponent} from './features/suppliers/components/suppliers-form/suppliers-form.component';
+import {
+  ProfessionalsFormComponent
+} from './features/professionals/components/professionals-form/professionals-form.component';
+import {
+  ProfessionalsListComponent
+} from './features/professionals/components/professionals-list/professionals-list.component';
 import {ProfessionalRoutingModule} from "./features/professionals/professional-routing.module";
-import { GoalsListComponent } from './features/goals/components/goals-list/goals-list.component';
-import { GoalsFormComponent } from './features/goals/components/goals-form/goals-form.component';
+import {GoalsListComponent} from './features/goals/components/goals-list/goals-list.component';
+import {GoalsFormComponent} from './features/goals/components/goals-form/goals-form.component';
 import {GoalRoutingModule} from "./features/goals/goal-routing.module";
-import { TasksListComponent } from './features/tasks/components/tasks-list/tasks-list.component';
+import {TasksListComponent} from './features/tasks/components/tasks-list/tasks-list.component';
 import {TaskRoutingModule} from "./features/tasks/task-routing.module";
 
 export const maskConfig: Partial<IConfig> = {

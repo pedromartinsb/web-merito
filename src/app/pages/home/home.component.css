@@ -162,3 +162,33 @@ body {
   transform: translateY(-5px);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
+
+
+.minimal-list {
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+.minimal-list .list-group-item {
+  border: none;
+  padding: 15px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f1f1f1;
+  transition: background-color 0.3s ease;
+}
+
+.minimal-list .list-group-item:last-child {
+  border-bottom: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.minimal-list .list-group-item:hover {
+  background-color: #f1f1f1;
+}
+
+.minimal-list .badge {
+  font-size: 14px;
+  padding: 8px 12px;
+}

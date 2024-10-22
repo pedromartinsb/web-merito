@@ -1,7 +1,6 @@
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as ApexCharts from 'apexcharts';
-import {Subject, takeUntil} from 'rxjs';
+import {Subject} from 'rxjs';
 import {AuthGuard} from 'src/app/auth/auth.guard';
 import {AuthService} from 'src/app/services/auth.service';
 import {ChartDataset, ChartOptions, ChartType} from "chart.js";
@@ -13,39 +12,6 @@ import {Label} from "chartist";
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  employeeHeaders = ['Nome', 'Email', 'Cargo', 'Telefone'];
-
-  employeeData = [
-    ['João Silva', 'joao@email.com', 'Gerente', '(11) 98765-4321'],
-    ['Maria Oliveira', 'maria@email.com', 'Desenvolvedor', '(21) 91234-5678'],
-    ['Carlos Souza', 'carlos@email.com', 'Desenvolvedor', '(31) 92345-6789'],
-    ['Ana Maria', 'ana@email.com', 'Designer', '(41) 98765-4321'],
-    ['Lucas Lima', 'lucas@email.com', 'Gerente', '(51) 91234-5678'],
-    ['Beatriz Costa', 'beatriz@email.com', 'Desenvolvedor', '(61) 92345-6789'],
-    ['Rafael Ramos', 'rafael@email.com', 'Designer', '(71) 98765-4321'],
-    ['Juliana Souza', 'juliana@email.com', 'Desenvolvedor', '(81) 91234-5678']
-  ];
-
-  // Configuração dos campos do formulário
-  userFormConfig = [
-    { name: 'username', label: 'Nome de Usuário', type: 'text', required: true, placeholder: 'Digite seu nome de usuário', errorMessage: 'Este campo é obrigatório' },
-    { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'Digite seu email', errorMessage: 'Email inválido' },
-    { name: 'password', label: 'Senha', type: 'password', required: true, placeholder: 'Digite sua senha', errorMessage: 'A senha é obrigatória' },
-    { name: 'bio', label: 'Biografia', type: 'textarea', required: false, placeholder: 'Fale sobre você' },
-    { name: 'role', label: 'Cargo', type: 'select', required: true, options: [
-        { value: 'admin', label: 'Administrador' },
-        { value: 'user', label: 'Usuário' },
-        { value: 'guest', label: 'Convidado' }
-      ], errorMessage: 'Selecione um cargo' }
-  ];
-
-  // Valores iniciais do formulário
-  userDataForm = {
-    username: 'johndoe',
-    email: 'john@example.com'
-  };
-
-  // Dados para o gráfico de barras
   public barChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -53,14 +19,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartData: ChartDataset<'bar'>[] = [
-    { data: [65, 59, 80, 81], label: 'Series A' }, // Série A
-    { data: [28, 48, 40, 19], label: 'Series B' }, // Série B
-    { data: [15, 25, 35, 45], label: 'Series C' }, // Série C
-    { data: [30, 40, 50, 60], label: 'Series D' }, // Série D
-    { data: [10, 15, 25, 35], label: 'Series E' }  // Série E
+    { data: [65, 59, 80, 81], label: 'Series A' },
+    { data: [28, 48, 40, 19], label: 'Series B' },
+    { data: [15, 25, 35, 45], label: 'Series C' },
+    { data: [30, 40, 50, 60], label: 'Series D' },
+    { data: [10, 15, 25, 35], label: 'Series E' }
   ];
 
-  // Dados para o gráfico de linha
   public lineChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -68,33 +33,32 @@ export class HomeComponent implements OnInit, OnDestroy {
   public lineChartType: ChartType = 'line';
   public lineChartLegend = true;
   public lineChartData: ChartDataset<'line'>[] = [
-    { data: [85, 72, 78, 75], label: 'Series A' }, // Série A
-    { data: [40, 60, 50, 70], label: 'Series B' }, // Série B
-    { data: [30, 20, 60, 80], label: 'Series C' }, // Série C
-    { data: [70, 50, 40, 90], label: 'Series D' }, // Série D
-    { data: [50, 70, 80, 90], label: 'Series E' }  // Série E
+    { data: [85, 72, 78, 75], label: 'Series A' },
+    { data: [40, 60, 50, 70], label: 'Series B' },
+    { data: [30, 20, 60, 80], label: 'Series C' },
+    { data: [70, 50, 40, 90], label: 'Series D' },
+    { data: [50, 70, 80, 90], label: 'Series E' }
   ];
 
-  // Gráfico de Pizza
   public pieChartOptions: ChartOptions = {
     responsive: true,
-    maintainAspectRatio: false, // Permite que o gráfico seja dimensionado sem manter a proporção
-    aspectRatio: 1, // Define a proporção do gráfico
+    maintainAspectRatio: false,
+    aspectRatio: 1,
     plugins: {
       legend: {
         labels: {
-          color: 'black', // Cor do texto da legenda
+          color: 'black',
         }
       }
     },
     elements: {
       arc: {
         backgroundColor: [
-          'rgba(255, 99, 132, 0.6)', // Vermelho
-          'rgba(153, 102, 255, 0.6)', // Roxo
-          'rgba(255, 206, 86, 0.6)', // Amarelo
-          'rgba(75, 192, 192, 0.6)', // Verde
-          'rgba(54, 162, 235, 0.6)', // Azul
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
         ],
       }
     },
@@ -105,55 +69,29 @@ export class HomeComponent implements OnInit, OnDestroy {
   public pieChartData: ChartDataset<'pie'>[] = [
     { data: [300, 50, 100, 80, 150], label: 'Distribuição' }
   ];
-
-
   destroyed = new Subject<void>();
-  currentScreenSize: string;
+
   isAdmin: boolean = false;
-  isAdminGeral: boolean = false;
-  isAdminEmpresa: boolean = false;
-  isAdminOffice: boolean = false;
   isSupervisor: boolean = false;
-  isUserOffice: boolean = false;
-  isGuest: boolean = false;
+  isUser: boolean = false;
+
   userRole: string[] = [];
 
-  // Create a map to display breakpoint names for demonstration purposes.
-  displayNameMap = new Map([
-    [Breakpoints.XSmall, 'XSmall'],
-    [Breakpoints.Small, 'Small'],
-    [Breakpoints.Medium, 'Medium'],
-    [Breakpoints.Large, 'Large'],
-    [Breakpoints.XLarge, 'XLarge'],
-  ]);
+  items = [
+    { name: 'Item 1', value: '10' },
+    { name: 'Item 2', value: '20' },
+    { name: 'Item 3', value: '30' },
+    { name: 'Item 4', value: '40' },
+  ];
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private authGuard: AuthGuard,
-    private authService: AuthService
-  ) {
+  constructor(private authGuard: AuthGuard, private authService: AuthService) {
     this.isAdmin = this.authGuard.checkIsAdmin();
+
     this._checkPermission();
-    breakpointObserver
-      .observe([
-        Breakpoints.XSmall,
-        Breakpoints.Small,
-        Breakpoints.Medium,
-        Breakpoints.Large,
-        Breakpoints.XLarge,
-      ])
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((result) => {
-        for (const query of Object.keys(result.breakpoints)) {
-          if (result.breakpoints[query]) {
-            this.currentScreenSize =
-              this.displayNameMap.get(query) ?? 'Unknown';
-          }
-        }
-      });
   }
+
   ngOnInit(): void {
-    var options = {
+    const options = {
       series: [
         {
           name: 'Registro Azul',
@@ -204,8 +142,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         bar: {
           horizontal: false,
           borderRadius: 1,
-          borderRadiusApplication: 'end', // 'around', 'end'
-          borderRadiusWhenStacked: 'last', // 'all', 'last'
+          borderRadiusApplication: 'end',
+          borderRadiusWhenStacked: 'last',
           dataLabels: {
             total: {
               enabled: true,
@@ -238,7 +176,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
     };
 
-    var chart = new ApexCharts(document.querySelector('#chart'), options);
+    const chart = new ApexCharts(document.querySelector('#chart'), options);
     chart.render();
   }
 
@@ -247,48 +185,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  private _checkPermission(): void {
+  _checkPermission(): void {
     this.userRole = this.authService.getRole();
     this.userRole.map((role) => {
       switch (role) {
         case 'ROLE_ADMIN':
           this.isAdmin = true;
           break;
-        case 'ROLE_ADMIN_GERAL':
-          this.isAdminGeral = true;
-          break;
-        case 'ROLE_ADMIN_COMPANY':
-          this.isAdminEmpresa = true;
-          break;
-        case 'ROLE_ADMIN_OFFICE':
-          this.isAdminOffice = true;
-          break;
         case 'ROLE_SUPERVISOR':
           this.isSupervisor = true;
           break;
-        case 'ROLE_USER_OFFICE':
-          this.isUserOffice = true;
-          break;
-        default:
-          this.isGuest = true;
+        case 'ROLE_USER':
+          this.isUser = true;
           break;
       }
     });
-  }
-
-  // Métodos de tratamento para os eventos de ação
-  onEdit(row: any) {
-    console.log('Editar:', row);
-    // Implemente a lógica de edição aqui
-  }
-
-  onDelete(row: any) {
-    console.log('Deletar:', row);
-    // Implemente a lógica de exclusão aqui
-  }
-
-  onView(row: any) {
-    console.log('Visualizar:', row);
-    // Implemente a lógica de visualização aqui
   }
 }

@@ -36,6 +36,7 @@ export class ChangePasswordComponent implements OnInit {
     personType: 'Colaborador',
     gender: 'Masculino',
     contractType: 'Clt',
+    birthdate: '',
     picture: '',
     office: null,
     officeId: '',

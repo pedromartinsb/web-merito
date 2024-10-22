@@ -1,0 +1,27 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Arial', sans-serif;
+}
+
+h5 {
+  font-size: 1.2rem;
+  color: #495057;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.table {
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+button {
+  border-radius: 20px;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
