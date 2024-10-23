@@ -77,11 +77,10 @@ export class ZebraPersonTableComponent implements OnInit {
       return matchesSearch && matchesJobTitle;
     });
 
-    this.currentPage = 1; // Resetar para a primeira página ao filtrar
+    this.currentPage = 1;
     this.calculatePagination();
   }
 
-  // Métodos para emitir os eventos de ação
   onEdit(row: any) {
     this.edit.emit(row);
   }
@@ -95,7 +94,11 @@ export class ZebraPersonTableComponent implements OnInit {
     if (jobIndex === -1) return [];
 
     const jobs = this.data.map(row => row[jobIndex]);
-    return [...new Set(jobs)]; // Remove duplicatas
+    return [...new Set(jobs)];
+  }
+
+  openAppointments(row: any) {
+    this.router.navigate(['/employees/appointment/', row[0]]);
   }
 
   openAppointment(row: any): void {

@@ -8,8 +8,13 @@
   </nav>
 
   <h1>Cadastro de Funcionário</h1>
+  <div class="gap-2 mt-4">
+    <button class="btn btn-warning print-button" (click)="generatePDF()">
+      <i class="material-icons">print</i> Imprimir
+    </button>
+  </div>
 
-  <div class="container my-5">
+  <div id="fullPageContent" class="container my-5">
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
       <section class="mb-4">
         <h5 class="border-bottom pb-2">Informações Pessoais</h5>

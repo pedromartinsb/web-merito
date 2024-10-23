@@ -8,14 +8,12 @@
 
   <h1>Lista de Funcionários</h1>
 
-  <!-- Botão para Criar Novo Usuário -->
   <div class="text-end mb-3">
     <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
       Criar Novo Funcionário
     </button>
   </div>
 
-  <!-- Exibe mensagem de carregamento enquanto os dados estão sendo buscados -->
   <div *ngIf="loading" class="alert alert-info">
     Carregando funcionários...
   </div>

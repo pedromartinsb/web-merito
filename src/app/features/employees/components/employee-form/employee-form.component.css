@@ -25,3 +25,19 @@ button {
   background-color: #6c757d;
   border-color: #6c757d;
 }
+
+
+.print-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.print-button:hover {
+  background-color: #0056b3;
+}

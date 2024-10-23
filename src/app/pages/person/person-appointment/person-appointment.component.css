@@ -1,9 +1,13 @@
 mat-card {
-  width: 95%;
-  justify-content: center;
-  margin: auto;
-  margin-bottom: 15px;
-  margin-top: 15px;
+  max-width: 100%; /* Limita a largura do card para 100% da largura da tela */
+  max-height: 90vh; /* Limita a altura máxima para 90% da altura da tela */
+  overflow: auto; /* Adiciona barra de rolagem se o conteúdo for maior que o card */
+  box-sizing: border-box; /* Garante que padding e bordas sejam incluídos no tamanho total */
+}
+
+mat-card-content {
+  white-space: normal; /* Permite que o texto faça quebra de linha */
+  word-wrap: break-word; /* Quebra linhas longas */
 }
 
 .grid-first-container {
@@ -19,23 +23,6 @@ mat-card {
 .grid-item-column {
   display: grid;
   grid-template-columns: auto auto;
-}
-
-.example-small-box,
-.example-large-box {
-  display: column;
-  align-items: center;
-  justify-content: center;
-  height: fit-content;
-  width: fit-content;
-  margin: 16px;
-  padding: 16px;
-  border-radius: 8px;
-  border: solid;
-}
-
-.example-small-box {
-  display: row;
 }
 
 table {
@@ -107,17 +94,7 @@ td {
   align-self: self-start;
 }
 
-/* .mat-calendar-body-cell-content {
-  border-color: #7cfc00 !important;
-  color: #58af04 !important;
-  background-color: #e7ffd1;
-} */
-
 ::ng-deep .green-background .mat-calendar-body-cell-content {
-  /* border-color: #7cfc00 !important; */
-  /* color: #58af04 !important; */
-  /* background-color: #e7ffd1; */
-  /* transition: all 0.3s ease; */
   border-color: var(--green-border-calendar) !important;
   color: var(--white) !important;
   background-color: var(--green-border-calendar);
@@ -126,90 +103,66 @@ td {
 ::ng-deep .blue-background .mat-calendar-body-cell-content {
   border-color: blue !important;
   color: white !important;
-  /* transition: all 0.3s ease; */
   background-color: blue;
 }
 
 ::ng-deep .orange-background .mat-calendar-body-cell-content {
   border-color: orange !important;
   color: black !important;
-  /* transition: all 0.3s ease; */
   background-color: orange;
 }
 
 ::ng-deep .yellow-background .mat-calendar-body-cell-content {
   border-color: yellow !important;
   color: black !important;
-  /* transition: all 0.3s ease; */
   background-color: yellow;
 }
 
 ::ng-deep .red-background .mat-calendar-body-cell-content {
   border-color: var(--red-appointment) !important;
   color: white !important;
-  /* transition: all 0.3s ease; */
   background-color: var(--red-appointment);
 }
 
-/* Blue rb */
-::ng-deep
-  .mat-radio-button.mat-accent.mat-radio-checked.blue-background
-  .mat-radio-outer-circle {
-  /* border-color: blue; */
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.blue-background .mat-radio-outer-circle {
   border-color: var(--blue-appointment);
 }
+
 ::ng-deep .mat-radio-button.mat-accent.blue-background .mat-radio-inner-circle {
-  /* background-color: blue; */
   background-color: var(--blue-appointment);
 }
-/* Green rb */
-::ng-deep
-  .mat-radio-button.mat-accent.mat-radio-checked.green-background
-  .mat-radio-outer-circle {
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.green-background .mat-radio-outer-circle {
   /* border-color: green; */
   border-color: var(--green-appointment);
 }
-::ng-deep
-  .mat-radio-button.mat-accent.green-background
-  .mat-radio-inner-circle {
-  /* background-color: green; */
+
+::ng-deep .mat-radio-button.mat-accent.green-background .mat-radio-inner-circle {
   background-color: var(--green-appointment);
 }
-/* Yellow rb */
-::ng-deep
-  .mat-radio-button.mat-accent.mat-radio-checked.yellow-background
-  .mat-radio-outer-circle {
-  /* border-color: yellow; */
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.yellow-background .mat-radio-outer-circle {
   border-color: var(--yellow-appointment);
 }
-::ng-deep
-  .mat-radio-button.mat-accent.yellow-background
-  .mat-radio-inner-circle {
-  /* background-color: yellow; */
+
+::ng-deep .mat-radio-button.mat-accent.yellow-background .mat-radio-inner-circle {
   background-color: var(--yellow-appointment);
 }
-/* Orange rb */
-::ng-deep
-  .mat-radio-button.mat-accent.mat-radio-checked.orange-background
-  .mat-radio-outer-circle {
-  /* border-color: orangered; */
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.orange-background .mat-radio-outer-circle {
   border-color: var(--orange-appointment);
 }
-::ng-deep
-  .mat-radio-button.mat-accent.orange-background
-  .mat-radio-inner-circle {
-  /* background-color: orangered; */
+
+::ng-deep .mat-radio-button.mat-accent.orange-background .mat-radio-inner-circle {
+
   background-color: var(--orange-appointment);
 }
-/* Red rb */
-::ng-deep
-  .mat-radio-button.mat-accent.mat-radio-checked.red-background
-  .mat-radio-outer-circle {
-  /* border-color: red; */
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.red-background .mat-radio-outer-circle {
   border-color: var(--red-appointment);
 }
+
 ::ng-deep .mat-radio-button.mat-accent.red-background .mat-radio-inner-circle {
-  /* background-color: red; */
   background-color: var(--red-appointment);
 }
 
@@ -233,10 +186,7 @@ td {
   width: 800px;
   max-width: 100%;
   overflow: auto;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 40px 20px;
 }
 
 table {
@@ -268,6 +218,14 @@ table {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: auto;
+  justify-content: space-between;
+  justify-items: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.item {
+  padding: 20px;
 }
 
 mat-divider {
@@ -295,7 +253,7 @@ mat-card-subtitle > button {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center; /* Centers the text content */
+  text-align: center;
 }
 
 mat-form-field {
@@ -312,3 +270,84 @@ mat-form-field {
   margin-left: 5%;
   margin-top: 20px;
 }
+
+.text-column {
+  flex: 1;
+  /*white-space: nowrap;*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.radio-group input {
+  margin-right: 10px;
+  transform: scale(1.5);
+}
+
+.radio-group label {
+  margin-right: 15px;
+}
+
+.radio-group .radio-red {
+  accent-color: red;
+}
+
+.radio-group .radio-orange {
+  accent-color: orange;
+}
+
+.radio-group .radio-yellow {
+  accent-color: yellow;
+}
+
+.radio-group .radio-green {
+  accent-color: green;
+}
+
+.red-background {
+  accent-color: var(--red-appointment);
+}
+
+.green-background {
+  accent-color: var(--green-border-calendar);
+}
+
+.blue-background {
+  accent-color: blue;
+}
+
+.orange-background {
+  accent-color: orange;
+}
+
+.yellow-background {
+  accent-color: yellow;
+}
+
+.column-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  max-width: 300px;
+}
+
+.row-item {
+  padding: 10px 0;
+}
+
+h2 {
+  margin: 0;
+}
+
+span {
+  font-size: 1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+

@@ -5,6 +5,8 @@ import {AuthGuard} from 'src/app/auth/auth.guard';
 import {AuthService} from 'src/app/services/auth.service';
 import {ChartDataset, ChartOptions, ChartType} from "chart.js";
 import {Label} from "chartist";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-home',
@@ -200,5 +202,65 @@ export class HomeComponent implements OnInit, OnDestroy {
           break;
       }
     });
+  }
+
+  // public generatePDF(): void {
+  //   const pdf = new jsPDF.jsPDF();
+  //
+  //   // Título
+  //   pdf.setFontSize(16);
+  //   pdf.text('Duas Listas no PDF', 10, 10);
+  //
+  //   // Lista 1
+  //   pdf.setFontSize(12);
+  //   pdf.text('Lista 1:', 10, 20);
+  //   const lista1 = ['Item 1 da lista 1', 'Item 2 da lista 1', 'Item 3 da lista 1'];
+  //   lista1.forEach((item, index) => {
+  //     pdf.text(`${index + 1}. ${item}`, 10, 30 + (index * 10)); // Posiciona os itens na vertical
+  //   });
+  //
+  //   // Espaçamento entre as listas
+  //   const espaçamento = lista1.length * 10 + 10;
+  //
+  //   // Lista 2
+  //   pdf.text('Lista 2:', 10, 30 + espaçamento);
+  //   const lista2 = ['Item 1 da lista 2', 'Item 2 da lista 2', 'Item 3 da lista 2'];
+  //   lista2.forEach((item, index) => {
+  //     pdf.text(`${index + 1}. ${item}`, 10, 40 + espaçamento + (index * 10));
+  //   });
+  //
+  //   // Salvar o PDF
+  //   pdf.save('duas_listas.pdf');
+  // }
+
+  public generatePDF(): void {
+    const data = document.getElementById('fullPageContent'); // Captura todo o conteúdo da página
+    if (data) {
+      html2canvas(data, { scale: 2 }).then(canvas => {
+        const imgWidth = 208; // Largura da imagem no PDF (A4 é 210mm de largura)
+        const pageHeight = 295; // Altura de uma página A4 em mm
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        const heightLeft = imgHeight;
+
+        const contentDataURL = canvas.toDataURL('image/png');
+        console.log(contentDataURL)
+        const pdf = new jsPDF('p', 'mm', 'a4'); // Instancia o jsPDF no formato A4
+        let position = 0;
+
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight); // Adiciona a primeira página
+
+        let heightRemaining = imgHeight - pageHeight;
+
+        // Verifica se o conteúdo excede o tamanho de uma página e adiciona páginas extras
+        while (heightRemaining > 0) {
+          position = heightRemaining - imgHeight; // Posiciona a imagem corretamente
+          pdf.addPage();
+          pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+          heightRemaining -= pageHeight;
+        }
+
+        pdf.save('tela-completa.pdf'); // Salva o PDF com o nome especificado
+      });
+    }
   }
 }

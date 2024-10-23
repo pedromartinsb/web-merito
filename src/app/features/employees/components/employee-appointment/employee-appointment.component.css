@@ -1,0 +1,133 @@
+/* Estilo para o texto de exemplo */
+.example-text {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.example-text h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.example-text p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.calendar-container {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.calendar {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 250px;
+}
+
+.calendar th, .calendar td {
+  text-align: center;
+  padding: 5px; /* Reduz o padding para ajustar o tamanho das células */
+  font-size: 14px; /* Reduz o tamanho da fonte */
+  font-weight: 400;
+}
+
+.calendar thead th {
+  font-weight: bold;
+}
+
+.calendar tbody td {
+  background-color: lightgray;
+  border-radius: 50%;
+  width: 30px;  /* Reduz o tamanho das células */
+  height: 30px; /* Reduz o tamanho das células */
+}
+
+.calendar tbody td.empty {
+  background-color: transparent;
+}
+
+.tabs {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.tabs ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.tabs ul li {
+  position: relative;
+}
+
+.tabs input#tab1:checked {
+  background-color: green;
+  color: #fff;
+}
+
+.tabs ul li label {
+  background-color: #d9e8fb;
+  color: #333;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  display: block;
+  cursor: pointer;
+}
+
+.tabs ul li label:hover {
+  background-color: #c4dbf7;
+}
+
+.tabs input {
+  display: none;
+}
+
+.tabs .content {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.tabs .content section {
+  display: none;
+}
+
+.tabs input#tab1:checked ~ .content section:nth-child(1),
+.tabs input#tab2:checked ~ .content section:nth-child(2),
+.tabs input#tab3:checked ~ .content section:nth-child(3),
+.tabs input#tab4:checked ~ .content section:nth-child(4) {
+  display: block;
+}
+
+
+.list-container {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.text-column {
+  flex: 1;
+}
+
+.radio-column {
+  accent-color: red;
+}

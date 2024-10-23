@@ -1,26 +1,23 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
-import { Activity, Appointment } from 'src/app/models/appointment';
-import { Person } from 'src/app/models/person';
-import { monthlyTag, Tag } from 'src/app/models/tag';
-import { PersonService } from 'src/app/services/person.service';
-import { TagService } from 'src/app/services/tag.service';
+import {AfterViewInit, Component, OnDestroy} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {MatCalendarCellClassFunction} from '@angular/material/datepicker';
+import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {finalize} from 'rxjs';
+import {Activity, Appointment} from 'src/app/models/appointment';
+import {Person} from 'src/app/models/person';
+import {monthlyTag, Tag} from 'src/app/models/tag';
+import {PersonService} from 'src/app/services/person.service';
+import {TagService} from 'src/app/services/tag.service';
 
-import { AppointmentService } from './../../../services/appointment.service';
-import { PersonAppointmentConfirmComponent } from './person-appointment-confirm/person-appointment-confirm.component';
-import { PersonAppointmentDialogComponent } from './person-appointment-dialog/person-appointment-dialog.component';
-import { PersonAppointmentTaskComponent } from './person-appointment-task/person-appointment-task.component';
-import { PersonAppointmentAchieveComponent } from './person-appointment-achieve/person-appointment-achieve.component';
-
-export interface Message {
-  description: string;
-  personId: string;
-}
+import {AppointmentService} from '../../../services/appointment.service';
+import {PersonAppointmentConfirmComponent} from './person-appointment-confirm/person-appointment-confirm.component';
+import {PersonAppointmentDialogComponent} from './person-appointment-dialog/person-appointment-dialog.component';
+import {PersonAppointmentTaskComponent, Task} from './person-appointment-task/person-appointment-task.component';
+import {PersonAppointmentAchieveComponent} from './person-appointment-achieve/person-appointment-achieve.component';
+import {TaskService} from "../../../services/task.service";
+import {Urls} from "../../../config/urls.config";
 
 @Component({
   selector: 'app-person-appointment',
@@ -30,35 +27,22 @@ export interface Message {
 export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   displayedColumns = ['name', 'radio'];
   dataSource: Activity[];
-
-  message: Message = {
-    description: '',
-    personId: '',
-  };
-
   currentMontTags: monthlyTag[] = [];
   lastMonthTags: monthlyTag[] = [];
   lastTwoMonthTags: monthlyTag[] = [];
   lastThreeMonthTags: monthlyTag[] = [];
   lastFourMonthTags: monthlyTag[] = [];
   lastFiveMonthTags: monthlyTag[] = [];
-
   daysOfMonth: number[] = [];
-  daysOfCurrentMonth: number[] = [];
   daysOfLastMonth: number[] = [];
   daysOfLastTwoMonth: number[] = [];
   daysOfLastThreeMonth: number[] = [];
   daysOfLastFourMonth: number[] = [];
   daysOfLastFiveMonth: number[] = [];
-
+  s3DefaultImage = Urls.getDefaultPictureS3();
   personId: string;
-  days: number[] = [];
-  weeks: number[] = [];
   selected: Date | null;
   selectedDateMonthly: Date | null;
-  selectedQuarterly1: Date | null;
-  selectedQuarterly2: Date | null;
-  selectedQuarterly3: Date | null;
   activitiesResponse: Activity[];
   activitiesDailyResponse: Activity[];
   appointments: Appointment[] = [];
@@ -80,13 +64,28 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   startDate = new Date();
   endDate = new Date();
   selectedTab = new FormControl(0);
-  s3Url = 'https://sistema-merito.s3.amazonaws.com/';
-  maxCharacters: number = 60; // Set your character limit here
-
-  messageFormControl: FormControl = new FormControl(
-    null,
-    Validators.minLength(3)
-  );
+  task: Task = {
+    id: '',
+    personId: '',
+    description: '',
+    startDate: '',
+    endDate: '',
+  };
+  options = [
+    { index: '1', color: 'red'},
+    { index: '2', color: 'orange'},
+    { index: '3', color: 'yellow'},
+    { index: '4', color: 'green'},
+    { index: '5', color: ''},
+  ];
+  items = [
+    { name: 'Item 1', value: '10' },
+    { name: 'Item 2', value: '20' },
+    { name: 'Item 3', value: '30' },
+    { name: 'Item 4', value: '40' },
+  ];
+  formTask: FormGroup;
+  formGoal: FormGroup;
 
   constructor(
     private dialog: MatDialog,
@@ -94,8 +93,20 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
     private toast: ToastrService,
     private tagService: TagService,
     private appointmentService: AppointmentService,
-    private personService: PersonService
+    private personService: PersonService,
+    private taskService: TaskService,
   ) {
+    this.formTask = new FormGroup({
+      description: new FormControl(''),
+      startDate: new FormControl(''),
+      endDate: new FormControl('')
+    });
+    this.formGoal = new FormGroup({
+      description: new FormControl(''),
+      startDate: new FormControl(''),
+      endDate: new FormControl('')
+    });
+
     // Receive the person id and get Person
     this.receivePersonAndPersonId();
 
@@ -120,6 +131,8 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
     this.receiveLastFourMonthTags();
     // Receive the last five Month Tags
     this.receiveLastFiveMonthTags();
+
+    this._getTaskByPersonId();
   }
 
   ngOnDestroy(): void {
@@ -145,7 +158,7 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   private receivePersonAndPersonId(): void {
     this.personId = this.route.snapshot.params['personId'];
     this.personService.findById(this.personId).subscribe((response) => {
-      response.picture = this.s3Url + response.picture;
+      response.picture = Urls.getS3() + response.picture;
       this.person = response;
     });
   }
@@ -175,6 +188,7 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
         this.toast.success('Pesquisa realizada com sucesso.');
         this.activitiesDailyResponse = response;
         this.dataSource = response;
+        console.log(response)
       });
   }
 
@@ -269,7 +283,7 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   private getDateCalendar(): void {
-    var date = new Date();
+    const date = new Date();
     this.firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     this.lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     this.firstDayLastMonth = new Date(
@@ -552,12 +566,22 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public sendMessage() {
-    this.message.personId = this.personId;
-    this.personService.sendMessage(this.message).subscribe({
-      next: () => {
-        this.message.description = '';
-        this.toast.success('Mensagem enviada com sucesso', 'Cadastro');
+  private _handleErrors(ex: any): void {
+    if (ex.error.errors) {
+      ex.error.errors.forEach((element: { message: string; }) => {
+        this.toast.error(element.message);
+      });
+    } else {
+      this.toast.error(ex.error.message);
+    }
+  }
+
+  private _getTaskByPersonId() {
+    this.taskService.findByPersonId(this.personId).subscribe({
+      next: (response) => {
+        if (response != null) {
+          this.task = response;
+        }
       },
       error: (ex) => {
         this._handleErrors(ex);
@@ -565,17 +589,21 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public validateFields(): boolean {
-    return this.message.description != '';
+  onSubmitFormTask() {
+    this.task = this.formTask.value;
+    console.log(this.task);
+
+    // this.taskService.create(this.task).subscribe({
+    //   next: () => {
+    //     this.toast.success('Tarefa cadastrada com sucesso', 'Cadastro');
+    //   },
+    //   error: (ex) => {
+    //     this._handleErrors(ex);
+    //   },
+    // });
   }
 
-  private _handleErrors(ex: any): void {
-    if (ex.error.errors) {
-      ex.error.errors.forEach((element) => {
-        this.toast.error(element.message);
-      });
-    } else {
-      this.toast.error(ex.error.message);
-    }
+  onSubmitFormGoal() {
+    console.log(this.formGoal.value);
   }
 }

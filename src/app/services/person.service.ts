@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 
 import {Config} from '../config/api.config';
 import {AddressSearch, Person} from '../models/person';
-import {Message} from '../pages/person/person-appointment/person-appointment.component';
 
 @Injectable({
   providedIn: 'root',
@@ -42,12 +41,8 @@ export class PersonService {
     );
   }
 
-  public findAllByResponsibility(
-    responsibilityId: string
-  ): Observable<Person[]> {
-    return this.http.get<Person[]>(
-      `${Config.webApiUrl}/v1/person/${responsibilityId}/responsibility`
-    );
+  public findAllByResponsibility(responsibilityId: string): Observable<Person[]> {
+    return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person/${responsibilityId}/responsibility`);
   }
 
   public findAllByContractType(contractType: string): Observable<Person[]> {
@@ -110,13 +105,6 @@ export class PersonService {
   public findAddress(cep: string): Observable<AddressSearch> {
     return this.http.get<AddressSearch>(
       `${Config.webApiUrl}/v1/district/${cep}/cep`
-    );
-  }
-
-  public sendMessage(message: Message): Observable<void> {
-    return this.http.post<void>(
-      `${Config.webApiUrl}/v1/person/message`,
-      message
     );
   }
 }

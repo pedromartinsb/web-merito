@@ -192,3 +192,14 @@ body {
   font-size: 14px;
   padding: 8px 12px;
 }
+
+
+#pdfContent {
+  overflow: visible;
+  height: auto;
+}
+
+#fullPageContent {
+  padding: 20px;
+  background-color: white;
+}

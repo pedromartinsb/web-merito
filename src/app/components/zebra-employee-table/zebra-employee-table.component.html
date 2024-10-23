@@ -1,5 +1,4 @@
 <div class="container my-3">
-  <!-- Campo de busca e Filtro por Cargo -->
   <div class="row mb-3">
     <div class="col-md-6">
       <input
@@ -19,23 +18,20 @@
     </div>
   </div>
 
-  <!-- Tabela -->
   <div class="table-responsive">
     <table class="table table-hover">
       <thead class="thead-light">
       <tr>
-        <!-- Cabeçalhos da Tabela -->
         <th *ngFor="let header of headers">
           <ng-container *ngIf="header == headers[0]; else elseTemplate" hidden></ng-container>
           <ng-template #elseTemplate>
             {{ header }}
           </ng-template>
         </th>
-        <th>Ações</th> <!-- Coluna de ações -->
+        <th>Ações</th>
       </tr>
       </thead>
       <tbody>
-      <!-- Dados da Tabela Paginados -->
       <tr *ngFor="let row of paginatedData">
         <td *ngFor="let col of row; let i = index">
           <span *ngIf="i===0" hidden>{{ col }}</span>
@@ -43,11 +39,10 @@
           <span *ngIf="i!==0 && i!==1">{{ col }}</span>
         </td>
         <td>
-          <!-- Botões de Ação -->
           <button class="btn btn-primary btn-sm" (click)="onEdit(row)">
             Editar
           </button>
-          <button class="btn btn-secondary btn-sm mx-1" (click)="openAppointment(row)">
+          <button class="btn btn-secondary btn-sm mx-1" (click)="openAppointments(row)">
             Agendamento
           </button>
           <button class="btn btn-danger btn-sm" (click)="onDelete(row)">
@@ -59,7 +54,6 @@
     </table>
   </div>
 
-  <!-- Controles de Paginação -->
   <nav aria-label="Table pagination">
     <ul class="pagination justify-content-center">
       <li class="page-item" [class.disabled]="currentPage === 1">

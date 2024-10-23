@@ -1,0 +1,221 @@
+<ul class="list-container">
+  <li class="list-item">
+    <span class="text-column">Texto 1</span>
+    <input type="radio" name="radio-group" class="radio-column">
+  </li>
+  <li class="list-item">
+    <span class="text-column">Texto 2</span>
+    <input type="radio" name="radio-group" class="radio-column">
+  </li>
+  <li class="list-item">
+    <span class="text-column">Texto 3</span>
+    <input type="radio" name="radio-group" class="radio-column">
+  </li>
+</ul>
+
+
+
+
+
+<div class="container">
+  <!-- Texto de exemplo acima das abas -->
+  <div class="example-text">
+    <h2>Texto de Exemplo</h2>
+    <p>
+      Este é um exemplo de texto que acompanha a área de abas.
+      O conteúdo abaixo contém as abas e o conteúdo correspondente a cada aba.
+    </p>
+    <p>
+      Você pode personalizar esta área para incluir qualquer conteúdo adicional, como descrições, instruções ou informações relevantes.
+    </p>
+  </div>
+
+  <!-- Abas -->
+  <div class="tabs">
+    <input type="radio" id="tab1" name="tab-control" checked>
+    <input type="radio" id="tab2" name="tab-control">
+    <input type="radio" id="tab3" name="tab-control">
+    <input type="radio" id="tab4" name="tab-control">
+
+    <ul>
+      <li><label for="tab1" role="button">Diária</label></li>
+      <li><label for="tab2" role="button">Mensal</label></li>
+      <li><label for="tab3" role="button">Trimestral</label></li>
+      <li><label for="tab4" role="button">Semestral</label></li>
+    </ul>
+
+    <!-- Conteúdo das Abas -->
+    <div class="content">
+      <section>
+        <div class="row">
+          <!-- Primeiro calendário -->
+          <div class="col-md-4">
+
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Calendários Lado a Lado</h2>
+        <div class="row">
+          <!-- Primeiro calendário -->
+          <div class="col-md-4">
+            <div class="calendar-container">
+              <table class="calendar">
+                <thead>
+                <tr>
+                  <th>Dom</th>
+                  <th>Seg</th>
+                  <th>Ter</th>
+                  <th>Qua</th>
+                  <th>Qui</th>
+                  <th>Sex</th>
+                  <th>Sáb</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let week of calendar">
+                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Segundo calendário -->
+          <div class="col-md-4">
+            <div class="calendar-container">
+              <table class="calendar">
+                <thead>
+                <tr>
+                  <th>Dom</th>
+                  <th>Seg</th>
+                  <th>Ter</th>
+                  <th>Qua</th>
+                  <th>Qui</th>
+                  <th>Sex</th>
+                  <th>Sáb</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let week of calendar">
+                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Terceiro calendário -->
+          <div class="col-md-4">
+            <div class="calendar-container">
+              <table class="calendar">
+                <thead>
+                <tr>
+                  <th>Dom</th>
+                  <th>Seg</th>
+                  <th>Ter</th>
+                  <th>Qua</th>
+                  <th>Qui</th>
+                  <th>Sex</th>
+                  <th>Sáb</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let week of calendar">
+                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Primeiro calendário -->
+          <div class="col-md-4">
+            <div class="calendar-container">
+              <table class="calendar">
+                <thead>
+                <tr>
+                  <th>Dom</th>
+                  <th>Seg</th>
+                  <th>Ter</th>
+                  <th>Qua</th>
+                  <th>Qui</th>
+                  <th>Sex</th>
+                  <th>Sáb</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let week of calendar">
+                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Segundo calendário -->
+          <div class="col-md-4">
+            <div class="calendar-container">
+              <table class="calendar">
+                <thead>
+                <tr>
+                  <th>Dom</th>
+                  <th>Seg</th>
+                  <th>Ter</th>
+                  <th>Qua</th>
+                  <th>Qui</th>
+                  <th>Sex</th>
+                  <th>Sáb</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let week of calendar">
+                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Terceiro calendário -->
+          <div class="col-md-4">
+            <div class="calendar-container">
+              <table class="calendar">
+                <thead>
+                <tr>
+                  <th>Dom</th>
+                  <th>Seg</th>
+                  <th>Ter</th>
+                  <th>Qua</th>
+                  <th>Qui</th>
+                  <th>Sex</th>
+                  <th>Sáb</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let week of calendar">
+                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Outras abas -->
+      <section>
+        <h2>Conteúdo da Aba 3</h2>
+        <p>Este é o conteúdo da terceira aba.</p>
+      </section>
+
+      <section>
+        <h2>Conteúdo da Aba 4</h2>
+        <p>Este é o conteúdo da quarta aba.</p>
+      </section>
+    </div>
+  </div>
+</div>

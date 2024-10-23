@@ -9,6 +9,8 @@ import {ResponsibilityService} from "../../../../services/responsibility.service
 import {ToastrService} from "ngx-toastr";
 import {Address, Contact, ContractType, EmployeeRequest, PersonType, User} from "../../employee.model";
 import {EmployeeService} from "../../services/employee.service";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 @Component({
   selector: 'app-employee-form',
@@ -285,4 +287,33 @@ export class EmployeeFormComponent implements OnInit {
       this.toast.error(ex.error.message);
     }
   }
+
+  public generatePDF(): void {
+    const data = document.getElementById('fullPageContent');
+    if (data) {
+      html2canvas(data, { scale: 2 }).then(canvas => {
+        const imgWidth = 208;
+        const pageHeight = 295;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+
+        const contentDataURL = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        let position = 0;
+
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+
+        let heightRemaining = imgHeight - pageHeight;
+
+        while (heightRemaining > 0) {
+          position = heightRemaining - imgHeight;
+          pdf.addPage();
+          pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+          heightRemaining -= pageHeight;
+        }
+
+        pdf.save('tela-completa.pdf');
+      });
+    }
+  }
+
 }

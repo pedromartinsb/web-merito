@@ -5,6 +5,7 @@ import { EmployeeFormComponent } from './components/employee-form/employee-form.
 import {AuthGuard} from "../../auth/auth.guard";
 import {Roles} from "../../models/person";
 import {NavComponent} from "../../components/nav/nav.component";
+import {EmployeeAppointmentComponent} from "./components/employee-appointment/employee-appointment.component";
 
 const routes: Routes = [
   {
@@ -28,6 +29,12 @@ const routes: Routes = [
         path: 'edit/:id',
         canActivate: [AuthGuard],
         component: EmployeeFormComponent,
+        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
+      },
+      {
+        path: 'appointment/:id',
+        canActivate: [AuthGuard],
+        component: EmployeeAppointmentComponent,
         data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
       }
     ]
