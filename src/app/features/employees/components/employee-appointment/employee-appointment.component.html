@@ -1,221 +1,265 @@
-<ul class="list-container">
-  <li class="list-item">
-    <span class="text-column">Texto 1</span>
-    <input type="radio" name="radio-group" class="radio-column">
-  </li>
-  <li class="list-item">
-    <span class="text-column">Texto 2</span>
-    <input type="radio" name="radio-group" class="radio-column">
-  </li>
-  <li class="list-item">
-    <span class="text-column">Texto 3</span>
-    <input type="radio" name="radio-group" class="radio-column">
-  </li>
-</ul>
+<div class="modal fade" id="tasksModal" tabindex="-1" aria-labelledby="tasksModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>Tarefas:</h2>
+        <p>Todas as tarefas atribuídas para {{ person.name }}.</p>
 
-
-
-
-
-<div class="container">
-  <!-- Texto de exemplo acima das abas -->
-  <div class="example-text">
-    <h2>Texto de Exemplo</h2>
-    <p>
-      Este é um exemplo de texto que acompanha a área de abas.
-      O conteúdo abaixo contém as abas e o conteúdo correspondente a cada aba.
-    </p>
-    <p>
-      Você pode personalizar esta área para incluir qualquer conteúdo adicional, como descrições, instruções ou informações relevantes.
-    </p>
-  </div>
-
-  <!-- Abas -->
-  <div class="tabs">
-    <input type="radio" id="tab1" name="tab-control" checked>
-    <input type="radio" id="tab2" name="tab-control">
-    <input type="radio" id="tab3" name="tab-control">
-    <input type="radio" id="tab4" name="tab-control">
-
-    <ul>
-      <li><label for="tab1" role="button">Diária</label></li>
-      <li><label for="tab2" role="button">Mensal</label></li>
-      <li><label for="tab3" role="button">Trimestral</label></li>
-      <li><label for="tab4" role="button">Semestral</label></li>
-    </ul>
-
-    <!-- Conteúdo das Abas -->
-    <div class="content">
-      <section>
-        <div class="row">
-          <!-- Primeiro calendário -->
-          <div class="col-md-4">
-
-          </div>
+        <div class="mt-md-0 mt-sm-4">
+          <ul class="list-group minimal-list">
+            <li *ngFor="let task of tasks" class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>{{ task.title }}</span>
+                <span class="badge bg-primary rounded-pill">Início: {{ task.startDate | dateFormat }}</span>
+                <span class="badge bg-primary rounded-pill">Fim: {{ task.endDate | dateFormat }}</span>
+                <button class="btn btn-outline-warning btn-round" (click)="onEditTask(task)"><i class="fas fa-pencil-alt"></i></button>
+                <button class="btn btn-outline-danger btn-round" (click)="onDeleteTask(task.id)"><i class="fas fa-trash-alt"></i></button>
+              </div>
+            </li>
+          </ul>
         </div>
-      </section>
-
-      <section>
-        <h2>Calendários Lado a Lado</h2>
-        <div class="row">
-          <!-- Primeiro calendário -->
-          <div class="col-md-4">
-            <div class="calendar-container">
-              <table class="calendar">
-                <thead>
-                <tr>
-                  <th>Dom</th>
-                  <th>Seg</th>
-                  <th>Ter</th>
-                  <th>Qua</th>
-                  <th>Qui</th>
-                  <th>Sex</th>
-                  <th>Sáb</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let week of calendar">
-                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Segundo calendário -->
-          <div class="col-md-4">
-            <div class="calendar-container">
-              <table class="calendar">
-                <thead>
-                <tr>
-                  <th>Dom</th>
-                  <th>Seg</th>
-                  <th>Ter</th>
-                  <th>Qua</th>
-                  <th>Qui</th>
-                  <th>Sex</th>
-                  <th>Sáb</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let week of calendar">
-                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Terceiro calendário -->
-          <div class="col-md-4">
-            <div class="calendar-container">
-              <table class="calendar">
-                <thead>
-                <tr>
-                  <th>Dom</th>
-                  <th>Seg</th>
-                  <th>Ter</th>
-                  <th>Qua</th>
-                  <th>Qui</th>
-                  <th>Sex</th>
-                  <th>Sáb</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let week of calendar">
-                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <!-- Primeiro calendário -->
-          <div class="col-md-4">
-            <div class="calendar-container">
-              <table class="calendar">
-                <thead>
-                <tr>
-                  <th>Dom</th>
-                  <th>Seg</th>
-                  <th>Ter</th>
-                  <th>Qua</th>
-                  <th>Qui</th>
-                  <th>Sex</th>
-                  <th>Sáb</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let week of calendar">
-                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Segundo calendário -->
-          <div class="col-md-4">
-            <div class="calendar-container">
-              <table class="calendar">
-                <thead>
-                <tr>
-                  <th>Dom</th>
-                  <th>Seg</th>
-                  <th>Ter</th>
-                  <th>Qua</th>
-                  <th>Qui</th>
-                  <th>Sex</th>
-                  <th>Sáb</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let week of calendar">
-                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Terceiro calendário -->
-          <div class="col-md-4">
-            <div class="calendar-container">
-              <table class="calendar">
-                <thead>
-                <tr>
-                  <th>Dom</th>
-                  <th>Seg</th>
-                  <th>Ter</th>
-                  <th>Qua</th>
-                  <th>Qui</th>
-                  <th>Sex</th>
-                  <th>Sáb</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let week of calendar">
-                  <td *ngFor="let day of week" [ngClass]="{'empty': !day}">{{ day || '' }}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Outras abas -->
-      <section>
-        <h2>Conteúdo da Aba 3</h2>
-        <p>Este é o conteúdo da terceira aba.</p>
-      </section>
-
-      <section>
-        <h2>Conteúdo da Aba 4</h2>
-        <p>Este é o conteúdo da quarta aba.</p>
-      </section>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tasksCreateModal2">
+          Cadastrar
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="tasksCreateModal2" tabindex="-1" aria-labelledby="tasksCreateModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>Nova Tarefa:</h2>
+        <p>Cadastre uma nova tarefa para {{ person.name }}.</p>
+
+        <form [formGroup]="formTask" (ngSubmit)="onSubmitFormTask()">
+          <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input type="text" class="form-control" id="title" formControlName="title" placeholder="Digite o título" />
+          </div>
+          <div class="mb-3">
+            <label for="taskDescription" class="form-label">Descrição</label>
+            <textarea class="form-control" id="taskDescription" rows="3" formControlName="description" placeholder="Digite sua descrição aqui"></textarea>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="taskStartDate" class="form-label">Data de Início</label>
+              <input type="date" class="form-control" id="taskStartDate" formControlName="startDate">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="taskEndDate" class="form-label">Data de Fim</label>
+              <input type="date" class="form-control" id="taskEndDate" formControlName="endDate">
+            </div>
+          </div>
+          <button *ngIf="!isSavingTask" type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+        <div *ngIf="isSavingTask" class="spinner-container">
+          <div class="spinner"></div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeTaskCreateModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="goalsModal" tabindex="-1" aria-labelledby="goalsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>Metas:</h2>
+        <p>Todas as metas atribuídas para {{ person.name }}.</p>
+
+        <div class="mt-md-0 mt-sm-4">
+<!--          <ul class="list-group minimal-list">-->
+<!--            <li class="list-group-item">-->
+<!--              <div class="d-flex justify-content-between align-items-center">-->
+<!--                <span>{{ task.description }}</span>-->
+<!--                <span class="badge bg-primary rounded-pill">Início: {{ task.startDate | dateFormat }}</span>-->
+<!--                <span class="badge bg-primary rounded-pill">Fim: {{ task.endDate | dateFormat }}</span>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--          </ul>-->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#goalsCreateModal2">
+          Cadastrar
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="goalsCreateModal2" tabindex="-1" aria-labelledby="goalsCreateModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>Nova Tarefa:</h2>
+        <p>Cadastre uma nova tarefa para {{ person.name }}.</p>
+
+        <form [formGroup]="formGoal" (ngSubmit)="onSubmitFormGoal()">
+          <div class="mb-3">
+            <label for="goalDescription" class="form-label">Descrição</label>
+            <textarea class="form-control" id="goalDescription" rows="3" formControlName="description" placeholder="Digite sua descrição aqui"></textarea>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="goalStartDate" class="form-label">Data de Início</label>
+              <input type="date" class="form-control" id="goalStartDate" formControlName="startDate">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="goalEndDate" class="form-label">Data de Fim</label>
+              <input type="date" class="form-control" id="goalEndDate" formControlName="endDate">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<mat-card class="card mat-elevation-z8">
+  <div class="wrapper">
+    <div class="item">
+      <mat-card-header>
+        <mat-card-title>Registrar Ocorrência</mat-card-title>
+        <mat-card-subtitle>Funcionário - {{ person.name }}</mat-card-subtitle>
+        <mat-card-subtitle>
+          <button mat-raised-button (click)="openTasksModal()">Tarefas</button>
+          <button mat-raised-button data-bs-toggle="modal" data-bs-target="#goalsModal">Metas</button>
+          <!--          <button mat-raised-button (click)="openTask()">Tarefa</button>-->
+          <!--          <button mat-raised-button (click)="openAchieve()">Meta</button>-->
+        </mat-card-subtitle>
+
+        <mat-card-subtitle
+        ><strong>Dia: {{ today }}</strong>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <div class="grid-first-container">
+        <mat-tab-group dynamicHeight [selectedIndex]="selectedTab.value" (selectedIndexChange)="selectedTab.setValue($event)">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon *ngIf="selectedTab.value == 0" class="example-tab-icon">arrow_right</mat-icon> Diária
+            </ng-template>
+
+            <section class="monthly-container mat-elevation-z2" tabindex="0">
+              <ul class="list-group minimal-list">
+                <li class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-column"></span>
+                    <div class="radio-group">
+                      <input *ngFor="let option of options;" type="radio" [name]="option.index" [value]="option" [id]="'radio' + option.index" [class]="'radio-' + option.color" checked />
+                    </div>
+                  </div>
+                </li>
+
+                <li *ngFor="let item of activitiesDailyResponse" class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-column">{{ item.name }}</span>
+                    <div class="radio-group">
+                      <input *ngFor="let tag of tags;" type="radio" [name]="'daily' + item.id" value="{{ tag.id }}" [ngClass]="tag.class" [checked]="tag.id == item.tag?.id" (click)="openConfirm(tag.id, item)" matTooltip="{{ tag.description }}" />
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </section>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon *ngIf="selectedTab.value == 1">arrow_right</mat-icon> Mensal
+            </ng-template>
+            <div class="grid-container">
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon *ngIf="selectedTab.value == 2">arrow_right</mat-icon> Trimestral
+            </ng-template>
+            <div class="grid-container">
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastTwoMonth" (click)="openDialog()" [minDate]="firstDayLastTwoMonth" [maxDate]="lastDayLastTwoMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastMonth" (click)="openDialog()" [minDate]="firstDayLastMonth" [maxDate]="lastDayLastMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon *ngIf="selectedTab.value == 3" class="example-tab-icon">arrow_right</mat-icon> Semestral
+            </ng-template>
+            <div class="grid-container">
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastFiveMonth" (click)="openDialog()" [minDate]="firstDayLastFiveMonth" [maxDate]="lastDayLastFiveMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastFourMonth" (click)="openDialog()" [minDate]="firstDayLastFourMonth" [maxDate]="lastDayLastFourMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastThreeMonth" (click)="openDialog()" [minDate]="firstDayLastThreeMonth" [maxDate]="lastDayLastThreeMonth"></mat-calendar>
+              </div>
+            </div>
+            <div class="grid-container">
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastTwoMonth" (click)="openDialog()" [minDate]="firstDayLastTwoMonth" [maxDate]="lastDayLastTwoMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastMonth" (click)="openDialog()" [minDate]="firstDayLastMonth" [maxDate]="lastDayLastMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="column-container">
+        <div class="row-item">
+          <img [lazyLoad]="person.picture" [defaultImage]="s3DefaultImage" alt="" width="200" height="200" />
+          <h2>Nome: {{ person.name }}</h2>
+          <h2>Empresa: {{ person.office.fantasyName }}</h2>
+          <h2>Função: {{ person.responsibility.name }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

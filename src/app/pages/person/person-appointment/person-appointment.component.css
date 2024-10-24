@@ -304,27 +304,27 @@ mat-form-field {
   accent-color: green;
 }
 
-.red-background {
+.radio-button_red-background {
   accent-color: var(--red-appointment);
 }
 
-.green-background {
+.radio-button_green-background {
   accent-color: var(--green-border-calendar);
 }
 
-.blue-background {
+.radio-button_blue-background {
   accent-color: blue;
 }
 
-.orange-background {
+.radio-button_orange-background {
   accent-color: orange;
 }
 
-.yellow-background {
+.radio-button_yellow-background {
   accent-color: yellow;
 }
 
-.column-container {
+.radio-button_column-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;

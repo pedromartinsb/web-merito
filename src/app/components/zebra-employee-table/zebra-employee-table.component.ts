@@ -98,7 +98,31 @@ export class ZebraPersonTableComponent implements OnInit {
   }
 
   openAppointments(row: any) {
-    this.router.navigate(['/employees/appointment/', row[0]]);
+    const personId = row[0];
+    const date = new Date();
+
+    this._getLastMonth(date, personId);
+    this._getLastTwoMonth(date, personId);
+    this._getLastThreeMonth(date, personId);
+    this._getLastFourMonth(date, personId);
+    this._getLastFiveMonth(date, personId);
+
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    this.appointmentService
+      .getMonthlyTags(personId, firstDay, lastDay)
+      .pipe(
+        finalize(() => {
+          this.router.navigate(['/employees/appointment/', row[0]]);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          this.tags = response;
+          localStorage.setItem('currentMonth', JSON.stringify(response));
+        },
+        error: (err) => console.log(err),
+      });
   }
 
   openAppointment(row: any): void {

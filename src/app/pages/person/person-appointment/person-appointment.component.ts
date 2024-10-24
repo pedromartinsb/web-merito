@@ -67,6 +67,7 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   task: Task = {
     id: '',
     personId: '',
+    title: '',
     description: '',
     startDate: '',
     endDate: '',
@@ -96,16 +97,16 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
     private personService: PersonService,
     private taskService: TaskService,
   ) {
-    this.formTask = new FormGroup({
-      description: new FormControl(''),
-      startDate: new FormControl(''),
-      endDate: new FormControl('')
-    });
-    this.formGoal = new FormGroup({
-      description: new FormControl(''),
-      startDate: new FormControl(''),
-      endDate: new FormControl('')
-    });
+    // this.formTask = new FormGroup({
+    //   description: new FormControl(''),
+    //   startDate: new FormControl(''),
+    //   endDate: new FormControl('')
+    // });
+    // this.formGoal = new FormGroup({
+    //   description: new FormControl(''),
+    //   startDate: new FormControl(''),
+    //   endDate: new FormControl('')
+    // });
 
     // Receive the person id and get Person
     this.receivePersonAndPersonId();
@@ -188,7 +189,6 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
         this.toast.success('Pesquisa realizada com sucesso.');
         this.activitiesDailyResponse = response;
         this.dataSource = response;
-        console.log(response)
       });
   }
 
@@ -577,21 +577,20 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   private _getTaskByPersonId() {
-    this.taskService.findByPersonId(this.personId).subscribe({
-      next: (response) => {
-        if (response != null) {
-          this.task = response;
-        }
-      },
-      error: (ex) => {
-        this._handleErrors(ex);
-      },
-    });
+    // this.taskService.findByPersonId(this.personId).subscribe({
+    //   next: (response) => {
+    //     if (response != null) {
+    //       this.task = response;
+    //     }
+    //   },
+    //   error: (ex) => {
+    //     this._handleErrors(ex);
+    //   },
+    // });
   }
 
   onSubmitFormTask() {
     this.task = this.formTask.value;
-    console.log(this.task);
 
     // this.taskService.create(this.task).subscribe({
     //   next: () => {
@@ -604,6 +603,6 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   onSubmitFormGoal() {
-    console.log(this.formGoal.value);
+
   }
 }

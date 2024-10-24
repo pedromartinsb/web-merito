@@ -11,6 +11,7 @@ export interface DialogData {
 export interface Task {
   id?: string;
   personId: string;
+  title: string;
   description: string;
   startDate: string;
   endDate: string;
@@ -33,6 +34,7 @@ export class PersonAppointmentTaskComponent implements OnInit {
   task: Task = {
     id: '',
     personId: '',
+    title: '',
     description: '',
     startDate: '',
     endDate: '',
@@ -50,16 +52,16 @@ export class PersonAppointmentTaskComponent implements OnInit {
   }
 
   private _findTaskByPersonId() {
-    this.taskService.findByPersonId(this.data.personId).subscribe({
-      next: (response) => {
-        if (response != null) {
-          this.task = response;
-        }
-      },
-      error: (ex) => {
-        this._handleErrors(ex);
-      },
-    });
+    // this.taskService.findByPersonId(this.data.personId).subscribe({
+    //   next: (response) => {
+    //     if (response != null) {
+    //       this.task = response;
+    //     }
+    //   },
+    //   error: (ex) => {
+    //     this._handleErrors(ex);
+    //   },
+    // });
   }
 
   public save() {

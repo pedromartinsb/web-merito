@@ -311,22 +311,10 @@
 
 <div class="floating-btn" *ngIf="isSupervisor">
   <div class="btn-group dropup">
-    <button
-      type="button"
-      class="btn btn-primary dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    >
-      Selecionar Empresa
-    </button>
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{firstOffice.fantasyName}}</button>
     <ul class="dropdown-menu dropdown-menu-center w-100">
       <li *ngFor="let company of officeResponses">
-        <a
-          class="dropdown-item text-center"
-          (click)="changeCurrentOffice(company)"
-        >
-          {{ company.fantasyName }}
-        </a>
+        <a class="dropdown-item text-center" (click)="changeCurrentOffice(company)">{{ company.fantasyName }}</a>
       </li>
     </ul>
   </div>
@@ -339,7 +327,7 @@
     class="btn btn-primary"
     (click)="toggleChat()"
   >
-    <i class="bi bi-chat"></i> <!-- Ícone de chat (Bootstrap Icons) -->
+    <i class="bi bi-chat"></i>
   </button>
 </div>
 
@@ -358,13 +346,7 @@
     </div>
   </div>
   <div class="chat-footer">
-    <input
-      type="text"
-      [(ngModel)]="newMessage"
-      placeholder="Digite sua mensagem..."
-      class="form-control"
-      (keydown.enter)="sendMessage()"
-    />
+    <input type="text" [(ngModel)]="newMessage" placeholder="Digite sua mensagem..." class="form-control" (keydown.enter)="sendMessage()"/>
   </div>
 </div>
 

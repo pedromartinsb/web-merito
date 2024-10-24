@@ -7,6 +7,7 @@ import {ChartDataset, ChartOptions, ChartType} from "chart.js";
 import {Label} from "chartist";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-home',
@@ -86,10 +87,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     { name: 'Item 4', value: '40' },
   ];
 
-  constructor(private authGuard: AuthGuard, private authService: AuthService) {
+  formGroup: FormGroup;
+
+
+
+  constructor(private authGuard: AuthGuard, private authService: AuthService, private fb: FormBuilder) {
     this.isAdmin = this.authGuard.checkIsAdmin();
 
     this._checkPermission();
+
+    this.formGroup = this.fb.group({
+      texto: []
+    });
   }
 
   ngOnInit(): void {
@@ -205,7 +214,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   // public generatePDF(): void {
-  //   const pdf = new jsPDF.jsPDF();
+  //   const pdf = new jsPDF('p', 'mm', 'a4');
   //
   //   // Título
   //   pdf.setFontSize(16);
@@ -233,34 +242,47 @@ export class HomeComponent implements OnInit, OnDestroy {
   //   pdf.save('duas_listas.pdf');
   // }
 
-  public generatePDF(): void {
-    const data = document.getElementById('fullPageContent'); // Captura todo o conteúdo da página
-    if (data) {
-      html2canvas(data, { scale: 2 }).then(canvas => {
-        const imgWidth = 208; // Largura da imagem no PDF (A4 é 210mm de largura)
-        const pageHeight = 295; // Altura de uma página A4 em mm
-        const imgHeight = canvas.height * imgWidth / canvas.width;
-        const heightLeft = imgHeight;
-
-        const contentDataURL = canvas.toDataURL('image/png');
-        console.log(contentDataURL)
-        const pdf = new jsPDF('p', 'mm', 'a4'); // Instancia o jsPDF no formato A4
-        let position = 0;
-
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight); // Adiciona a primeira página
-
-        let heightRemaining = imgHeight - pageHeight;
-
-        // Verifica se o conteúdo excede o tamanho de uma página e adiciona páginas extras
-        while (heightRemaining > 0) {
-          position = heightRemaining - imgHeight; // Posiciona a imagem corretamente
-          pdf.addPage();
-          pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-          heightRemaining -= pageHeight;
-        }
-
-        pdf.save('tela-completa.pdf'); // Salva o PDF com o nome especificado
-      });
-    }
-  }
+  // public generatePDF(): void {
+  //   const data = document.getElementById('fullPageContent'); // Captura todo o conteúdo da página
+  //   if (data) {
+  //     html2canvas(data, { scale: 2 }).then(canvas => {
+  //       const imgWidth = 208; // Largura da imagem no PDF (A4 é 210mm de largura)
+  //       const pageHeight = 295; // Altura de uma página A4 em mm
+  //       const imgHeight = canvas.height * imgWidth / canvas.width;
+  //       const heightLeft = imgHeight;
+  //
+  //       const contentDataURL = canvas.toDataURL('image/png');
+  //       const pdf = new jsPDF('p', 'mm', 'a4'); // Instancia o jsPDF no formato A4
+  //       let position = 0;
+  //
+  //       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight); // Adiciona a primeira página
+  //
+  //       let heightRemaining = imgHeight - pageHeight;
+  //
+  //       // Verifica se o conteúdo excede o tamanho de uma página e adiciona páginas extras
+  //       while (heightRemaining > 0) {
+  //         position = heightRemaining - imgHeight; // Posiciona a imagem corretamente
+  //         pdf.addPage();
+  //         pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+  //         heightRemaining -= pageHeight;
+  //       }
+  //
+  //       pdf.save('tela-completa.pdf'); // Salva o PDF com o nome especificado
+  //     });
+  //   }
+  // }
+  //
+  // checkWord(): void {
+  //   const palavra: string = 'Pedro';
+  //   console.log(this.formGroup.get('texto').value)
+  //   let value = this.formGroup.get('texto').value;
+  //   let contains = value.toLowerCase().includes(palavra.toLowerCase());
+  //
+  //   if (contains) {
+  //     console.log('palavra contem');
+  //     this.generatePDF();
+  //   } else {
+  //     console.log('nao contem')
+  //   }
+  // }
 }

@@ -1,133 +1,385 @@
-/* Estilo para o texto de exemplo */
-.example-text {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+mat-card {
+  max-width: 100%; /* Limita a largura do card para 100% da largura da tela */
+  max-height: 90vh; /* Limita a altura máxima para 90% da altura da tela */
+  overflow: auto; /* Adiciona barra de rolagem se o conteúdo for maior que o card */
+  box-sizing: border-box; /* Garante que padding e bordas sejam incluídos no tamanho total */
 }
 
-.example-text h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+mat-card-content {
+  white-space: normal; /* Permite que o texto faça quebra de linha */
+  word-wrap: break-word; /* Quebra linhas longas */
 }
 
-.example-text p {
-  margin-bottom: 10px;
-  line-height: 1.6;
-}
-
-.calendar-container {
-  background-color: #fff;
+.grid-first-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
   padding: 10px;
-  border: 1px solid lightgrey;
-  border-radius: 10px;
-  margin-bottom: 20px;
 }
 
-.calendar {
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 250px;
-}
-
-.calendar th, .calendar td {
+.grid-item {
   text-align: center;
-  padding: 5px; /* Reduz o padding para ajustar o tamanho das células */
-  font-size: 14px; /* Reduz o tamanho da fonte */
-  font-weight: 400;
 }
 
-.calendar thead th {
+.grid-item-column {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+table {
+  border-collapse: collapse;
+  background: white;
+  color: black;
+}
+
+th,
+td {
   font-weight: bold;
 }
 
-.calendar tbody td {
-  background-color: lightgray;
-  border-radius: 50%;
-  width: 30px;  /* Reduz o tamanho das células */
-  height: 30px; /* Reduz o tamanho das células */
+.calendar-title {
+  text-align: center;
+  color: black;
 }
 
-.calendar tbody td.empty {
-  background-color: transparent;
+.calendar-table {
+  background-color: whitesmoke;
+  text-align: center;
 }
 
-.tabs {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.calendar-table-th {
+  background-color: darkgrey;
+  color: black;
+  border: solid 1px;
+}
+
+.calendar-table-td-yellow {
+  background-color: yellow;
+  color: white;
+  border: solid 1px;
+}
+
+.calendar-table-td-red {
+  background-color: red;
+  color: white;
+  border: solid 1px;
+}
+
+.calendar-table-td-orange {
+  background-color: orange;
+  color: white;
+  border: solid 1px;
+}
+
+.calendar-table-td-green {
+  background-color: green;
+  color: white;
+  border: solid 1px;
+}
+
+.calendar-table-td-blue {
+  background-color: blue;
+  color: white;
+  border: solid 1px;
+}
+
+.demo-inline-calendar-card {
+  width: fit-content;
+  height: fit-content;
+  align-items: start;
+}
+
+.mat-calendar {
+  align-items: start;
+  align-content: start;
+  align-self: self-start;
+}
+
+::ng-deep .green-background .mat-calendar-body-cell-content {
+  border-color: var(--green-border-calendar) !important;
+  color: var(--white) !important;
+  background-color: var(--green-border-calendar);
+}
+
+::ng-deep .blue-background .mat-calendar-body-cell-content {
+  border-color: blue !important;
+  color: white !important;
+  background-color: blue;
+}
+
+::ng-deep .orange-background .mat-calendar-body-cell-content {
+  border-color: orange !important;
+  color: black !important;
+  background-color: orange;
+}
+
+::ng-deep .yellow-background .mat-calendar-body-cell-content {
+  border-color: yellow !important;
+  color: black !important;
+  background-color: yellow;
+}
+
+::ng-deep .red-background .mat-calendar-body-cell-content {
+  border-color: var(--red-appointment) !important;
+  color: white !important;
+  background-color: var(--red-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.blue-background .mat-radio-outer-circle {
+  border-color: var(--blue-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.blue-background .mat-radio-inner-circle {
+  background-color: var(--blue-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.green-background .mat-radio-outer-circle {
+  /* border-color: green; */
+  border-color: var(--green-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.green-background .mat-radio-inner-circle {
+  background-color: var(--green-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.yellow-background .mat-radio-outer-circle {
+  border-color: var(--yellow-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.yellow-background .mat-radio-inner-circle {
+  background-color: var(--yellow-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.orange-background .mat-radio-outer-circle {
+  border-color: var(--orange-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.orange-background .mat-radio-inner-circle {
+
+  background-color: var(--orange-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.red-background .mat-radio-outer-circle {
+  border-color: var(--red-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.red-background .mat-radio-inner-circle {
+  background-color: var(--red-appointment);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+.item {
+  flex-grow: 1;
+  flex-basis: 100px;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.monthly-container {
+  height: 350px;
+  width: 800px;
+  max-width: 100%;
+  overflow: auto;
+  margin: 40px 20px;
+}
+
+table {
+  width: 100%;
+}
+
+:host ::ng-deep thead {
+  display: none;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.grid-container > div {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: auto;
+  justify-content: space-between;
+  justify-items: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.item {
   padding: 20px;
 }
 
-.tabs ul {
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  padding: 0;
+mat-divider {
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
-.tabs ul li {
-  position: relative;
+mat-card-title {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.tabs input#tab1:checked {
-  background-color: green;
-  color: #fff;
+mat-card-subtitle {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.tabs ul li label {
-  background-color: #d9e8fb;
-  color: #333;
-  border-radius: 5px;
-  padding: 10px;
-  text-align: center;
-  display: block;
-  cursor: pointer;
+mat-card-subtitle > button {
+  color: var(--white);
+  background-color: var(--primary);
+  margin-right: 10px;
 }
 
-.tabs ul li label:hover {
-  background-color: #c4dbf7;
-}
-
-.tabs input {
-  display: none;
-}
-
-.tabs .content {
-  border-top: 1px solid #ddd;
-  padding-top: 10px;
-}
-
-.tabs .content section {
-  display: none;
-}
-
-.tabs input#tab1:checked ~ .content section:nth-child(1),
-.tabs input#tab2:checked ~ .content section:nth-child(2),
-.tabs input#tab3:checked ~ .content section:nth-child(3),
-.tabs input#tab4:checked ~ .content section:nth-child(4) {
-  display: block;
-}
-
-
-.list-container {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.list-item {
+::ng-deep .mat-dialog-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 10px 0;
+  text-align: center;
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+.success-button {
+  background-color: var(--success);
+  color: var(--white);
+  margin-left: 15px;
+}
+
+.radio-buttons {
+  margin-left: 5%;
+  margin-top: 20px;
 }
 
 .text-column {
   flex: 1;
+  /*white-space: nowrap;*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
 }
 
-.radio-column {
+.radio-group input {
+  margin-right: 10px;
+  transform: scale(1.5);
+}
+
+.radio-group label {
+  margin-right: 15px;
+}
+
+.radio-group .radio-red {
   accent-color: red;
+}
+
+.radio-group .radio-orange {
+  accent-color: orange;
+}
+
+.radio-group .radio-yellow {
+  accent-color: yellow;
+}
+
+.radio-group .radio-green {
+  accent-color: green;
+}
+
+.radio-button_red-background {
+  accent-color: var(--red-appointment);
+}
+
+.radio-button_green-background {
+  accent-color: var(--green-border-calendar);
+}
+
+.radio-button_blue-background {
+  accent-color: blue;
+}
+
+.radio-button_orange-background {
+  accent-color: orange;
+}
+
+.radio-button_yellow-background {
+  accent-color: yellow;
+}
+
+.radio-button_column-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  max-width: 300px;
+}
+
+.row-item {
+  padding: 10px 0;
+}
+
+h2 {
+  margin: 0;
+}
+
+span {
+  font-size: 1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  border: 8px solid var(--primary);
+  border-top: 8px solid var(--white);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-round {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

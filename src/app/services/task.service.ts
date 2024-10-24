@@ -18,10 +18,8 @@ export class TaskService {
     return this.http.get<Task>(`${Config.webApiUrl}/v1/task/${id}`);
   }
 
-  findByPersonId(personId: any): Observable<Task> {
-    return this.http.get<Task>(
-      `${Config.webApiUrl}/v1/task/${personId}/person`
-    );
+  findAllByPersonId(personId: any): Observable<Task[]> {
+    return this.http.get<Task[]>(`${Config.webApiUrl}/v1/task/${personId}/person`);
   }
 
   create(task: Task): Observable<Task> {
@@ -30,5 +28,9 @@ export class TaskService {
 
   update(id: string, task: Task): Observable<Task> {
     return this.http.put<Task>(`${Config.webApiUrl}/v1/task/${id}`, task);
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${Config.webApiUrl}/v1/task/${id}`);
   }
 }
