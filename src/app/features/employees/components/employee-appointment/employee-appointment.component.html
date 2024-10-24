@@ -153,8 +153,6 @@
         <mat-card-subtitle>
           <button mat-raised-button (click)="openTasksModal()">Tarefas</button>
           <button mat-raised-button data-bs-toggle="modal" data-bs-target="#goalsModal">Metas</button>
-          <!--          <button mat-raised-button (click)="openTask()">Tarefa</button>-->
-          <!--          <button mat-raised-button (click)="openAchieve()">Meta</button>-->
         </mat-card-subtitle>
 
         <mat-card-subtitle
@@ -184,7 +182,7 @@
                   <div class="d-flex justify-content-between align-items-center">
                     <span class="text-column">{{ item.name }}</span>
                     <div class="radio-group">
-                      <input *ngFor="let tag of tags;" type="radio" [name]="'daily' + item.id" value="{{ tag.id }}" [ngClass]="tag.class" [checked]="tag.id == item.tag?.id" (click)="openConfirm(tag.id, item)" matTooltip="{{ tag.description }}" />
+                      <input *ngFor="let tag of tags;" type="radio" [name]="'daily' + item.id" value="{{ tag.id }}" [ngClass]="'radio-button_' + tag.class" [checked]="tag.id == item.tag?.id" (click)="openConfirm(tag.id, item)" matTooltip="{{ tag.description }}" />
                     </div>
                   </div>
                 </li>

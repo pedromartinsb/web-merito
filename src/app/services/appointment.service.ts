@@ -79,19 +79,12 @@ export class AppointmentService {
     );
   }
 
-  getMonthlyTags(
-    personId: any,
-    startDate: Date,
-    endDate: Date
-  ): Observable<monthlyTag[]> {
+  getMonthlyTags(personId: any, startDate: Date, endDate: Date): Observable<monthlyTag[]> {
     let params = new HttpParams()
       .set('personId', personId)
       .set('startDate', startDate.toISOString())
       .set('endDate', endDate.toISOString());
 
-    return this.http.get<monthlyTag[]>(
-      `${Config.webApiUrl}/v1/activity/dates`,
-      { params }
-    );
+    return this.http.get<monthlyTag[]>(`${Config.webApiUrl}/v1/activity/dates`, { params });
   }
 }
