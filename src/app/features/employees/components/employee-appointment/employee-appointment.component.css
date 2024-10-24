@@ -290,38 +290,47 @@ mat-form-field {
 
 .radio-group .radio-red {
   accent-color: red;
+  cursor: pointer;
 }
 
 .radio-group .radio-orange {
   accent-color: orange;
+  cursor: pointer;
 }
 
 .radio-group .radio-yellow {
   accent-color: yellow;
+  cursor: pointer;
 }
 
 .radio-group .radio-green {
   accent-color: green;
+  cursor: pointer;
 }
 
 .radio-button_red-background {
   accent-color: var(--red-appointment);
+  cursor: pointer;
 }
 
 .radio-button_green-background {
   accent-color: var(--green-border-calendar);
+  cursor: pointer;
 }
 
 .radio-button_blue-background {
   accent-color: blue;
+  cursor: pointer;
 }
 
 .radio-button_orange-background {
   accent-color: orange;
+  cursor: pointer;
 }
 
 .radio-button_yellow-background {
   accent-color: yellow;
+  cursor: pointer;
 }
 
 .radio-button_column-container {
@@ -382,4 +391,13 @@ span {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.spacing-item {
+  margin-bottom: 20px;
+}
+
+.custom-modal {
+  max-width: 75%;  /* Define a largura máxima do modal */
+  width: 75%; /* Controla a largura do modal */
 }

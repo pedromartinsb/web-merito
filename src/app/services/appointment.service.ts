@@ -37,11 +37,7 @@ export class AppointmentService {
     );
   }
 
-  findActivitiesByPersonAndDate(
-    personId: any,
-    startDate: Date,
-    endDate: Date
-  ): Observable<Activity[]> {
+  findActivitiesByPersonAndDate(personId: any, startDate: Date, endDate: Date): Observable<Activity[]> {
     let params = new HttpParams()
       .set('personId', personId)
       .set('startDate', startDate.toISOString())

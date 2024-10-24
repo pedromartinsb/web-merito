@@ -87,6 +87,7 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   ];
   formTask: FormGroup;
   formGoal: FormGroup;
+  formAppointment: FormGroup;
   isSavingTask: boolean = false;
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute, private toast: ToastrService,
@@ -111,6 +112,16 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
       description: new FormControl(''),
       startDate: new FormControl(''),
       endDate: new FormControl('')
+    });
+    this.formAppointment = new FormGroup({
+      id: new FormControl(''),
+      personId: new FormControl(''),
+      description: new FormControl(''),
+      justification: new FormControl(''),
+      activityType: new FormControl(''),
+      tagId: new FormControl(''),
+      activityId: new FormControl(''),
+      createdAt: new FormControl(''),
     });
   }
 
@@ -560,14 +571,64 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private _handleErrors(ex: any): void {
-    if (ex.error.errors) {
-      ex.error.errors.forEach((element: { message: string; }) => {
-        this.toast.error(element.message);
+  openAppointmentModal() {
+    this.selectedDateMonthly = this.selected;
+
+    this.appointmentService
+      .findActivitiesByPersonAndDate(
+        this.personId,
+        new Date(this.selectedDateMonthly.setHours(0, 0, 0)),
+        new Date(this.selectedDateMonthly.setHours(20, 59, 59))
+      )
+      .subscribe((response) => {
+        this.activitiesResponse = response;
+        const modalElement = document.getElementById('appointmentsModal');
+        if (modalElement) {
+          const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+          modalInstance.show();
+        }
+        this.toast.success('Pesquisa realizada com sucesso.');
       });
-    } else {
-      this.toast.error(ex.error.message);
+  }
+
+  openAppointmentCreateModal(activity: Activity, tag: Tag): void {
+    this.formAppointment.reset();
+    if (activity.appointmentId != undefined) {
+      this.formAppointment.get('id').patchValue(activity.appointmentId);
     }
+    this.formAppointment.get('personId').patchValue(this.personId);
+    this.formAppointment.get('description').patchValue(activity.description);
+    this.formAppointment.get('justification').patchValue(activity.justification);
+    this.formAppointment.get('activityType').patchValue(activity.type);
+    this.formAppointment.get('tagId').patchValue(tag.id);
+    this.formAppointment.get('activityId').patchValue(activity.id);
+    this.formAppointment.get('createdAt').patchValue(this.selected.toISOString());
+
+    const modalElement = document.getElementById('appointmentsCreateModal');
+    if (modalElement) {
+      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+      modalInstance.show();
+    }
+  }
+
+  closeAppointmentCreateModal(): void {
+    this.formTask.reset();
+    const modalElement = document.getElementById('appointmentsCreateModal');
+    if (modalElement) {
+      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+      modalInstance.hide();
+    }
+  }
+
+  onSubmitFormAppointment() {
+    console.log(this.formAppointment.value);
+    this.appointmentService.createByDate(this.formAppointment.value).subscribe({
+      next: () => {
+        this.toast.success('Avaliação criada com sucesso', 'Cadastro');
+        window.location.reload();
+      },
+      error: (ex) => this._handleErrors(ex),
+    });
   }
 
   openTasksModal(): void {
@@ -650,5 +711,15 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
 
   onSubmitFormGoal() {
 
+  }
+
+  _handleErrors(ex: any): void {
+    if (ex.error.errors) {
+      ex.error.errors.forEach((element) => {
+        this.toast.error(element.message);
+      });
+    } else {
+      this.toast.error(ex.error.message);
+    }
   }
 }
