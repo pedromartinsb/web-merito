@@ -77,12 +77,8 @@ import {LoginComponent} from './pages/login/login.component';
 import {OfficeFormComponent} from './pages/office/office-form/office-form.component';
 import {OfficeListComponent} from './pages/office/office-list/office-list.component';
 import {PermissionFormComponent} from './pages/permission/permission-form/permission-form.component';
-import {
-  PersonAppointmentConfirmComponent
-} from './pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component';
-import {
-  PersonAppointmentDialogComponent
-} from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog.component';
+import {PersonAppointmentConfirmComponent} from './pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component';
+import {PersonAppointmentDialogComponent} from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog.component';
 import {PersonAppointmentComponent} from './pages/person/person-appointment/person-appointment.component';
 import {PersonFormComponent} from './pages/person/person-form/person-form.component';
 import {PersonListComponent} from './pages/person/person-list/person-list.component';
@@ -103,12 +99,8 @@ import {SupplierFormComponent} from './pages/supplier/supplier-form/supplier-for
 import {SupplierListComponent} from './pages/supplier/supplier-list/supplier-list.component';
 import {FormsComponent} from './components/forms/forms.component';
 import {CommunicationComponent} from './components/communication/communication.component';
-import {
-  PersonAppointmentTaskComponent
-} from './pages/person/person-appointment/person-appointment-task/person-appointment-task.component';
-import {
-  PersonAppointmentAchieveComponent
-} from './pages/person/person-appointment/person-appointment-achieve/person-appointment-achieve.component';
+import {PersonAppointmentTaskComponent} from './pages/person/person-appointment/person-appointment-task/person-appointment-task.component';
+import {PersonAppointmentAchieveComponent} from './pages/person/person-appointment/person-appointment-achieve/person-appointment-achieve.component';
 import {ChangePasswordComponent} from './pages/person/change-password/change-password.component';
 import {NgChartsModule} from "ng2-charts";
 import {ZebraTableComponent} from './components/zebra-table/zebra-table.component';
@@ -120,24 +112,20 @@ import {ZebraPersonTableComponent} from "./components/zebra-employee-table/zebra
 import {SuppliersListComponent} from './features/suppliers/components/suppliers-list/suppliers-list.component';
 import {SupplierRoutingModule} from "./features/suppliers/supplier-routing.module";
 import {SuppliersFormComponent} from './features/suppliers/components/suppliers-form/suppliers-form.component';
-import {
-  ProfessionalsFormComponent
-} from './features/professionals/components/professionals-form/professionals-form.component';
-import {
-  ProfessionalsListComponent
-} from './features/professionals/components/professionals-list/professionals-list.component';
+import {ProfessionalsFormComponent} from './features/professionals/components/professionals-form/professionals-form.component';
+import {ProfessionalsListComponent} from './features/professionals/components/professionals-list/professionals-list.component';
 import {ProfessionalRoutingModule} from "./features/professionals/professional-routing.module";
 import {GoalsListComponent} from './features/goals/components/goals-list/goals-list.component';
 import {GoalsFormComponent} from './features/goals/components/goals-form/goals-form.component';
 import {GoalRoutingModule} from "./features/goals/goal-routing.module";
 import {TasksListComponent} from './features/tasks/components/tasks-list/tasks-list.component';
 import {TaskRoutingModule} from "./features/tasks/task-routing.module";
-import {
-  EmployeeAppointmentComponent
-} from './features/employees/components/employee-appointment/employee-appointment.component';
+import {EmployeeAppointmentComponent} from './features/employees/components/employee-appointment/employee-appointment.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MultiTabScreenComponent} from './multi-tab-screen/multi-tab-screen.component';
 import {DateFormatPipe} from "./pipe/date-format.pipe";
+import {DashboardsComponent} from "./features/dashboards/components/dashboards.component";
+import {DashboardRoutingModule} from "./features/dashboards/dashboard-routing.module";
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -145,6 +133,12 @@ export const maskConfig: Partial<IConfig> = {
 
 @NgModule({
   declarations: [
+    CnpjPipe,
+    PhonePipe,
+    CpfPipe,
+    PersonTypePipe,
+    DateFormatPipe,
+
     AppComponent,
     HomeComponent,
     NavComponent,
@@ -213,12 +207,7 @@ export const maskConfig: Partial<IConfig> = {
     TasksListComponent,
     EmployeeAppointmentComponent,
     MultiTabScreenComponent,
-
-    CnpjPipe,
-    PhonePipe,
-    CpfPipe,
-    PersonTypePipe,
-    DateFormatPipe,
+    DashboardsComponent,
   ],
     imports: [
         BrowserModule,
@@ -231,6 +220,7 @@ export const maskConfig: Partial<IConfig> = {
         ProfessionalRoutingModule,
         GoalRoutingModule,
         TaskRoutingModule,
+        DashboardRoutingModule,
 
         BrowserAnimationsModule,
         CommonModule,
