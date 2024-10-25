@@ -349,6 +349,10 @@ h2 {
   margin: 0;
 }
 
+h3 {
+  margin: 0;
+}
+
 span {
   font-size: 1rem;
   margin-top: 10px;
@@ -400,4 +404,21 @@ span {
 .custom-modal {
   max-width: 75%;  /* Define a largura máxima do modal */
   width: 75%; /* Controla a largura do modal */
+}
+
+.align-left {
+  text-align: left;
+}
+
+.btn-options {
+  background-color: #3498db; /* Cor do botão */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-options:hover {
+  background-color: #2980b9; /* Cor do botão ao passar o mouse */
 }
