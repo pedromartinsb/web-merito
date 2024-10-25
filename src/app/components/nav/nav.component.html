@@ -315,10 +315,14 @@
 
 
 
-<div class="floating-btn" *ngIf="isSupervisor">
+
+
+
+
+<div class="floating-btn">
   <div class="btn-group dropup">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{firstOffice.fantasyName}}</button>
-    <ul class="dropdown-menu dropdown-menu-center w-100">
+    <button type="button" class="btn btn-primary dropdown-toggle" (click)="toggleDropdown()">{{firstOffice.fantasyName}}</button>
+    <ul class="dropdown-menu dropdown-menu-center custom-dropup" [class.show]="isDropdownOpen">
       <li *ngFor="let company of officeResponses">
         <a class="dropdown-item text-center" (click)="changeCurrentOffice(company)">{{ company.fantasyName }}</a>
       </li>
