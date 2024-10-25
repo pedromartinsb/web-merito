@@ -143,6 +143,73 @@
   </div>
 </div>
 
+<div class="modal fade" id="appointmentsModal" tabindex="-1" aria-labelledby="appointmentsModalLabel" aria-hidden="true">
+  <div class="modal-dialog custom-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>Avaliações:</h2>
+
+        <div class="mt-md-0 mt-sm-4">
+          <ul class="list-group minimal-list">
+            <li *ngFor="let activity of activitiesResponse" class="list-group-item spacing-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>{{ activity.name }}</span>
+                <div class="radio-group">
+                  <input *ngFor="let tag of tags;" type="radio" [name]="'daily' + activity.id" value="{{ tag.id }}" [ngClass]="'radio-button_' + tag.class" [checked]="tag.id == activity.tag?.id" (click)="openAppointmentCreateModal(activity, tag)" matTooltip="{{ tag.description }}" />
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentsCreateModal">
+          Cadastrar
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="appointmentsCreateModal" tabindex="-1" aria-labelledby="appointmentsCreateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>Avaliação:</h2>
+        <p>Cadastre uma nova avaliação para {{ person.name }}.</p>
+
+        <form [formGroup]="formAppointment" (ngSubmit)="onSubmitFormAppointment()">
+          <div class="mb-3">
+            <label for="description" class="form-label">Observação</label>
+            <textarea class="form-control" id="description" rows="3" formControlName="description" placeholder="Digite a sua observaçao aqui"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="justification" class="form-label">Justificativa</label>
+            <textarea class="form-control" id="justification" rows="3" formControlName="justification" placeholder="Digite a justificativa do funcionário aqui"></textarea>
+          </div>
+          <button *ngIf="!isSavingTask" type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+        <div *ngIf="isSavingTask" class="spinner-container">
+          <div class="spinner"></div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeAppointmentCreateModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 <mat-card class="card mat-elevation-z8">
   <div class="wrapper">
@@ -178,11 +245,11 @@
                   </div>
                 </li>
 
-                <li *ngFor="let item of activitiesDailyResponse" class="list-group-item">
+                <li *ngFor="let activity of activitiesDailyResponse" class="list-group-item">
                   <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-column">{{ item.name }}</span>
+                    <span class="text-column">{{ activity.name }}</span>
                     <div class="radio-group">
-                      <input *ngFor="let tag of tags;" type="radio" [name]="'daily' + item.id" value="{{ tag.id }}" [ngClass]="'radio-button_' + tag.class" [checked]="tag.id == item.tag?.id" (click)="openConfirm(tag.id, item)" matTooltip="{{ tag.description }}" />
+                      <input *ngFor="let tag of tags;" type="radio" [name]="'daily' + activity.id" value="{{ tag.id }}" [ngClass]="'radio-button_' + tag.class" [checked]="tag.id == activity.tag?.id" (click)="openAppointmentCreateModal(activity, tag)" matTooltip="{{ tag.description }}" />
                     </div>
                   </div>
                 </li>
@@ -196,7 +263,7 @@
             </ng-template>
             <div class="grid-container">
               <div>
-                <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openAppointmentModal()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
               </div>
             </div>
           </mat-tab>
