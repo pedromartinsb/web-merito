@@ -234,7 +234,7 @@
     <span>Gestão de Fornecedores</span>
   </div>
 
-  <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isSupervisor">
+  <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isAdmin">
     <i class="fas fa-bullseye"></i>
     <span>Gestão de Metas</span>
   </div>
@@ -244,7 +244,7 @@
     <span>Minhas Metas</span>
   </div>
 
-  <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isSupervisor">
+  <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isAdmin">
     <i class="fas fa-list-check"></i>
     <span>Gestão de Tarefas</span>
   </div>
@@ -315,10 +315,14 @@
 
 
 
-<div class="floating-btn" *ngIf="isSupervisor">
+
+
+
+
+<div class="floating-btn">
   <div class="btn-group dropup">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{firstOffice.fantasyName}}</button>
-    <ul class="dropdown-menu dropdown-menu-center w-100">
+    <button type="button" class="btn btn-primary dropdown-toggle" (click)="toggleDropdown()">{{firstOffice.fantasyName}}</button>
+    <ul class="dropdown-menu dropdown-menu-center custom-dropup" [class.show]="isDropdownOpen">
       <li *ngFor="let company of officeResponses">
         <a class="dropdown-item text-center" (click)="changeCurrentOffice(company)">{{ company.fantasyName }}</a>
       </li>

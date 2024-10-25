@@ -231,18 +231,20 @@
         <span>Dia: {{ today }}</span>
       </div>
       <div class="col-md-12 mt-3 mb-3">
-        <button mat-raised-button (click)="openTasksModal()">Tarefas</button>
-        <button mat-raised-button data-bs-toggle="modal" data-bs-target="#goalsModal">Metas</button>
+        <button class="btn btn-options btn-primary me-2" (click)="openTasksModal()">Tarefas</button>
+        <button class="btn btn-options btn-primary me-2" (click)="openTasksModal()">Metas</button>
+        <button class="btn btn-options btn-primary me-2" (click)="openTasksModal()">Manual</button>
+        <button class="btn btn-options btn-primary me-2" (click)="openTasksModal()">Código de Ética</button>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="col-md-12">
+      <div class="col-md-12 align-left">
         <img [lazyLoad]="person.picture" [defaultImage]="s3DefaultImage" alt="" width="200" height="200" />
       </div>
       <div class="col-md-12 mb-3 mt-4">
-        <h2>Nome: {{ person.name }}</h2>
-        <h2>Empresa: {{ person.office.fantasyName }}</h2>
-        <h2>Função: {{ person.responsibility.name }}</h2>
+        <h3 class="align-left">Nome: {{ person.name }}</h3>
+        <h3 class="align-left">Empresa: {{ person.office.fantasyName }}</h3>
+        <h3 class="align-left">Função: {{ person.responsibility.name }}</h3>
       </div>
     </div>
 

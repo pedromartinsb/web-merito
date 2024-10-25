@@ -33,6 +33,7 @@ export class NavComponent implements OnInit, OnDestroy {
   isAdmin: boolean = false;
   isSupervisor: boolean = false;
   isUser: boolean = false;
+  isDropdownOpen = false;
 
   personName: string;
   personPicture: string;
@@ -153,5 +154,9 @@ export class NavComponent implements OnInit, OnDestroy {
         this.messages.push({ content: 'Resposta automática', sent: false });
       }, 1000);
     }
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 }
