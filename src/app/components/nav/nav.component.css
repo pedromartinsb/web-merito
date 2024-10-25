@@ -119,13 +119,14 @@ body {
 .sidebar-header {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
 }
 
 .logo {
-  width: 40px; /* Largura do logo */
-  height: 40px; /* Altura do logo */
+  width: 100px; /* Largura do logo */
+  height: 100px; /* Altura do logo */
   border-radius: 5px; /* Bordas arredondadas */
 }
 
