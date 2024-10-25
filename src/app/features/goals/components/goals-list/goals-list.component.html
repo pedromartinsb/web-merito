@@ -8,23 +8,9 @@
 
   <h1>Lista de Metas</h1>
 
-  <!-- Botão para Criar Novo Usuário -->
-  <div class="text-end mb-3">
-    <button class="btn btn-primary" (click)="router.navigate(['/goals/create'])">
-      Criar Nova Meta
-    </button>
-  </div>
-
-  <!-- Exibe mensagem de carregamento enquanto os dados estão sendo buscados -->
   <div *ngIf="loading" class="alert alert-info">
     Carregando metas...
   </div>
 
-  <app-zebra-employee-table *ngIf="!loading"
-                            [headers]="goalHeaders"
-                            [data]="goalData"
-                            [itemsPerPage]="5"
-                            (edit)="onEdit($event)"
-                            (delete)="onDelete($event)"
-                            (view)="onView($event)"></app-zebra-employee-table>
+  <app-goal-task-table *ngIf="!loading" [headers]="goalHeaders" [data]="goalData" [itemsPerPage]="5" (finish)="onFinish($event)" (edit)="onEdit($event)" (delete)="onDelete($event)"></app-goal-task-table>
 </div>
