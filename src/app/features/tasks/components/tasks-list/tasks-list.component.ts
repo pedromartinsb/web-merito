@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {Urls} from "../../../../config/urls.config";
+import {Component, OnInit} from '@angular/core';
 import {TasksService} from "../../services/tasks.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
@@ -12,7 +11,11 @@ import {Router} from "@angular/router";
 export class TasksListComponent implements OnInit {
   taskHeaders = [
     'Id',
-    'Nome',
+    'Título',
+    'PersonId',
+    'Funcionário',
+    'Cargo',
+    'Status'
   ];
   taskData = [];
   loading: boolean = true; // Estado de carregamento
@@ -23,16 +26,19 @@ export class TasksListComponent implements OnInit {
     this._tasks();
   }
 
-  private _tasks() {
+  _tasks() {
     this.tasksService.findAll().subscribe({
       next: (tasks) => {
         if (tasks != null) {
           tasks.forEach((response) => {
             const task = [
               response.id,
-              response.name
+              response.title,
+              response.person.id,
+              response.person.name,
+              response.person.responsibility.name,
+              response.status,
             ];
-            console.log(response)
             this.taskData.push(task);
           });
           this.loading = false;
@@ -45,22 +51,36 @@ export class TasksListComponent implements OnInit {
     });
   }
 
-  // Métodos para emitir os eventos de ação
-  onEdit(task: any) {
-    console.log(task);
-    const id = task[0];
-    this.router.navigate(['/tasks/edit/', id]);
+  onFinish(row: any) {
+    console.log(row);
+    this.tasksService.finish(row[0]).subscribe({
+      next: () => {
+        window.location.reload();
+        this.toast.success('Tarefa concluída com sucesso.');
+      },
+      error: (error: Error) => {
+        this._handleErrors(error);
+      },
+    });
+  }
+
+  onEdit(row: any) {
+    console.log(row);
   }
 
   onDelete(row: any) {
-    console.log(row);
+    this.tasksService.cancel(row[0]).subscribe({
+      next: () => {
+        window.location.reload();
+        this.toast.success('Tarefa cancelada com sucesso.');
+      },
+      error: (error: Error) => {
+        this._handleErrors(error);
+      },
+    });
   }
 
-  onView(row: any) {
-    console.log(row);
-  }
-
-  private _handleErrors(ex: any): void {
+  _handleErrors(ex: any): void {
     if (ex.error.errors) {
       ex.error.errors.forEach((element) => {
         this.toast.error(element.message);

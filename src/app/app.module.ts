@@ -126,6 +126,7 @@ import {MultiTabScreenComponent} from './multi-tab-screen/multi-tab-screen.compo
 import {DateFormatPipe} from "./pipe/date-format.pipe";
 import {DashboardsComponent} from "./features/dashboards/components/dashboards.component";
 import {DashboardRoutingModule} from "./features/dashboards/dashboard-routing.module";
+import { GoalTaskTableComponent } from './components/goal-task-table/goal-task-table.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -208,6 +209,7 @@ export const maskConfig: Partial<IConfig> = {
     EmployeeAppointmentComponent,
     MultiTabScreenComponent,
     DashboardsComponent,
+    GoalTaskTableComponent,
   ],
     imports: [
         BrowserModule,

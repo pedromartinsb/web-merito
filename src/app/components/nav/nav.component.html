@@ -234,7 +234,7 @@
     <span>Gestão de Fornecedores</span>
   </div>
 
-  <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isAdmin">
+  <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isSupervisor">
     <i class="fas fa-bullseye"></i>
     <span>Gestão de Metas</span>
   </div>
@@ -244,7 +244,7 @@
     <span>Minhas Metas</span>
   </div>
 
-  <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isAdmin">
+  <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isSupervisor">
     <i class="fas fa-list-check"></i>
     <span>Gestão de Tarefas</span>
   </div>
