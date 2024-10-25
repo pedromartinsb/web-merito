@@ -290,9 +290,14 @@
     <span>Documentos</span>
   </div>
 
-  <div class="menu-item" routerLink="/dashboards" routerLinkActive="active" *ngIf="isSupervisor">
-    <i class="fas fa-chart-line"></i>
+  <div class="menu-item" routerLink="/reports" routerLinkActive="active" *ngIf="isSupervisor">
+    <i class="fas fa-chart-pie"></i>
     <span>Relatórios</span>
+  </div>
+
+  <div class="menu-item" routerLink="/dashboards" routerLinkActive="active" *ngIf="isSupervisor">
+    <i class="fas fa-chart-simple"></i>
+    <span>Dashboards</span>
   </div>
 
   <div class="menu-item" routerLink="/configurations" routerLinkActive="active" *ngIf="isSupervisor || isUser">

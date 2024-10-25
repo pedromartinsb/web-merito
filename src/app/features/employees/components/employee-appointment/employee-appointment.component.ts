@@ -602,6 +602,10 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     this.formAppointment.get('activityType').patchValue(activity.type);
     this.formAppointment.get('tagId').patchValue(tag.id);
     this.formAppointment.get('activityId').patchValue(activity.id);
+
+    if (this.selected == undefined) {
+      this.selected = new Date();
+    }
     this.formAppointment.get('createdAt').patchValue(this.selected.toISOString());
 
     const modalElement = document.getElementById('appointmentsCreateModal');

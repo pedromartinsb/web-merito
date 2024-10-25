@@ -195,7 +195,7 @@ body {
   justify-content: center;
   align-items: center;
   width: calc(100% - 250px); /* Espaço para a sidebar */
-  margin-left: 250px; /* Compensa a largura da sidebar */
+  margin-left: 200px; /* Compensa a largura da sidebar */
   min-height: 100vh;
   padding-top: 20px; /* Ajusta o espaçamento no topo para evitar sumir */
 }
