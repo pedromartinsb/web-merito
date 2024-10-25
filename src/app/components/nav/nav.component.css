@@ -125,8 +125,8 @@ body {
 }
 
 .logo {
-  width: 100px; /* Largura do logo */
-  height: 100px; /* Altura do logo */
+  width: 40px; /* Largura do logo */
+  height: 40px; /* Altura do logo */
   border-radius: 5px; /* Bordas arredondadas */
 }
 
