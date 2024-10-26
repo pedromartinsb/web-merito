@@ -86,15 +86,15 @@
         <p>Todas as metas atribuídas para {{ person.name }}.</p>
 
         <div class="mt-md-0 mt-sm-4">
-<!--          <ul class="list-group minimal-list">-->
-<!--            <li class="list-group-item">-->
-<!--              <div class="d-flex justify-content-between align-items-center">-->
-<!--                <span>{{ task.description }}</span>-->
-<!--                <span class="badge bg-primary rounded-pill">Início: {{ task.startDate | dateFormat }}</span>-->
-<!--                <span class="badge bg-primary rounded-pill">Fim: {{ task.endDate | dateFormat }}</span>-->
-<!--              </div>-->
-<!--            </li>-->
-<!--          </ul>-->
+          <ul class="list-group minimal-list">
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>{{ task.title }}</span>
+                <span class="badge bg-primary rounded-pill">Início: {{ task.startDate | dateFormat }}</span>
+                <span class="badge bg-primary rounded-pill">Fim: {{ task.endDate | dateFormat }}</span>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="modal-footer">
@@ -232,7 +232,7 @@
       </div>
       <div class="col-md-12 mt-3 mb-3">
         <button class="btn btn-options btn-primary me-2" (click)="openTasksModal()">Tarefas</button>
-        <button class="btn btn-options btn-primary me-2" (click)="openTasksModal()">Metas</button>
+        <button class="btn btn-options btn-primary me-2" (click)="openGoalsModal()">Metas</button>
         <button class="btn btn-options btn-primary me-2" (click)="openTasksModal()">Manual</button>
         <button class="btn btn-options btn-primary me-2" (click)="openTasksModal()">Código de Ética</button>
       </div>

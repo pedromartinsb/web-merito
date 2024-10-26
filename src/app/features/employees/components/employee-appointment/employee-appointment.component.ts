@@ -713,6 +713,23 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  openGoalsModal(): void {
+    const modalElement = document.getElementById('goalsModal');
+    if (modalElement) {
+      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+      modalInstance.show();
+    }
+  }
+
+  closeGoalCreateModal(): void {
+    this.formTask.reset();
+    const modalElement = document.getElementById('goalsCreateModal2');
+    if (modalElement) {
+      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+      modalInstance.hide();
+    }
+  }
+
   onSubmitFormGoal() {
 
   }
