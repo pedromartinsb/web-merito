@@ -28,3 +28,15 @@ export interface Activity {
   createdAt: string;
   appointmentId: string;
 }
+
+export interface PersonAppointmentRoutineTask {
+  id: number;
+  user_id: string;
+  name: string;
+  description: string;
+  justification: string;
+  tag: string;
+  routine?: string;
+  task?: string;
+  createdAt: string;
+}

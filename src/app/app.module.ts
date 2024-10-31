@@ -122,11 +122,12 @@ import {TasksListComponent} from './features/tasks/components/tasks-list/tasks-l
 import {TaskRoutingModule} from "./features/tasks/task-routing.module";
 import {EmployeeAppointmentComponent} from './features/employees/components/employee-appointment/employee-appointment.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {MultiTabScreenComponent} from './multi-tab-screen/multi-tab-screen.component';
 import {DateFormatPipe} from "./pipe/date-format.pipe";
 import {DashboardsComponent} from "./features/dashboards/components/dashboards.component";
 import {DashboardRoutingModule} from "./features/dashboards/dashboard-routing.module";
 import { GoalTaskTableComponent } from './components/goal-task-table/goal-task-table.component';
+import { ReportComponent } from './features/report/components/report.component';
+import { ReportRoutingModule } from './features/report/report-routing.module';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -207,9 +208,9 @@ export const maskConfig: Partial<IConfig> = {
     GoalsFormComponent,
     TasksListComponent,
     EmployeeAppointmentComponent,
-    MultiTabScreenComponent,
     DashboardsComponent,
     GoalTaskTableComponent,
+    ReportComponent,
   ],
     imports: [
         BrowserModule,
@@ -223,6 +224,7 @@ export const maskConfig: Partial<IConfig> = {
         GoalRoutingModule,
         TaskRoutingModule,
         DashboardRoutingModule,
+        ReportRoutingModule,
 
         BrowserAnimationsModule,
         CommonModule,

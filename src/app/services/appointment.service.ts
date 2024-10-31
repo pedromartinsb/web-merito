@@ -2,7 +2,7 @@ import { Config } from './../config/api.config';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Activity, Appointment } from '../models/appointment';
+import { Activity, Appointment, PersonAppointmentRoutineTask } from '../models/appointment';
 import { monthlyTag } from '../models/tag';
 
 @Injectable({
@@ -13,6 +13,22 @@ export class AppointmentService {
 
   findAll(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${Config.webApiUrl}/v1/appointment`);
+  }
+
+  findAllViews(): Observable<PersonAppointmentRoutineTask[]> {
+    return this.http.get<PersonAppointmentRoutineTask[]>(`${Config.webApiUrl}/v1/appointment/views`);
+  }
+
+  findViewsByPersonId(personId: string): Observable<PersonAppointmentRoutineTask[]> {
+    return this.http.get<PersonAppointmentRoutineTask[]>(`${Config.webApiUrl}/v1/appointment/views/${personId}`);
+  }
+
+  findViewsByPersonIdAndCreatedAtBetween(personId: string, startDate: string, endDate: string): Observable<PersonAppointmentRoutineTask[]> {
+    let params = new HttpParams()
+      .set('personId', personId)
+      .set('startDate', startDate)
+      .set('endDate', endDate);
+    return this.http.get<PersonAppointmentRoutineTask[]>(`${Config.webApiUrl}/v1/appointment/views/${personId}/dates`, { params });
   }
 
   findById(id: any): Observable<Appointment> {
