@@ -29,6 +29,7 @@ export class NavComponent implements OnInit, OnDestroy {
     [Breakpoints.Large, 'Large'],
     [Breakpoints.XLarge, 'XLarge'],
   ]);
+  isSidebarActive = false;
 
   isAdmin: boolean = false;
   isSupervisor: boolean = false;
@@ -158,5 +159,9 @@ export class NavComponent implements OnInit, OnDestroy {
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  toggleSidebar() {
+    this.isSidebarActive = !this.isSidebarActive;
   }
 }
