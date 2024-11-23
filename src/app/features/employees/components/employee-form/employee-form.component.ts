@@ -1,3 +1,4 @@
+import { HoldingService } from 'src/app/services/holding.service';
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
@@ -11,6 +12,7 @@ import {Address, Contact, ContractType, EmployeeRequest, PersonType, User} from 
 import {EmployeeService} from "../../services/employee.service";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-employee-form',
@@ -18,6 +20,8 @@ import jsPDF from "jspdf";
   styleUrls: ['./employee-form.component.css']
 })
 export class EmployeeFormComponent implements OnInit {
+  isSaving = false;
+  showCelebration = true;
   imageUrl: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
   formGroup: FormGroup;
@@ -51,7 +55,7 @@ export class EmployeeFormComponent implements OnInit {
       picture: [null, Validators.required],
       birthdate: ['', Validators.required],
       gender: ['', Validators.required],
-      contractType: ['', Validators.required],
+      contractType: [''],
       personType: [''],
       officeId: ['', Validators.required],
       responsibilityId: ['', Validators.required],
@@ -141,6 +145,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isSaving = true;
     if (this.formGroup.valid) {
       if (this.formGroup.get('password').value !== this.formGroup.get('confirmPassword').value) {
         this.errorMessage = 'As senhas precisam ser iguais.'
@@ -199,9 +204,11 @@ export class EmployeeFormComponent implements OnInit {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
             });
-            this.toast.success('Funcionário cadastrado com sucesso.');
+            this.isSaving = false;
+            this.toast.success('🎉 Funcionário salvo com sucesso!');
           },
           error: (error: Error) => {
+            this.isSaving = false;
             this._handleErrors(error);
           },
           complete: () => {

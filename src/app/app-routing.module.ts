@@ -11,8 +11,6 @@ import { AutonomousListComponent } from './pages/autonomous/autonomous-list/auto
 import { CompanyFormComponent } from './pages/company/company-form/company-form.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { DocumentFormComponent } from './pages/document/document-form/document-form.component';
-import { DocumentListComponent } from './pages/document/document-list/document-list.component';
 import { FirstAccessComponent } from './pages/first-access/first-access.component';
 import { GoalFormComponent } from './pages/goal/goal-form/goal-form.component';
 import { GoalListComponent } from './pages/goal/goal-list/goal-list.component';
@@ -180,48 +178,6 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-          ],
-        },
-      },
-
-      // DOCUMENT
-      {
-        path: 'document',
-        component: DocumentListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-            Roles.ROLE_USER_OFFICE,
-          ],
-        },
-      },
-      {
-        path: 'document/upload',
-        component: DocumentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-          ],
-        },
-      },
-      {
-        path: 'document/edit/:key',
-        component: DocumentFormComponent,
         canActivate: [AuthGuard],
         data: {
           role: [

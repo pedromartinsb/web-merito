@@ -25,4 +25,5 @@ body {
   --green-border-calendar: #008000;
   --green-color-calendar: #006400;
   --blue-appointment: #0000ff;
+  --gray-border-calendar: gray;
 }

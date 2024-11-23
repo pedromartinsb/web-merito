@@ -1,138 +1,3 @@
-<!--<mat-card class="example-card">-->
-<!--  <mat-card-title>Mural de Comunicados</mat-card-title>-->
-<!--  <mat-card-subtitle>Avisos importantes</mat-card-subtitle>-->
-<!--  <mat-card-content>-->
-<!--    <h1>-->
-<!--      <strong>Olá! Sejam Bem-Vindo(a)s ao Projeção Profissional! 👋</strong>-->
-<!--    </h1>-->
-<!--    <p>-->
-<!--      Este é o ambiente da sua empresa e ele já está pronto para ser configurado-->
-<!--      para cadastro dos colaboradores e posterior uso por todos! 🚀-->
-<!--    </p>-->
-<!--    <div class="wrapper" *ngIf="this.isAdmin">-->
-<!--      <div class="box a">-->
-<!--        <a routerLink="/person">Colaboradores</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box b">-->
-<!--        <a routerLink="/autonomous">Profissionais Autônomos</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box c">-->
-<!--        <a routerLink="/suppliers">Fornecedores</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box d">-->
-<!--        <a routerLink="/responsibility">Funções</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box e">-->
-<!--        <a routerLink="/routine">Rotinas</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box f">-->
-<!--        <a routerLink="/goal">Metas</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div-->
-<!--      class="wrapper"-->
-<!--      *ngIf="this.isAdminGeral || this.isAdminEmpresa || this.isAdminOffice"-->
-<!--    >-->
-<!--      <div class="box a">-->
-<!--        <a routerLink="/person">Colaboradores</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box b">-->
-<!--        <a routerLink="/autonomous">Profissionais Autônomos</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box c">-->
-<!--        <a routerLink="/suppliers">Fornecedores</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box d">-->
-<!--        <a routerLink="/routine">Funções</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box e">-->
-<!--        <a routerLink="/routine">Rotinas</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box f">-->
-<!--        <a routerLink="/goal">Metas</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="wrapper" *ngIf="this.isSupervisor">-->
-<!--      <div class="box a">-->
-<!--        <a routerLink="/person">Colaboradores</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box b">-->
-<!--        <a routerLink="/autonomous">Profissionais Autônomos</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box c">-->
-<!--        <a routerLink="/suppliers">Fornecedores</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="wrapper" *ngIf="this.isUserOffice || this.isUserOffice">-->
-<!--      <div class="box a">-->
-<!--        <a routerLink="/document">Documentos</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box b">-->
-<!--        <a routerLink="/routine">Rotinas</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--      <div class="box c">-->
-<!--        <a routerLink="/goal">Metas</a>-->
-<!--        <br />-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--&lt;!&ndash;    <ng-container>&ndash;&gt;-->
-<!--&lt;!&ndash;      <mat-card class="card mat-elevation-z8">&ndash;&gt;-->
-<!--&lt;!&ndash;        <div id="chart"></div>&ndash;&gt;-->
-<!--&lt;!&ndash;      </mat-card>&ndash;&gt;-->
-<!--&lt;!&ndash;    </ng-container>&ndash;&gt;-->
-<!--  </mat-card-content>-->
-<!--</mat-card>-->
-
-
-<!--<div id="pdfContent" hidden>-->
-<!--  <h1>Minhas Listas</h1>-->
-
-<!--  <h2>Lista 1</h2>-->
-<!--  <ul>-->
-<!--    <li>Item 1 da lista 1</li>-->
-<!--    <li>Item 2 da lista 1</li>-->
-<!--    <li>Item 3 da lista 1</li>-->
-<!--  </ul>-->
-
-<!--  <h2>Lista 2</h2>-->
-<!--  <ul>-->
-<!--    <li>Item 1 da lista 2</li>-->
-<!--    <li>Item 2 da lista 2</li>-->
-<!--    <li>Item 3 da lista 2</li>-->
-<!--  </ul>-->
-<!--</div>-->
-
-<!--<div id="fullPageContent">-->
-<!--  <h1>Título da Página</h1>-->
-<!--  <p>Este é um parágrafo que será capturado para gerar o PDF.</p>-->
-<!--  <p>Adicionar mais conteúdo...</p>-->
-<!--  &lt;!&ndash; Todo o conteúdo da página &ndash;&gt;-->
-<!--</div>-->
-
-<!--<button (click)="generatePDF()">Gerar PDF</button>-->
-
-
-
-
-
 <div class="container mt-5" *ngIf="isUser">
   <div class="row">
     <div class="col-md-4 mt-md-0 mt-sm-4">
@@ -174,49 +39,46 @@
 </div>
 
 
-
-
-
 <div class="home-navigation">
   <div class="nav-card" *ngIf="isSupervisor">
     <i class="fas fa-users"></i>
-    <h3>Gestão de Colaboradores</h3>
+    <h3>Funcionários</h3>
     <a href="/employees" class="btn">Acessar</a>
   </div>
 
   <div class="nav-card" *ngIf="isSupervisor">
     <i class="fas fa-user-tie"></i>
-    <h3>Gestão de Profissionais</h3>
+    <h3>Profissionais</h3>
     <a href="/professionals" class="btn">Acessar</a>
   </div>
 
   <div class="nav-card" *ngIf="isSupervisor">
     <i class="fas fa-truck-field"></i>
-    <h3>Gestão de Fornecedores</h3>
+    <h3>Fornecedores</h3>
     <a href="/suppliers" class="btn">Acessar</a>
   </div>
 
   <div class="nav-card" *ngIf="isAdmin">
     <i class="fas fa-chart-line"></i>
-    <h3>Gestão de Segmentos</h3>
+    <h3>Segmentos</h3>
     <a href="/segments" class="btn">Acessar</a>
   </div>
 
   <div class="nav-card" *ngIf="isAdmin">
     <i class="fas fa-chart-line"></i>
-    <h3>Gestão de Holdings</h3>
+    <h3>Holdings</h3>
     <a href="/holding" class="btn">Acessar</a>
   </div>
 
   <div class="nav-card" *ngIf="isAdmin">
     <i class="fas fa-chart-line"></i>
-    <h3>Gestão de Empresas</h3>
+    <h3>Empresas</h3>
     <a href="/company" class="btn">Acessar</a>
   </div>
 
   <div class="nav-card" *ngIf="isAdmin">
     <i class="fas fa-chart-line"></i>
-    <h3>Gestão de Unidades</h3>
+    <h3>Unidades</h3>
     <a href="/offices" class="btn">Acessar</a>
   </div>
 
@@ -250,13 +112,13 @@
     <a href="/document" class="btn">Acessar</a>
   </div>
 
-  <div class="nav-card"  *ngIf="isSupervisor">
+  <div class="nav-card" *ngIf="isSupervisor">
     <i class="fas fa-chart-pie"></i>
     <h3>Relatórios</h3>
     <a href="/reports" class="btn">Acessar</a>
   </div>
 
-  <div class="nav-card"  *ngIf="isSupervisor">
+  <div class="nav-card" *ngIf="isSupervisor">
     <i class="fas fa-chart-simple"></i>
     <h3>Dashboards</h3>
     <a href="/dashboards" class="btn">Acessar</a>
@@ -268,7 +130,3 @@
     <a href="/configuracoes" class="btn">Acessar</a>
   </div>
 </div>
-
-
-
-

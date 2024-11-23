@@ -8,7 +8,7 @@
 
   <h1>Lista de Funcionários</h1>
 
-  <div class="text-end mb-3">
+  <div class="text-end mb-3" *ngIf="!loading && employeeData.length != 0">
     <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
       Criar Novo Funcionário
     </button>
@@ -18,11 +18,19 @@
     Carregando funcionários...
   </div>
 
-  <app-zebra-employee-table *ngIf="!loading"
+  <app-zebra-employee-table *ngIf="!loading && employeeData.length != 0"
     [headers]="employeeHeaders"
     [data]="employeeData"
     [itemsPerPage]="5"
     (edit)="onEdit($event)"
     (delete)="onDelete($event)"
     (view)="onView($event)"></app-zebra-employee-table>
+
+  <div *ngIf="employeeData.length == 0">
+    <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+    <h4>Nenhum funcionário cadastrado.</h4>
+    <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
+      Criar Novo Funcionário
+    </button>
+  </div>
 </div>

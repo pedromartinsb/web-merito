@@ -8,10 +8,16 @@
   </nav>
 
   <h1>Cadastro de Funcionário</h1>
-  <div class="gap-2 mt-4">
+  <!-- <div class="gap-2 mt-4">
     <button class="btn btn-warning print-button" (click)="generatePDF()">
       <i class="material-icons">print</i> Imprimir
     </button>
+  </div> -->
+
+  <div *ngIf="isSaving" class="backdrop">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Salvando as Informações...</span>
+    </div>
   </div>
 
   <div id="fullPageContent" class="container my-5">
@@ -135,7 +141,7 @@
                     [ngClass]="{'is-invalid': formGroup.get('supervisorId')?.invalid && formGroup.get('supervisorId')?.touched,
                    'is-valid': formGroup.get('supervisorId')?.valid && formGroup.get('supervisorId')?.touched}">
               <option value="" disabled selected>Selecione o Supervisor</option>
-              <option *ngFor="let supervisor of supervisors" [value]="supervisor['id']">{{supervisor['name']}}</option>
+              <option *ngFor="let supervisor of supervisors" [value]="supervisor['id']">{{supervisor['name']}} - {{supervisor['cpfCnpj'] | cpf}}</option>
             </select>
             <div *ngIf="formGroup.get('supervisorId')?.invalid && formGroup.get('supervisorId')?.touched" class="invalid-feedback">
               O supervisor é obrigatório.
@@ -226,6 +232,5 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   </div>
-
 
 </div>

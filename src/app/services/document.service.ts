@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Config } from '../config/api.config';
+import { PdfDocumentResponse } from '../features/documents/pdf-document.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,11 @@ import { Config } from '../config/api.config';
 export class DocumentService {
   constructor(private http: HttpClient) {}
 
-  findAll(): Observable<Document[]> {
-    return this.http.get<Document[]>(`${Config.webApiUrl}/v1/document/files`);
+  // findAll(): Observable<Document[]> {
+  //   return this.http.get<Document[]>(`${Config.webApiUrl}/v1/document/files`);
+  // }
+  findAll(): Observable<PdfDocumentResponse[]> {
+    return this.http.get<PdfDocumentResponse[]>(`${Config.webApiUrl}/v1/document`);
   }
 
   findByName(filename: string): Observable<Document> {

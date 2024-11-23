@@ -1,0 +1,28 @@
+/* pdf-card-grid.component.css */
+.card-img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Altura do contêiner */
+  overflow: hidden;
+}
+
+.card-img-top {
+  width: 100%; /* Define uma largura fixa para todas as imagens */
+  height: 100%; /* Define uma altura fixa para todas as imagens */
+  object-fit: cover; /* Garante que as imagens sejam cortadas uniformemente para cobrir o contêiner */
+}
+
+.hover-grow-img {
+  transition: transform 0.3s ease; /* Transição suave */
+}
+.hover-grow-img:hover {
+  transform: scale(1.1); /* Aumenta a imagem em 10% ao passar o mouse */
+}
+
+.hover-grow-card {
+  transition: transform 0.3s ease; /* Transição suave */
+}
+.hover-grow-card:hover {
+  transform: scale(1.1); /* Aumenta a imagem em 10% ao passar o mouse */
+}

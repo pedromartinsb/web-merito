@@ -14,17 +14,17 @@
 
   <div class="menu-item" routerLink="/employees" routerLinkActive="active" *ngIf="isSupervisor">
     <i class="fas fa-users"></i>
-    <span>Gestão de Colaboradores</span>
+    <span>Funcionários</span>
   </div>
 
   <div class="menu-item" routerLink="/professionals" routerLinkActive="active" *ngIf="isSupervisor">
     <i class="fas fa-user-tie"></i>
-    <span>Gestão de Profissionais</span>
+    <span>Profissionais</span>
   </div>
 
   <div class="menu-item" routerLink="/suppliers" routerLinkActive="active" *ngIf="isSupervisor">
     <i class="fas fa-truck-field"></i>
-    <span>Gestão de Fornecedores</span>
+    <span>Fornecedores</span>
   </div>
 
   <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isSupervisor">
@@ -77,7 +77,7 @@
     <span>Gestão de Funções</span>
   </div>
 
-  <div class="menu-item" routerLink="/documents" routerLinkActive="active" *ngIf="isSupervisor || isUser">
+  <div class="menu-item" routerLink="/documents" routerLinkActive="active">
     <i class="fas fa-folder-open"></i>
     <span>Documentos</span>
   </div>

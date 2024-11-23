@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EmployeeService} from "../../services/employee.service";
 import {ToastrService} from "ngx-toastr";
+import { Urls } from 'src/app/config/urls.config';
 
 @Component({
   selector: 'app-employee-list',
@@ -19,7 +20,6 @@ export class EmployeeListComponent implements OnInit {
   employeeData = [];
 
   userForm: FormGroup;
-  s3Url = 'https://sistema-merito.s3.amazonaws.com/';
   loading: boolean = true; // Estado de carregamento
 
   constructor(
@@ -40,10 +40,8 @@ export class EmployeeListComponent implements OnInit {
         next: (employees) => {
           if (employees != null) {
             employees.forEach((response) => {
-              if (response.picture != null) {
-                response.picture = this.s3Url + response.picture;
-              } else {
-                response.picture = "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png";
+              if (response.picture == null) {
+                response.picture = Urls.getDefaultPictureS3();
               }
               const employee = [
                 response.id,

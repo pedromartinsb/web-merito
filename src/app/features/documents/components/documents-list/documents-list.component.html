@@ -1,0 +1,34 @@
+<!-- pdf-card-grid.component.html -->
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Documentos</li>
+    </ol>
+  </nav>
+
+  <h1 class="mb-4">Todos os Documentos Disponíveis</h1>
+
+  <div class="text-center mb-4">
+    <button class="btn btn-primary" (click)="router.navigate(['/documents/upload'])">
+      Novo Documento
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4" *ngFor="let pdf of pdfDocuments">
+      <div class="card mb-4 hover-grow-card">
+        <div class="card-img-container">
+          <img [src]="pdf.url" class="card-img-top hover-grow-img" alt="PDF Cover" />
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Título: {{ pdf.key }}</h3>
+          <h4 class="card-title">Cargo: {{ pdf.responsibilityName }}</h4>
+          <a [href]="pdf.url" class="btn btn-primary" target="_blank">Ver PDF</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spinner [isLoading]="isLoading"></app-spinner>

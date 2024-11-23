@@ -210,7 +210,156 @@
 
 
 
+
+
 <div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <li class="breadcrumb-item"><a routerLink="/employees">Funcionários</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Tabela de Avaliaçoes</li>
+    </ol>
+  </nav>
+
+  <div class="row">
+    <!-- Primeira Coluna -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">📓 Registrar Ocorrência</h2>
+          <p class="card-text mt-2">
+            Funcionário - {{ person.name }}
+          </p>
+          <p class="card-text">
+            Empresa: {{ person.office.fantasyName }}
+          </p>
+          <p class="card-text">
+            Dia: {{ today }}
+          </p>
+          <p class="card-text">
+            <img [lazyLoad]="person.picture" [defaultImage]="s3DefaultImage" alt="" width="200" height="200" />
+          </p>
+          <p class="card-text">
+            <button class="btn btn-options btn-primary me-1" (click)="openTasksModal()">Tarefas</button>
+            <button class="btn btn-options btn-primary me-1" (click)="openGoalsModal()">Metas</button>
+            <button class="btn btn-options btn-primary me-1" (click)="openTasksModal()">Manual</button>
+            <button class="btn btn-options btn-primary me-1" (click)="openTasksModal()">Código de Ética</button>
+          </p>
+        </div>
+      </div>
+    </div>
+
+      <!-- Segunda Coluna -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <mat-tab-group [selectedIndex]="selectedTab.value" (selectedIndexChange)="selectedTab.setValue($event)">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon *ngIf="selectedTab.value == 0" class="example-tab-icon">arrow_right</mat-icon> Diária
+              </ng-template>
+
+              <section class="monthly-container mat-elevation-z2" tabindex="0">
+                <ul class="list-group minimal-list">
+                  <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-column"></span>
+                      <div class="radio-group">
+                        <input *ngFor="let option of options;" type="radio" [name]="option.index" [value]="option" [id]="'radio' + option.index" [class]="'radio-' + option.color" checked />
+                      </div>
+                    </div>
+                  </li>
+
+                  <li *ngFor="let activity of activitiesDailyResponse" class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-column">{{ activity.name }}</span>
+                      <div class="radio-group">
+                        <input *ngFor="let tag of tags;" type="radio" [name]="'daily' + activity.id" value="{{ tag.id }}" [ngClass]="'radio-button_' + tag.class" [checked]="tag.id == activity.tag?.id" (click)="openAppointmentCreateModal(activity, tag)" matTooltip="{{ tag.description }}" />
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon *ngIf="selectedTab.value == 1">arrow_right</mat-icon> Mensal
+              </ng-template>
+              <div class="grid-container">
+                <div>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openAppointmentModal()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+                </div>
+              </div>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon *ngIf="selectedTab.value == 2">arrow_right</mat-icon> Trimestral
+              </ng-template>
+              <div class="grid-container">
+                <div>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastTwoMonth" (click)="openDialog()" [minDate]="firstDayLastTwoMonth" [maxDate]="lastDayLastTwoMonth"></mat-calendar>
+                </div>
+                <div>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastMonth" (click)="openDialog()" [minDate]="firstDayLastMonth" [maxDate]="lastDayLastMonth"></mat-calendar>
+                </div>
+                <div>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+                </div>
+              </div>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon *ngIf="selectedTab.value == 3" class="example-tab-icon">arrow_right</mat-icon> Semestral
+              </ng-template>
+              <div class="grid-container">
+                <div>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastFiveMonth" (click)="openDialog()" [minDate]="firstDayLastFiveMonth" [maxDate]="lastDayLastFiveMonth"></mat-calendar>
+                </div>
+                <div>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastFourMonth" (click)="openDialog()" [minDate]="firstDayLastFourMonth" [maxDate]="lastDayLastFourMonth"></mat-calendar>
+                </div>
+                <div>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastThreeMonth" (click)="openDialog()" [minDate]="firstDayLastThreeMonth" [maxDate]="lastDayLastThreeMonth"></mat-calendar>
+                </div>
+              </div>
+              <div class="grid-container">
+                <div>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastTwoMonth" (click)="openDialog()" [minDate]="firstDayLastTwoMonth" [maxDate]="lastDayLastTwoMonth"></mat-calendar>
+                </div>
+                <div>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastMonth" (click)="openDialog()" [minDate]="firstDayLastMonth" [maxDate]="lastDayLastMonth"></mat-calendar>
+                </div>
+                <div>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container mt-4">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
@@ -236,15 +385,14 @@
         <button class="btn btn-options btn-primary me-2" (click)="openTasksModal()">Manual</button>
         <button class="btn btn-options btn-primary me-2" (click)="openTasksModal()">Código de Ética</button>
       </div>
-    </div>
-    <div class="col-md-6">
-      <div class="col-md-12 align-left">
+      <div class="col-md-12">
         <img [lazyLoad]="person.picture" [defaultImage]="s3DefaultImage" alt="" width="200" height="200" />
       </div>
-      <div class="col-md-12 mb-3 mt-4">
-        <h3 class="align-left">Nome: {{ person.name }}</h3>
-        <h3 class="align-left">Empresa: {{ person.office.fantasyName }}</h3>
-        <h3 class="align-left">Função: {{ person.responsibility.name }}</h3>
+      <div class="col-md-12 mt-4">
+        <span>Nome: {{ person.name }}</span>
+      </div>
+      <div class="col-md-12 mt-2">
+        <span>Empresa: {{ person.office.fantasyName }}</span>
       </div>
     </div>
 
@@ -338,7 +486,14 @@
       </mat-tab-group>
     </div>
   </div>
-</div>
+</div> -->
+
+
+
+
+
+
+
 
 
 

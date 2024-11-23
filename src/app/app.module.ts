@@ -46,8 +46,6 @@ import {CardComponent} from './components/card/card.component';
 import {DeleteConfirmationModalComponent} from './components/delete/delete-confirmation-modal';
 import {DescriptionModalComponent} from './components/description/description-modal';
 import {DialogOverviewComponent} from './components/dialog-overview/dialog-overview.component';
-import {FileinfoFormComponent} from './components/fileinfo/fileinfo-form/fileinfo-form.component';
-import {FileinfoListComponent} from './components/fileinfo/fileinfo-list/fileinfo-list.component';
 import {FooterComponent} from './components/footer/footer.component';
 import {GridComponent} from './components/grid/grid.component';
 import {HeaderComponent} from './components/header/header.component';
@@ -65,8 +63,6 @@ import {AutonomousListComponent} from './pages/autonomous/autonomous-list/autono
 import {CompanyFormComponent} from './pages/company/company-form/company-form.component';
 import {CompanyListComponent} from './pages/company/company-list/company-list.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
-import {DocumentFormComponent} from './pages/document/document-form/document-form.component';
-import {DocumentListComponent} from './pages/document/document-list/document-list.component';
 import {FirstAccessComponent} from './pages/first-access/first-access.component';
 import {GoalFormComponent} from './pages/goal/goal-form/goal-form.component';
 import {GoalListComponent} from './pages/goal/goal-list/goal-list.component';
@@ -128,6 +124,10 @@ import {DashboardRoutingModule} from "./features/dashboards/dashboard-routing.mo
 import { GoalTaskTableComponent } from './components/goal-task-table/goal-task-table.component';
 import { ReportComponent } from './features/report/components/report.component';
 import { ReportRoutingModule } from './features/report/report-routing.module';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { DocumentsListComponent } from './features/documents/components/documents-list/documents-list.component';
+import { DocumentsRoutingModule } from './features/documents/documents-routing.module';
+import { DocumentsUploadComponent } from './features/documents/components/documents-upload/documents-upload.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -164,11 +164,7 @@ export const maskConfig: Partial<IConfig> = {
     HoldingFormComponent,
     DeleteConfirmationModalComponent,
     DescriptionModalComponent,
-    FileinfoListComponent,
-    FileinfoFormComponent,
     CardComponent,
-    DocumentFormComponent,
-    DocumentListComponent,
     PermissionFormComponent,
     DialogOverviewComponent,
     FirstAccessComponent,
@@ -211,6 +207,9 @@ export const maskConfig: Partial<IConfig> = {
     DashboardsComponent,
     GoalTaskTableComponent,
     ReportComponent,
+    SpinnerComponent,
+    DocumentsListComponent,
+    DocumentsUploadComponent,
   ],
     imports: [
         BrowserModule,
@@ -225,6 +224,7 @@ export const maskConfig: Partial<IConfig> = {
         TaskRoutingModule,
         DashboardRoutingModule,
         ReportRoutingModule,
+        DocumentsRoutingModule,
 
         BrowserAnimationsModule,
         CommonModule,

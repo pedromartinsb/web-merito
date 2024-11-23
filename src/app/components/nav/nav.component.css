@@ -102,19 +102,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(100% - 250px); /* Espaço para a sidebar */
-  margin-left: 200px; /* Compensa a largura da sidebar */
+  width: calc(100% - 250px);
+  margin-left: 200px;
   min-height: 100vh;
-  padding-top: 20px; /* Ajusta o espaçamento no topo para evitar sumir */
+  padding-top: 20px;
 }
 
 .content {
   text-align: center;
   padding: 40px;
-  width: 80%; /* Largura do conteúdo */
-  /*background-color: var(--white);*/
-  /*border-radius: 8px;*/
-  /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+  width: 80%;
 }
 
 h1 {
@@ -149,7 +146,7 @@ p {
 }
 
 .dropdown-menu-center {
-  width: 200px; /* Aumentar o espaço para o nome das empresas */
+  width: auto; /* Aumentar o espaço para o nome das empresas */
 }
 
 .dropdown-item {
@@ -165,7 +162,9 @@ p {
   bottom: 80px;
   right: 20px;
   z-index: 1000;
-  transform: translateY(-4px); /* Opcional: cria um pequeno espaço entre o botão e o dropdown */
+  transform: translateY(
+    -4px
+  ); /* Opcional: cria um pequeno espaço entre o botão e o dropdown */
 }
 
 .floating-chat-btn {

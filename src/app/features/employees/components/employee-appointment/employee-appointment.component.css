@@ -94,6 +94,12 @@ td {
   align-self: self-start;
 }
 
+::ng-deep .gray-background .mat-calendar-body-cell-content {
+  border-color: var(--gray-border-calendar) !important;
+  color: var(--white) !important;
+  background-color: var(--gray-border-calendar);
+}
+
 ::ng-deep .green-background .mat-calendar-body-cell-content {
   border-color: var(--green-border-calendar) !important;
   color: var(--white) !important;
@@ -133,7 +139,6 @@ td {
 }
 
 ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.green-background .mat-radio-outer-circle {
-  /* border-color: green; */
   border-color: var(--green-appointment);
 }
 
@@ -166,11 +171,11 @@ td {
   background-color: var(--red-appointment);
 }
 
-.container {
+/* .container {
   display: flex;
   flex-wrap: wrap;
   margin-top: 50px;
-}
+} */
 
 .item {
   flex-grow: 1;
@@ -421,4 +426,11 @@ span {
 
 .btn-options:hover {
   background-color: #2980b9; /* Cor do botão ao passar o mouse */
+}
+
+
+.card {
+  border: 1px solid #dee2e6;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
 }

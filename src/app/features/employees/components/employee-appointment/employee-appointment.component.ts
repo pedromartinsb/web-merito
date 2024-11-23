@@ -17,6 +17,7 @@ import {PersonAppointmentDialogComponent} from "../../../../pages/person/person-
 import {PersonAppointmentConfirmComponent} from "../../../../pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component";
 import {Task} from "../../../../pages/person/person-appointment/person-appointment-task/person-appointment-task.component";
 import {Modal} from "bootstrap";
+import { DatePipe, Location } from '@angular/common';
 
 @Component({
   selector: 'app-employee-appointment',
@@ -26,7 +27,7 @@ import {Modal} from "bootstrap";
 export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   displayedColumns = ['name', 'radio'];
   dataSource: Activity[];
-  currentMontTags: monthlyTag[] = [];
+  currentMonthTags: monthlyTag[] = [];
   lastMonthTags: monthlyTag[] = [];
   lastTwoMonthTags: monthlyTag[] = [];
   lastThreeMonthTags: monthlyTag[] = [];
@@ -92,7 +93,7 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute, private toast: ToastrService,
               private tagService: TagService, private appointmentService: AppointmentService, private personService: PersonService,
-              private taskService: TaskService) {
+              private taskService: TaskService, private location: Location, private datePipe: DatePipe) {
     this._initializeFormsGroup();
     this._initializePerson();
     this._initializeTags();
@@ -184,7 +185,6 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
 
   _getPersonById(): void {
     this.personService.findById(this.personId).subscribe((response) => {
-      response.picture = Urls.getS3() + response.picture;
       this.person = response;
     });
   }
@@ -240,9 +240,20 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   _getCurrentMonthTags() {
-    this.currentMontTags = JSON.parse(localStorage.getItem('currentMonth'));
-    if (this.currentMontTags != undefined) {
-      this.currentMontTags.map((month) => {
+    this.currentMonthTags = JSON.parse(localStorage.getItem('currentMonth'));
+    if (this.currentMonthTags != undefined) {
+      const [todayDaySplit, monthSplit, yearSplit] = this.today.split('/');
+      console.log('today date: ', todayDaySplit);
+
+      this.currentMonthTags.map((month) => {
+        const [monthDateSplit, yearDateSplit, dayDateSplit] = month.date.split('-');
+        console.log('month date: ', dayDateSplit);
+
+        if (dayDateSplit == todayDaySplit) {
+          console.log('são iguais')
+          month.tag = 'Gray';
+        }
+
         let newDate = new Date(month.date);
         newDate.setDate(newDate.getDate() + 1);
         this.daysOfMonth.push(newDate.getDate());
@@ -368,6 +379,10 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
       const tagName = tag.name;
 
       switch (tagName) {
+        case 'Gray':
+          tag.description = 'Dia de hoje';
+          tag.class = 'gray-background';
+          break;
         case 'Red':
           tag.description = 'Falha Grave';
           tag.class = 'red-background';
@@ -398,16 +413,20 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   ) => {
     for (let i = 0; i < this.daysOfMonth.length; i++) {
       if (this.daysOfMonth[i] == cellDate.getDate()) {
-        if (this.currentMontTags[i].tag == 'Green') {
+        if (this.currentMonthTags[i].tag == 'Green') {
           return 'green-background';
-        } else if (this.currentMontTags[i].tag == 'Red') {
+        } else if (this.currentMonthTags[i].tag == 'Red') {
           return 'red-background';
-        } else if (this.currentMontTags[i].tag == 'Blue') {
+        } else if (this.currentMonthTags[i].tag == 'Blue') {
           return 'blue-background';
-        } else if (this.currentMontTags[i].tag == 'Orange') {
+        } else if (this.currentMonthTags[i].tag == 'Orange') {
           return 'orange-background';
-        } else if (this.currentMontTags[i].tag == 'Yellow') {
+        } else if (this.currentMonthTags[i].tag == 'Yellow') {
           return 'yellow-background';
+        } else if (this.currentMonthTags[i].tag == 'Purple') {
+          return 'purple-background';
+        } else if (this.currentMonthTags[i].tag == 'Gray') {
+          return 'gray-background';
         } else {
           return 'green-background';
         }
@@ -615,6 +634,15 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  closeAppointmentsModal(): void {
+    this.formTask.reset();
+    const modalElement = document.getElementById('appointmentsModal');
+    if (modalElement) {
+      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+      modalInstance.hide();
+    }
+  }
+
   closeAppointmentCreateModal(): void {
     this.formTask.reset();
     const modalElement = document.getElementById('appointmentsCreateModal');
@@ -625,11 +653,12 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   onSubmitFormAppointment() {
-    console.log(this.formAppointment.value);
     this.appointmentService.createByDate(this.formAppointment.value).subscribe({
       next: () => {
         this.toast.success('Avaliação criada com sucesso', 'Cadastro');
-        window.location.reload();
+        this.closeAppointmentCreateModal();
+        this.closeAppointmentsModal();
+        this.location.back();
       },
       error: (ex) => this._handleErrors(ex),
     });
@@ -742,5 +771,23 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     } else {
       this.toast.error(ex.error.message);
     }
+  }
+
+  formatTodayDates(date1: string, date2: string): { formattedDate1: string; formattedDate2: string } {
+    console.log('date1: ', date1)
+    console.log('date2: ', date2)
+
+    const parsedDate1 = new Date(date1); // "2024-11-23"
+    const [day, month, year] = date2.split('/'); // "23/11/2024"
+    const parsedDate2 = new Date(`${year}-${month}-${day}`);
+
+    // Formatar ambas as datas para o mesmo formato, como 'dd/MM/yyyy'
+    const formattedDate1 = this.datePipe.transform(parsedDate1, 'dd/MM/yyyy');
+    const formattedDate2 = this.datePipe.transform(parsedDate2, 'dd/MM/yyyy');
+
+    return {
+      formattedDate1: formattedDate1 || '',
+      formattedDate2: formattedDate2 || ''
+    };
   }
 }
