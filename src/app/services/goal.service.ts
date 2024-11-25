@@ -1,8 +1,8 @@
 import { Config } from './../config/api.config';
-import { Goal } from './../models/goal';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Goal } from '../features/employees/components/employee-appointment/employee-appointment.component';
 
 @Injectable({
   providedIn: 'root',

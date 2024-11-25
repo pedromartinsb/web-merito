@@ -94,16 +94,35 @@ td {
   align-self: self-start;
 }
 
+.mat-calendar-body-disabled {
+  pointer-events: none; /* Evita interação */
+  cursor: not-allowed;
+}
+
 ::ng-deep .gray-background .mat-calendar-body-cell-content {
   border-color: var(--gray-border-calendar) !important;
   color: var(--white) !important;
   background-color: var(--gray-border-calendar);
+  pointer-events: none; /* Evita interação */
+  cursor: not-allowed;
+}
+
+::ng-deep .purple-background .mat-calendar-body-cell-content {
+  border-color: var(--purple-border-calendar) !important;
+  color: var(--white) !important;
+  background-color: var(--purple-border-calendar);
 }
 
 ::ng-deep .green-background .mat-calendar-body-cell-content {
   border-color: var(--green-border-calendar) !important;
   color: var(--white) !important;
   background-color: var(--green-border-calendar);
+}
+
+::ng-deep .green-light-background .mat-calendar-body-cell-content {
+  border-color: var(--black) !important;
+  color: var(--black) !important;
+  background-color: var(--white);
 }
 
 ::ng-deep .blue-background .mat-calendar-body-cell-content {
@@ -133,7 +152,6 @@ td {
 ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.blue-background .mat-radio-outer-circle {
   border-color: var(--blue-appointment);
 }
-
 ::ng-deep .mat-radio-button.mat-accent.blue-background .mat-radio-inner-circle {
   background-color: var(--blue-appointment);
 }
@@ -141,15 +159,22 @@ td {
 ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.green-background .mat-radio-outer-circle {
   border-color: var(--green-appointment);
 }
-
 ::ng-deep .mat-radio-button.mat-accent.green-background .mat-radio-inner-circle {
   background-color: var(--green-appointment);
 }
 
+/* ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.green-light-background .mat-radio-outer-circle {
+  border-color: white;
+  color: black;
+}
+::ng-deep .mat-radio-button.mat-accent.green-light-background .mat-radio-inner-circle {
+  border-color: white;
+  color: black;
+} */
+
 ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.yellow-background .mat-radio-outer-circle {
   border-color: var(--yellow-appointment);
 }
-
 ::ng-deep .mat-radio-button.mat-accent.yellow-background .mat-radio-inner-circle {
   background-color: var(--yellow-appointment);
 }
@@ -157,18 +182,29 @@ td {
 ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.orange-background .mat-radio-outer-circle {
   border-color: var(--orange-appointment);
 }
-
 ::ng-deep .mat-radio-button.mat-accent.orange-background .mat-radio-inner-circle {
-
   background-color: var(--orange-appointment);
 }
 
 ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.red-background .mat-radio-outer-circle {
   border-color: var(--red-appointment);
 }
-
 ::ng-deep .mat-radio-button.mat-accent.red-background .mat-radio-inner-circle {
   background-color: var(--red-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.purple-background .mat-radio-outer-circle {
+  border-color: var(--purple-appointment);
+}
+::ng-deep .mat-radio-button.mat-accent.purple-background .mat-radio-inner-circle {
+  background-color: var(--purple-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.gray-background .mat-radio-outer-circle {
+  border-color: var(--gray-appointment);
+}
+::ng-deep .mat-radio-button.mat-accent.gray-background .mat-radio-inner-circle {
+  background-color: var(--gray-appointment);
 }
 
 /* .container {
@@ -293,48 +329,51 @@ mat-form-field {
   margin-right: 15px;
 }
 
+/* RADIO BUTTON COLOR */
 .radio-group .radio-red {
   accent-color: #FF0000;
   cursor: pointer;
 }
-
 .radio-group .radio-orange {
   accent-color: #FFA500;
   cursor: pointer;
 }
-
 .radio-group .radio-yellow {
   accent-color: yellow;
   cursor: pointer;
 }
-
 .radio-group .radio-green {
   accent-color: green;
   cursor: pointer;
 }
+.radio-group .radio-purple {
+  accent-color: var(--purple-border-calendar);
+  cursor: pointer;
+}
 
+/* RADIO BUTTON BACKGROUND COLOR */
 .radio-button_red-background {
   accent-color: #FF0000;
   cursor: pointer;
 }
-
 .radio-button_green-background {
   accent-color: var(--green-border-calendar);
   cursor: pointer;
 }
-
 .radio-button_blue-background {
   accent-color: blue;
   cursor: pointer;
 }
-
 .radio-button_orange-background {
   accent-color: #FFA500;
   cursor: pointer;
 }
-
 .radio-button_yellow-background {
   accent-color: yellow;
+  cursor: pointer;
+}
+.radio-button_purple-background {
+  accent-color: var(--purple-border-calendar);
   cursor: pointer;
 }
 

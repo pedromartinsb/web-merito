@@ -13,17 +13,23 @@ body {
 :root {
   --primary: #5585b5;
   --accent: #ff4081;
-  --warn: #f44336;
+  --warn: yellow;
   --success: #008000;
   --cancel: #ff0000;
   --delete: #ff4500;
+
   --white: #fff;
+  --black: #333;
+
   --red-appointment: #ff0000;
   --orange-appointment: #ff4500;
   --yellow-appointment: #ffd700;
   --green-appointment: #008000;
+  --gray-appointment: gray;
+  --blue-appointment: #0000ff;
+
   --green-border-calendar: #008000;
   --green-color-calendar: #006400;
-  --blue-appointment: #0000ff;
   --gray-border-calendar: gray;
+  --purple-border-calendar: purple;
 }

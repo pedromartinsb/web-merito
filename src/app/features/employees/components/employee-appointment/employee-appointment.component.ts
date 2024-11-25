@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatCalendarCellClassFunction} from '@angular/material/datepicker';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute} from '@angular/router';
@@ -18,6 +18,16 @@ import {PersonAppointmentConfirmComponent} from "../../../../pages/person/person
 import {Task} from "../../../../pages/person/person-appointment/person-appointment-task/person-appointment-task.component";
 import {Modal} from "bootstrap";
 import { DatePipe, Location } from '@angular/common';
+import { GoalService } from 'src/app/services/goal.service';
+
+export interface Goal {
+  id?: string;
+  personId?: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+};
 
 @Component({
   selector: 'app-employee-appointment',
@@ -46,7 +56,9 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   activitiesResponse: Activity[];
   activitiesDailyResponse: Activity[];
   appointments: Appointment[] = [];
-  tags: Tag[];
+  tags: Tag[] = [];
+  selectedFile: File | null = null;
+  imageUrl: string | ArrayBuffer | null = null;
   firstDay: Date;
   lastDay: Date;
   firstDayLastMonth: Date;
@@ -64,6 +76,7 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   startDate = new Date();
   endDate = new Date();
   selectedTab = new FormControl(0);
+
   tasks: Task[] = [];
   task: Task = {
     id: '',
@@ -73,12 +86,39 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     startDate: '',
     endDate:''
   };
+
+  goals: Goal[] = [];
+  goal: Goal = {
+    id: '',
+    personId: '',
+    title: '',
+    description: '',
+    startDate: '',
+    endDate:''
+  };
+
+  abstinence: any = {
+    id: '',
+    personId: '',
+    description: '',
+    startDate: '',
+    endDate:''
+  };
+  vacation: any = {
+    id: '',
+    personId: '',
+    description: '',
+    startDate: '',
+    endDate:''
+  };
+
   options = [
-    { index: '1', color: 'red'},
-    { index: '2', color: 'orange'},
-    { index: '3', color: 'yellow'},
-    { index: '4', color: 'green'},
-    { index: '5', color: ''},
+    { index: '1', color: 'red', description: 'Falha Grave' },
+    { index: '2', color: 'orange', description: 'Alerta (Erro cometido as vezes)' },
+    { index: '3', color: 'yellow', description: 'Atenção (Corrigir de forma educativa)' },
+    { index: '4', color: 'green', description: 'Dever cumprido!' },
+    { index: '5', color: '', description: 'Acima da média' },
+    { index: '6', color: 'purple', description: 'Ótimo, Parábens, Excelente!' },
   ];
   items = [
     { name: 'Item 1', value: '10' },
@@ -86,14 +126,21 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     { name: 'Item 3', value: '30' },
     { name: 'Item 4', value: '40' },
   ];
+
   formTask: FormGroup;
   formGoal: FormGroup;
   formAppointment: FormGroup;
+  formAbstinence: FormGroup;
+  formVacation: FormGroup;
+
   isSavingTask: boolean = false;
+  isSavingGoal: boolean = false;
+  isSavingAbstinence: boolean = false;
+  isSavingVacation: boolean = false;
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute, private toast: ToastrService,
               private tagService: TagService, private appointmentService: AppointmentService, private personService: PersonService,
-              private taskService: TaskService, private location: Location, private datePipe: DatePipe) {
+              private taskService: TaskService, private location: Location, private datePipe: DatePipe, private goalService: GoalService) {
     this._initializeFormsGroup();
     this._initializePerson();
     this._initializeTags();
@@ -110,6 +157,8 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
       endDate: new FormControl('')
     });
     this.formGoal = new FormGroup({
+      id: new FormControl(''),
+      title: new FormControl(''),
       description: new FormControl(''),
       startDate: new FormControl(''),
       endDate: new FormControl('')
@@ -123,6 +172,21 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
       tagId: new FormControl(''),
       activityId: new FormControl(''),
       createdAt: new FormControl(''),
+    });
+    this.formAbstinence = new FormGroup({
+      id: new FormControl(''),
+      personId: new FormControl(''),
+      description: new FormControl(''),
+      document: new FormControl(''),
+      startDate: new FormControl('', Validators.required),
+      endDate: new FormControl('', Validators.required),
+    });
+    this.formVacation = new FormGroup({
+      id: new FormControl(''),
+      personId: new FormControl(''),
+      description: new FormControl(''),
+      startDate: new FormControl('', Validators.required),
+      endDate: new FormControl('', Validators.required),
     });
   }
 
@@ -157,6 +221,16 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   _initializeGoals() {
+    this.goalService.findAllByPerson(this.personId).subscribe({
+      next: (response) => {
+        if (response != null) {
+          this.goals = response;
+        }
+      },
+      error: (ex) => {
+        this._handleErrors(ex);
+      },
+    });
   }
 
   ngOnDestroy(): void {
@@ -191,7 +265,11 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
 
   _setTagList() {
     this.tagService.findAll().subscribe((response) => {
-      this.tags = response;
+      for (const tag of response) {
+        if (tag.name != "Gray") {
+          this.tags.push(tag);
+        }
+      }
       this.fillTagDescription();
     });
   }
@@ -243,15 +321,11 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     this.currentMonthTags = JSON.parse(localStorage.getItem('currentMonth'));
     if (this.currentMonthTags != undefined) {
       const [todayDaySplit, monthSplit, yearSplit] = this.today.split('/');
-      console.log('today date: ', todayDaySplit);
 
       this.currentMonthTags.map((month) => {
         const [monthDateSplit, yearDateSplit, dayDateSplit] = month.date.split('-');
-        console.log('month date: ', dayDateSplit);
-
         if (dayDateSplit == todayDaySplit) {
-          console.log('são iguais')
-          month.tag = 'Gray';
+          month.tag = 'Green-Light';
         }
 
         let newDate = new Date(month.date);
@@ -379,10 +453,6 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
       const tagName = tag.name;
 
       switch (tagName) {
-        case 'Gray':
-          tag.description = 'Dia de hoje';
-          tag.class = 'gray-background';
-          break;
         case 'Red':
           tag.description = 'Falha Grave';
           tag.class = 'red-background';
@@ -400,8 +470,12 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           tag.class = 'green-background';
           break;
         case 'Blue':
-          tag.description = ' Ótimo, Parábens, Excelente!';
+          tag.description = 'Acima da média';
           tag.class = 'blue-background';
+          break;
+        case 'Purple':
+          tag.description = 'Ótimo, Parábens, Excelente!';
+          tag.class = 'purple-background';
           break;
       }
     });
@@ -427,6 +501,8 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           return 'purple-background';
         } else if (this.currentMonthTags[i].tag == 'Gray') {
           return 'gray-background';
+        } else if (this.currentMonthTags[i].tag == 'Green-Light') {
+          return 'green-light-background';
         } else {
           return 'green-background';
         }
@@ -450,11 +526,34 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           return 'orange-background';
         } else if (this.lastMonthTags[i].tag == 'Yellow') {
           return 'yellow-background';
+        } else if (this.lastMonthTags[i].tag == 'Purple') {
+          return 'purple-background';
+        } else if (this.lastMonthTags[i].tag == 'Gray') {
+          return 'gray-background';
+        } else if (this.lastMonthTags[i].tag == 'Green-Light') {
+          return 'green-light-background';
         } else {
           return 'green-background';
         }
       }
     }
+    // for (let i = 0; i < this.daysOfLastMonth.length; i++) {
+    //   if (this.daysOfLastMonth[i] == cellDate.getDate()) {
+    //     if (this.lastMonthTags[i].tag == 'Green') {
+    //       return 'green-background';
+    //     } else if (this.lastMonthTags[i].tag == 'Red') {
+    //       return 'red-background';
+    //     } else if (this.lastMonthTags[i].tag == 'Blue') {
+    //       return 'blue-background';
+    //     } else if (this.lastMonthTags[i].tag == 'Orange') {
+    //       return 'orange-background';
+    //     } else if (this.lastMonthTags[i].tag == 'Yellow') {
+    //       return 'yellow-background';
+    //     } else {
+    //       return 'green-background';
+    //     }
+    //   }
+    // }
   };
 
   public dateClassLastTwoMonth: MatCalendarCellClassFunction<Date> = (
@@ -473,11 +572,34 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           return 'orange-background';
         } else if (this.lastTwoMonthTags[i].tag == 'Yellow') {
           return 'yellow-background';
+        } else if (this.lastTwoMonthTags[i].tag == 'Purple') {
+          return 'purple-background';
+        } else if (this.lastTwoMonthTags[i].tag == 'Gray') {
+          return 'gray-background';
+        } else if (this.lastTwoMonthTags[i].tag == 'Green-Light') {
+          return 'green-light-background';
         } else {
           return 'green-background';
         }
       }
     }
+    // for (let i = 0; i < this.daysOfLastTwoMonth.length; i++) {
+    //   if (this.daysOfLastTwoMonth[i] == cellDate.getDate()) {
+    //     if (this.lastTwoMonthTags[i].tag == 'Green') {
+    //       return 'green-background';
+    //     } else if (this.lastTwoMonthTags[i].tag == 'Red') {
+    //       return 'red-background';
+    //     } else if (this.lastTwoMonthTags[i].tag == 'Blue') {
+    //       return 'blue-background';
+    //     } else if (this.lastTwoMonthTags[i].tag == 'Orange') {
+    //       return 'orange-background';
+    //     } else if (this.lastTwoMonthTags[i].tag == 'Yellow') {
+    //       return 'yellow-background';
+    //     } else {
+    //       return 'green-background';
+    //     }
+    //   }
+    // }
   };
 
   public dateClassLastThreeMonth: MatCalendarCellClassFunction<Date> = (
@@ -496,11 +618,34 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           return 'orange-background';
         } else if (this.lastThreeMonthTags[i].tag == 'Yellow') {
           return 'yellow-background';
+        } else if (this.lastThreeMonthTags[i].tag == 'Purple') {
+          return 'purple-background';
+        } else if (this.lastThreeMonthTags[i].tag == 'Gray') {
+          return 'gray-background';
+        } else if (this.lastThreeMonthTags[i].tag == 'Green-Light') {
+          return 'green-light-background';
         } else {
           return 'green-background';
         }
       }
     }
+    // for (let i = 0; i < this.daysOfLastThreeMonth.length; i++) {
+    //   if (this.daysOfLastThreeMonth[i] == cellDate.getDate()) {
+    //     if (this.lastThreeMonthTags[i].tag == 'Green') {
+    //       return 'green-background';
+    //     } else if (this.lastThreeMonthTags[i].tag == 'Red') {
+    //       return 'red-background';
+    //     } else if (this.lastThreeMonthTags[i].tag == 'Blue') {
+    //       return 'blue-background';
+    //     } else if (this.lastThreeMonthTags[i].tag == 'Orange') {
+    //       return 'orange-background';
+    //     } else if (this.lastThreeMonthTags[i].tag == 'Yellow') {
+    //       return 'yellow-background';
+    //     } else {
+    //       return 'green-background';
+    //     }
+    //   }
+    // }
   };
 
   public dateClassLastFourMonth: MatCalendarCellClassFunction<Date> = (
@@ -519,11 +664,34 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           return 'orange-background';
         } else if (this.lastFourMonthTags[i].tag == 'Yellow') {
           return 'yellow-background';
+        } else if (this.lastFourMonthTags[i].tag == 'Purple') {
+          return 'purple-background';
+        } else if (this.lastFourMonthTags[i].tag == 'Gray') {
+          return 'gray-background';
+        } else if (this.lastFourMonthTags[i].tag == 'Green-Light') {
+          return 'green-light-background';
         } else {
           return 'green-background';
         }
       }
     }
+    // for (let i = 0; i < this.daysOfLastFourMonth.length; i++) {
+    //   if (this.daysOfLastFourMonth[i] == cellDate.getDate()) {
+    //     if (this.lastFourMonthTags[i].tag == 'Green') {
+    //       return 'green-background';
+    //     } else if (this.lastFourMonthTags[i].tag == 'Red') {
+    //       return 'red-background';
+    //     } else if (this.lastFourMonthTags[i].tag == 'Blue') {
+    //       return 'blue-background';
+    //     } else if (this.lastFourMonthTags[i].tag == 'Orange') {
+    //       return 'orange-background';
+    //     } else if (this.lastFourMonthTags[i].tag == 'Yellow') {
+    //       return 'yellow-background';
+    //     } else {
+    //       return 'green-background';
+    //     }
+    //   }
+    // }
   };
 
   public dateClassLastFiveMonth: MatCalendarCellClassFunction<Date> = (
@@ -542,11 +710,34 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           return 'orange-background';
         } else if (this.lastFiveMonthTags[i].tag == 'Yellow') {
           return 'yellow-background';
+        } else if (this.lastFiveMonthTags[i].tag == 'Purple') {
+          return 'purple-background';
+        } else if (this.lastFiveMonthTags[i].tag == 'Gray') {
+          return 'gray-background';
+        } else if (this.lastFiveMonthTags[i].tag == 'Green-Light') {
+          return 'green-light-background';
         } else {
           return 'green-background';
         }
       }
     }
+    // for (let i = 0; i < this.daysOfLastFiveMonth.length; i++) {
+    //   if (this.daysOfLastFiveMonth[i] == cellDate.getDate()) {
+    //     if (this.lastFiveMonthTags[i].tag == 'Green') {
+    //       return 'green-background';
+    //     } else if (this.lastFiveMonthTags[i].tag == 'Red') {
+    //       return 'red-background';
+    //     } else if (this.lastFiveMonthTags[i].tag == 'Blue') {
+    //       return 'blue-background';
+    //     } else if (this.lastFiveMonthTags[i].tag == 'Orange') {
+    //       return 'orange-background';
+    //     } else if (this.lastFiveMonthTags[i].tag == 'Yellow') {
+    //       return 'yellow-background';
+    //     } else {
+    //       return 'green-background';
+    //     }
+    //   }
+    // }
   };
 
   public openDialog() {
@@ -631,6 +822,7 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     if (modalElement) {
       const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
       modalInstance.show();
+      this.closeAppointmentsModal();
     }
   }
 
@@ -742,6 +934,31 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  onEditGoal(goal: Goal) {
+    this.formGoal.patchValue(goal);
+    const modalElement = document.getElementById('goalsCreateModal2');
+    if (modalElement) {
+      const modal = new Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  onDeleteGoal(id: string) {
+    this.goalService.delete(id).subscribe({
+      next: () => {
+        this.toast.success('Meta deletada com sucesso', 'Exclusão');
+        setTimeout(() => {
+          this.isSavingGoal = false;
+          window.location.reload();
+        }, 1500);
+      },
+      error: (ex) => {
+        this.isSavingGoal = false;
+        this._handleErrors(ex);
+      }
+    });
+  }
+
   openGoalsModal(): void {
     const modalElement = document.getElementById('goalsModal');
     if (modalElement) {
@@ -760,7 +977,133 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   onSubmitFormGoal() {
+    this.isSavingGoal = true;
+    this.goal = this.formGoal.value;
+    this.goal.personId = this.personId;
 
+    if (this.goal.id) {
+
+    } else {
+      this.goalService.create(this.goal).subscribe({
+        next: () => {
+          this.toast.success('Meta cadastrada com sucesso', 'Cadastro');
+          setTimeout(() => {
+            this.isSavingGoal = false;
+            window.location.reload();
+          }, 2000);
+        },
+        error: (ex) => {
+          this.isSavingGoal = false;
+          this._handleErrors(ex);
+        }
+      });
+    }
+  }
+
+  openAbstinencesModal(): void {
+    const modalElement = document.getElementById('abstinencesModal');
+    if (modalElement) {
+      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+      modalInstance.show();
+    }
+  }
+
+  closeAbstinenceCreateModal(): void {
+    this.formTask.reset();
+    const modalElement = document.getElementById('abstinencesCreateModal');
+    if (modalElement) {
+      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+      modalInstance.hide();
+    }
+  }
+
+  onSubmitFormAbstinence() {
+    this.isSavingAbstinence = true;
+    this.abstinence = this.formAbstinence.value;
+    this.abstinence.personId = this.personId;
+
+    if (this.abstinence.id) {
+      this.taskService.update(this.task.id, this.task).subscribe({
+        next: () => {
+          this.toast.success('Atestado médico alteradao com sucesso', 'Cadastro');
+          setTimeout(() => {
+            this.isSavingAbstinence = false;
+            window.location.reload();
+          }, 2000);
+        },
+        error: (ex) => {
+          this.isSavingAbstinence = false;
+          this._handleErrors(ex);
+        }
+      });
+    } else {
+      this.appointmentService.createAbstinence(this.abstinence).subscribe({
+        next: () => {
+          this.toast.success('Atestado médico cadastrado com sucesso', 'Cadastro');
+          setTimeout(() => {
+            this.isSavingAbstinence = false;
+            window.location.reload();
+          }, 2000);
+        },
+        error: (ex) => {
+          this.isSavingAbstinence = false;
+          this._handleErrors(ex);
+        }
+      });
+    }
+  }
+
+  openVacationsModal(): void {
+    const modalElement = document.getElementById('vacationsModal');
+    if (modalElement) {
+      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+      modalInstance.show();
+    }
+  }
+
+  closeVacationCreateModal(): void {
+    this.formTask.reset();
+    const modalElement = document.getElementById('vacationsCreateModal');
+    if (modalElement) {
+      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+      modalInstance.hide();
+    }
+  }
+
+  onSubmitFormVacation() {
+    this.isSavingVacation = true;
+    this.vacation = this.formVacation.value;
+    this.vacation.personId = this.personId;
+
+    if (this.vacation.id) {
+      this.taskService.update(this.task.id, this.task).subscribe({
+        next: () => {
+          this.toast.success('Férias alteradas com sucesso', 'Cadastro');
+          setTimeout(() => {
+            this.isSavingVacation = false;
+            window.location.reload();
+          }, 2000);
+        },
+        error: (ex) => {
+          this.isSavingVacation = false;
+          this._handleErrors(ex);
+        }
+      });
+    } else {
+      this.appointmentService.createVacation(this.vacation).subscribe({
+        next: () => {
+          this.toast.success('Férias cadastradas com sucesso', 'Cadastro');
+          setTimeout(() => {
+            this.isSavingVacation = false;
+            window.location.reload();
+          }, 2000);
+        },
+        error: (ex) => {
+          this.isSavingVacation = false;
+          this._handleErrors(ex);
+        }
+      });
+    }
   }
 
   _handleErrors(ex: any): void {
@@ -774,9 +1117,6 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   formatTodayDates(date1: string, date2: string): { formattedDate1: string; formattedDate2: string } {
-    console.log('date1: ', date1)
-    console.log('date2: ', date2)
-
     const parsedDate1 = new Date(date1); // "2024-11-23"
     const [day, month, year] = date2.split('/'); // "23/11/2024"
     const parsedDate2 = new Date(`${year}-${month}-${day}`);
@@ -789,5 +1129,22 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
       formattedDate1: formattedDate1 || '',
       formattedDate2: formattedDate2 || ''
     };
+  }
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+
+    if (file) {
+      this.selectedFile = file;
+      this.formAbstinence.patchValue({
+        document: file
+      });
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imageUrl = e.target?.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }

@@ -6,9 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { DeleteConfirmationModalComponent } from '../../../components/delete/delete-confirmation-modal';
-import { Goal } from '../../../models/goal';
 import { GoalService } from '../../../services/goal.service';
 import { MatSort } from '@angular/material/sort';
+import { Goal } from 'src/app/features/employees/components/employee-appointment/employee-appointment.component';
 
 @Component({
   selector: 'app-goal-list',
@@ -18,7 +18,7 @@ import { MatSort } from '@angular/material/sort';
 export class GoalListComponent implements OnInit, AfterViewInit {
   personId: string;
 
-  displayedColumns: string[] = ['name', 'person', 'actions'];
+  displayedColumns: string[] = ['title', 'person', 'actions'];
   dataSource = new MatTableDataSource<Goal>();
 
   public isLoading: boolean = false;

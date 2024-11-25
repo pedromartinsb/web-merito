@@ -3,11 +3,11 @@ import { ToastrService } from 'ngx-toastr';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Goal } from 'src/app/models/goal';
 import { PersonService } from 'src/app/services/person.service';
 import { Person } from 'src/app/models/person';
-import { finalize, map, merge } from 'rxjs';
+import { finalize } from 'rxjs';
 import { Location } from '@angular/common';
+import { Goal } from 'src/app/features/employees/components/employee-appointment/employee-appointment.component';
 
 @Component({
   selector: 'app-goal-form',
@@ -17,12 +17,11 @@ import { Location } from '@angular/common';
 export class GoalFormComponent implements OnInit {
   persons: Array<Person>;
   goal: Goal = {
-    name: '',
-    person: null,
-    persons: [],
-    createdAt: '',
-    updatedAt: '',
-    deletedAt: '',
+    title: '',
+    description: '',
+    personId: '',
+    startDate: '',
+    endDate: '',
   };
   goalId: string;
   selectedPerson: any = [];
@@ -75,7 +74,6 @@ export class GoalFormComponent implements OnInit {
       )
       .subscribe({
         next: (response: Goal) => {
-          this.selectedPerson = response.persons;
           this.goal = response;
         },
         error: (ex) => this._handleErrors(ex),
@@ -83,7 +81,6 @@ export class GoalFormComponent implements OnInit {
   }
 
   public save(): void {
-    this.goal.persons = this.selectedPersonId;
     this.isSaving = true;
     this.goalService.create(this.goal).subscribe({
       next: () => {
@@ -98,7 +95,6 @@ export class GoalFormComponent implements OnInit {
   }
 
   public update(): void {
-    this.goal.persons = this.selectedPersonId;
     this.isSaving = true;
     this.goalService.updateByName(this.goalId, this.goal).subscribe({
       next: () => {

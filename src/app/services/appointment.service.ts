@@ -78,6 +78,20 @@ export class AppointmentService {
     );
   }
 
+  createAbstinence(abstinence: any): Observable<any> {
+    return this.http.post<any>(
+      `${Config.webApiUrl}/v1/appointment/abstinence`,
+      abstinence
+    );
+  }
+
+  createVacation(vacation: any): Observable<any> {
+    return this.http.post<any>(
+      `${Config.webApiUrl}/v1/appointment/vacation`,
+      vacation
+    );
+  }
+
   update(id: string, appointment: Appointment): Observable<Appointment> {
     return this.http.put<Appointment>(
       `${Config.webApiUrl}/v1/appointment/${id}`,

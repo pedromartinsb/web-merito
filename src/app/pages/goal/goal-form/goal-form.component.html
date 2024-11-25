@@ -4,7 +4,7 @@
       >Voltar</mat-card-subtitle
     >
     <mat-card-title
-      >{{ goalId ? "Editar " + goal.name : "Cadastrar Meta" }}
+      >{{ goalId ? "Editar " + goal.title : "Cadastrar Meta" }}
     </mat-card-title>
     <mat-card-subtitle>Formulário para cadastro</mat-card-subtitle>
   </mat-card-header>
@@ -21,9 +21,9 @@
         <!-- Coluna 1 -->
         <mat-grid-tile colspan="1">
           <mat-form-field appearance="legacy">
-            <mat-label>Nome</mat-label>
+            <mat-label>Título</mat-label>
             <input
-              [(ngModel)]="goal.name"
+              [(ngModel)]="goal.title"
               name="name"
               [formControl]="nameFormControl"
               required

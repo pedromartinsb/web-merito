@@ -11,7 +11,11 @@ import {GoalsService} from "../../services/goals.service";
 export class GoalsListComponent implements OnInit {
   goalHeaders = [
     'Id',
-    'Nome',
+    'Título',
+    'PersonId',
+    'Funcionário',
+    'Cargo',
+    'Status'
   ];
   goalData = [];
   loading: boolean = true; // Estado de carregamento
