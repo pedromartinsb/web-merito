@@ -44,8 +44,8 @@ export class SuppliersListComponent implements OnInit {
             console.log(response)
             this.suppliersData.push(supplier);
           });
-          this.loading = false;
         }
+        this.loading = false;
       },
       error: (ex) => {
         this._handleErrors(ex);

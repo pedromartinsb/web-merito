@@ -21,6 +21,7 @@ export class EmployeeListComponent implements OnInit {
 
   userForm: FormGroup;
   loading: boolean = true; // Estado de carregamento
+  deleting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -67,7 +68,20 @@ export class EmployeeListComponent implements OnInit {
   }
 
   onDelete(row: any) {
-    console.log(row);
+    this.deleting = true;
+    this.employeeService.delete(row[0])
+    .subscribe({
+      next: (response) => {
+        this.toast.success('Usuário desativado com sucesso!');
+        this.loading = false;
+        window.location.reload();
+        this.deleting = false;
+      },
+      error: (ex) => {
+        this._handleErrors(ex);
+        this.deleting = false;
+      },
+    });
   }
 
   onView(row: any) {

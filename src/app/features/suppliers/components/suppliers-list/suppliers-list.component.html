@@ -6,21 +6,30 @@
     </ol>
   </nav>
 
-  <h1>Lista de Fornecedores</h1>
+  <h1 *ngIf="!loading">Lista de Fornecedores</h1>
 
   <!-- Botão para Criar Novo Usuário -->
-  <div class="text-end mb-3">
+  <div class="text-end mb-3" *ngIf="!loading && suppliersData.length > 0">
     <button class="btn btn-primary" (click)="router.navigate(['/suppliers/create'])">
-      Criar Novo Usuário
+      Criar Novo Fornecedor
     </button>
   </div>
 
   <!-- Exibe mensagem de carregamento enquanto os dados estão sendo buscados -->
-  <div *ngIf="loading" class="alert alert-info">
-    Carregando fornecedores...
+  <div *ngIf="loading" class="spinner-container gap-2">
+    <div class="spinner"></div>
+    <span>Carregando fornecedores...</span>
   </div>
 
-  <app-zebra-employee-table *ngIf="!loading"
+  <div *ngIf="!loading && suppliersData.length == 0">
+    <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+    <h4>Nenhum fornecedor cadastrado.</h4>
+    <button class="btn btn-primary" (click)="router.navigate(['/suppliers/create'])">
+      Criar Novo Fornecedor
+    </button>
+  </div>
+
+  <app-zebra-employee-table *ngIf="!loading && suppliersData.length > 0"
                             [headers]="suppliersHeaders"
                             [data]="suppliersData"
                             [itemsPerPage]="5"

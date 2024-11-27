@@ -6,6 +6,12 @@
     </ol>
   </nav>
 
+  <div *ngIf="deleting" class="backdrop">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Salvando as Informações...</span>
+    </div>
+  </div>
+
   <h1>Lista de Funcionários</h1>
 
   <div class="text-end mb-3" *ngIf="!loading && employeeData.length != 0">
@@ -26,7 +32,7 @@
     (delete)="onDelete($event)"
     (view)="onView($event)"></app-zebra-employee-table>
 
-  <div *ngIf="employeeData.length == 0">
+  <div *ngIf="loading && employeeData.length == 0">
     <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
     <h4>Nenhum funcionário cadastrado.</h4>
     <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">

@@ -73,6 +73,8 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
     responsibility: null,
     responsibilityId: '',
     user: this.user,
+    supervisor: null,
+    supervisorId: '',
     address: this.address,
     contact: this.contact,
     createdAt: '',

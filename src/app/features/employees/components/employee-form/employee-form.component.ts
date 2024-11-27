@@ -1,4 +1,3 @@
-import { HoldingService } from 'src/app/services/holding.service';
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
@@ -12,7 +11,6 @@ import {Address, Contact, ContractType, EmployeeRequest, PersonType, User} from 
 import {EmployeeService} from "../../services/employee.service";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-employee-form',
@@ -40,8 +38,8 @@ export class EmployeeFormComponent implements OnInit {
       id: [],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', Validators.minLength(6)],
+      confirmPassword: ['', Validators.minLength(6)],
       cep: [''],
       city: [''],
       complement: [''],
@@ -52,12 +50,14 @@ export class EmployeeFormComponent implements OnInit {
       cellphone: [''],
       name: ['', Validators.required],
       cpfCnpj: ['', Validators.required],
-      picture: [null, Validators.required],
+      picture: [null],
       birthdate: ['', Validators.required],
       gender: ['', Validators.required],
       contractType: [''],
       personType: [''],
       officeId: ['', Validators.required],
+      office: [],
+      responsibility: [],
       responsibilityId: ['', Validators.required],
       supervisorId: ['', Validators.required],
       isSupervisor: [false]
@@ -94,9 +94,11 @@ export class EmployeeFormComponent implements OnInit {
             this.formGroup.get('streetName').patchValue(response.address.streetName);
             this.formGroup.get('uf').patchValue(response.address.uf);
             this.formGroup.get('officeId').patchValue(response.office.id);
+            this.formGroup.get('office').patchValue(response.office);
+            this.formGroup.get('responsibility').patchValue(response.responsibility);
             this.formGroup.get('responsibilityId').patchValue(response.responsibility.id);
-            // TODO: implementar o supervisorId
-            // this.formGroup.get('supervisorId').patchValue(response.office.id);
+            this.formGroup.get('supervisorId').patchValue(response.supervisor.id);
+            this.imageUrl = response.picture;
           },
           error: (er) => console.log(er)
         });
@@ -147,27 +149,30 @@ export class EmployeeFormComponent implements OnInit {
   onSubmit() {
     this.isSaving = true;
     if (this.formGroup.valid) {
+
       if (this.formGroup.get('password').value !== this.formGroup.get('confirmPassword').value) {
         this.errorMessage = 'As senhas precisam ser iguais.'
         this.successMessage = null;
         setTimeout(() => {
           this.errorMessage = null;
+          this.isSaving = false;
         }, 5000);
       } else {
+
         const address: Address = {
-          cep: this.formGroup.get('cep').value,
-          uf: this.formGroup.get('uf').value,
-          city: this.formGroup.get('city').value,
-          complement: this.formGroup.get('complement').value,
-          streetName: this.formGroup.get('streetName').value,
-          neighborhood: this.formGroup.get('neighborhood').value
+          cep: this.formGroup.get('cep')?.value,
+          uf: this.formGroup.get('uf')?.value,
+          city: this.formGroup.get('city')?.value,
+          complement: this.formGroup.get('complement')?.value,
+          streetName: this.formGroup.get('streetName')?.value,
+          neighborhood: this.formGroup.get('neighborhood')?.value
         }
         const contact: Contact = {
-          phone: this.formGroup.get('phone').value,
-          cellphone: this.formGroup.get('cellphone').value
+          phone: this.formGroup.get('phone')?.value,
+          cellphone: this.formGroup.get('cellphone')?.value
         }
 
-        if (this.formGroup.get('isSupervisor').value == true) {
+        if (this.formGroup.get('isSupervisor')?.value == true) {
           this.roles.push('ROLE_SUPERVISOR');
           this.formGroup.get('personType').patchValue(PersonType.SUPERVISOR);
         } else {
@@ -176,45 +181,74 @@ export class EmployeeFormComponent implements OnInit {
         }
 
         const user: User = {
-          username: this.formGroup.get('username').value,
-          email: this.formGroup.get('email').value,
-          password: this.formGroup.get('password').value,
+          username: this.formGroup.get('username')?.value,
+          email: this.formGroup.get('email')?.value,
+          password: this.formGroup.get('password')?.value,
           roles: this.roles
         }
 
         const employee: EmployeeRequest = {
-          name: this.formGroup.get('name').value,
-          birthdate: this.formGroup.get('birthdate').value,
-          cpfCnpj: this.formGroup.get('cpfCnpj').value,
-          gender: this.formGroup.get('gender').value,
-          officeId: this.formGroup.get('officeId').value,
-          responsibilityId: this.formGroup.get('responsibilityId').value,
-          supervisorId: this.formGroup.get('supervisorId').value,
-          personType: this.formGroup.get('personType').value,
+          name: this.formGroup.get('name')?.value,
+          birthdate: this.formGroup.get('birthdate')?.value,
+          cpfCnpj: this.formGroup.get('cpfCnpj')?.value,
+          gender: this.formGroup.get('gender')?.value,
+          officeId: this.formGroup.get('officeId')?.value,
+          responsibilityId: this.formGroup.get('responsibilityId')?.value,
+          supervisorId: this.formGroup.get('supervisorId')?.value,
+          personType: this.formGroup.get('personType')?.value,
           contractType: ContractType.CLT,
           address: address,
           contact: contact,
           user: user
         };
 
-        this.employeeService.create(employee, this.selectedFile).subscribe({
-          next: () => {
-            this.router.navigate(['employees']).then(success => {
-              if (success) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-            });
-            this.isSaving = false;
-            this.toast.success('🎉 Funcionário salvo com sucesso!');
-          },
-          error: (error: Error) => {
-            this.isSaving = false;
-            this._handleErrors(error);
-          },
-          complete: () => {
-            this.formGroup.reset();
-          }
-        });
+        if (this.formGroup.get('id').value != '') {
+          // update
+          console.log('id: ', this.formGroup.get('id').value);
+          console.log('employee: ', employee);
+          console.log('selectedFile: ', this.selectedFile)
+
+          this.employeeService.update(this.formGroup.get('id').value, employee, this.selectedFile).subscribe({
+            next: () => {
+              this.router.navigate(['employees']).then(success => {
+                if (success) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              });
+              this.isSaving = false;
+              this.toast.success('🎉 Funcionário alterado com sucesso!');
+            },
+            error: (error: Error) => {
+              this.isSaving = false;
+              this._handleErrors(error);
+            },
+            complete: () => {
+              this.formGroup.reset();
+            }
+          });
+
+        } else {
+          // create
+          this.employeeService.create(employee, this.selectedFile).subscribe({
+            next: () => {
+              this.router.navigate(['employees']).then(success => {
+                if (success) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              });
+              this.isSaving = false;
+              this.toast.success('🎉 Funcionário salvo com sucesso!');
+            },
+            error: (error: Error) => {
+              this.isSaving = false;
+              this._handleErrors(error);
+            },
+            complete: () => {
+              this.formGroup.reset();
+            }
+          });
+        }
+
       }
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });

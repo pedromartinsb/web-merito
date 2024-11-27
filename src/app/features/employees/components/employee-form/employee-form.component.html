@@ -217,8 +217,12 @@
         </div>
       </section>
 
-      <div class="d-grid gap-2">
+      <div class="d-grid gap-2" *ngIf="!isSaving">
         <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Salvar</button>
+      </div>
+
+      <div *ngIf="isSaving" class="spinner-container">
+        <div class="spinner"></div>
       </div>
     </form>
 

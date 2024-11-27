@@ -72,6 +72,8 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     responsibility: null,
     responsibilityId: '',
     user: this.user,
+    supervisor: null,
+    supervisorId: '',
     address: this.address,
     contact: this.contact,
     createdAt: '',

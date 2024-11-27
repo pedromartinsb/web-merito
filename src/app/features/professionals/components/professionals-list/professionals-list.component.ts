@@ -44,8 +44,8 @@ export class ProfessionalsListComponent implements OnInit {
             console.log(response)
             this.professionalsData.push(professional);
           });
-          this.loading = false;
         }
+        this.loading = false;
       },
       error: (ex) => {
         this._handleErrors(ex);

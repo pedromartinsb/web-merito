@@ -23,6 +23,18 @@ export class EmployeeService {
     return this.http.post<Person>(`${Config.webApiUrl}/v1/person`, formData);
   }
 
+  public update(id: string, employee: EmployeeRequest, file?: File): Observable<Person> {
+    const formData = new FormData();
+    formData.append('personRequest', JSON.stringify(employee));
+
+    if (file != null) {
+      formData.append('file', file);
+      return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}`, formData);
+    } else {
+      return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}/no-picture`, formData);
+    }
+  }
+
   public findAll(): Observable<Employee[]> {
     return this.http.get<Employee[]>(`${Config.webApiUrl}/v1/person`);
   }
@@ -31,5 +43,9 @@ export class EmployeeService {
     return this.http.get<Employee[]>(
       `${Config.webApiUrl}/v1/person/${this.officeId}/CLT/contract-type`
     );
+  }
+
+  delete(id: string): Observable<Employee> {
+    return this.http.delete<Employee>(`${Config.webApiUrl}/v1/person/${id}`);
   }
 }
