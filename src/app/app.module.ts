@@ -127,7 +127,6 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { DocumentsListComponent } from './features/documents/components/documents-list/documents-list.component';
 import { DocumentsRoutingModule } from './features/documents/documents-routing.module';
 import { DocumentsUploadComponent } from './features/documents/components/documents-upload/documents-upload.component';
-import { NotFoundComponent } from './features/not-found/not-found.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -209,7 +208,6 @@ export const maskConfig: Partial<IConfig> = {
     SpinnerComponent,
     DocumentsListComponent,
     DocumentsUploadComponent,
-    NotFoundComponent,
   ],
     imports: [
         BrowserModule,
