@@ -36,6 +36,7 @@ import { SuggestionListComponent } from './pages/suggestion/suggestion-list/sugg
 import { SupplierFormComponent } from './pages/supplier/supplier-form/supplier-form.component';
 import { SupplierListComponent } from './pages/supplier/supplier-list/supplier-list.component';
 import {ChangePasswordComponent} from "./pages/person/change-password/change-password.component";
+import { NotFoundComponent } from './features/not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -694,6 +695,8 @@ const routes: Routes = [
       },
     ],
   },
+
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

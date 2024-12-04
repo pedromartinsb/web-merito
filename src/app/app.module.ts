@@ -96,7 +96,6 @@ import {SupplierListComponent} from './pages/supplier/supplier-list/supplier-lis
 import {FormsComponent} from './components/forms/forms.component';
 import {CommunicationComponent} from './components/communication/communication.component';
 import {PersonAppointmentTaskComponent} from './pages/person/person-appointment/person-appointment-task/person-appointment-task.component';
-import {PersonAppointmentAchieveComponent} from './pages/person/person-appointment/person-appointment-achieve/person-appointment-achieve.component';
 import {ChangePasswordComponent} from './pages/person/change-password/change-password.component';
 import {NgChartsModule} from "ng2-charts";
 import {ZebraTableComponent} from './components/zebra-table/zebra-table.component';
@@ -128,6 +127,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { DocumentsListComponent } from './features/documents/components/documents-list/documents-list.component';
 import { DocumentsRoutingModule } from './features/documents/documents-routing.module';
 import { DocumentsUploadComponent } from './features/documents/components/documents-upload/documents-upload.component';
+import { NotFoundComponent } from './features/not-found/not-found.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -189,7 +189,6 @@ export const maskConfig: Partial<IConfig> = {
     FormsComponent,
     CommunicationComponent,
     PersonAppointmentTaskComponent,
-    PersonAppointmentAchieveComponent,
     ChangePasswordComponent,
     ZebraTableComponent,
     ZebraPersonTableComponent,
@@ -210,6 +209,7 @@ export const maskConfig: Partial<IConfig> = {
     SpinnerComponent,
     DocumentsListComponent,
     DocumentsUploadComponent,
+    NotFoundComponent,
   ],
     imports: [
         BrowserModule,
