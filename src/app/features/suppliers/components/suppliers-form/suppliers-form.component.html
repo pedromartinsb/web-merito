@@ -9,6 +9,12 @@
 
   <h1>Cadastro de Fornecedores</h1>
 
+  <div *ngIf="isSaving" class="backdrop">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Salvando as Informações...</span>
+    </div>
+  </div>
+
   <div class="container my-5">
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
       <section class="mb-4">
@@ -183,8 +189,12 @@
         </div>
       </section>
 
-      <div class="d-grid gap-2">
+      <div class="d-grid gap-2" *ngIf="!isSaving">
         <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Salvar</button>
+      </div>
+
+      <div *ngIf="isSaving" class="spinner-container">
+        <div class="spinner"></div>
       </div>
     </form>
 

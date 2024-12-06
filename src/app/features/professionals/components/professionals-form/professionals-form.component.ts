@@ -17,6 +17,7 @@ import {ContractType, PersonType, ProfessionalRequest} from "../../professional.
   styleUrls: ['./professionals-form.component.css']
 })
 export class ProfessionalsFormComponent implements OnInit {
+  isSaving = false;
   imageUrl: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
   formGroup: FormGroup;
@@ -48,8 +49,6 @@ export class ProfessionalsFormComponent implements OnInit {
       name: ['', Validators.required],
       cpfCnpj: ['', Validators.required],
       picture: [null, Validators.required],
-      birthdate: ['', Validators.required],
-      gender: ['', Validators.required],
       contractType: [''],
       personType: [''],
       officeId: ['', Validators.required],
@@ -142,13 +141,16 @@ export class ProfessionalsFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isSaving = true;
     if (this.formGroup.valid) {
       if (this.formGroup.get('password').value !== this.formGroup.get('confirmPassword').value) {
         this.errorMessage = 'As senhas precisam ser iguais.'
         this.successMessage = null;
         setTimeout(() => {
+          this.isSaving = false;
           this.errorMessage = null;
         }, 5000);
+
       } else {
         const address: Address = {
           cep: this.formGroup.get('cep').value,
@@ -180,9 +182,7 @@ export class ProfessionalsFormComponent implements OnInit {
 
         const professional: ProfessionalRequest = {
           name: this.formGroup.get('name').value,
-          birthdate: this.formGroup.get('birthdate').value,
           cpfCnpj: this.formGroup.get('cpfCnpj').value,
-          gender: this.formGroup.get('gender').value,
           officeId: this.formGroup.get('officeId').value,
           responsibilityId: this.formGroup.get('responsibilityId').value,
           supervisorId: this.formGroup.get('supervisorId').value,
@@ -200,9 +200,11 @@ export class ProfessionalsFormComponent implements OnInit {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
             });
+            this.isSaving = false;
             this.toast.success('Profissional cadastrado com sucesso.');
           },
           error: (error: Error) => {
+            this.isSaving = false;
             this._handleErrors(error);
           },
           complete: () => {
@@ -234,7 +236,7 @@ export class ProfessionalsFormComponent implements OnInit {
   }
 
   _offices() {
-    this.officeService.findAllDTO().subscribe({
+    this.officeService.findAll().subscribe({
       next: (response: any[]) => {
         this.offices = response;
       },

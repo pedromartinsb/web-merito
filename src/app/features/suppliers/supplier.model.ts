@@ -1,5 +1,5 @@
 import { Office } from "src/app/models/office";
-import { Address, Contact, ContractType, PersonType, User } from "src/app/models/person";
+import { Address, Contact, ContractType, User } from "src/app/models/person";
 import { Responsibility } from "src/app/models/responsibility";
 
 export interface Supplier {
@@ -32,4 +32,9 @@ export interface SupplierRequest {
   user: User;
   address: Address;
   contact: Contact;
+}
+
+export enum PersonType {
+  EMPLOYEE = 'Colaborador',
+  SUPERVISOR = 'Supervisor',
 }

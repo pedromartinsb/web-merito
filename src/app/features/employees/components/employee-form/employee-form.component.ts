@@ -75,7 +75,6 @@ export class EmployeeFormComponent implements OnInit {
         .findById(id)
         .subscribe({
           next: (response) => {
-            console.log(response)
             this.formGroup.get('id').patchValue(id);
             this.formGroup.get('name').patchValue(response.name);
             this.formGroup.get('email').patchValue(response.user.email);
@@ -147,6 +146,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('id: ', this.formGroup.get('id').value);
     this.isSaving = true;
     if (this.formGroup.valid) {
 

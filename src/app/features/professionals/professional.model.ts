@@ -26,10 +26,8 @@ export interface Professional {
 export interface ProfessionalRequest {
   name: string;
   cpfCnpj: string;
-  gender: string;
   contractType: ContractType;
   personType: PersonType;
-  birthdate: string;
   officeId: string;
   responsibilityId: string;
   supervisorId: string;

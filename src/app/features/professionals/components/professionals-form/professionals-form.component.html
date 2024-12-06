@@ -34,35 +34,12 @@
             </div>
           </div>
           <div class="col-md-4 mb-3">
-            <label for="cpfCnpj" class="form-label">CPF</label>
-            <input type="text" id="cpfCnpj" formControlName="cpfCnpj" class="form-control" placeholder="000.000.000-00" mask="000.000.000-00"
+            <label for="cpfCnpj" class="form-label">CNPJ</label>
+            <input type="text" id="cpfCnpj" formControlName="cpfCnpj" class="form-control" placeholder="00.000.000/0000-00" mask="00.000.000/0000-00"
                    [ngClass]="{'is-invalid': formGroup.get('cpfCnpj')?.invalid && formGroup.get('cpfCnpj')?.touched,
                    'is-valid': formGroup.get('cpfCnpj')?.valid && formGroup.get('cpfCnpj')?.touched}" />
             <div *ngIf="formGroup.get('cpfCnpj')?.invalid && formGroup.get('cpfCnpj')?.touched" class="invalid-feedback">
-              O CPF é obrigatório.
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <label for="birthdate" class="form-label">Data de Nascimento</label>
-            <input type="date" id="birthdate" formControlName="birthdate" class="form-control"
-                   [ngClass]="{'is-invalid': formGroup.get('birthdate')?.invalid && formGroup.get('birthdate')?.touched,
-                   'is-valid': formGroup.get('birthdate')?.valid && formGroup.get('birthdate')?.touched}" />
-            <div *ngIf="formGroup.get('birthdate')?.invalid && formGroup.get('birthdate')?.touched" class="invalid-feedback">
-              A data de nascimento é obrigatório.
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="gender" class="form-label">Gênero</label>
-            <select id="gender" formControlName="gender" class="form-select"
-                    [ngClass]="{'is-invalid': formGroup.get('gender')?.invalid && formGroup.get('gender')?.touched,
-                   'is-valid': formGroup.get('gender')?.valid && formGroup.get('gender')?.touched}">
-              <option value="" disabled selected>Selecione</option>
-              <option value="Masculino">Masculino</option>
-              <option value="Feminino">Feminino</option>
-            </select>
-            <div *ngIf="formGroup.get('gender')?.invalid && formGroup.get('gender')?.touched" class="invalid-feedback">
-              O gênero é obrigatório.
+              O CNPJ é obrigatório.
             </div>
           </div>
 

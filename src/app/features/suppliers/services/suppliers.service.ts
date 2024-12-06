@@ -28,4 +28,16 @@ export class SuppliersService {
 
     return this.http.post<Person>(`${Config.webApiUrl}/v1/person`, formData);
   }
+
+  public update(id: string, supplier: SupplierRequest, file?: File): Observable<Person> {
+    const formData = new FormData();
+    formData.append('personRequest', JSON.stringify(supplier));
+
+    if (file != null) {
+      formData.append('file', file);
+      return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}`, formData);
+    } else {
+      return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}/no-picture`, formData);
+    }
+  }
 }
