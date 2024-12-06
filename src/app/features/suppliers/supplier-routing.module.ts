@@ -5,6 +5,7 @@ import {Roles} from "../../models/person";
 import {EmployeeFormComponent} from "../employees/components/employee-form/employee-form.component";
 import {NgModule} from "@angular/core";
 import {SuppliersListComponent} from "./components/suppliers-list/suppliers-list.component";
+import { SuppliersFormComponent } from "./components/suppliers-form/suppliers-form.component";
 
 const routes: Routes = [
   {
@@ -21,7 +22,7 @@ const routes: Routes = [
       {
         path: 'create',
         canActivate: [AuthGuard],
-        component: EmployeeFormComponent,
+        component: SuppliersFormComponent,
         data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
       },
       {

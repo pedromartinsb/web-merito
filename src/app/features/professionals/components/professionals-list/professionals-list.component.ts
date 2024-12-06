@@ -30,9 +30,7 @@ export class ProfessionalsListComponent implements OnInit {
       next: (professionals) => {
         if (professionals != null) {
           professionals.forEach((response) => {
-            if (response.picture != null) {
-              response.picture = Urls.getS3() + response.picture;
-            } else {
+            if (response.picture == null) {
               response.picture = Urls.getDefaultPictureS3();
             }
             const professional = [

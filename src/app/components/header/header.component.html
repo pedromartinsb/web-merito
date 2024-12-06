@@ -1,16 +1,79 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    <!-- Botão Menu-->
-    <button mat-icon-button aria-label="Menu icon" (click)="toggle()">
+    <!-- Botão Menu -->
+    <button mat-icon-button aria-label="Menu icon" [matMenuTriggerFor]="mainMenu">
       <mat-icon>menu</mat-icon>
     </button>
-    <h1>Projeção Profissional</h1>
+    <a (click)="router.navigate(['/home'])">Projeção Profissional</a>
     <span class="spacer"></span>
 
+    <!-- Lista de Empresas -->
+    <mat-form-field class="company-select">
+      <mat-select [(value)]="selectedCompany" (selectionChange)="editCompany($event)" matTooltip="{{ selectedCompany.fantasyName }}">
+        <mat-option *ngFor="let company of officeResponses" [value]="company">
+          <span (click)="changeCurrentOffice(company)">{{ company.fantasyName }}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <!-- Logout -->
-    <span>Logout</span>
     <button mat-icon-button aria-label="Logout icon" (click)="logout()">
+      <span>Sair</span>
       <mat-icon class="logout-icon" aria-hidden="false">logout</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<!-- Menus -->
+<mat-menu #mainMenu="matMenu">
+  <button mat-menu-item [matMenuTriggerFor]="submenu1">Gestão</button>
+  <button mat-menu-item>Documentos</button>
+  <button mat-menu-item [matMenuTriggerFor]="submenu_dashboards">Relatórios</button>
+</mat-menu>
+
+<mat-menu #submenu1="matMenu">
+  <button mat-menu-item [matMenuTriggerFor]="submenu_employee">Funcionários</button>
+  <button mat-menu-item [matMenuTriggerFor]="submenu_professionals">Profissionais</button>
+  <button mat-menu-item [matMenuTriggerFor]="submenu_suplliers">Fornecedores</button>
+  <button mat-menu-item [matMenuTriggerFor]="submenu_companies">Empresas</button>
+  <button mat-menu-item [matMenuTriggerFor]="submenu_officies">Unidades</button>
+</mat-menu>
+
+<mat-menu #submenu_employee="matMenu">
+  <button mat-menu-item (click)="router.navigate(['/employees'])">Listagem</button>
+  <button mat-menu-item (click)="router.navigate(['/employees/create'])">Cadastro</button>
+</mat-menu>
+<mat-menu #submenu_professionals="matMenu">
+  <button mat-menu-item (click)="router.navigate(['/professionals'])">Listagem</button>
+  <button mat-menu-item (click)="router.navigate(['/professionals/create'])">Cadastro</button>
+</mat-menu>
+<mat-menu #submenu_suplliers="matMenu">
+  <button mat-menu-item (click)="router.navigate(['/suppliers'])">Listagem</button>
+  <button mat-menu-item (click)="router.navigate(['/suppliers/create'])">Cadastro</button>
+</mat-menu>
+
+<mat-menu #submenu_companies="matMenu">
+  <button mat-menu-item>Listagem</button>
+  <button mat-menu-item>Cadastro</button>
+</mat-menu>
+
+<mat-menu #submenu_officies="matMenu">
+  <button mat-menu-item>Listagem</button>
+  <button mat-menu-item>Cadastro</button>
+</mat-menu>
+
+<mat-menu #submenu_dashboards="matMenu">
+  <button mat-menu-item>Resumo Mensal</button>
+  <button mat-menu-item [matMenuTriggerFor]="submenu2_1">Dashboards</button>
+</mat-menu>
+
+<mat-menu #submenu2_1="matMenu">
+  <button mat-menu-item>Financeiro</button>
+  <button mat-menu-item>Operacional</button>
+</mat-menu>
+
+<div class="content-wrapper">
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

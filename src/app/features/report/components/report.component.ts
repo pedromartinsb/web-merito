@@ -17,10 +17,10 @@ export class ReportComponent implements OnInit {
   employees: any[] =[];
   isLoading: boolean = false;
 
-  constructor(private fb: FormBuilder, 
-    private employeeService: EmployeeService, 
+  constructor(private fb: FormBuilder,
+    private employeeService: EmployeeService,
     private toast: ToastrService,
-    private appointmentService: AppointmentService) 
+    private appointmentService: AppointmentService)
   {
     this.formGroup = this.fb.group({
       employeeId: ['', Validators.required],

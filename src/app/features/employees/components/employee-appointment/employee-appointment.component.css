@@ -163,15 +163,6 @@ td {
   background-color: var(--green-appointment);
 }
 
-/* ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.green-light-background .mat-radio-outer-circle {
-  border-color: white;
-  color: black;
-}
-::ng-deep .mat-radio-button.mat-accent.green-light-background .mat-radio-inner-circle {
-  border-color: white;
-  color: black;
-} */
-
 ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.yellow-background .mat-radio-outer-circle {
   border-color: var(--yellow-appointment);
 }
@@ -206,12 +197,6 @@ td {
 ::ng-deep .mat-radio-button.mat-accent.gray-background .mat-radio-inner-circle {
   background-color: var(--gray-appointment);
 }
-
-/* .container {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 50px;
-} */
 
 .item {
   flex-grow: 1;

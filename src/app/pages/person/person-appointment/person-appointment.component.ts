@@ -15,7 +15,6 @@ import {AppointmentService} from '../../../services/appointment.service';
 import {PersonAppointmentConfirmComponent} from './person-appointment-confirm/person-appointment-confirm.component';
 import {PersonAppointmentDialogComponent} from './person-appointment-dialog/person-appointment-dialog.component';
 import {PersonAppointmentTaskComponent, Task} from './person-appointment-task/person-appointment-task.component';
-import {PersonAppointmentAchieveComponent} from './person-appointment-achieve/person-appointment-achieve.component';
 import {TaskService} from "../../../services/task.service";
 import {Urls} from "../../../config/urls.config";
 
@@ -548,16 +547,6 @@ export class PersonAppointmentComponent implements AfterViewInit, OnDestroy {
 
   public openTask() {
     this.dialog.open(PersonAppointmentTaskComponent, {
-      data: {
-        personId: this.personId,
-      },
-      height: 'fit-content',
-      width: 'fit-content',
-    });
-  }
-
-  public openAchieve() {
-    this.dialog.open(PersonAppointmentAchieveComponent, {
       data: {
         personId: this.personId,
       },

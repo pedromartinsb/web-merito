@@ -8,6 +8,7 @@ export interface Professional {
   name: string;
   cpfCnpj: string;
   gender: string;
+  birthdate: string;
   contractType: string;
   picture: string;
   office: Office;
