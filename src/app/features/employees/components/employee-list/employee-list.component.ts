@@ -71,8 +71,8 @@ export class EmployeeListComponent implements OnInit {
     this.deleting = true;
     this.employeeService.delete(row[0])
     .subscribe({
-      next: (response) => {
-        this.toast.success('Usuário desativado com sucesso!');
+      next: () => {
+        this.toast.success('Funcionário desativado com sucesso!');
         this.loading = false;
         window.location.reload();
         this.deleting = false;

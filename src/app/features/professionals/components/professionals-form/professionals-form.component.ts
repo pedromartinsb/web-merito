@@ -33,11 +33,11 @@ export class ProfessionalsFormComponent implements OnInit {
               private officeService: OfficeService, private responsibilityService: ResponsibilityService,
               private route: ActivatedRoute, private toast: ToastrService, private professionalService: ProfessionalsService) {
     this.formGroup = this.fb.group({
-      id: [],
+      id: [''],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', Validators.minLength(6)],
+      confirmPassword: ['', Validators.minLength(6)],
       cep: [''],
       city: [''],
       complement: [''],
@@ -48,9 +48,11 @@ export class ProfessionalsFormComponent implements OnInit {
       cellphone: [''],
       name: ['', Validators.required],
       cpfCnpj: ['', Validators.required],
-      picture: [null, Validators.required],
+      picture: [null],
       contractType: [''],
       personType: [''],
+      office: [],
+      responsibility: [],
       officeId: ['', Validators.required],
       responsibilityId: ['', Validators.required],
       supervisorId: ['', Validators.required],
@@ -69,16 +71,13 @@ export class ProfessionalsFormComponent implements OnInit {
         .findById(id)
         .subscribe({
           next: (response) => {
-            console.log(response)
             this.formGroup.get('id').patchValue(id);
             this.formGroup.get('name').patchValue(response.name);
             this.formGroup.get('email').patchValue(response.user.email);
             this.formGroup.get('cpfCnpj').patchValue(response.cpfCnpj);
-            this.formGroup.get('birthdate').patchValue(response.birthdate);
             this.formGroup.get('contractType').patchValue(response.contractType);
             this.formGroup.get('personType').patchValue(response.personType);
             this.formGroup.get('username').patchValue(response.user.username);
-            this.formGroup.get('gender').patchValue(response.gender);
             this.formGroup.get('phone').patchValue(response.contact.phone);
             this.formGroup.get('cellphone').patchValue(response.contact.cellphone);
             this.formGroup.get('cep').patchValue(response.address.cep);
@@ -153,16 +152,16 @@ export class ProfessionalsFormComponent implements OnInit {
 
       } else {
         const address: Address = {
-          cep: this.formGroup.get('cep').value,
-          uf: this.formGroup.get('uf').value,
-          city: this.formGroup.get('city').value,
-          complement: this.formGroup.get('complement').value,
-          streetName: this.formGroup.get('streetName').value,
-          neighborhood: this.formGroup.get('neighborhood').value
+          cep: this.formGroup.get('cep')?.value,
+          uf: this.formGroup.get('uf')?.value,
+          city: this.formGroup.get('city')?.value,
+          complement: this.formGroup.get('complement')?.value,
+          streetName: this.formGroup.get('streetName')?.value,
+          neighborhood: this.formGroup.get('neighborhood')?.value
         }
         const contact: Contact = {
-          phone: this.formGroup.get('phone').value,
-          cellphone: this.formGroup.get('cellphone').value
+          phone: this.formGroup.get('phone')?.value,
+          cellphone: this.formGroup.get('cellphone')?.value
         }
 
         if (this.formGroup.get('isSupervisor').value == true) {
@@ -174,43 +173,68 @@ export class ProfessionalsFormComponent implements OnInit {
         }
 
         const user: User = {
-          username: this.formGroup.get('username').value,
-          email: this.formGroup.get('email').value,
-          password: this.formGroup.get('password').value,
+          username: this.formGroup.get('username')?.value,
+          email: this.formGroup.get('email')?.value,
+          password: this.formGroup.get('password')?.value,
           roles: this.roles
         }
 
         const professional: ProfessionalRequest = {
-          name: this.formGroup.get('name').value,
-          cpfCnpj: this.formGroup.get('cpfCnpj').value,
-          officeId: this.formGroup.get('officeId').value,
-          responsibilityId: this.formGroup.get('responsibilityId').value,
-          supervisorId: this.formGroup.get('supervisorId').value,
-          personType: this.formGroup.get('personType').value,
+          name: this.formGroup.get('name')?.value,
+          cpfCnpj: this.formGroup.get('cpfCnpj')?.value,
+          officeId: this.formGroup.get('officeId')?.value,
+          responsibilityId: this.formGroup.get('responsibilityId')?.value,
+          supervisorId: this.formGroup.get('supervisorId')?.value,
+          personType: this.formGroup.get('personType')?.value,
           contractType: ContractType.PROFESSIONAL,
           address: address,
           contact: contact,
           user: user
         };
 
-        this.professionalService.create(professional, this.selectedFile).subscribe({
-          next: () => {
-            this.router.navigate(['professionals']).then(success => {
-              if (success) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-            });
-            this.isSaving = false;
-            this.toast.success('Profissional cadastrado com sucesso.');
-          },
-          error: (error: Error) => {
-            this.isSaving = false;
-            this._handleErrors(error);
-          },
-          complete: () => {
-            this.formGroup.reset();
-          }
-        });
+        if (this.formGroup.get('id').value != '') {
+          // update
+          this.professionalService.update(this.formGroup.get('id').value, professional, this.selectedFile).subscribe({
+            next: () => {
+              this.router.navigate(['professionals']).then(success => {
+                if (success) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              });
+              this.isSaving = false;
+              this.toast.success('🎉 Profissional alterado com sucesso!');
+            },
+            error: (error: Error) => {
+              this.isSaving = false;
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              this._handleErrors(error);
+            },
+            complete: () => {
+              this.formGroup.reset();
+            }
+          });
+
+        } else {
+          // create
+          this.professionalService.create(professional, this.selectedFile).subscribe({
+            next: () => {
+              this.router.navigate(['professionals']).then(success => {
+                if (success) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              });
+              this.isSaving = false;
+              this.toast.success('🎉 Profissional criado com sucesso!');
+            },
+            error: (error: Error) => {
+              this.isSaving = false;
+              this._handleErrors(error);
+            },
+            complete: () => {
+              this.formGroup.reset();
+            }
+          });
+        }
       }
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });

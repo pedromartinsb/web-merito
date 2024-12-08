@@ -3,11 +3,17 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
       <li class="breadcrumb-item"><a routerLink="/employees">Profissionais Autônomos</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Adicionar Novo Profissional</li>
+      <li class="breadcrumb-item active" aria-current="page">Adicionar Novo</li>
     </ol>
   </nav>
 
   <h1>Cadastro de Profissional</h1>
+
+  <div *ngIf="isSaving" class="backdrop">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Salvando as Informações...</span>
+    </div>
+  </div>
 
   <div class="container my-5">
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
@@ -124,7 +130,7 @@
             </div>
           </div>
           <div class="col-md-4 mb-3">
-            <img [src]="imageUrl" alt="Foto do Colaborador" class="img-thumbnail" width="150">
+            <img [src]="imageUrl" alt="Foto do Profissional" class="img-thumbnail" width="150">
           </div>
         </div>
       </section>
@@ -183,8 +189,12 @@
         </div>
       </section>
 
-      <div class="d-grid gap-2">
+      <div class="d-grid gap-2" *ngIf="!isSaving">
         <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Salvar</button>
+      </div>
+
+      <div *ngIf="isSaving" class="spinner-container">
+        <div class="spinner"></div>
       </div>
     </form>
 

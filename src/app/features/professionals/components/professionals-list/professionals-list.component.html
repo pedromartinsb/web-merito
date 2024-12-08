@@ -6,6 +6,12 @@
     </ol>
   </nav>
 
+  <div *ngIf="deleting" class="backdrop">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Salvando as Informações...</span>
+    </div>
+  </div>
+
   <h1 *ngIf="!loading">Lista de Profissionais Autônomos</h1>
 
   <!-- Botão para Criar Novo Usuário -->

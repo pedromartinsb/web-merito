@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
       <li class="breadcrumb-item"><a routerLink="/employees">Funcionários</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Adicionar Novo Funcionário</li>
+      <li class="breadcrumb-item active" aria-current="page">Adicionar Novo</li>
     </ol>
   </nav>
 
@@ -141,7 +141,7 @@
                     [ngClass]="{'is-invalid': formGroup.get('supervisorId')?.invalid && formGroup.get('supervisorId')?.touched,
                    'is-valid': formGroup.get('supervisorId')?.valid && formGroup.get('supervisorId')?.touched}">
               <option value="" disabled selected>Selecione o Supervisor</option>
-              <option *ngFor="let supervisor of supervisors" [value]="supervisor['id']">{{supervisor['name']}} - {{supervisor['cpfCnpj'] | cpf}}</option>
+              <option *ngFor="let supervisor of supervisors" [value]="supervisor['id']">{{supervisor['name']}}</option>
             </select>
             <div *ngIf="formGroup.get('supervisorId')?.invalid && formGroup.get('supervisorId')?.touched" class="invalid-feedback">
               O supervisor é obrigatório.

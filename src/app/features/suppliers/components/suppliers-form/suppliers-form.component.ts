@@ -35,8 +35,8 @@ export class SuppliersFormComponent implements OnInit {
       id: [''],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', Validators.minLength(6)],
+      confirmPassword: ['', Validators.minLength(6)],
       cep: [''],
       city: [''],
       complement: [''],
@@ -47,9 +47,11 @@ export class SuppliersFormComponent implements OnInit {
       cellphone: [''],
       name: ['', Validators.required],
       cpfCnpj: ['', Validators.required],
-      picture: [null, Validators.required],
+      picture: [null],
       contractType: [''],
       personType: [''],
+      office: [],
+      responsibility: [],
       officeId: ['', Validators.required],
       responsibilityId: ['', Validators.required],
       supervisorId: ['', Validators.required],
@@ -139,7 +141,6 @@ export class SuppliersFormComponent implements OnInit {
   onSubmit() {
     this.isSaving = true;
     if (this.formGroup.valid) {
-
       if (this.formGroup.get('password').value !== this.formGroup.get('confirmPassword').value) {
         this.errorMessage = 'As senhas precisam ser iguais.'
         this.successMessage = null;
@@ -147,8 +148,8 @@ export class SuppliersFormComponent implements OnInit {
           this.errorMessage = null;
           this.isSaving = false;
         }, 5000);
-      } else {
 
+      } else {
         const address: Address = {
           cep: this.formGroup.get('cep')?.value,
           uf: this.formGroup.get('uf')?.value,
@@ -226,7 +227,6 @@ export class SuppliersFormComponent implements OnInit {
             error: (error: Error) => {
               this.isSaving = false;
               this._handleErrors(error);
-              this.toast.error('Ocorreu um erro: ' + error.message);
             },
             complete: () => {
               this.formGroup.reset();
@@ -237,82 +237,9 @@ export class SuppliersFormComponent implements OnInit {
       }
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      this.toast.error('O formulário para cadastro não é válido. Alguma informação deve estar errada.')
+      this.toast.error('O formulário para cadastro não é válido. Alguma informação deve estar errada.');
     }
   }
-
-  // onSubmit() {
-  //   if (this.formGroup.valid) {
-  //     if (this.formGroup.get('password').value !== this.formGroup.get('confirmPassword').value) {
-  //       this.errorMessage = 'As senhas precisam ser iguais.'
-  //       this.successMessage = null;
-  //       setTimeout(() => {
-  //         this.errorMessage = null;
-  //       }, 5000);
-  //     } else {
-  //       const address: Address = {
-  //         cep: this.formGroup.get('cep').value,
-  //         uf: this.formGroup.get('uf').value,
-  //         city: this.formGroup.get('city').value,
-  //         complement: this.formGroup.get('complement').value,
-  //         streetName: this.formGroup.get('streetName').value,
-  //         neighborhood: this.formGroup.get('neighborhood').value
-  //       }
-  //       const contact: Contact = {
-  //         phone: this.formGroup.get('phone').value,
-  //         cellphone: this.formGroup.get('cellphone').value
-  //       }
-
-  //       if (this.formGroup.get('isSupervisor').value == true) {
-  //         this.roles.push('ROLE_SUPERVISOR');
-  //         this.formGroup.get('personType').patchValue(PersonType.SUPERVISOR);
-  //       } else {
-  //         this.roles.push('ROLE_USER');
-  //         this.formGroup.get('personType').patchValue(PersonType.EMPLOYEE);
-  //       }
-
-  //       const user: User = {
-  //         username: this.formGroup.get('username').value,
-  //         email: this.formGroup.get('email').value,
-  //         password: this.formGroup.get('password').value,
-  //         roles: this.roles
-  //       }
-
-  //       const supplier: SupplierRequest = {
-  //         name: this.formGroup.get('name').value,
-  //         cpfCnpj: this.formGroup.get('cpfCnpj').value,
-  //         officeId: this.formGroup.get('officeId').value,
-  //         responsibilityId: this.formGroup.get('responsibilityId').value,
-  //         supervisorId: this.formGroup.get('supervisorId').value,
-  //         personType: this.formGroup.get('personType').value,
-  //         contractType: ContractType.SUPPLIER,
-  //         address: address,
-  //         contact: contact,
-  //         user: user
-  //       };
-
-  //       this.suppliersService.create(supplier, this.selectedFile).subscribe({
-  //         next: () => {
-  //           this.router.navigate(['suppliers']).then(success => {
-  //             if (success) {
-  //               window.scrollTo({ top: 0, behavior: 'smooth' });
-  //             }
-  //           });
-  //           this.toast.success('Fonecedor cadastrado com sucesso.');
-  //         },
-  //         error: (error: Error) => {
-  //           this._handleErrors(error);
-  //         },
-  //         complete: () => {
-  //           this.formGroup.reset();
-  //         }
-  //       });
-  //     }
-  //   } else {
-  //     window.scrollTo({ top: 0, behavior: 'smooth' });
-  //     this.toast.error('O formulário para cadastro não é válido. Alguma informação deve estar errada.');
-  //   }
-  // }
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];

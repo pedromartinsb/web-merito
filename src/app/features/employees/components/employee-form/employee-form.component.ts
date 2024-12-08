@@ -35,7 +35,7 @@ export class EmployeeFormComponent implements OnInit {
               private officeService: OfficeService, private responsibilityService: ResponsibilityService,
               private route: ActivatedRoute, private toast: ToastrService, private employeeService: EmployeeService) {
     this.formGroup = this.fb.group({
-      id: [],
+      id: [''],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.minLength(6)],
@@ -146,10 +146,8 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('id: ', this.formGroup.get('id').value);
     this.isSaving = true;
     if (this.formGroup.valid) {
-
       if (this.formGroup.get('password').value !== this.formGroup.get('confirmPassword').value) {
         this.errorMessage = 'As senhas precisam ser iguais.'
         this.successMessage = null;
@@ -157,8 +155,8 @@ export class EmployeeFormComponent implements OnInit {
           this.errorMessage = null;
           this.isSaving = false;
         }, 5000);
-      } else {
 
+      } else {
         const address: Address = {
           cep: this.formGroup.get('cep')?.value,
           uf: this.formGroup.get('uf')?.value,
@@ -204,10 +202,6 @@ export class EmployeeFormComponent implements OnInit {
 
         if (this.formGroup.get('id').value != '') {
           // update
-          console.log('id: ', this.formGroup.get('id').value);
-          console.log('employee: ', employee);
-          console.log('selectedFile: ', this.selectedFile)
-
           this.employeeService.update(this.formGroup.get('id').value, employee, this.selectedFile).subscribe({
             next: () => {
               this.router.navigate(['employees']).then(success => {
@@ -274,7 +268,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   _offices() {
-    this.officeService.findAllDTO().subscribe({
+    this.officeService.findAll().subscribe({
       next: (response: any[]) => {
         this.offices = response;
       },

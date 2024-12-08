@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {Person} from "../../../models/person";
 import {Config} from "../../../config/api.config";
 import {HttpClient} from "@angular/common/http";
-import { SupplierRequest } from '../supplier.model';
+import { Supplier, SupplierRequest } from '../supplier.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +39,9 @@ export class SuppliersService {
     } else {
       return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}/no-picture`, formData);
     }
+  }
+
+  delete(id: string): Observable<Supplier> {
+    return this.http.delete<Supplier>(`${Config.webApiUrl}/v1/person/${id}`);
   }
 }

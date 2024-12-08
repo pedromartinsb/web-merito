@@ -17,7 +17,8 @@ export class ProfessionalsListComponent implements OnInit {
     'Cargo',
   ];
   professionalsData = [];
-  loading: boolean = true; // Estado de carregamento
+  loading: boolean = true;
+  deleting: boolean = false;
 
   constructor(private professionalService: ProfessionalsService, private toast: ToastrService, public router: Router) { }
 
@@ -60,7 +61,20 @@ export class ProfessionalsListComponent implements OnInit {
   }
 
   onDelete(row: any) {
-    console.log(row);
+    this.deleting = true;
+    this.professionalService.delete(row[0])
+    .subscribe({
+      next: () => {
+        this.toast.success('Profissional desativado com sucesso!');
+        this.loading = false;
+        window.location.reload();
+        this.deleting = false;
+      },
+      error: (ex) => {
+        this._handleErrors(ex);
+        this.deleting = false;
+      },
+    });
   }
 
   onView(row: any) {

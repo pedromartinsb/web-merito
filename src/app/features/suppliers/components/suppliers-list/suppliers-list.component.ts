@@ -17,7 +17,8 @@ export class SuppliersListComponent implements OnInit {
     'Cargo',
   ];
   suppliersData = [];
-  loading: boolean = true; // Estado de carregamento
+  loading: boolean = true;
+  deleting: boolean = false;
 
   constructor(private supplierService: SuppliersService, private toast: ToastrService, public router: Router) { }
 
@@ -62,7 +63,22 @@ export class SuppliersListComponent implements OnInit {
   }
 
   onDelete(row: any) {
-    console.log(row);
+    this.deleting = true;
+    this.supplierService.delete(row[0])
+    .subscribe({
+      next: () => {
+        setTimeout(() => {
+          this.toast.success('Fornecedor desativado com sucesso!');
+          this.loading = false;
+          window.location.reload();
+          this.deleting = false;
+        }, 2000);
+      },
+      error: (ex) => {
+        this._handleErrors(ex);
+        this.deleting = false;
+      },
+    });
   }
 
   onView(row: any) {
