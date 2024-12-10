@@ -7,8 +7,15 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class TasksService {
+  officeId: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.officeId = localStorage.getItem('officeId');
+  }
+
+  public findAllByOffice(): Observable<any[]> {
+    return this.http.get<any[]>(`${Config.webApiUrl}/v1/task/office/${this.officeId}`);
+  }
 
   public findAll(): Observable<any[]> {
     return this.http.get<any[]>(`${Config.webApiUrl}/v1/task`);

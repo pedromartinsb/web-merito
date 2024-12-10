@@ -27,7 +27,7 @@ export class TasksListComponent implements OnInit {
   }
 
   _tasks() {
-    this.tasksService.findAll().subscribe({
+    this.tasksService.findAllByOffice().subscribe({
       next: (tasks) => {
         if (tasks != null) {
           tasks.forEach((response) => {
