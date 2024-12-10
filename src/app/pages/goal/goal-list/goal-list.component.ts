@@ -35,11 +35,12 @@ export class GoalListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.personId) {
-      this.findAll();
-    } else {
-      this.findAllByPerson();
-    }
+    this.findAllByOffice();
+    // if (!this.personId) {
+    //   this.findAll();
+    // } else {
+    //   this.findAllByPerson();
+    // }
   }
 
   ngAfterViewInit() {
@@ -47,8 +48,8 @@ export class GoalListComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private findAll(): void {
-    this.goalService.findAll().subscribe((response) => {
+  private findAllByOffice(): void {
+    this.goalService.findAllByOffice().subscribe((response) => {
       this.dataSource = new MatTableDataSource<Goal>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
@@ -95,7 +96,7 @@ export class GoalListComponent implements OnInit, AfterViewInit {
 
   deleteGoal(goalId: string): void {
     this.goalService.delete(goalId).subscribe(() => {
-      this.findAll();
+      this.findAllByOffice();
     });
   }
 }

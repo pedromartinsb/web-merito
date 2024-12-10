@@ -27,7 +27,7 @@ export class GoalsListComponent implements OnInit {
   }
 
   _goals() {
-    this.goalsService.findAll().subscribe({
+    this.goalsService.findAllByOffice().subscribe({
       next: (goals) => {
         if (goals != null) {
           goals.forEach((response) => {

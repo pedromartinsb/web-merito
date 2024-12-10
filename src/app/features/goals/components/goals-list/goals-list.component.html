@@ -12,5 +12,20 @@
     Carregando metas...
   </div>
 
-  <app-goal-task-table *ngIf="!loading" [headers]="goalHeaders" [data]="goalData" [itemsPerPage]="5" (finish)="onFinish($event)" (edit)="onEdit($event)" (delete)="onDelete($event)"></app-goal-task-table>
+  <app-goal-task-table
+    *ngIf="!loading && goalData.length > 0"
+    [headers]="goalHeaders"
+    [data]="goalData"
+    [itemsPerPage]="5"
+    (finish)="onFinish($event)"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"></app-goal-task-table>
+
+  <div *ngIf="!loading && goalData.length == 0">
+    <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+    <h4>Nenhuma meta cadastrada.</h4>
+    <!-- <button class="btn btn-primary" (click)="router.navigate(['/goals/create'])">
+      Criar Nova Meta
+    </button> -->
+  </div>
 </div>

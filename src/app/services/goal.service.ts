@@ -8,10 +8,14 @@ import { Goal } from '../features/employees/components/employee-appointment/empl
   providedIn: 'root',
 })
 export class GoalService {
-  constructor(private http: HttpClient) {}
+  officeId: string;
 
-  public findAll(): Observable<Goal[]> {
-    return this.http.get<Goal[]>(`${Config.webApiUrl}/v1/goal`);
+  constructor(private http: HttpClient) {
+    this.officeId = localStorage.getItem('officeId');
+  }
+
+  public findAllByOffice(): Observable<Goal[]> {
+    return this.http.get<Goal[]>(`${Config.webApiUrl}/v1/goal/office/${this.officeId}`);
   }
 
   public findAllByPerson(personId: string): Observable<Goal[]> {

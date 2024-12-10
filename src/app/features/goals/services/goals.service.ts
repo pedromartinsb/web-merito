@@ -7,10 +7,14 @@ import {Config} from "../../../config/api.config";
   providedIn: 'root'
 })
 export class GoalsService {
-  constructor(private http: HttpClient) {}
+  officeId: string;
 
-  public findAll(): Observable<any[]> {
-    return this.http.get<any[]>(`${Config.webApiUrl}/v1/goal`);
+  constructor(private http: HttpClient) {
+    this.officeId = localStorage.getItem('officeId');
+  }
+
+  public findAllByOffice(): Observable<any[]> {
+    return this.http.get<any[]>(`${Config.webApiUrl}/v1/goal/office/${this.officeId}`);
   }
 
   public finish(id: string): Observable<any> {
