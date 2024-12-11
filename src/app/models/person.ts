@@ -16,7 +16,7 @@ export interface Person {
   responsibility: Responsibility;
   responsibilityId: string;
   user: User;
-  supervisor: Person;
+  supervisor: string;
   supervisorId: string;
   address: Address;
   contact: Contact;

@@ -89,7 +89,7 @@ export class SuppliersFormComponent implements OnInit {
             this.formGroup.get('office').patchValue(response.office);
             this.formGroup.get('responsibility').patchValue(response.responsibility);
             this.formGroup.get('responsibilityId').patchValue(response.responsibility.id);
-            this.formGroup.get('supervisorId').patchValue(response.supervisor.id);
+            this.formGroup.get('supervisorId').patchValue(response.supervisor);
             this.imageUrl = response.picture;
           },
           error: (er) => console.log(er)

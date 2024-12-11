@@ -3,7 +3,8 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
       <li class="breadcrumb-item"><a routerLink="/employees">Funcionários</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Adicionar Novo</li>
+      <li *ngIf="formGroup.get('id').value" class="breadcrumb-item active" aria-current="page">Alterar</li>
+      <li *ngIf="formGroup.get('id').value == ''" class="breadcrumb-item active" aria-current="page">Adicionar Novo</li>
     </ol>
   </nav>
 

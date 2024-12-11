@@ -39,6 +39,7 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.findAllEmployees()
       .subscribe({
         next: (employees) => {
+          console.log(employees)
           if (employees != null) {
             employees.forEach((response) => {
               if (response.picture == null) {
@@ -48,7 +49,7 @@ export class EmployeeListComponent implements OnInit {
                 response.id,
                 response.picture,
                 response.name,
-                response.responsibility.name
+                response.responsibilityName
               ];
               this.employeeData.push(employee);
             });

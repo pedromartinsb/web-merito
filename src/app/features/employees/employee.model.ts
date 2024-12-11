@@ -14,6 +14,7 @@ export interface Employee {
   officeId: string;
   responsibility: Responsibility;
   responsibilityId: string;
+  responsibilityName: string;
   user: User;
   address: Address;
   contact: Contact;
