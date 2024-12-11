@@ -8,6 +8,12 @@
 
   <h1>Lista de Metas</h1>
 
+  <!-- <div class="text-end mb-3" *ngIf="!loading && goalData.length != 0">
+    <button class="btn btn-primary" (click)="router.navigate(['/goals/create'])">
+      Criar Nova Meta
+    </button>
+  </div> -->
+
   <div *ngIf="loading" class="alert alert-info">
     Carregando metas...
   </div>

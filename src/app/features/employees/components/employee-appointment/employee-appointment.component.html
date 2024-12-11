@@ -1,4 +1,4 @@
-<!-- Tasks Modal -->
+<!-- Tarefas Modal -->
 <div class="modal fade" id="tasksModal" tabindex="-1" aria-labelledby="tasksModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: fit-content;">
     <div class="modal-content">
@@ -9,7 +9,7 @@
         <h2>Tarefas:</h2>
         <p>Todas as tarefas atribuídas para {{ person.name }}.</p>
 
-        <div class="mt-md-0 mt-sm-4">
+        <div class="mt-md-0 mt-sm-4" *ngIf="tasks.length != 0">
           <ul class="list-group minimal-list">
             <li *ngFor="let task of tasks" class="list-group-item">
               <div class="d-flex justify-content-between align-items-center gap-2" style="flex-wrap: nowrap;">
@@ -25,6 +25,11 @@
               </div>
             </li>
           </ul>
+        </div>
+
+        <div class="mt-md-0 mt-sm-4" *ngIf="tasks.length == 0">
+          <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+          <h4>Nenhuma tarefa cadastrada.</h4>
         </div>
       </div>
       <div class="modal-footer">
@@ -81,7 +86,7 @@
   </div>
 </div>
 
-<!-- Goals Modal -->
+<!-- Metas Modal -->
 <div class="modal fade" id="goalsModal" tabindex="-1" aria-labelledby="goalsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: fit-content;">
     <div class="modal-content">
@@ -92,7 +97,7 @@
         <h2>Metas:</h2>
         <p>Todas as metas atribuídas para {{ person.name }}.</p>
 
-        <div class="mt-md-0 mt-sm-4">
+        <div class="mt-md-0 mt-sm-4" *ngIf="goals.length == 0">
           <ul class="list-group minimal-list">
             <li *ngFor="let goal of goals" class="list-group-item">
               <div class="d-flex justify-content-between align-items-center gap-2" style="flex-wrap: nowrap;">
@@ -108,6 +113,11 @@
               </div>
             </li>
           </ul>
+        </div>
+
+        <div class="mt-md-0 mt-sm-4" *ngIf="goals.length == 0">
+          <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+          <h4>Nenhuma meta cadastrada.</h4>
         </div>
       </div>
       <div class="modal-footer">
@@ -158,7 +168,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closeGoalCreateModal()">Fechar</button>
       </div>
     </div>
   </div>
@@ -231,7 +241,7 @@
   </div>
 </div>
 
-<!-- Abstinences Modal -->
+<!-- Atestados Médicos Modal -->
 <div class="modal fade" id="abstinencesModal" tabindex="-1" aria-labelledby="abstinencesModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: fit-content;">
     <div class="modal-content">
@@ -409,8 +419,14 @@
       <div class="card">
         <div class="card-body">
           <h2 class="card-title">📓 Registrar Ocorrência</h2>
-          <p class="card-text mt-2">
+          <p *ngIf="person.contractType == 'Autônomo'" class="card-text mt-2">
+            Profissional - {{ person.name }}
+          </p>
+          <p *ngIf="person.contractType == 'Clt'" class="card-text mt-2">
             Funcionário - {{ person.name }}
+          </p>
+          <p *ngIf="person.contractType == 'Fornecedor'" class="card-text mt-2">
+            Fornecedor - {{ person.name }}
           </p>
           <p class="card-text">
             Empresa: {{ person.office.fantasyName }}

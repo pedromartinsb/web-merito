@@ -910,6 +910,11 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   onEditTask(task: Task) {
+    const modalTasksElement = document.getElementById('tasksModal');
+    if (modalTasksElement) {
+      const modalInstance = Modal.getInstance(modalTasksElement) || new Modal(modalTasksElement);
+      modalInstance.hide();
+    }
     this.formTask.patchValue(task);
     const modalElement = document.getElementById('tasksCreateModal2');
     if (modalElement) {
@@ -935,6 +940,11 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   onEditGoal(goal: Goal) {
+    const modalGoalsElement = document.getElementById('goalsModal');
+    if (modalGoalsElement) {
+      const modalInstance = Modal.getInstance(modalGoalsElement) || new Modal(modalGoalsElement);
+      modalInstance.hide();
+    }
     this.formGoal.patchValue(goal);
     const modalElement = document.getElementById('goalsCreateModal2');
     if (modalElement) {
@@ -968,7 +978,7 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   closeGoalCreateModal(): void {
-    this.formTask.reset();
+    this.formGoal.reset();
     const modalElement = document.getElementById('goalsCreateModal2');
     if (modalElement) {
       const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
@@ -982,7 +992,19 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     this.goal.personId = this.personId;
 
     if (this.goal.id) {
-
+      this.goalService.update(this.goal.id, this.goal).subscribe({
+        next: () => {
+          this.toast.success('Meta alterada com sucesso', 'Cadastro');
+          setTimeout(() => {
+            this.isSavingGoal = false;
+            window.location.reload();
+          }, 2000);
+        },
+        error: (ex) => {
+          this.isSavingGoal = false;
+          this._handleErrors(ex);
+        }
+      });
     } else {
       this.goalService.create(this.goal).subscribe({
         next: () => {

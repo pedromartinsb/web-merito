@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {GoalsService} from "../../services/goals.service";
+import { Goal } from 'src/app/models/goal';
 
 @Component({
   selector: 'app-goals-list',
@@ -64,7 +65,7 @@ export class GoalsListComponent implements OnInit {
   }
 
   onEdit(row: any) {
-    console.log(row);
+    this.router.navigate(['/goals/edit/', row[0]]);
   }
 
   onDelete(row: any) {

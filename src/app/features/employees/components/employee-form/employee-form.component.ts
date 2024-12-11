@@ -99,7 +99,7 @@ export class EmployeeFormComponent implements OnInit {
             this.formGroup.get('supervisorId').patchValue(response.supervisor.id);
             this.imageUrl = response.picture;
           },
-          error: (er) => console.log(er)
+          error: (er) => this._handleErrors(er)
         });
     }
 

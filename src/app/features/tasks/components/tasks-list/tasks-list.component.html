@@ -12,5 +12,13 @@
     Carregando tarefas...
   </div>
 
-  <app-goal-task-table *ngIf="!loading" [headers]="taskHeaders" [data]="taskData" [itemsPerPage]="5" (finish)="onFinish($event)" (edit)="onEdit($event)" (delete)="onDelete($event)"></app-goal-task-table>
+  <app-goal-task-table
+    *ngIf="!loading"
+    [headers]="taskHeaders"
+    [data]="taskData"
+    [itemsPerPage]="5"
+     (finish)="onFinish($event)"
+     (edit)="onEdit($event)"
+     (delete)="onDelete($event)"
+  ></app-goal-task-table>
 </div>

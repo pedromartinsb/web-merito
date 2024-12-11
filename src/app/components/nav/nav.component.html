@@ -87,10 +87,10 @@
     <span>Relatórios</span>
   </div>
 
-  <div class="menu-item" routerLink="/dashboards" routerLinkActive="active" *ngIf="isSupervisor">
+  <!-- <div class="menu-item" routerLink="/dashboards" routerLinkActive="active" *ngIf="isSupervisor">
     <i class="fas fa-chart-simple"></i>
     <span>Dashboards</span>
-  </div>
+  </div> -->
 
   <div class="menu-item" routerLink="/configurations" routerLinkActive="active" *ngIf="isSupervisor || isUser">
     <i class="fas fa-user-gear"></i>
@@ -102,11 +102,11 @@
     <br/>
     <span>Usuário: {{ personName }}</span>
     <div class="current-time">🕑 Horário: {{ currentTime }}</div>
-    <button class="logout-btn" (click)="logout()">🚪 Sair</button>
+    <button class="logout-btn" (click)="logout()">Sair</button>
   </div>
 </div>
 
-
+<!-- Modal para alterar as Empresas -->
 <div class="floating-btn">
   <div class="btn-group dropup">
     <button type="button" class="btn btn-primary dropdown-toggle" (click)="toggleDropdown()">{{firstOffice.fantasyName}}</button>
@@ -118,8 +118,13 @@
   </div>
 </div>
 
+<!-- Botão Flutuante de Homologacão -->
+<div class="floating-homolog">
+  <span>HOMOLOG</span>
+</div>
+
 <!-- Botão Flutuante de Chat -->
-<div class="floating-chat-btn">
+<!-- <div class="floating-chat-btn">
   <button
     type="button"
     class="btn btn-primary"
@@ -127,15 +132,10 @@
   >
     <i class="bi bi-chat"></i>
   </button>
-</div>
-
-<!-- Botão Flutuante de Homologacão -->
-<div class="floating-homolog">
-  <span>HOMOLOG</span>
-</div>
+</div> -->
 
 <!-- Janela Lateral de Chat -->
-<div class="chat-window" [class.active]="chatOpen">
+<!-- <div class="chat-window" [class.active]="chatOpen">
   <div class="chat-header">
     <h5>Chat</h5>
     <button type="button" class="btn-close" (click)="toggleChat()"></button>
@@ -151,7 +151,7 @@
   <div class="chat-footer">
     <input type="text" [(ngModel)]="newMessage" placeholder="Digite sua mensagem..." class="form-control" (keydown.enter)="sendMessage()"/>
   </div>
-</div>
+</div> -->
 
 
 <div class="content-wrapper">

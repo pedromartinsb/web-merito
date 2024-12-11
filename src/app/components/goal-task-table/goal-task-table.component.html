@@ -31,19 +31,19 @@
           <span *ngIf="i===0 || i===2; else elsePersonId" hidden>{{ col }}</span>
           <ng-template #elsePersonId>
             <span *ngIf="i!==5">{{ col }}</span>
-            <span *ngIf="i==5 && col == 'CREATED'" class="badge bg-primary rounded-pill">{{ col }}</span>
-            <span *ngIf="i==5 && col == 'CANCELLED'" class="badge bg-danger rounded-pill">{{ col }}</span>
-            <span *ngIf="i==5 && col == 'FINISHED'" class="badge bg-green rounded-pill">{{ col }}</span>
+            <span *ngIf="i==5 && col == 'CREATED'" class="badge bg-primary rounded-pill">CRIADA</span>
+            <span *ngIf="i==5 && col == 'CANCELLED'" class="badge bg-danger rounded-pill">CANCELADA</span>
+            <span *ngIf="i==5 && col == 'FINISHED'" class="badge bg-green rounded-pill">FINALIZADA</span>
           </ng-template>
         </td>
         <td>
-          <button class="btn me-1 btn-primary btn-sm" (click)="onFinish(row)">
+          <button *ngIf="row[5] == 'CREATED'" class="btn me-1 btn-primary btn-sm" (click)="onFinish(row)">
             ✅Concluir
           </button>
-          <button class="btn btn-primary btn-sm" (click)="onEdit(row)">
+          <button *ngIf="row[5] == 'CREATED'" class="btn btn-primary btn-sm" (click)="onEdit(row)">
             ✍️Editar
           </button>
-          <button class="btn btn-danger btn-sm mx-1" (click)="onDelete(row)">
+          <button *ngIf="row[5] == 'CREATED'" class="btn btn-danger btn-sm mx-1" (click)="onDelete(row)">
             🗑️Cancelar
           </button>
         </td>
