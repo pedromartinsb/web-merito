@@ -15,8 +15,8 @@ export class SuppliersService {
     this.officeId = localStorage.getItem('officeId');
   }
 
-  public findAllSuppliers(): Observable<Person[]> {
-    return this.http.get<Person[]>(
+  public findAllSuppliers(): Observable<Supplier[]> {
+    return this.http.get<Supplier[]>(
       `${Config.webApiUrl}/v1/person/${this.officeId}/Supplier/contract-type`
     );
   }

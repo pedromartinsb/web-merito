@@ -31,18 +31,15 @@ export class SuppliersListComponent implements OnInit {
       next: (suppliers) => {
         if (suppliers != null) {
           suppliers.forEach((response) => {
-            if (response.picture != null) {
-              response.picture = Urls.getS3() + response.picture;
-            } else {
+            if (response.picture == null) {
               response.picture = Urls.getDefaultPictureS3();
             }
             const supplier = [
               response.id,
               response.picture,
               response.name,
-              response.responsibility.name
+              response.responsibilityName
             ];
-            console.log(response)
             this.suppliersData.push(supplier);
           });
         }
@@ -57,9 +54,8 @@ export class SuppliersListComponent implements OnInit {
 
   // Métodos para emitir os eventos de ação
   onEdit(employee: any) {
-    console.log(employee);
     const id = employee[0];
-    this.router.navigate(['/employees/edit/', id]);
+    this.router.navigate(['/suppliers/edit/', id]);
   }
 
   onDelete(row: any) {
