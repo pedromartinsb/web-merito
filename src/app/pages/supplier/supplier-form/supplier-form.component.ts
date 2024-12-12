@@ -70,6 +70,7 @@ export class SupplierFormComponent implements OnInit, AfterViewInit {
     picture: '',
     office: null,
     officeId: '',
+    officeFantasyName: '',
     responsibility: null,
     responsibilityId: '',
     user: this.user,

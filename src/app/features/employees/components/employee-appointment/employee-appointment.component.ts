@@ -191,7 +191,7 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   }
 
   _initializePerson() {
-    this._getPersonId();
+    this.personId = this.route.snapshot.params['id'];
     this._getPersonById();
   }
 
@@ -253,9 +253,9 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  _getPersonId(): void {
-    this.personId = this.route.snapshot.params['id'];
-  }
+  // _getPersonId(): void {
+  //   this.personId = this.route.snapshot.params['id'];
+  // }
 
   _getPersonById(): void {
     this.personService.findById(this.personId).subscribe((response) => {

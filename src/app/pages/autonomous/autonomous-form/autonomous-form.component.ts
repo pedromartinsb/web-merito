@@ -67,6 +67,7 @@ export class AutonomousFormComponent
     picture: '',
     office: null,
     officeId: '',
+    officeFantasyName: '',
     responsibility: null,
     responsibilityId: '',
     user: this.user,

@@ -101,13 +101,11 @@ export class ZebraPersonTableComponent implements OnInit {
     const personId = row[0];
     const date = new Date();
 
-    console.log('aqui 1')
     this._getLastMonth(date, personId);
     this._getLastTwoMonth(date, personId);
     this._getLastThreeMonth(date, personId);
     this._getLastFourMonth(date, personId);
     this._getLastFiveMonth(date, personId);
-    console.log('aqui 2')
 
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);

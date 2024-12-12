@@ -97,7 +97,7 @@
         <h2>Metas:</h2>
         <p>Todas as metas atribuídas para {{ person.name }}.</p>
 
-        <div class="mt-md-0 mt-sm-4" *ngIf="goals.length == 0">
+        <div class="mt-md-0 mt-sm-4" *ngIf="goals.length != 0">
           <ul class="list-group minimal-list">
             <li *ngFor="let goal of goals" class="list-group-item">
               <div class="d-flex justify-content-between align-items-center gap-2" style="flex-wrap: nowrap;">
@@ -429,7 +429,7 @@
             Fornecedor - {{ person.name }}
           </p>
           <p class="card-text">
-            Empresa: {{ person.office.fantasyName }}
+            Empresa: {{ person.officeFantasyName }}
           </p>
           <p class="card-text">
             Dia: {{ today }}

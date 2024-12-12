@@ -40,6 +40,7 @@ export class ChangePasswordComponent implements OnInit {
     picture: '',
     office: null,
     officeId: '',
+    officeFantasyName: '',
     responsibility: null,
     responsibilityId: '',
     user: this.user,

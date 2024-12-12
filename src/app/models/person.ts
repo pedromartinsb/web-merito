@@ -13,6 +13,7 @@ export interface Person {
   picture: string;
   office: Office;
   officeId: string;
+  officeFantasyName: string;
   responsibility: Responsibility;
   responsibilityId: string;
   user: User;

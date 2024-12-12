@@ -69,6 +69,7 @@ export class PersonFormComponent implements OnInit, AfterViewInit, OnDestroy {
     picture: '',
     office: null,
     officeId: '',
+    officeFantasyName: '',
     responsibility: null,
     responsibilityId: '',
     user: this.user,
