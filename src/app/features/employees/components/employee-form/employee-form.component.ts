@@ -277,7 +277,11 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   _responsibilities() {
-    this.responsibilityService.findAllDTO().subscribe({
+    // this.responsibilityService.findAllDTO().subscribe({
+    //   next: (response: any[]) => this.responsibilities = response,
+    //   error: (err) => console.log(err)
+    // });
+    this.responsibilityService.findAll().subscribe({
       next: (response: any[]) => this.responsibilities = response,
       error: (err) => console.log(err)
     });

@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Rotinas</li>
+    </ol>
+  </nav>
+
+  <h1>Lista de Rotinas</h1>
+
+  <div *ngIf="loading" class="alert alert-info">
+    Carregando rotinas...
+  </div>
+
+  <app-routines-table
+    *ngIf="!loading && routinesData.length > 0"
+    [headers]="routinesHeaders"
+    [data]="routinesData"
+    [itemsPerPage]="5"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"></app-routines-table>
+
+  <div *ngIf="!loading && routinesData.length == 0">
+    <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+    <h4>Nenhuma rotina cadastrada.</h4>
+    <button class="btn btn-primary" (click)="router.navigate(['/routines/create'])">
+      Criar Nova Rotina
+    </button>
+  </div>
+
+</div>

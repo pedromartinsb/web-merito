@@ -1,0 +1,67 @@
+<div class="container my-3">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchQuery" (input)="search()"/>
+    </div>
+
+    <div class="col-md-6">
+      <select class="form-select" [(ngModel)]="selectedJobTitle" (change)="filterByJobTitle()">
+        <option value="">Todos os Cargos</option>
+        <option *ngFor="let job of getUniqueJobTitles()" [value]="job">{{ job }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="thead-light">
+      <tr>
+        <th *ngFor="let header of headers">
+          <ng-container *ngIf="header == headers[0]; else elseTemplate" hidden></ng-container>
+          <ng-template #elseTemplate>
+            {{ header }}
+          </ng-template>
+        </th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of paginatedData">
+        <td *ngFor="let col of row; let i = index">
+          <span *ngIf="i===0" hidden>{{ col }}</span>
+          <img *ngIf="i===1" [src]="col" alt="photo" class="img-thumbnail" width="70" height="70" />
+          <span *ngIf="i!==0 && i!==1">{{ col }}</span>
+        </td>
+        <td>
+          <button class="btn btn-primary btn-sm" (click)="onEdit(row)">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+          <button class="btn btn-danger btn-sm" (click)="onDelete(row)">
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <nav aria-label="Table pagination">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+          Anterior
+        </button>
+      </li>
+      <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="i + 1 === currentPage">
+        <button class="page-link" (click)="changePage(i + 1)">
+          {{ i + 1 }}
+        </button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+          Próximo
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>

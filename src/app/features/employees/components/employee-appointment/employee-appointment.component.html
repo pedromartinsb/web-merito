@@ -182,24 +182,50 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h2>Avaliações:</h2>
+        <div *ngIf="activitiesResponse.length > 0">
+          <h2>Avaliações:</h2>
 
-        <div class="mt-md-0 mt-sm-4">
-          <ul class="list-group minimal-list">
-            <li *ngFor="let activity of activitiesResponse" class="list-group-item spacing-item">
-              <div class="d-flex justify-content-between align-items-center gap-5" style="flex-wrap: nowrap;">
-                <span class="text-nowrap">{{ activity.name }}</span>
-                <div class="radio-group">
-                  <input *ngFor="let tag of tags;" type="radio" [name]="'daily' + activity.id" value="{{ tag.id }}" [ngClass]="'radio-button_' + tag.class" [checked]="tag.id == activity.tag?.id" (click)="openAppointmentCreateModal(activity, tag)" matTooltip="{{ tag.description }}" />
+          <div class="mt-md-0 mt-sm-4">
+            <ul class="list-group minimal-list">
+              <li *ngFor="let activity of activitiesResponse" class="list-group-item spacing-item">
+                <div class="d-flex justify-content-between align-items-center gap-5" style="flex-wrap: nowrap;">
+                  <span class="text-nowrap">{{ activity.name }}</span>
+                  <div class="radio-group">
+                    <!-- <input
+                      *ngFor="let tag of tags;"
+                      type="radio"
+                      [name]="'daily' + activity.id"
+                      value="{{ tag.id }}"
+                      [ngClass]="'radio-button_' + tag.class"
+                      [checked]="tag.id == activity.tag?.id"
+                      (click)="openAppointmentCreateModal(activity, tag)"
+                      matTooltip="{{ tag.description }}"
+                    /> -->
+                    <div
+                      *ngFor="let tag of tags;"
+                      [ngClass]="['radio-button_' + tag.class, tag.id === activity.tag?.id ? 'checked' : '']"
+                      (click)="openAppointmentCreateModal(activity, tag)"
+                      [class.checked]="tag.id === activity.tag?.id"
+                      matTooltip="{{ tag.description }}"
+                    ></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div *ngIf="activitiesResponse.length == 0" class="mt-4">
+          <img src="../../../../../assets/img/empty-box.png" alt="empty" class="empty" />
+          <h4>Nenhuma rotina cadastrada para o cargo.</h4>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#appointmentsCreateModal">
+        <!-- <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#appointmentsCreateModal">
           Cadastrar
+        </button> -->
+        <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
+          Cadastrar Nova Rotina
         </button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
           Fechar
@@ -254,13 +280,13 @@
 
         <div class="mt-md-0 mt-sm-4">
           <ul class="list-group minimal-list">
-            <li *ngFor="let task of tasks" class="list-group-item">
+            <li *ngFor="let abstinence of abstinences" class="list-group-item">
               <div class="d-flex justify-content-between align-items-center gap-2" style="flex-wrap: nowrap;">
-                <span class="text-nowrap">{{ task.title }}</span>
-                <span class="badge bg-primary rounded-pill text-nowrap">Início: {{ task.startDate | dateFormat }}</span>
-                <span class="badge bg-primary rounded-pill text-nowrap">Fim: {{ task.endDate | dateFormat }}</span>
-                <button class="btn btn-outline-warning btn-round" (click)="onEditTask(task)"><i class="fas fa-pencil-alt"></i></button>
-                <button class="btn btn-outline-danger btn-round" (click)="onDeleteTask(task.id)"><i class="fas fa-trash-alt"></i></button>
+                <span class="text-nowrap">{{ abstinence.title }}</span>
+                <span class="badge bg-primary rounded-pill text-nowrap">Início: {{ abstinence.startDate | dateFormat }}</span>
+                <span class="badge bg-primary rounded-pill text-nowrap">Fim: {{ abstinence.endDate | dateFormat }}</span>
+                <button class="btn btn-outline-warning btn-round" (click)="onEditAbstinence(abstinence)"><i class="fas fa-pencil-alt"></i></button>
+                <button class="btn btn-outline-danger btn-round" (click)="onDeleteAbstinence(abstinence.id)"><i class="fas fa-trash-alt"></i></button>
               </div>
             </li>
           </ul>
@@ -420,19 +446,19 @@
         <div class="card-body">
           <h2 class="card-title">📓 Registrar Ocorrência</h2>
           <p *ngIf="person.contractType == 'Autônomo'" class="card-text mt-2">
-            Profissional - {{ person.name }}
+            Profissional: <strong>{{ person.name }}</strong>
           </p>
           <p *ngIf="person.contractType == 'Clt'" class="card-text mt-2">
-            Funcionário - {{ person.name }}
+            Funcionário: <strong>{{ person.name }}</strong>
           </p>
           <p *ngIf="person.contractType == 'Fornecedor'" class="card-text mt-2">
-            Fornecedor - {{ person.name }}
+            Fornecedor: <strong>{{ person.name }}</strong>
           </p>
           <p class="card-text">
-            Empresa: {{ person.officeFantasyName }}
+            Empresa: <strong>{{ person.officeFantasyName }}</strong>
           </p>
           <p class="card-text">
-            Dia: {{ today }}
+            Dia: <strong>{{ today }}</strong>
           </p>
           <p class="card-text">
             <img [lazyLoad]="person.picture" [defaultImage]="s3DefaultImage" alt="" width="200" height="200" />
@@ -463,23 +489,62 @@
 
               <section class="monthly-container mat-elevation-z2" tabindex="0">
                 <ul class="list-group minimal-list">
-                  <li class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-column"></span>
-                      <div class="radio-group">
-                        <input *ngFor="let option of options;" type="radio" [name]="option.index" [value]="option" [id]="'radio' + option.index" [class]="'radio-' + option.color" matTooltip="{{ option.description }}" checked />
+                  <div *ngIf="activitiesDailyResponse.length > 0">
+                    <li class="list-group-item">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-column"></span>
+                        <div class="radio-group">
+                          <!-- <input
+                            *ngFor="let option of options;"
+                            type="radio"
+                            [name]="option.index"
+                            [value]="option"
+                            [id]="'radio' + option.index"
+                            [class]="'radio-' + option.color"
+                            matTooltip="{{ option.description }}"
+                            checked
+                          /> -->
+                          <div
+                            *ngFor="let option of options;"
+                            [ngClass]="['radio-button_' + option.color + '-background', 'checked']"
+                            matTooltip="{{ option.description }}"
+                          ></div>
+                        </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
+                    <li *ngFor="let activity of activitiesDailyResponse" class="list-group-item">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-column">{{ activity.name }}</span>
+                        <div class="radio-group">
+                          <!-- <input
+                            *ngFor="let tag of tags;"
+                            type="radio"
+                            [name]="'daily' + activity.id"
+                            value="{{ tag.id }}"
+                            [ngClass]="'radio-button_' + tag.class"
+                            [checked]="tag.id == activity.tag?.id"
+                            (click)="openAppointmentCreateModal(activity, tag)"
+                            matTooltip="{{ tag.description }}"
+                          /> -->
+                          <div
+                            *ngFor="let tag of tags;"
+                            [ngClass]="['radio-button_' + tag.class, tag.id === activity.tag?.id ? 'checked' : '']"
+                            (click)="openAppointmentCreateModal(activity, tag)"
+                            [class.checked]="tag.id === activity.tag?.id"
+                            matTooltip="{{ tag.description }}"
+                          ></div>
+                        </div>
+                      </div>
+                    </li>
+                  </div>
 
-                  <li *ngFor="let activity of activitiesDailyResponse" class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-column">{{ activity.name }}</span>
-                      <div class="radio-group">
-                        <input *ngFor="let tag of tags;" type="radio" [name]="'daily' + activity.id" value="{{ tag.id }}" [ngClass]="'radio-button_' + tag.class" [checked]="tag.id == activity.tag?.id" (click)="openAppointmentCreateModal(activity, tag)" matTooltip="{{ tag.description }}" />
-                      </div>
-                    </div>
-                  </li>
+                  <div *ngIf="activitiesDailyResponse.length == 0" class="mt-4">
+                    <img src="../../../../../assets/img/empty-box.png" alt="empty" class="empty" />
+                    <h4>Nenhuma rotina cadastrada para o cargo.</h4>
+                    <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
+                      Cadastrar Nova Rotina
+                    </button>
+                  </div>
                 </ul>
               </section>
             </mat-tab>
@@ -501,13 +566,13 @@
               </ng-template>
               <div class="grid-container">
                 <div>
-                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastTwoMonth" (click)="openDialog()" [minDate]="firstDayLastTwoMonth" [maxDate]="lastDayLastTwoMonth"></mat-calendar>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastTwoMonth" (click)="openAppointmentModal()" [minDate]="firstDayLastTwoMonth" [maxDate]="lastDayLastTwoMonth"></mat-calendar>
                 </div>
                 <div>
-                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastMonth" (click)="openDialog()" [minDate]="firstDayLastMonth" [maxDate]="lastDayLastMonth"></mat-calendar>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastMonth" (click)="openAppointmentModal()" [minDate]="firstDayLastMonth" [maxDate]="lastDayLastMonth"></mat-calendar>
                 </div>
                 <div>
-                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openAppointmentModal()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
                 </div>
               </div>
             </mat-tab>
@@ -518,24 +583,24 @@
               </ng-template>
               <div class="grid-container">
                 <div>
-                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastFiveMonth" (click)="openDialog()" [minDate]="firstDayLastFiveMonth" [maxDate]="lastDayLastFiveMonth"></mat-calendar>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastFiveMonth" (click)="openAppointmentModal()" [minDate]="firstDayLastFiveMonth" [maxDate]="lastDayLastFiveMonth"></mat-calendar>
                 </div>
                 <div>
-                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastFourMonth" (click)="openDialog()" [minDate]="firstDayLastFourMonth" [maxDate]="lastDayLastFourMonth"></mat-calendar>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastFourMonth" (click)="openAppointmentModal()" [minDate]="firstDayLastFourMonth" [maxDate]="lastDayLastFourMonth"></mat-calendar>
                 </div>
                 <div>
-                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastThreeMonth" (click)="openDialog()" [minDate]="firstDayLastThreeMonth" [maxDate]="lastDayLastThreeMonth"></mat-calendar>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastThreeMonth" (click)="openAppointmentModal()" [minDate]="firstDayLastThreeMonth" [maxDate]="lastDayLastThreeMonth"></mat-calendar>
                 </div>
               </div>
               <div class="grid-container">
                 <div>
-                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastTwoMonth" (click)="openDialog()" [minDate]="firstDayLastTwoMonth" [maxDate]="lastDayLastTwoMonth"></mat-calendar>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastTwoMonth" (click)="openAppointmentModal()" [minDate]="firstDayLastTwoMonth" [maxDate]="lastDayLastTwoMonth"></mat-calendar>
                 </div>
                 <div>
-                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastMonth" (click)="openDialog()" [minDate]="firstDayLastMonth" [maxDate]="lastDayLastMonth"></mat-calendar>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastMonth" (click)="openAppointmentModal()" [minDate]="firstDayLastMonth" [maxDate]="lastDayLastMonth"></mat-calendar>
                 </div>
                 <div>
-                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+                  <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openAppointmentModal()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
                 </div>
               </div>
             </mat-tab>

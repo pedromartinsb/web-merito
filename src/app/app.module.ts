@@ -127,6 +127,9 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { DocumentsListComponent } from './features/documents/components/documents-list/documents-list.component';
 import { DocumentsRoutingModule } from './features/documents/documents-routing.module';
 import { DocumentsUploadComponent } from './features/documents/components/documents-upload/documents-upload.component';
+import { RoutinesListComponent } from './features/routines/components/routines-list.component';
+import { RoutinesRoutingModule } from './features/routines/routines-routing.module';
+import { RoutinesTableComponent } from './components/routines-table/routines-table.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -208,6 +211,8 @@ export const maskConfig: Partial<IConfig> = {
     SpinnerComponent,
     DocumentsListComponent,
     DocumentsUploadComponent,
+    RoutinesListComponent,
+    RoutinesTableComponent,
   ],
     imports: [
         BrowserModule,
@@ -223,6 +228,7 @@ export const maskConfig: Partial<IConfig> = {
         DashboardRoutingModule,
         ReportRoutingModule,
         DocumentsRoutingModule,
+        RoutinesRoutingModule,
 
         BrowserAnimationsModule,
         CommonModule,

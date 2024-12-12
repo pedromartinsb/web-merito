@@ -8,6 +8,7 @@ import {Label} from "chartist";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { HomeService } from 'src/app/services/home.service';
 
 @Component({
   selector: 'app-home',
@@ -15,33 +16,16 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  public barChartOptions: ChartOptions = {
-    responsive: true,
-  };
-  public barChartLabels: Label[] = ['January', 'February', 'March', 'April'];
+
+  public barChartLabels: Label[] = ['Segunda', 'Terca', 'Quarta', 'Quinta', 'Sexta'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
-  public barChartData: ChartDataset<'bar'>[] = [
-    { data: [65, 59, 80, 81], label: 'Series A' },
-    { data: [28, 48, 40, 19], label: 'Series B' },
-    { data: [15, 25, 35, 45], label: 'Series C' },
-    { data: [30, 40, 50, 60], label: 'Series D' },
-    { data: [10, 15, 25, 35], label: 'Series E' }
-  ];
+  public barChartData: ChartDataset<'bar'>[] = [];
 
-  public lineChartOptions: ChartOptions = {
-    responsive: true,
-  };
-  public lineChartLabels: Label[] = ['January', 'February', 'March', 'April'];
+  public lineChartLabels: Label[] = ['Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
   public lineChartType: ChartType = 'line';
   public lineChartLegend = true;
-  public lineChartData: ChartDataset<'line'>[] = [
-    { data: [85, 72, 78, 75], label: 'Series A' },
-    { data: [40, 60, 50, 70], label: 'Series B' },
-    { data: [30, 20, 60, 80], label: 'Series C' },
-    { data: [70, 50, 40, 90], label: 'Series D' },
-    { data: [50, 70, 80, 90], label: 'Series E' }
-  ];
+  public lineChartData: ChartDataset<'line'>[] = [];
 
   public pieChartOptions: ChartOptions = {
     responsive: true,
@@ -89,12 +73,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup;
 
-
-
-  constructor(private authGuard: AuthGuard, private authService: AuthService, private fb: FormBuilder) {
+  constructor(private authGuard: AuthGuard, private homeService: HomeService,
+    private authService: AuthService, private fb: FormBuilder) {
     this.isAdmin = this.authGuard.checkIsAdmin();
 
     this._checkPermission();
+    this.fetchChartData();
 
     this.formGroup = this.fb.group({
       texto: []
@@ -194,6 +178,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  fetchChartData(): void {
+    this.homeService.getDashboard().subscribe((datasets) => {
+      // Atualiza apenas os datasets dinamicamente
+      if (datasets['week']) {
+        console.log(datasets['week']);
+        this.barChartData = datasets['week'];
+      }
+
+      if (datasets['month']) {
+        console.log(datasets['month']);
+        this.lineChartData = datasets['month'];
+      }
+    });
   }
 
   _checkPermission(): void {

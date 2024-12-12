@@ -209,7 +209,7 @@ td {
 
 .monthly-container {
   height: 350px;
-  width: 800px;
+  width: 600px; /* tamanho do card na aba Diário */
   max-width: 100%;
   overflow: auto;
   margin: 40px 20px;
@@ -310,6 +310,11 @@ mat-form-field {
   transform: scale(1.5);
 }
 
+.radio-group div {
+  margin-right: 10px;
+  transform: scale(1.5);
+}
+
 .radio-group label {
   margin-right: 15px;
 }
@@ -337,7 +342,7 @@ mat-form-field {
 }
 
 /* RADIO BUTTON BACKGROUND COLOR */
-.radio-button_red-background {
+/*.radio-button_red-background {
   accent-color: #FF0000;
   cursor: pointer;
 }
@@ -360,7 +365,7 @@ mat-form-field {
 .radio-button_purple-background {
   accent-color: var(--purple-border-calendar);
   cursor: pointer;
-}
+} */
 
 .radio-button_column-container {
   display: flex;
@@ -462,3 +467,152 @@ span {
   width: 100px;
   height: 100px;
 }
+
+
+
+
+
+
+
+
+
+
+/* Estilo padrão do radio button */
+.radio-button_red-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--red-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_red-background:hover {
+  border-color: var(--red-radiobutton-appointment);
+  background-color: var(--red-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_red-background.checked {
+  background-color: var(--red-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--red-radiobutton-appointment);
+}
+
+/* Estilo padrão do radio button */
+.radio-button_orange-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--orange-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_orange-background:hover {
+  border-color: var(--orange-radiobutton-appointment);
+  background-color: var(--orange-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_orange-background.checked {
+  background-color: var(--orange-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--orange-radiobutton-appointment);
+}
+
+/* Estilo padrão do radio button */
+.radio-button_yellow-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--yellow-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_yellow-background:hover {
+  border-color: var(--yellow-radiobutton-appointment);
+  background-color: var(--yellow-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_yellow-background.checked {
+  background-color: var(--yellow-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--yellow-radiobutton-appointment);
+}
+
+/* Estilo padrão do radio button */
+.radio-button_green-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--green-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_green-background:hover {
+  border-color: var(--green-radiobutton-appointment);
+  background-color: var(--green-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_green-background.checked {
+  background-color: var(--green-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--green-radiobutton-appointment);
+}
+
+/* Estilo padrão do radio button */
+.radio-button_blue-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--blue-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_blue-background:hover {
+  border-color: var(--blue-radiobutton-appointment);
+  background-color: var(--blue-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_blue-background.checked {
+  background-color: var(--blue-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--blue-radiobutton-appointment);
+}
+
+
+/* Estilo padrão do radio button */
+.radio-button_purple-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--purple-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_purple-background:hover {
+  border-color: var(--purple-radiobutton-appointment);
+  background-color: var(--purple-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_purple-background.checked {
+  background-color: var(--purple-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--purple-radiobutton-appointment);
+}
+

@@ -27,6 +27,16 @@
     <span>Fornecedores</span>
   </div>
 
+  <div class="menu-item" routerLink="/responsibilities" routerLinkActive="active" *ngIf="isSupervisor">
+    <i class="fas fa-suitcase"></i>
+    <span>Cargos</span>
+  </div>
+
+  <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isSupervisor">
+    <i class="fas fa-list-check"></i>
+    <span>Rotinas</span>
+  </div>
+
   <!-- <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isSupervisor">
     <i class="fas fa-bullseye"></i>
     <span>Gestão de Metas</span>

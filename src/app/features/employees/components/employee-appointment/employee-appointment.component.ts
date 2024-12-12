@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnDestroy} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatCalendarCellClassFunction} from '@angular/material/datepicker';
 import {MatDialog} from '@angular/material/dialog';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {finalize} from 'rxjs';
 import {Activity, Appointment} from 'src/app/models/appointment';
@@ -34,7 +34,7 @@ export interface Goal {
   templateUrl: './employee-appointment.component.html',
   styleUrls: ['./employee-appointment.component.css']
 })
-export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
+export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns = ['name', 'radio'];
   dataSource: Activity[];
   currentMonthTags: monthlyTag[] = [];
@@ -53,7 +53,7 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   personId: string;
   selected: Date | null;
   selectedDateMonthly: Date | null;
-  activitiesResponse: Activity[];
+  activitiesResponse: Activity[] = [];
   activitiesDailyResponse: Activity[];
   appointments: Appointment[] = [];
   tags: Tag[] = [];
@@ -97,6 +97,7 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     endDate:''
   };
 
+  abstinences: any[] = [];
   abstinence: any = {
     id: '',
     personId: '',
@@ -104,6 +105,8 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     startDate: '',
     endDate:''
   };
+
+  vacations: any[] = [];
   vacation: any = {
     id: '',
     personId: '',
@@ -117,14 +120,8 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     { index: '2', color: 'orange', description: 'Alerta (Erro cometido as vezes)' },
     { index: '3', color: 'yellow', description: 'Atenção (Corrigir de forma educativa)' },
     { index: '4', color: 'green', description: 'Dever cumprido!' },
-    { index: '5', color: '', description: 'Acima da média' },
+    { index: '5', color: 'blue', description: 'Acima da média' },
     { index: '6', color: 'purple', description: 'Ótimo, Parábens, Excelente!' },
-  ];
-  items = [
-    { name: 'Item 1', value: '10' },
-    { name: 'Item 2', value: '20' },
-    { name: 'Item 3', value: '30' },
-    { name: 'Item 4', value: '40' },
   ];
 
   formTask: FormGroup;
@@ -139,13 +136,18 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
   isSavingVacation: boolean = false;
 
   constructor(private dialog: MatDialog, private route: ActivatedRoute, private toast: ToastrService,
-              private tagService: TagService, private appointmentService: AppointmentService, private personService: PersonService,
-              private taskService: TaskService, private location: Location, private datePipe: DatePipe, private goalService: GoalService) {
+              private tagService: TagService, private appointmentService: AppointmentService,
+              private personService: PersonService, public router: Router,
+              private taskService: TaskService, private location: Location,
+              private datePipe: DatePipe, private goalService: GoalService) {
     this._initializeFormsGroup();
     this._initializePerson();
-    this._initializeTags();
+    // this._initializeTags();
     this._initializeTasks();
     this._initializeGoals(); // TODO: ajustar o método
+  }
+  ngOnInit(): void {
+    this._initializeTags();
   }
 
   _initializeFormsGroup() {
@@ -969,6 +971,36 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  onEditAbstinence(abstinence: any) {
+    const modalAbstinencesElement = document.getElementById('abstinencesModal');
+    if (modalAbstinencesElement) {
+      const modalInstance = Modal.getInstance(modalAbstinencesElement) || new Modal(modalAbstinencesElement);
+      modalInstance.hide();
+    }
+    this.formAbstinence.patchValue(abstinence);
+    const modalElement = document.getElementById('abstinencesCreateModal2');
+    if (modalElement) {
+      const modal = new Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  onDeleteAbstinence(id: string) {
+    this.taskService.delete(id).subscribe({
+      next: () => {
+        this.toast.success('Atestado Médico deletado com sucesso', 'Exclusão');
+        setTimeout(() => {
+          this.isSavingTask = false;
+          window.location.reload();
+        }, 1500);
+      },
+      error: (ex) => {
+        this.isSavingTask = false;
+        this._handleErrors(ex);
+      }
+    });
+  }
+
   openGoalsModal(): void {
     const modalElement = document.getElementById('goalsModal');
     if (modalElement) {
@@ -1050,7 +1082,8 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           this.toast.success('Atestado médico alteradao com sucesso', 'Cadastro');
           setTimeout(() => {
             this.isSavingAbstinence = false;
-            window.location.reload();
+            this.closeAbstinenceCreateModal();
+            this.location.back();
           }, 2000);
         },
         error: (ex) => {
@@ -1064,7 +1097,8 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           this.toast.success('Atestado médico cadastrado com sucesso', 'Cadastro');
           setTimeout(() => {
             this.isSavingAbstinence = false;
-            window.location.reload();
+            this.closeAbstinenceCreateModal();
+            this.location.back();
           }, 2000);
         },
         error: (ex) => {
@@ -1103,7 +1137,8 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           this.toast.success('Férias alteradas com sucesso', 'Cadastro');
           setTimeout(() => {
             this.isSavingVacation = false;
-            window.location.reload();
+            this.closeVacationCreateModal();
+            this.location.back();
           }, 2000);
         },
         error: (ex) => {
@@ -1117,7 +1152,8 @@ export class EmployeeAppointmentComponent implements AfterViewInit, OnDestroy {
           this.toast.success('Férias cadastradas com sucesso', 'Cadastro');
           setTimeout(() => {
             this.isSavingVacation = false;
-            window.location.reload();
+            this.closeVacationCreateModal();
+            this.location.back();
           }, 2000);
         },
         error: (ex) => {
