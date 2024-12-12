@@ -27,7 +27,7 @@ export class ProfessionalsListComponent implements OnInit {
   }
 
   private _professionals() {
-    this.professionalService.findAllSuppliers().subscribe({
+    this.professionalService.findAllProfessionals().subscribe({
       next: (professionals) => {
         if (professionals != null) {
           professionals.forEach((response) => {
@@ -38,7 +38,7 @@ export class ProfessionalsListComponent implements OnInit {
               response.id,
               response.picture,
               response.name,
-              response.responsibility.name
+              response.responsibilityName
             ];
             console.log(response)
             this.professionalsData.push(professional);

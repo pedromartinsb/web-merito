@@ -7,14 +7,13 @@ export interface Professional {
   personType: number | string;
   name: string;
   cpfCnpj: string;
-  gender: string;
-  birthdate: string;
   contractType: string;
   picture: string;
   office: Office;
   officeId: string;
   responsibility: Responsibility;
   responsibilityId: string;
+  responsibilityName: string;
   user: User;
   address: Address;
   contact: Contact;

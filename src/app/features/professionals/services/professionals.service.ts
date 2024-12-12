@@ -15,8 +15,8 @@ export class ProfessionalsService {
     this.officeId = localStorage.getItem('officeId');
   }
 
-  public findAllSuppliers(): Observable<Person[]> {
-    return this.http.get<Person[]>(
+  public findAllProfessionals(): Observable<Professional[]> {
+    return this.http.get<Professional[]>(
       `${Config.webApiUrl}/v1/person/${this.officeId}/Professional/contract-type`
     );
   }

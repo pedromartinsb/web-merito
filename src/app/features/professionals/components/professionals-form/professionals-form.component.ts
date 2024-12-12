@@ -71,6 +71,7 @@ export class ProfessionalsFormComponent implements OnInit {
         .findById(id)
         .subscribe({
           next: (response) => {
+            console.log(response)
             this.formGroup.get('id').patchValue(id);
             this.formGroup.get('name').patchValue(response.name);
             this.formGroup.get('email').patchValue(response.user.email);
@@ -86,11 +87,9 @@ export class ProfessionalsFormComponent implements OnInit {
             this.formGroup.get('neighborhood').patchValue(response.address.neighborhood);
             this.formGroup.get('streetName').patchValue(response.address.streetName);
             this.formGroup.get('uf').patchValue(response.address.uf);
-            this.formGroup.get('officeId').patchValue(response.office.id);
-            this.formGroup.get('office').patchValue(response.office);
-            this.formGroup.get('responsibility').patchValue(response.responsibility);
-            this.formGroup.get('responsibilityId').patchValue(response.responsibility.id);
-            this.formGroup.get('supervisorId').patchValue(response.supervisor);
+            this.formGroup.get('officeId').patchValue(response.officeId);
+            this.formGroup.get('responsibilityId').patchValue(response.responsibilityId);
+            this.formGroup.get('supervisorId').patchValue(response.supervisorId);
             this.imageUrl = response.picture;
           },
           error: (er) => console.log(er)
