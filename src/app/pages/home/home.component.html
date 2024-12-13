@@ -112,6 +112,12 @@
   </div>
 
   <div class="nav-card" *ngIf="isSupervisor">
+    <i class="fas fa-suitcase"></i>
+    <h3>Cargos</h3>
+    <a href="/responsibilities" class="btn">Acessar</a>
+  </div>
+
+  <div class="nav-card" *ngIf="isSupervisor">
     <i class="fas fa-bullseye"></i>
     <h3>Metas</h3>
     <a href="/goals" class="btn">Acessar</a>
@@ -146,10 +152,4 @@
     <h3>Dashboards</h3>
     <a href="/dashboards" class="btn">Acessar</a>
   </div> -->
-
-  <div class="nav-card" *ngIf="isSupervisor || isUser">
-    <i class="fas fa-user-gear"></i>
-    <h3>Configurações</h3>
-    <a href="/configuracoes" class="btn">Acessar</a>
-  </div>
 </div>
