@@ -63,8 +63,11 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.isLoggin = true;
 
+    console.log(this.credentials.get('password').value);
+
     if (this.credentials.get('username').value == null || this.credentials.get('password').value == null) {
-      this.toast.error("Usuário e Senha precisam estar preenchidos.")
+      this.isLoggin = false;
+      this.toast.error("Usuário e Senha precisam estar preenchidos.");
     } else {
       this.authService.authenticate(this.credentials.get('username').value, this.credentials.get('password').value)
         .subscribe({
@@ -83,9 +86,19 @@ export class LoginComponent implements OnInit {
           },
           error: (err) => {
             this.isLoggin = false;
-            this.toast.error(err);
+            this._handleErrors(err);
           },
         });
+    }
+  }
+
+  _handleErrors(ex: any): void {
+    if (ex.error.errors) {
+      ex.error.errors.forEach((element) => {
+        this.toast.error(element.message);
+      });
+    } else {
+      this.toast.error(ex.error.message);
     }
   }
 }
