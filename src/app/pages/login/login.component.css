@@ -1,36 +1,3 @@
-/*:host {*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  background-color: var(--primary);*/
-/*  background-position: center top;*/
-/*  background-size: 100% auto;*/
-/*  align-items: center;*/
-/*  height: 100%;*/
-/*  width: 100%;*/
-/*}*/
-
-/*h1 {*/
-/*  font-size: 2rem;*/
-/*  font-weight: bold;*/
-/*}*/
-
-/*.mat-card {*/
-/*  padding: 50px;*/
-/*  opacity: 0.95;*/
-/*}*/
-
-/*.mat-form-field,*/
-/*button {*/
-/*  margin: 20px;*/
-/*  min-width: 500px;*/
-/*}*/
-
-/*.mat-card-footer {*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*}*/
-
-
 * {
   box-sizing: border-box;
   border: 0 solid #e5e7eb;
@@ -100,6 +67,7 @@ form {
   width: 16rem;
   display: flex;
   margin-bottom: .75rem;
+  position: relative;
 }
 
 input {
@@ -173,80 +141,8 @@ p {
   }
 }
 
-
-
-/** {*/
-/*  box-sizing: border-box;*/
-/*}*/
-
-/*:host {*/
-/*  margin: 0;*/
-/*  font-family: Arial, sans-serif;*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*  height: 100vh;*/
-/*  background-color: #f5f5f5; !* Cor de fundo da página *!*/
-/*}*/
-
-/*.login-container {*/
-/*  width: 100%;*/
-/*  max-width: 800px; !* Largura máxima do card *!*/
-/*}*/
-
-/*.login-card {*/
-/*  display: flex;*/
-/*  border-radius: 8px;*/
-/*  overflow: hidden;*/
-/*  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
-/*}*/
-
-/*.login-column {*/
-/*  flex: 1;*/
-/*  padding: 20px;*/
-/*  background-color: #ffffff; !* Cor de fundo da coluna de login *!*/
-/*}*/
-
-/*.signup-column {*/
-/*  flex: 1;*/
-/*  padding: 20px;*/
-/*  background-color: #f0f8ff; !* Cor de fundo da coluna de cadastro *!*/
-/*  display: flex;*/
-/*  flex-direction: column;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*}*/
-
-/*h2 {*/
-/*  margin-bottom: 20px;*/
-/*}*/
-
-/*.input-group {*/
-/*  margin-bottom: 15px;*/
-/*}*/
-
-/*label {*/
-/*  display: block;*/
-/*  margin-bottom: 5px;*/
-/*}*/
-
-/*input {*/
-/*  width: 100%;*/
-/*  padding: 10px;*/
-/*  border: 1px solid #ccc;*/
-/*  border-radius: 4px;*/
-/*}*/
-
-/*button {*/
-/*  background-color: #007bff; !* Cor do botão *!*/
-/*  color: white;*/
-/*  padding: 10px;*/
-/*  border: none;*/
-/*  border-radius: 4px;*/
-/*  cursor: pointer;*/
-/*  width: 100%;*/
-/*}*/
-
-/*button:hover {*/
-/*  background-color: #0056b3; !* Cor do botão ao passar o mouse *!*/
-/*}*/
+button {
+  font-size: 16px;
+  color: #666;
+  outline: none;
+}

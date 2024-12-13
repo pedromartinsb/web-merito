@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
 
   public isLoggin: boolean = false;
   public hide: boolean = true;
+  isPasswordVisible = false;
   get passwordInput() {
     return this.password;
   }
@@ -51,6 +52,10 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
+
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
 
   public validateFields(): boolean {
     return this.password.valid && this.username.valid;
