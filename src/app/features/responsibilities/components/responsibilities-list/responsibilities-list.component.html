@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Cargos</li>
+    </ol>
+  </nav>
+
+  <h1>Lista de Cargos</h1>
+
+  <div class="text-end mb-3" *ngIf="!loading && responsibilitiesData.length != 0">
+    <button class="btn btn-primary" (click)="router.navigate(['/responsibilities/create'])">
+      Criar Novo Cargo
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="alert alert-info">
+    Carregando cargos...
+  </div>
+
+  <app-responsibilities-table
+    *ngIf="!loading && responsibilitiesData.length > 0"
+    [headers]="responsibilitiesHeaders"
+    [data]="responsibilitiesData"
+    [itemsPerPage]="5"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"></app-responsibilities-table>
+
+  <div *ngIf="!loading && responsibilitiesData.length == 0">
+    <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+    <h4>Nenhum cargo cadastrado.</h4>
+    <button class="btn btn-primary" (click)="router.navigate(['/responsibilities/create'])">
+      Criar Novo Cargo
+    </button>
+  </div>
+</div>

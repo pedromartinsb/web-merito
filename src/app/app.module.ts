@@ -130,6 +130,9 @@ import { DocumentsUploadComponent } from './features/documents/components/docume
 import { RoutinesListComponent } from './features/routines/components/routines-list.component';
 import { RoutinesRoutingModule } from './features/routines/routines-routing.module';
 import { RoutinesTableComponent } from './components/routines-table/routines-table.component';
+import { ResponsibilitiesListComponent } from './features/responsibilities/components/responsibilities-list/responsibilities-list.component';
+import { ResponsibilitiesRoutingModule } from './features/responsibilities/responsibilities-routing.module';
+import { ResponsibilitiesTableComponent } from './components/responsibilities-table/responsibilities-table.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -213,6 +216,8 @@ export const maskConfig: Partial<IConfig> = {
     DocumentsUploadComponent,
     RoutinesListComponent,
     RoutinesTableComponent,
+    ResponsibilitiesListComponent,
+    ResponsibilitiesTableComponent,
   ],
     imports: [
         BrowserModule,
@@ -229,6 +234,7 @@ export const maskConfig: Partial<IConfig> = {
         ReportRoutingModule,
         DocumentsRoutingModule,
         RoutinesRoutingModule,
+        ResponsibilitiesRoutingModule,
 
         BrowserAnimationsModule,
         CommonModule,
