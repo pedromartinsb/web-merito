@@ -79,7 +79,9 @@
           <div class="input-group" style="margin-bottom: 2.5rem;">
             <input type="password" id="password" formControlName="password" placeholder="Digite sua senha" required />
           </div>
-          <a *ngIf="!isLoggin" type="submit" (click)="onSubmit()">Entrar</a>
+          <a *ngIf="!isLoggin" type="submit" class="login-btn" (click)="onSubmit()">
+            Entrar
+          </a>
         </form>
 
         <div *ngIf="isLoggin" class="spinner-container">
@@ -91,8 +93,9 @@
     <div class="signup-column">
       <h2 style="color: var(--white); font-weight: 600;">Seja Bem-Vindo</h2>
       <div style="border-color: var(--white); border-width: 2px; width: 2.5rem; display: inline-block; margin-bottom: .5rem"></div>
-      <p>Não tem uma conta? Cadastre-se agora para ter acesso completo.</p>
-      <a type="submit" class="sign-up">Cadastrar</a>
+      <p>A maior e mais completa plataforma para a sua empresa controlar a Meritocracia.</p>
+      <!-- <p>Não tem uma conta? Cadastre-se agora para ter acesso completo.</p> -->
+      <!-- <a type="submit" class="sign-up">Cadastrar</a> -->
     </div>
   </div>
 </div>
