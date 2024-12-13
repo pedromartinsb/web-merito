@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Login } from 'src/app/models/login';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -63,9 +64,10 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.isLoggin = true;
 
-    console.log(this.credentials.get('password').value);
-
-    if (this.credentials.get('username').value == null || this.credentials.get('password').value == null) {
+    if (this.credentials.get('username').value == null ||
+        this.credentials.get('password').value == null ||
+        this.credentials.get('username').value == '' ||
+        this.credentials.get('password').value == '') {
       this.isLoggin = false;
       this.toast.error("Usuário e Senha precisam estar preenchidos.");
     } else {
@@ -84,7 +86,8 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['home']);
             this.toast.success('Login realizado com sucesso', 'Login');
           },
-          error: (err) => {
+          error: (err: HttpErrorResponse) => {
+            console.log('err', err)
             this.isLoggin = false;
             this._handleErrors(err);
           },
@@ -92,13 +95,17 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  _handleErrors(ex: any): void {
-    if (ex.error.errors) {
-      ex.error.errors.forEach((element) => {
-        this.toast.error(element.message);
-      });
+  _handleErrors(ex): void {
+    if (ex.status == 0 && ex.statusText == 'Unknown Error') {
+      this.toast.warning('Estamos passando por instabilidades no servidor. Por favor, testar novamente mais tarde!')
     } else {
-      this.toast.error(ex.error.message);
+      if (ex.error.errors) {
+        ex.error.errors.forEach((element) => {
+          this.toast.error(element.message);
+        });
+      } else {
+        this.toast.error(ex.error.message);
+      }
     }
   }
 }
