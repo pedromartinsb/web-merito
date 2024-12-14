@@ -18,7 +18,11 @@ export class RoutinesListComponent implements OnInit {
   routinesData = [];
   loading: boolean = true; // Estado de carregamento
 
-  constructor(private routinesService: RoutinesService, private toast: ToastrService, public router: Router) { }
+  constructor(
+    private routinesService: RoutinesService,
+    private toast: ToastrService,
+    public router: Router
+  ) {}
 
   ngOnInit(): void {
     this._routines();

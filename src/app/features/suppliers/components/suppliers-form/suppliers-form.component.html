@@ -95,7 +95,7 @@
               A empresa é obrigatória.
             </div>
           </div>
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 mb-3" [hidden]="this.responsibilities.length == 0">
             <label for="responsibilityId" class="form-label">Cargo</label>
             <select id="responsibilityId" class="form-select" formControlName="responsibilityId" (change)="onResponsibilityChange($event)"
                     [ngClass]="{'is-invalid': formGroup.get('responsibilityId')?.invalid && formGroup.get('responsibilityId')?.touched,

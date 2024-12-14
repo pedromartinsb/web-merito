@@ -11,6 +11,7 @@ import {Address, Contact, ContractType, EmployeeRequest, PersonType, User} from 
 import {EmployeeService} from "../../services/employee.service";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { ResponsibilitiesService } from 'src/app/features/responsibilities/services/responsibilities.service';
 
 @Component({
   selector: 'app-employee-form',
@@ -32,7 +33,7 @@ export class EmployeeFormComponent implements OnInit {
   errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private router: Router, private personService: PersonService,
-              private officeService: OfficeService, private responsibilityService: ResponsibilityService,
+              private officeService: OfficeService, private responsibilitiesService: ResponsibilitiesService,
               private route: ActivatedRoute, private toast: ToastrService, private employeeService: EmployeeService) {
     this.formGroup = this.fb.group({
       id: [''],
@@ -67,7 +68,6 @@ export class EmployeeFormComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
     this._offices();
-    this._responsibilities();
     this._supervisors();
 
     if (id) {
@@ -276,12 +276,8 @@ export class EmployeeFormComponent implements OnInit {
     });
   }
 
-  _responsibilities() {
-    // this.responsibilityService.findAllDTO().subscribe({
-    //   next: (response: any[]) => this.responsibilities = response,
-    //   error: (err) => console.log(err)
-    // });
-    this.responsibilityService.findAll().subscribe({
+  _responsibilities(officeId: string) {
+    this.responsibilitiesService.findByOffice(officeId).subscribe({
       next: (response: any[]) => this.responsibilities = response,
       error: (err) => console.log(err)
     });
@@ -296,6 +292,7 @@ export class EmployeeFormComponent implements OnInit {
 
   onOfficeChange(event: any): void {
     this.formGroup.get('officeId').patchValue(event.target.value);
+    this._responsibilities(this.formGroup.get('officeId').value);
   }
 
   onResponsibilityChange(event: any): void {

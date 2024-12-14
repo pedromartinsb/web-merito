@@ -4,12 +4,12 @@ import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PersonService} from "../../../../services/person.service";
 import {OfficeService} from "../../../../services/office.service";
-import {ResponsibilityService} from "../../../../services/responsibility.service";
 import {ToastrService} from "ngx-toastr";
 import {AddressSearch} from "../../../../models/person";
 import {Address, Contact, User} from "../../../employees/employee.model";
 import {ProfessionalsService} from "../../services/professionals.service";
 import {ContractType, PersonType, ProfessionalRequest} from "../../professional.model";
+import { ResponsibilitiesService } from 'src/app/features/responsibilities/services/responsibilities.service';
 
 @Component({
   selector: 'app-professionals-form',
@@ -30,7 +30,7 @@ export class ProfessionalsFormComponent implements OnInit {
   errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private router: Router, private personService: PersonService,
-              private officeService: OfficeService, private responsibilityService: ResponsibilityService,
+              private officeService: OfficeService, private responsibilitiesService: ResponsibilitiesService,
               private route: ActivatedRoute, private toast: ToastrService, private professionalService: ProfessionalsService) {
     this.formGroup = this.fb.group({
       id: [''],
@@ -63,7 +63,6 @@ export class ProfessionalsFormComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
     this._offices();
-    this._responsibilities();
     this._supervisors();
 
     if (id) {
@@ -269,8 +268,8 @@ export class ProfessionalsFormComponent implements OnInit {
     });
   }
 
-  _responsibilities() {
-    this.responsibilityService.findAllDTO().subscribe({
+  _responsibilities(officeId: string) {
+    this.responsibilitiesService.findByOffice(officeId).subscribe({
       next: (response: any[]) => this.responsibilities = response,
       error: (err) => console.log(err)
     });
@@ -285,6 +284,7 @@ export class ProfessionalsFormComponent implements OnInit {
 
   onOfficeChange(event: any): void {
     this.formGroup.get('officeId').patchValue(event.target.value);
+    this._responsibilities(this.formGroup.get('officeId').value);
   }
 
   onResponsibilityChange(event: any): void {

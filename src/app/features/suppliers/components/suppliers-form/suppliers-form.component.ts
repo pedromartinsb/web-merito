@@ -6,9 +6,9 @@ import { Subscription } from 'rxjs';
 import { Address, AddressSearch, Contact, ContractType, User } from 'src/app/models/person';
 import { OfficeService } from 'src/app/services/office.service';
 import { PersonService } from 'src/app/services/person.service';
-import { ResponsibilityService } from 'src/app/services/responsibility.service';
 import { SuppliersService } from '../../services/suppliers.service';
 import { PersonType, SupplierRequest } from '../../supplier.model';
+import { ResponsibilitiesService } from 'src/app/features/responsibilities/services/responsibilities.service';
 
 @Component({
   selector: 'app-suppliers-form',
@@ -29,7 +29,7 @@ export class SuppliersFormComponent implements OnInit {
   errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private router: Router, private personService: PersonService,
-              private officeService: OfficeService, private responsibilityService: ResponsibilityService,
+              private officeService: OfficeService, private responsibilitiesService: ResponsibilitiesService,
               private route: ActivatedRoute, private toast: ToastrService, private suppliersService: SuppliersService) {
     this.formGroup = this.fb.group({
       id: [''],
@@ -62,7 +62,6 @@ export class SuppliersFormComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
     this._offices();
-    this._responsibilities();
     this._supervisors();
 
     if (id) {
@@ -267,8 +266,8 @@ export class SuppliersFormComponent implements OnInit {
     });
   }
 
-  _responsibilities() {
-    this.responsibilityService.findAllDTO().subscribe({
+  _responsibilities(officeId: string) {
+    this.responsibilitiesService.findByOffice(officeId).subscribe({
       next: (response: any[]) => this.responsibilities = response,
       error: (err) => console.log(err)
     });
@@ -283,6 +282,7 @@ export class SuppliersFormComponent implements OnInit {
 
   onOfficeChange(event: any): void {
     this.formGroup.get('officeId').patchValue(event.target.value);
+    this._responsibilities(this.formGroup.get('officeId').value);
   }
 
   onResponsibilityChange(event: any): void {
