@@ -1,22 +1,43 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Person} from "../../../models/person";
 import {Config} from "../../../config/api.config";
+import { Responsibility, ResponsibilityRequest } from '../responsibility.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResponsibilitiesService {
-  officeId: string;
 
   constructor(private http: HttpClient) {
-    this.officeId = localStorage.getItem('officeId');
   }
 
-  public findAllResponsibilities(): Observable<any[]> {
-    return this.http.get<any[]>(
+  public findAllResponsibilities(): Observable<Responsibility[]> {
+    return this.http.get<Responsibility[]>(
       `${Config.webApiUrl}/v1/responsibility`
     );
+  }
+
+  public findByOffice(officeId: String): Observable<Responsibility[]> {
+    return this.http.get<Responsibility[]>(
+      `${Config.webApiUrl}/v1/responsibility/office/${officeId}`
+    );
+  }
+
+  public findById(responsibilityId: string): Observable<Responsibility> {
+    return this.http.get<Responsibility>(`${Config.webApiUrl}/v1/responsibility/${responsibilityId}`
+    );
+  }
+
+  public create(responsibility: ResponsibilityRequest): Observable<Responsibility> {
+    return this.http.post<Responsibility>(`${Config.webApiUrl}/v1/responsibility`, responsibility);
+  }
+
+  public update(id: string, responsibility: ResponsibilityRequest): Observable<Responsibility> {
+    return this.http.put<Responsibility>(`${Config.webApiUrl}/v1/responsibility/${id}`, responsibility);
+  }
+
+  public delete(id: string): Observable<Responsibility> {
+    return this.http.delete<Responsibility>(`${Config.webApiUrl}/v1/responsibility/${id}`);
   }
 }

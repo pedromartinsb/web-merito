@@ -16,6 +16,7 @@ export class ResponsibilitiesListComponent implements OnInit {
   ];
   responsibilitiesData = [];
   loading: boolean = true; // Estado de carregamento
+  officeId: string;
 
   constructor(
     private responsibilitiesService: ResponsibilitiesService,
@@ -24,15 +25,15 @@ export class ResponsibilitiesListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.officeId = localStorage.getItem('officeId');
     this._responsibilities();
   }
 
   _responsibilities() {
-    this.responsibilitiesService.findAllResponsibilities().subscribe({
+    this.responsibilitiesService.findByOffice(this.officeId).subscribe({
       next: (responsibilities) => {
         if (responsibilities != null) {
           responsibilities.forEach((response) => {
-            console.log(response)
             const responsibility = [
               response.id,
               response.name,
@@ -53,7 +54,16 @@ export class ResponsibilitiesListComponent implements OnInit {
   }
 
   onDelete(row: any) {
-
+    this.loading = true;
+    this.responsibilitiesService.delete(row[0]).subscribe({
+      next: () => {
+        this.toast.success('Cargo deletado com sucesso.');
+      },
+      error: (ex) => {
+        this.loading = false;
+        this._handleErrors(ex);
+      }
+    });
   }
 
   _handleErrors(ex: any): void {

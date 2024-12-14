@@ -4,6 +4,7 @@ import {AuthGuard} from "../../auth/auth.guard";
 import {Roles} from "../../models/person";
 import {NgModule} from "@angular/core";
 import { ResponsibilitiesListComponent } from "./components/responsibilities-list/responsibilities-list.component";
+import { ResponsibilitiesFormComponent } from "./components/responsibilities-form/responsibilities-form.component";
 
 const routes: Routes = [
   {
@@ -20,13 +21,13 @@ const routes: Routes = [
       {
         path: 'create',
         canActivate: [AuthGuard],
-        component: ResponsibilitiesListComponent,
+        component: ResponsibilitiesFormComponent,
         data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
       },
       {
         path: 'edit/:id',
         canActivate: [AuthGuard],
-        component: ResponsibilitiesListComponent,
+        component: ResponsibilitiesFormComponent,
         data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
       }
     ]

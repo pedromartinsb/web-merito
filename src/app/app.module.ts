@@ -127,12 +127,14 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { DocumentsListComponent } from './features/documents/components/documents-list/documents-list.component';
 import { DocumentsRoutingModule } from './features/documents/documents-routing.module';
 import { DocumentsUploadComponent } from './features/documents/components/documents-upload/documents-upload.component';
-import { RoutinesListComponent } from './features/routines/components/routines-list.component';
+import { RoutinesListComponent } from './features/routines/components/routines-list/routines-list.component';
 import { RoutinesRoutingModule } from './features/routines/routines-routing.module';
 import { RoutinesTableComponent } from './components/routines-table/routines-table.component';
 import { ResponsibilitiesListComponent } from './features/responsibilities/components/responsibilities-list/responsibilities-list.component';
 import { ResponsibilitiesRoutingModule } from './features/responsibilities/responsibilities-routing.module';
 import { ResponsibilitiesTableComponent } from './components/responsibilities-table/responsibilities-table.component';
+import { ResponsibilitiesFormComponent } from './features/responsibilities/components/responsibilities-form/responsibilities-form.component';
+import { RoutinesFormComponent } from './features/routines/components/routines-form/routines-form.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -218,6 +220,8 @@ export const maskConfig: Partial<IConfig> = {
     RoutinesTableComponent,
     ResponsibilitiesListComponent,
     ResponsibilitiesTableComponent,
+    ResponsibilitiesFormComponent,
+    RoutinesFormComponent,
   ],
     imports: [
         BrowserModule,

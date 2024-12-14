@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { RoutinesService } from '../services/routines.service';
+import { RoutinesService } from '../../services/routines.service';
 
 @Component({
   selector: 'app-routines-list',
@@ -33,7 +33,6 @@ export class RoutinesListComponent implements OnInit {
       next: (routines) => {
         if (routines != null) {
           routines.forEach((response) => {
-            console.log(response);
             const routine = [
               response.id,
               response.person.name,
