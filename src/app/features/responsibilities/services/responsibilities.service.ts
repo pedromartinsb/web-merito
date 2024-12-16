@@ -13,9 +13,7 @@ export class ResponsibilitiesService {
   }
 
   public findAllResponsibilities(): Observable<Responsibility[]> {
-    return this.http.get<Responsibility[]>(
-      `${Config.webApiUrl}/v1/responsibility`
-    );
+    return this.http.get<Responsibility[]>(`${Config.webApiUrl}/v1/responsibility`);
   }
 
   public findByOffice(officeId: String): Observable<Responsibility[]> {
