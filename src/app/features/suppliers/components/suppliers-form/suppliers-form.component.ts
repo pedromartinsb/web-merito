@@ -24,6 +24,7 @@ export class SuppliersFormComponent implements OnInit {
   offices: any[] = [];
   responsibilities: any[] = [];
   supervisors: any[] = [];
+  managers: any[] = [];
   roles: any[] = [];
   successMessage: string | null = null;
   errorMessage: string | null = null;
@@ -54,16 +55,17 @@ export class SuppliersFormComponent implements OnInit {
       responsibility: [],
       officeId: ['', Validators.required],
       responsibilityId: ['', Validators.required],
-      supervisorId: ['', Validators.required],
-      isSupervisor: [false]
+      managerId: [''],
+      supervisorId: [''],
+      accessType: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
     this._offices();
+    this._managers();
     this._supervisors();
-
+    const id = this.route.snapshot.params['id'];
     if (id) {
       this.personService
         .findById(id)
@@ -85,7 +87,12 @@ export class SuppliersFormComponent implements OnInit {
             this.formGroup.get('streetName').patchValue(response.address.streetName);
             this.formGroup.get('uf').patchValue(response.address.uf);
             this.formGroup.get('officeId').patchValue(response.officeId);
+            this._responsibilities(response.officeId);
             this.formGroup.get('responsibilityId').patchValue(response.responsibilityId);
+            this.formGroup.get('accessType').patchValue(response.accessType);
+            this._managers();
+            this.formGroup.get('managerId').patchValue(response.managerId);
+            this._supervisors();
             this.formGroup.get('supervisorId').patchValue(response.supervisorId);
             this.imageUrl = response.picture;
           },
@@ -160,12 +167,18 @@ export class SuppliersFormComponent implements OnInit {
           cellphone: this.formGroup.get('cellphone')?.value
         }
 
-        if (this.formGroup.get('isSupervisor')?.value == true) {
-          this.roles.push('ROLE_SUPERVISOR');
-          this.formGroup.get('personType').patchValue(PersonType.SUPERVISOR);
-        } else {
-          this.roles.push('ROLE_USER');
-          this.formGroup.get('personType').patchValue(PersonType.EMPLOYEE);
+        switch (this.formGroup.get('accessType')?.value) {
+          case 'Manager':
+            this.formGroup.get('personType').patchValue(PersonType.MANAGER);
+            break;
+          case 'Supervisor':
+            this.formGroup.get('personType').patchValue(PersonType.SUPERVISOR);
+            break;
+          case 'User':
+            this.formGroup.get('personType').patchValue(PersonType.USER);
+            break;
+          default:
+            this.formGroup.get('personType').patchValue(PersonType.USER);
         }
 
         const user: User = {
@@ -180,7 +193,9 @@ export class SuppliersFormComponent implements OnInit {
           cpfCnpj: this.formGroup.get('cpfCnpj')?.value,
           officeId: this.formGroup.get('officeId')?.value,
           responsibilityId: this.formGroup.get('responsibilityId')?.value,
+          managerId: this.formGroup.get('managerId')?.value,
           supervisorId: this.formGroup.get('supervisorId')?.value,
+          accessType: this.formGroup.get('accessType')?.value,
           personType: this.formGroup.get('personType')?.value,
           contractType: ContractType.SUPPLIER,
           address: address,
@@ -273,6 +288,13 @@ export class SuppliersFormComponent implements OnInit {
     });
   }
 
+  _managers(): void {
+    this.personService.findAllManagers().subscribe({
+      next: (response: any[]) => this.managers = response,
+      error: (err: any) => console.log(err),
+    });
+  }
+
   _supervisors(): void {
     this.personService.findAllSupervisors().subscribe({
       next: (response: any[]) => this.supervisors = response,
@@ -291,6 +313,10 @@ export class SuppliersFormComponent implements OnInit {
 
   onSupervisorChange(event: any): void {
     this.formGroup.get('supervisorId').patchValue(event.target.value);
+  }
+
+  onManagerChange(event: any): void {
+    this.formGroup.get('managerId').patchValue(event.target.value);
   }
 
   onInputChange(): void {

@@ -15,6 +15,7 @@ export interface Supplier {
   responsibility: Responsibility;
   responsibilityId: string;
   responsibilityName: string;
+  accessType: string;
   user: User;
   address: Address;
   contact: Contact;
@@ -31,12 +32,15 @@ export interface SupplierRequest {
   officeId: string;
   responsibilityId: string;
   supervisorId: string;
+  managerId: string;
+  accessType: string;
   user: User;
   address: Address;
   contact: Contact;
 }
 
 export enum PersonType {
-  EMPLOYEE = 'Colaborador',
+  USER = 'Profissional',
   SUPERVISOR = 'Supervisor',
+  MANAGER = 'Gerente',
 }

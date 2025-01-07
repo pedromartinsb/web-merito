@@ -12,82 +12,47 @@
     <span>Página Inicial</span>
   </div>
 
-  <div class="menu-item" routerLink="/employees" routerLinkActive="active" *ngIf="isSupervisor">
+  <div class="menu-item" routerLink="/employees" routerLinkActive="active" *ngIf="isAdmin || isSupervisor">
     <i class="fas fa-users"></i>
     <span>Funcionários</span>
   </div>
 
-  <div class="menu-item" routerLink="/professionals" routerLinkActive="active" *ngIf="isSupervisor">
+  <div class="menu-item" routerLink="/professionals" routerLinkActive="active" *ngIf="isAdmin || isSupervisor">
     <i class="fas fa-user-tie"></i>
     <span>Profissionais</span>
   </div>
 
-  <div class="menu-item" routerLink="/suppliers" routerLinkActive="active" *ngIf="isSupervisor">
+  <div class="menu-item" routerLink="/suppliers" routerLinkActive="active" *ngIf="isAdmin || isSupervisor">
     <i class="fas fa-truck-field"></i>
     <span>Fornecedores</span>
   </div>
 
-  <div class="menu-item" routerLink="/responsibilities" routerLinkActive="active" *ngIf="isSupervisor">
+  <div class="menu-item" routerLink="/responsibilities" routerLinkActive="active" *ngIf="isAdmin || isSupervisor">
     <i class="fas fa-suitcase"></i>
     <span>Cargos</span>
   </div>
 
-  <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isSupervisor">
+  <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isAdmin || isSupervisor">
     <i class="fas fa-list-check"></i>
     <span>Rotinas</span>
   </div>
-
-  <!-- <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isSupervisor">
-    <i class="fas fa-bullseye"></i>
-    <span>Gestão de Metas</span>
-  </div> -->
 
   <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isUser">
     <i class="fas fa-bullseye"></i>
     <span>Minhas Metas</span>
   </div>
 
-  <!-- <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isSupervisor">
-    <i class="fas fa-list-check"></i>
-    <span>Gestão de Tarefas</span>
-  </div> -->
-
   <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isUser">
     <i class="fas fa-list-check"></i>
     <span>Minhas Tarefas</span>
   </div>
-
-  <!-- <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isSupervisor">
-    <i class="fas fa-briefcase"></i>
-    <span>Gestão de Rotinas</span>
-  </div> -->
 
   <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isUser">
     <i class="fas fa-briefcase"></i>
     <span>Minhas Rotinas</span>
   </div>
 
-  <div class="menu-item" routerLink="/segments" routerLinkActive="active" *ngIf="isAdmin">
-    <i class="fas fa-users"></i>
-    <span>Gestão de Segmentos</span>
-  </div>
-
-  <div class="menu-item" routerLink="/holdings" routerLinkActive="active" *ngIf="isAdmin">
-    <i class="fas fa-users"></i>
-    <span>Gestão de Holdings</span>
-  </div>
-
-  <div class="menu-item" routerLink="/companies" routerLinkActive="active" *ngIf="isAdmin">
-    <i class="fas fa-users"></i>
-    <span>Gestão de Empresas</span>
-  </div>
-
-  <div class="menu-item" routerLink="/responsibilities" routerLinkActive="active" *ngIf="isAdmin">
-    <i class="fas fa-users"></i>
-    <span>Gestão de Funções</span>
-  </div>
-
-  <div class="menu-item" routerLink="/documents" routerLinkActive="active">
+  <div class="menu-item" routerLink="/documents" routerLinkActive="active" *ngIf="isSupervisor || isUser">
     <i class="fas fa-folder-open"></i>
     <span>Documentos</span>
   </div>
@@ -97,20 +62,18 @@
     <span>Relatórios</span>
   </div>
 
-  <!-- <div class="menu-item" routerLink="/dashboards" routerLinkActive="active" *ngIf="isSupervisor">
-    <i class="fas fa-chart-simple"></i>
-    <span>Dashboards</span>
-  </div> -->
-
   <div class="menu-item" routerLink="/configurations" routerLinkActive="active" *ngIf="isSupervisor || isUser">
     <i class="fas fa-user-gear"></i>
     <span>Configurações</span>
   </div>
 
   <div class="sidebar-footer">
-    <img [src]="personPicture" alt="photo" class="img-thumbnail" width="40" height="40" />
-    <br/>
-    <span>Usuário: {{ personName }}</span>
+    <div *ngIf="!this.isAdmin">
+      <img [src]="personPicture" alt="photo" class="img-thumbnail" width="40" height="40" />
+      <br/>
+      <span>Usuário: {{ personName }}</span>
+    </div>
+    <span>Permissão: {{ personRole }}</span>
     <div class="current-time">🕑 Horário: {{ currentTime }}</div>
     <button class="logout-btn" (click)="logout()">Sair</button>
   </div>

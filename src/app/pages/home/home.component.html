@@ -63,58 +63,34 @@
 </div>
 
 <div class="home-navigation">
-  <div class="nav-card" *ngIf="isSupervisor">
+  <div class="nav-card" *ngIf="isAdmin || isSupervisor">
     <i class="fas fa-users"></i>
     <h3>Funcionários</h3>
     <a href="/employees" class="btn">Acessar</a>
   </div>
 
-  <div class="nav-card" *ngIf="isSupervisor">
+  <div class="nav-card" *ngIf="isAdmin || isSupervisor">
     <i class="fas fa-user-tie"></i>
     <h3>Profissionais</h3>
     <a href="/professionals" class="btn">Acessar</a>
   </div>
 
-  <div class="nav-card" *ngIf="isSupervisor">
+  <div class="nav-card" *ngIf="isAdmin || isSupervisor">
     <i class="fas fa-truck-field"></i>
     <h3>Fornecedores</h3>
     <a href="/suppliers" class="btn">Acessar</a>
   </div>
 
-  <div class="nav-card" *ngIf="isAdmin">
-    <i class="fas fa-chart-line"></i>
-    <h3>Segmentos</h3>
-    <a href="/segments" class="btn">Acessar</a>
-  </div>
-
-  <div class="nav-card" *ngIf="isAdmin">
-    <i class="fas fa-chart-line"></i>
-    <h3>Holdings</h3>
-    <a href="/holding" class="btn">Acessar</a>
-  </div>
-
-  <div class="nav-card" *ngIf="isAdmin">
-    <i class="fas fa-chart-line"></i>
-    <h3>Empresas</h3>
-    <a href="/company" class="btn">Acessar</a>
-  </div>
-
-  <div class="nav-card" *ngIf="isAdmin">
-    <i class="fas fa-chart-line"></i>
-    <h3>Unidades</h3>
-    <a href="/offices" class="btn">Acessar</a>
-  </div>
-
-  <div class="nav-card" *ngIf="isAdmin">
-    <i class="fas fa-chart-line"></i>
-    <h3>Funções</h3>
-    <a href="/responsibilities" class="btn">Acessar</a>
-  </div>
-
-  <div class="nav-card" *ngIf="isSupervisor">
+  <div class="nav-card" *ngIf="isAdmin || isSupervisor">
     <i class="fas fa-suitcase"></i>
     <h3>Cargos</h3>
     <a href="/responsibilities" class="btn">Acessar</a>
+  </div>
+
+  <div class="nav-card" *ngIf="isAdmin || isSupervisor">
+    <i class="fas fa-briefcase"></i>
+    <h3>Rotinas</h3>
+    <a href="/routines" class="btn">Acessar</a>
   </div>
 
   <div class="nav-card" *ngIf="isSupervisor">
@@ -127,12 +103,6 @@
     <i class="fas fa-list-check"></i>
     <h3>Tarefas</h3>
     <a href="/tasks" class="btn">Acessar</a>
-  </div>
-
-  <div class="nav-card" *ngIf="isSupervisor">
-    <i class="fas fa-briefcase"></i>
-    <h3>Rotinas</h3>
-    <a href="/routines" class="btn">Acessar</a>
   </div>
 
   <div class="nav-card" *ngIf="isSupervisor || isUser">

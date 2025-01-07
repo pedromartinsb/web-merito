@@ -42,9 +42,10 @@ export class RoutinesFormComponent implements OnInit {
     if (id) {
       this.routinesService.findById(id).subscribe({
         next: (response) => {
+          console.log(response)
           this.formGroup.get('id').patchValue(id);
           this.formGroup.get('name').patchValue(response.name);
-          this.formGroup.get('responsibilityId').patchValue(response.responsibilityId);
+          this.formGroup.get('responsibilities').patchValue(response.responsibilities);
         },
         error: (error: Error) => {
           this.isSaving = false;
@@ -115,7 +116,7 @@ export class RoutinesFormComponent implements OnInit {
       next: (response: any[]) => {
         this.responsibilities = response;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.log(err);
       }
     });
@@ -131,7 +132,7 @@ export class RoutinesFormComponent implements OnInit {
 
   private _handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach((element) => {
+      ex.error.errors.forEach((element: any) => {
         this.errorMessage = 'Erro interno: ' + element.message;
         this.successMessage = null;
         setTimeout(() => {

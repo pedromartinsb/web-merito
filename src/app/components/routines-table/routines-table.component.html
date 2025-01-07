@@ -29,11 +29,12 @@
       <tr *ngFor="let row of paginatedData">
         <td *ngFor="let col of row; let i = index">
           <span *ngIf="i===0" hidden>{{ col }}</span>
-          <img *ngIf="i===1" [src]="col" alt="photo" class="img-thumbnail" width="70" height="70" />
+          <!-- <img *ngIf="i===1" [src]="col" alt="photo" class="img-thumbnail" width="70" height="70" /> -->
+          <span *ngIf="i===1">{{ col }}</span>
           <span *ngIf="i!==0 && i!==1">{{ col }}</span>
         </td>
         <td>
-          <button class="btn btn-primary btn-sm" (click)="onEdit(row)">
+          <button class="btn btn-primary btn-sm me-1" (click)="onEdit(row)">
             <i class="bi bi-pencil-fill"></i>
           </button>
           <button class="btn btn-danger btn-sm" (click)="onDelete(row)">

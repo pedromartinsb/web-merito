@@ -18,6 +18,8 @@ export interface Person {
   responsibilityId: string;
   user: User;
   supervisor: string;
+  accessType: string;
+  managerId: string;
   supervisorId: string;
   address: Address;
   contact: Contact;

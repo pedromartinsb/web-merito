@@ -15,6 +15,7 @@ export interface Employee {
   responsibility: Responsibility;
   responsibilityId: string;
   responsibilityName: string;
+  accessType: string,
   user: User;
   address: Address;
   contact: Contact;
@@ -32,7 +33,9 @@ export interface EmployeeRequest {
   birthdate: string;
   officeId: string;
   responsibilityId: string;
+  managerId: string;
   supervisorId: string;
+  accessType: string;
   user: User;
   address: Address;
   contact: Contact;
@@ -89,6 +92,7 @@ export enum ContractType {
 }
 
 export enum PersonType {
-  EMPLOYEE = 'Colaborador',
+  USER = 'Colaborador',
   SUPERVISOR = 'Supervisor',
+  MANAGER = 'Gerente',
 }

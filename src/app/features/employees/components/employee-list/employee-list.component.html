@@ -32,7 +32,7 @@
     (delete)="onDelete($event)"
     (view)="onView($event)"></app-zebra-employee-table>
 
-  <div *ngIf="loading && employeeData.length == 0">
+  <div *ngIf="!loading && employeeData.length == 0">
     <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
     <h4>Nenhum funcionário cadastrado.</h4>
     <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">

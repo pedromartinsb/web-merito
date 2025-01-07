@@ -29,14 +29,15 @@ export class RoutinesListComponent implements OnInit {
   }
 
   _routines() {
-    this.routinesService.findAll().subscribe({
+    // TODO: implementar rotina de todos os cargos quando for Supervisor
+    this.routinesService.findAllByOffice().subscribe({
       next: (routines) => {
         if (routines != null) {
           routines.forEach((response) => {
             const routine = [
               response.id,
-              response.person.name,
-              response.person.responsibility.name,
+              response.name,
+              response.responsibility.name,
             ];
             this.routinesData.push(routine);
           });
@@ -49,7 +50,7 @@ export class RoutinesListComponent implements OnInit {
   }
 
   onEdit(row: any) {
-    this.router.navigate(['/goals/edit/', row[0]]);
+    this.router.navigate(['/routines/edit/', row[0]]);
   }
 
   onDelete(row: any) {
@@ -58,7 +59,7 @@ export class RoutinesListComponent implements OnInit {
 
   _handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach((element) => {
+      ex.error.errors.forEach((element: any) => {
         this.toast.error(element.message);
       });
     } else {

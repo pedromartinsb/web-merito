@@ -19,8 +19,16 @@ export class PersonService {
     return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person`);
   }
 
+  public findAllAdmins(): Observable<Person[]> {
+    return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person/admins/${this.officeId}/office`);
+  }
+
+  public findAllManagers(): Observable<Person[]> {
+    return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person/managers/${this.officeId}/office`);
+  }
+
   public findAllSupervisors(): Observable<Person[]> {
-    return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person/supervisors`);
+    return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person/supervisors/${this.officeId}/office`);
   }
 
   public findAllByHolding(holdingId: string): Observable<Person[]> {

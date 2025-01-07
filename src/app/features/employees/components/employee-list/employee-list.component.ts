@@ -16,6 +16,7 @@ export class EmployeeListComponent implements OnInit {
     'Foto',
     'Nome',
     'Cargo',
+    'Permissão'
   ];
   employeeData = [];
 
@@ -39,17 +40,16 @@ export class EmployeeListComponent implements OnInit {
     this.employeeService.findAllEmployees()
       .subscribe({
         next: (employees) => {
-          console.log(employees)
           if (employees != null) {
             employees.forEach((response) => {
-              if (response.picture == null) {
-                response.picture = Urls.getDefaultPictureS3();
-              }
+              response.picture = response.picture == null ? Urls.getDefaultPictureS3() : response.picture;
+              let accessType = (response.accessType == "Manager") ? ("Gerente") : ((response.accessType == "User") ? ("Usuário") : ("Supervisor"));
               const employee = [
                 response.id,
                 response.picture,
                 response.name,
-                response.responsibilityName
+                response.responsibilityName,
+                accessType
               ];
               this.employeeData.push(employee);
             });

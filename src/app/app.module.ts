@@ -53,13 +53,10 @@ import {NavComponent} from './components/nav/nav.component';
 import {PrintPdfComponent} from './components/print-pdf/print-pdf.component';
 import {TableComponent} from './components/table/table.component';
 import {AuthInterceptorProvider} from './helpers/auth.interceptor';
-import {AccountFormComponent} from './pages/account/account-form/account-form.component';
 import {AppointmentCreateComponent} from './pages/appointment/appointment-create/appointment-create.component';
 import {
   DailyAppointmentListComponent
 } from './pages/appointment/daily-appointment-list/daily-appointment-list.component';
-import {AutonomousFormComponent} from './pages/autonomous/autonomous-form/autonomous-form.component';
-import {AutonomousListComponent} from './pages/autonomous/autonomous-list/autonomous-list.component';
 import {CompanyFormComponent} from './pages/company/company-form/company-form.component';
 import {CompanyListComponent} from './pages/company/company-list/company-list.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
@@ -76,9 +73,7 @@ import {PermissionFormComponent} from './pages/permission/permission-form/permis
 import {PersonAppointmentConfirmComponent} from './pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component';
 import {PersonAppointmentDialogComponent} from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog.component';
 import {PersonAppointmentComponent} from './pages/person/person-appointment/person-appointment.component';
-import {PersonFormComponent} from './pages/person/person-form/person-form.component';
 import {PersonListComponent} from './pages/person/person-list/person-list.component';
-import {ProfileFormComponent} from './pages/profile/profile-form/profile-form.component';
 import {ResponsibilityFormComponent} from './pages/responsibility/responsibility-form/responsibility-form.component';
 import {ResponsibilityListComponent} from './pages/responsibility/responsibility-list/responsibility-list.component';
 import {RoutineFormComponent} from './pages/routine/routine-form/routine-form.component';
@@ -91,8 +86,6 @@ import {CnpjPipe} from './pipe/cnpj.pipe';
 import {CpfPipe} from './pipe/cpf.pipe';
 import {PersonTypePipe} from './pipe/person-type.pipe';
 import {PhonePipe} from './pipe/phone.pipe';
-import {SupplierFormComponent} from './pages/supplier/supplier-form/supplier-form.component';
-import {SupplierListComponent} from './pages/supplier/supplier-list/supplier-list.component';
 import {FormsComponent} from './components/forms/forms.component';
 import {CommunicationComponent} from './components/communication/communication.component';
 import {PersonAppointmentTaskComponent} from './pages/person/person-appointment/person-appointment-task/person-appointment-task.component';
@@ -153,7 +146,6 @@ export const maskConfig: Partial<IConfig> = {
     NavComponent,
     HeaderComponent,
     PersonListComponent,
-    PersonFormComponent,
     DailyAppointmentListComponent,
     LoginComponent,
     CompanyListComponent,
@@ -178,21 +170,15 @@ export const maskConfig: Partial<IConfig> = {
     DashboardComponent,
     OfficeListComponent,
     OfficeFormComponent,
-    AccountFormComponent,
-    AutonomousListComponent,
-    AutonomousFormComponent,
     GridComponent,
     PersonAppointmentComponent,
     PersonAppointmentDialogComponent,
     PersonAppointmentConfirmComponent,
     TableComponent,
-    ProfileFormComponent,
     FooterComponent,
     SuggestionFormComponent,
     SuggestionListComponent,
     PrintPdfComponent,
-    SupplierFormComponent,
-    SupplierListComponent,
     FormsComponent,
     CommunicationComponent,
     PersonAppointmentTaskComponent,

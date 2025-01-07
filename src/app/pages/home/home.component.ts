@@ -1,13 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
-import {Subject} from 'rxjs';
-import {AuthGuard} from 'src/app/auth/auth.guard';
-import {AuthService} from 'src/app/services/auth.service';
-import {ChartDataset, ChartOptions, ChartType} from "chart.js";
-import {Label} from "chartist";
+import { Subject } from 'rxjs';
+import { AuthGuard } from 'src/app/auth/auth.guard';
+import { AuthService } from 'src/app/services/auth.service';
+import { ChartDataset, ChartOptions, ChartType } from "chart.js";
+import { Label } from "chartist";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { HomeService } from 'src/app/services/home.service';
 
 @Component({
@@ -184,12 +184,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.homeService.getDashboard().subscribe((datasets) => {
       // Atualiza apenas os datasets dinamicamente
       if (datasets['week']) {
-        console.log(datasets['week']);
         this.barChartData = datasets['week'];
       }
 
       if (datasets['month']) {
-        console.log(datasets['month']);
         this.lineChartData = datasets['month'];
       }
     });
@@ -206,6 +204,9 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.isSupervisor = true;
           break;
         case 'ROLE_USER':
+          this.isUser = true;
+          break;
+        default:
           this.isUser = true;
           break;
       }

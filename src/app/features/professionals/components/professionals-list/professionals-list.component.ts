@@ -15,6 +15,7 @@ export class ProfessionalsListComponent implements OnInit {
     'Foto',
     'Nome',
     'Cargo',
+    'Permissão'
   ];
   professionalsData = [];
   loading: boolean = true;
@@ -31,16 +32,15 @@ export class ProfessionalsListComponent implements OnInit {
       next: (professionals) => {
         if (professionals != null) {
           professionals.forEach((response) => {
-            if (response.picture == null) {
-              response.picture = Urls.getDefaultPictureS3();
-            }
+            response.picture = response.picture == null ? Urls.getDefaultPictureS3() : response.picture;
+            let accessType = (response.accessType == "Manager") ? ("Gerente") : ((response.accessType == "User") ? ("Usuário") : ("Supervisor"));
             const professional = [
               response.id,
               response.picture,
               response.name,
-              response.responsibilityName
+              response.responsibilityName,
+              accessType
             ];
-            console.log(response)
             this.professionalsData.push(professional);
           });
         }

@@ -8,6 +8,12 @@
 
   <h1>Lista de Rotinas</h1>
 
+  <div class="text-end mb-3" *ngIf="!loading && routinesData.length != 0">
+    <button class="btn btn-primary" (click)="router.navigate(['/routines/create'])">
+      Criar Nova Rotina
+    </button>
+  </div>
+
   <div *ngIf="loading" class="alert alert-info">
     Carregando rotinas...
   </div>

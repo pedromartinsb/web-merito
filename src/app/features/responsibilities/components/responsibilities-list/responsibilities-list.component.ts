@@ -58,6 +58,8 @@ export class ResponsibilitiesListComponent implements OnInit {
     this.responsibilitiesService.delete(row[0]).subscribe({
       next: () => {
         this.toast.success('Cargo deletado com sucesso.');
+        this.loading = false;
+        window.location.reload();
       },
       error: (ex) => {
         this.loading = false;

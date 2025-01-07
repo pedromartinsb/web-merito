@@ -15,6 +15,7 @@ export class SuppliersListComponent implements OnInit {
     'Foto',
     'Nome',
     'Cargo',
+    'Permissão'
   ];
   suppliersData = [];
   loading: boolean = true;
@@ -31,14 +32,14 @@ export class SuppliersListComponent implements OnInit {
       next: (suppliers) => {
         if (suppliers != null) {
           suppliers.forEach((response) => {
-            if (response.picture == null) {
-              response.picture = Urls.getDefaultPictureS3();
-            }
+            response.picture = response.picture == null ? Urls.getDefaultPictureS3() : response.picture;
+            let accessType = (response.accessType == "Manager") ? ("Gerente") : ((response.accessType == "User") ? ("Usuário") : ("Supervisor"));
             const supplier = [
               response.id,
               response.picture,
               response.name,
-              response.responsibilityName
+              response.responsibilityName,
+              accessType
             ];
             this.suppliersData.push(supplier);
           });

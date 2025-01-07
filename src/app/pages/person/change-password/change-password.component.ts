@@ -45,6 +45,8 @@ export class ChangePasswordComponent implements OnInit {
     responsibilityId: '',
     user: this.user,
     supervisor: null,
+    accessType: '',
+    managerId: '',
     supervisorId: '',
     address: this.address,
     contact: this.contact,

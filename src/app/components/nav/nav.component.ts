@@ -6,9 +6,7 @@ import {Router} from '@angular/router';
 import {MatDrawerMode, MatSidenav} from '@angular/material/sidenav';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Subject, takeUntil} from 'rxjs';
-import {PersonService} from 'src/app/services/person.service';
 import {OfficeResponse} from 'src/app/models/office';
-import {Urls} from "../../config/urls.config";
 
 @Component({
   selector: 'app-nav',
@@ -37,6 +35,7 @@ export class NavComponent implements OnInit, OnDestroy {
   isDropdownOpen = false;
 
   personName: string;
+  personRole: string;
   personPicture: string;
   firstOffice: OfficeResponse;
   officeResponses: OfficeResponse[] = [];
@@ -54,7 +53,6 @@ export class NavComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private toast: ToastrService,
     private router: Router,
-    private personService: PersonService,
     breakpointObserver: BreakpointObserver
   ) {
     breakpointObserver
@@ -86,15 +84,8 @@ export class NavComponent implements OnInit, OnDestroy {
     const officeId = localStorage.getItem('officeId');
     this.firstOffice = this.officeResponses.filter((o) => o.id === officeId)[0];
     this.userRole = this.authService.getRole();
-
-    this.personService.findByRequest().subscribe((person) => {
-      this.personName = person.name;
-      if (person.picture != null) {
-        this.personPicture = Urls.getS3() + person.picture;
-      } else {
-        this.personPicture = Urls.getDefaultPictureS3();
-      }
-    });
+    this.personName = localStorage.getItem('personName');
+    this.personPicture = localStorage.getItem('personPicture');
 
     this.checkPermission();
 
@@ -119,22 +110,31 @@ export class NavComponent implements OnInit, OnDestroy {
       switch (role) {
         case 'ROLE_ADMIN':
           this.isAdmin = true;
+          this.personRole = "Administrador";
           break;
         case 'ROLE_SUPERVISOR':
           this.isSupervisor = true;
+          this.personRole = "Supervisor";
           break;
         case 'ROLE_USER':
           this.isUser = true;
+          this.personRole = "Usuário";
           break;
       }
     });
   }
 
   logout() {
-    this.authService.logout();
-    this.storageService.clean();
-    this.toast.info('Logout realizado com sucesso', 'Logout');
-    this.router.navigate(['login']);
+    this.authService.logout().subscribe({
+      next: () => {
+        this.storageService.clean();
+        this.toast.info('Logout realizado com sucesso', 'Logout');
+        this.router.navigate(['login']);
+      },
+      error: (ex: any) => {
+        this._handleErrors(ex);
+      },
+    });
   }
 
   changeCurrentOffice(element: OfficeResponse) {
@@ -163,5 +163,15 @@ export class NavComponent implements OnInit, OnDestroy {
 
   toggleSidebar() {
     this.isSidebarActive = !this.isSidebarActive;
+  }
+
+  private _handleErrors(ex: any): void {
+    if (ex.error.errors) {
+      ex.error.errors.forEach((element: { message: string; }) => {
+        this.toast.error(element.message);
+      });
+    } else {
+      this.toast.error(ex.error.message);
+    }
   }
 }

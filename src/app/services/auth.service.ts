@@ -20,7 +20,7 @@ export class AuthService {
   authenticate(username: string, password: string) {
     return this.http
       .post<Login>(
-        `${Config.webApiUrl}/v1/auth/signin`,
+        `${Config.webApiUrl}/v1/auth/sign-in`,
         {
           username,
           password,
@@ -37,13 +37,16 @@ export class AuthService {
   successfulLogin(
     authToken: string,
     role: string[],
-    companyNames: string[],
     officeResponse: OfficeResponse[]
   ) {
     localStorage.setItem('token', authToken);
     this.roleAs = role;
     localStorage.setItem('role', JSON.stringify(this.roleAs));
-    localStorage.setItem('companies', JSON.stringify(companyNames));
+    let companies = [];
+    officeResponse.map((office) => {
+      companies.push(office.fantasyName);
+    });
+    localStorage.setItem('companies', JSON.stringify(companies));
     localStorage.setItem('officeResponses', JSON.stringify(officeResponse));
     localStorage.setItem('officeId', officeResponse[0].id);
   }
@@ -56,11 +59,12 @@ export class AuthService {
     return false;
   }
 
-  logout() {
+  logout(): any {
     localStorage.clear();
+    return this.http.delete(`${Config.webApiUrl}/v1/auth/sign-out`);
   }
 
-  getRole() {
+  getRole(): string[] {
     this.roleAs = JSON.parse(localStorage.getItem('role'));
     return this.roleAs;
   }

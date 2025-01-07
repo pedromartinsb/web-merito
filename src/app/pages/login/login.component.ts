@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import { Login } from 'src/app/models/login';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PersonService } from 'src/app/services/person.service';
+import { Urls } from 'src/app/config/urls.config';
 
 @Component({
   selector: 'app-login',
@@ -48,7 +50,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private personService: PersonService
   ) {}
 
   ngOnInit(): void {}
@@ -79,23 +82,35 @@ export class LoginComponent implements OnInit {
       this.authService.authenticate(this.credentials.get('username').value, this.credentials.get('password').value)
         .subscribe({
           next: (data) => {
-            this.isLoggin = false;
             this.cleanFields();
             this.login = data.body;
             this.authService.successfulLogin(
               this.login.token,
               this.login.roles,
-              this.login.companyNames,
               this.login.officeResponses
             );
-            this.router.navigate(['home']);
-            this.toast.success('Login realizado com sucesso', 'Login');
+            this.personService.findByRequest().subscribe({
+              next: (person) => {
+                localStorage.setItem('personName', person.name);
+                if (person.picture != null) {
+                  localStorage.setItem('personPicture', Urls.getS3() + person.picture);
+                } else {
+                  localStorage.setItem('personPicture', Urls.getDefaultPictureS3());
+                }
+                this.isLoggin = false;
+                this.router.navigate(['home']);
+                this.toast.success('Login realizado com sucesso', 'Login');
+              },
+              error: (err: HttpErrorResponse) => {
+                this.isLoggin = false;
+                this._handleErrors(err);
+              }
+            });
           },
           error: (err: HttpErrorResponse) => {
-            console.log('err', err)
             this.isLoggin = false;
             this._handleErrors(err);
-          },
+          }
         });
     }
   }
