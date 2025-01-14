@@ -95,10 +95,7 @@
         <h2>Rotinas:</h2>
         <ul class="list-group minimal-list">
           <li *ngFor="let routine of routines" class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="badge bg-primary rounded-pill">{{ routine.name }}</span>
-              <span>{{ routine.responsibility.name }}</span>
-            </div>
+            <span class="badge bg-success rounded-pill">{{ routine.name }}</span>
           </li>
         </ul>
       </div>
@@ -109,7 +106,9 @@
           <li *ngFor="let task of tasks" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center">
               <span>{{ task.title }}</span>
-              <span class="badge bg-primary rounded-pill">{{ task.status }}</span>
+              <span *ngIf="task.status == 'CREATED'" class="badge bg-primary rounded-pill">CRIADA</span>
+              <span *ngIf="task.status == 'CANCELLED'" class="badge bg-danger rounded-pill">CANCELADA</span>
+              <span *ngIf="task.status == 'FINISHED'" class="badge bg-green rounded-pill">FINALIZADA</span>
             </div>
           </li>
         </ul>
@@ -122,7 +121,9 @@
           <li *ngFor="let goal of goals" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center">
               <span>{{ goal.title }}</span>
-              <span class="badge bg-primary rounded-pill">{{ goal.status }}</span>
+              <span *ngIf="goal.status == 'CREATED'" class="badge bg-primary rounded-pill">CRIADA</span>
+              <span *ngIf="goal.status == 'CANCELLED'" class="badge bg-danger rounded-pill">CANCELADA</span>
+              <span *ngIf="goal.status == 'FINISHED'" class="badge bg-green rounded-pill">FINALIZADA</span>
             </div>
           </li>
         </ul>
@@ -130,25 +131,28 @@
       </div>
     </div>
   </div>
-  <div class="nav-card" *ngIf="isUser">
-    <i class="fas fa-briefcase"></i>
-    <h3>Minhas Rotinas</h3>
-    <a href="/routines" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isUser">
-    <i class="fas fa-bullseye"></i>
-    <h3>Minhas Metas</h3>
-    <a href="/goals" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isUser">
-    <i class="fas fa-list-check"></i>
-    <h3>Minhas Tarefas</h3>
-    <a href="/tasks" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isUser">
-    <i class="fas fa-folder-open"></i>
-    <h3>Meus Documentos</h3>
-    <a href="/document" class="btn">Acessar</a>
+
+  <div class="row">
+    <div class="nav-card mx-3 mb-3" *ngIf="isUser">
+      <i class="fas fa-briefcase"></i>
+      <h3>Minhas Rotinas</h3>
+      <a href="/routines" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card mx-3 mb-3" *ngIf="isUser">
+      <i class="fas fa-bullseye"></i>
+      <h3>Minhas Metas</h3>
+      <a href="/goals" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card mx-3 mb-3" *ngIf="isUser">
+      <i class="fas fa-list-check"></i>
+      <h3>Minhas Tarefas</h3>
+      <a href="/tasks" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card mx-3 mb-3" *ngIf="isUser">
+      <i class="fas fa-folder-open"></i>
+      <h3>Meus Documentos</h3>
+      <a href="/document" class="btn">Acessar</a>
+    </div>
   </div>
 
 </div>

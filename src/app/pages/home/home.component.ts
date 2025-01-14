@@ -77,8 +77,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     { name: 'Item 4', value: '40' },
   ];
   routines: Routine[] = [];
-  tasks: Task[] = [];
-  goals: Goal[] = [];
+  tasks = [];
+  goals = [];
 
   formGroup: FormGroup;
 
@@ -239,9 +239,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private _findTasks(): void {
     this.tasksService.findAll().subscribe({
-      next: (response: Task[]) => {
-        if (response != null) {
-          this.tasks = response;
+      next: (tasks: Task[]) => {
+        if (tasks != null) {
+          this.tasks = tasks;
         }
       }
     });
@@ -249,9 +249,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private _findGoals(): void {
     this.goalsService.findAll().subscribe({
-      next: (response: Goal[]) => {
-        if (response != null) {
-          this.goals = response;
+      next: (goals: Goal[]) => {
+        if (goals != null) {
+          this.goals = goals;
         }
       }
     });
