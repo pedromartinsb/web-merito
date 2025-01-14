@@ -1,0 +1,74 @@
+<h2 mat-dialog-title *ngIf="data.appointmentId">Editar Avaliação:</h2>
+<h2 mat-dialog-title *ngIf="!data.appointmentId">Cadastrar Avaliação:</h2>
+<mat-dialog-content class="mat-typography">
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Por quê?</mat-label>
+      <input
+        matInput
+        placeholder="Por quê?"
+        [(ngModel)]="appointment.description"
+        [formControl]="description"
+        [ngModel]="appointment.description"
+        required
+      />
+      <mat-hint>Digite o porque dessa avaliação.</mat-hint>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Justificativa:</mat-label>
+      <textarea
+        matInput
+        placeholder="Digite a sua Justificativa"
+        rows="5"
+        [(ngModel)]="appointment.justification"
+      ></textarea>
+      <mat-hint>Digite a justificativa que o Colaborador falou.</mat-hint>
+    </mat-form-field>
+  </p>
+</mat-dialog-content>
+
+<mat-divider></mat-divider>
+<mat-dialog-actions align="center">
+  <ng-container
+    *ngIf="
+      this.isAdmin ||
+      this.isAdminGeral ||
+      this.isAdminEmpresa ||
+      this.isAdminOffice
+    "
+  >
+    <button
+      class="delete-button"
+      mat-raised-button
+      mat-dialog-close
+      (click)="delete()"
+      *ngIf="data.appointmentId"
+      matTooltip="Excluir esse registro de avaliação"
+    >
+      <mat-icon>delete</mat-icon> Excluir
+    </button>
+  </ng-container>
+  <button
+    class="cancel-button"
+    mat-raised-button
+    mat-dialog-close
+    matTooltip="Fechar a tela de edição"
+  >
+    Cancelar
+  </button>
+  <button
+    class="success-button"
+    mat-raised-button
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+    (click)="save()"
+    [disabled]="!validateFields()"
+    matTooltip="Salvar as informações preenchidas"
+  >
+    <div *ngIf="!data.appointmentId">Salvar</div>
+    <div *ngIf="data.appointmentId">Atualizar</div>
+  </button>
+</mat-dialog-actions>

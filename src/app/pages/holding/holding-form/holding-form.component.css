@@ -1,0 +1,44 @@
+mat-grid-tile {
+  .mat-grid-tile-content {
+    width: 90%;
+    justify-content: flex-start;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}
+
+mat-grid-list {
+  width: 90%;
+  margin: auto;
+}
+
+.grid-button {
+  .mat-grid-tile-content {
+    width: 90%;
+    justify-content: flex-start;
+  }
+
+  button {
+    margin-right: 8px;
+  }
+}
+
+.success-button {
+  background-color: green;
+  color: white;
+}
+
+mat-card {
+  width: 90%;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+/* Solid border */
+hr.solid {
+  border-top: 0.5px solid #bbb;
+}

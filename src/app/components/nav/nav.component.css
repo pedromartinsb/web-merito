@@ -1,66 +1,300 @@
-.container {
-   height: 100%;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.sidenav {
-   width: 15rem;
-   color: white;
-   background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(37,97,207,1) 0%, rgba(0,212,255,1) 100%);
+body {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f7f7f7; /* Cor de fundo clara */
 }
 
-img {
-   width: 100%;
-   height: 7rem;
-   margin: .8rem auto 1rem auto;
+.sidebar {
+  width: 250px;
+  background-color: #f1f1f1; /* Fundo branco */
+  padding: 20px;
+  position: fixed;
+  height: 100vh;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Permite rolagem vertical */
+  /* gap: 5px; */
 }
 
-.sidenav a {
-   color: white;
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.sidenav i {
-   margin-right: .6rem;
+.logo {
+  width: 100px; /* Largura do logo */
+  height: 100px; /* Altura do logo */
+  border-radius: 5px; /* Bordas arredondadas */
 }
 
-.menu {
-   margin: 1rem 0 0 1rem;
-   color: white;
-   background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(37,97,207,1) 0%, rgba(0,212,255,1) 100%);
+.sidebar-header h2 {
+  color: #333; /* Cor do nome da empresa */
+  font-size: 15px; /* Tamanho da fonte do nome */
 }
 
-.mat-expansion-panel {
-   background: transparent;
-   box-shadow: none;
+.menu-item {
+  background-color: transparent; /* Fundo transparente */
+  border-radius: 5px;
+  padding: 15px;
+  color: #333; /* Texto escuro */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.mat-expansion-panel-header {
-   padding: 0 36px;
-   color: white;
+.menu-item i {
+  font-size: 20px;
+  margin-right: 15px;
 }
 
-.mat-expansion-panel-header.mat-expanded {
-   height: 48px;
+.menu-item span {
+  font-size: 15px;
 }
 
-::ng-deep mat-expansion-panel-header .mat-expansion-indicator {
-   display: flex;
-   align-items: center;
+/* Estilo para o item ativo */
+.menu-item.active {
+  background-color: var(--primary); /* Fundo claro quando ativo */
+  color: var(--white); /* Cor do texto ativo */
 }
 
-::ng-deep mat-expansion-panel-header .mat-expansion-indicator::after {
-   color: white;
+/* Efeito de hover */
+.menu-item:hover:not(.active) {
+  background-color: #f2f2f2; /* Fundo ao passar o mouse */
 }
 
-::ng-deep mat-expansion-panel-header .mat-content:first-child {
-   font-size: 16px;
-   display: flex;
-   align-items: center;
+.sidebar-footer {
+  margin-top: auto; /* Empurra o rodapé para o final da sidebar */
+  text-align: center;
 }
 
-.mat-expansion-panel-body {
-   padding: 0;
+.current-time {
+  font-size: 14px; /* Tamanho do texto do horário */
+  color: #7f8c8d; /* Cor do texto do horário */
 }
 
-.mat-list-item-disabled {
-   background: transparent;
+.logout-btn {
+  padding: 8px 15px;
+  background-color: #e74c3c; /* Cor de fundo do botão de sair */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
+
+.logout-btn:hover {
+  background-color: #c0392b; /* Cor do botão ao passar o mouse */
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 250px);
+  margin-left: 200px;
+  min-height: 100vh;
+  padding-top: 20px;
+}
+
+.content {
+  text-align: center;
+  padding: 40px;
+  width: 95%;
+}
+
+h1 {
+  color: #333; /* Cor do título */
+  margin-bottom: 20px;
+}
+
+p {
+  color: #7f8c8d; /* Cor do parágrafo */
+  margin-bottom: 30px;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #3498db; /* Cor do botão */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #2980b9; /* Cor do botão ao passar o mouse */
+}
+
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.dropdown-menu-center {
+  width: auto; /* Aumentar o espaço para o nome das empresas */
+}
+
+.dropdown-item {
+  text-align: center; /* Centralizar o texto no dropdown */
+  font-size: 16px; /* Ajustar o tamanho da fonte, se necessário */
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.custom-dropup {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 1000;
+  transform: translateY(
+    -4px
+  ); /* Opcional: cria um pequeno espaço entre o botão e o dropdown */
+}
+
+.floating-chat-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.floating-homolog {
+  position: fixed;
+  top: 20px;
+  right: 45%;
+  z-index: 1000;
+  width: 100px;
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  background-color: #007bff; /* Cor de fundo */
+  color: white; /* Cor do texto */
+  border-radius: 25px; /* Deixa redondo */
+}
+
+.chat-window {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
+
+.chat-window.active {
+  right: 0;
+}
+
+.chat-header {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-body {
+  padding: 10px;
+  height: calc(100% - 120px);
+  overflow-y: auto;
+}
+
+.chat-footer {
+  padding: 10px;
+  background-color: #f1f1f1;
+}
+
+.chat-body .sent {
+  text-align: right;
+  background-color: #e1ffc7;
+  padding: 5px 10px;
+  margin: 5px 0;
+  border-radius: 10px;
+}
+
+.chat-body .received {
+  text-align: left;
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  margin: 5px 0;
+  border-radius: 10px;
+}
+
+
+/* Responsividade para sidebar */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Sidebar ocupa toda a largura da tela */
+    height: auto;
+    position: fixed; /* Fixa no topo da tela */
+    top: 0;
+    left: 0;
+    transform: translateX(-100%); /* Move para fora da tela */
+    transition: transform 0.3s ease; /* Transição suave para a entrada */
+    z-index: 1000; /* Sobrepõe o conteúdo */
+  }
+
+  .sidebar.active {
+    transform: translateX(0); /* Mostra a sidebar ao clicar no botão */
+  }
+
+  .content-wrapper {
+    width: 100%; /* Conteúdo ocupa a largura total */
+    margin-left: 0; /* Remove a margem à esquerda */
+    padding-top: 10px;
+  }
+
+  /* Ajuste no logo para tela pequena */
+  .logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Ajuste no botão de logout para tela pequena */
+  .logout-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+}
+
+/* Botão de menu para telas pequenas */
+.menu-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  cursor: pointer;
+  font-size: 24px;
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  display: none; /* Esconde em telas maiores */
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex; /* Exibe o botão apenas em telas menores */
+  }
+}
+

@@ -1,33 +1,47 @@
 import { Config } from './../config/api.config';
-import { Company } from './../models/company';
+import { AddressSearch, Company } from './../models/company';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CompanyService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  findAll(): Observable<Company[]> {
-    return this.http.get<Company[]>(`${Config.webApiUrl}/company`);
+  public findAll(): Observable<Company[]> {
+    return this.http.get<Company[]>(`${Config.webApiUrl}/v1/company`);
   }
 
-  findById(id: any): Observable<Company> {
-    return this.http.get<Company>(`${Config.webApiUrl}/company/${id}`);
+  public findAllByHolding(holdingId: any): Observable<Company[]> {
+    return this.http.get<Company[]>(
+      `${Config.webApiUrl}/v1/company/holding/${holdingId}`
+    );
   }
 
-  create(company: Company): Observable<Company> {
-    return this.http.post<Company>(`${Config.webApiUrl}/company`, company);
+  public findById(id: any): Observable<Company> {
+    return this.http.get<Company>(`${Config.webApiUrl}/v1/company/${id}`);
   }
 
-  update(id: string, company: Company): Observable<Company> {
-    return this.http.put<Company>(`${Config.webApiUrl}/company/${id}`, company);
+  public create(company: Company): Observable<Company> {
+    return this.http.post<Company>(`${Config.webApiUrl}/v1/company`, company);
   }
 
-  delete(id: string): Observable<Company> {
-    return this.http.delete<Company>(`${Config.webApiUrl}/company/${id}`);
+  public update(id: string, company: Company): Observable<Company> {
+    return this.http.put<Company>(
+      `${Config.webApiUrl}/v1/company/${id}`,
+      company
+    );
+  }
+
+  public delete(id: string): Observable<Company> {
+    return this.http.delete<Company>(`${Config.webApiUrl}/v1/company/${id}`);
+  }
+
+  public findAddress(cep: string): Observable<AddressSearch> {
+    return this.http.get<AddressSearch>(
+      `${Config.webApiUrl}/v1/district/${cep}/cep`
+    );
   }
 }

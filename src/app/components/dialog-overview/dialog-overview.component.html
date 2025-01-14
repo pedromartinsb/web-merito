@@ -1,0 +1,32 @@
+<div mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label>Descrição:</mat-label>
+    <input matInput [(ngModel)]="data.description" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Justicativa:</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="data.justification"
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="5"
+    ></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button
+    mat-raised-button
+    color="primary"
+    extended
+    [mat-dialog-close]="data"
+    cdkFocusInitial
+  >
+    Salvar
+  </button>
+  <button mat-raised-button color="warn" (click)="onCancelClick()">
+    Cancelar
+  </button>
+</div>

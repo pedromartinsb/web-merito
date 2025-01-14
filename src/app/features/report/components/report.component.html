@@ -1,0 +1,77 @@
+<div class="container my-5">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+        <li class="breadcrumb-item"><a>Relatórios</a></li>
+      </ol>
+    </nav>
+  
+    <h1>Relatório de Avaliação</h1>
+  
+    <div id="fullPageContent" class="container my-5">
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmitForm()">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="employeeId" class="form-label">Funcionário</label>
+                    <select id="employeeId" class="form-select" formControlName="employeeId" (change)="onEmployeeChange($event)"
+                            [ngClass]="{'is-invalid': formGroup.get('employeeId')?.invalid && formGroup.get('employeeId')?.touched,
+                        'is-valid': formGroup.get('employeeId')?.valid && formGroup.get('employeeId')?.touched}">
+                    <option value="" disabled selected>Selecione o Funcionário</option>
+                    <option *ngFor="let employee of employees" [value]="employee['0']">{{employee['1']}}</option>
+                    </select>
+                    <div *ngIf="formGroup.get('employeeId')?.invalid && formGroup.get('employeeId')?.touched" class="invalid-feedback">
+                    O funcionário é obrigatório.
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="taskStartDate" class="form-label">Data de Início</label>
+                    <input type="date" class="form-control" id="startDate" formControlName="startDate">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="taskEndDate" class="form-label">Data de Fim</label>
+                    <input type="date" class="form-control" id="endDate" formControlName="endDate">
+                </div>
+                <div class="col-md-12 mb-3">
+                    <button *ngIf="!isLoading" type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Pesquisar</button>
+                    <div *ngIf="isLoading" class="spinner-container">
+                        <div class="spinner"></div>
+                      </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="noContentModal" tabindex="-1" aria-labelledby="noContentModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="assets/img/empty-box.png" width="100" height="100" alt="" />
+                <p class="mt-4">Não há Avaliações para o Funcionário na data selecionada.</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="assets/img/success-icon.svg" width="100" height="100" alt="" />
+                <p class="mt-4">PDF Gerado com sucesso.</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

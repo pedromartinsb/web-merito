@@ -1,0 +1,256 @@
+<div class="modal fade" id="tasksModal" tabindex="-1" aria-labelledby="tasksModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>Tarefas:</h2>
+        <p>Todas as tarefas atribuídas para {{ person.name }}.</p>
+
+        <div class="mt-md-0 mt-sm-4">
+          <ul class="list-group minimal-list">
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>{{ task.description }}</span>
+                <span class="badge bg-primary rounded-pill">Início: {{ task.startDate | dateFormat }}</span>
+                <span class="badge bg-primary rounded-pill">Fim: {{ task.endDate | dateFormat }}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tasksCreateModal2">
+          Cadastrar
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="tasksCreateModal2" tabindex="-1" aria-labelledby="tasksCreateModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>Nova Tarefa:</h2>
+        <p>Cadastre uma nova tarefa para {{ person.name }}.</p>
+
+        <form [formGroup]="formTask" (ngSubmit)="onSubmitFormTask()">
+          <div class="mb-3">
+            <label for="taskDescription" class="form-label">Descrição</label>
+            <textarea class="form-control" id="taskDescription" rows="3" formControlName="description" placeholder="Digite sua descrição aqui"></textarea>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="taskStartDate" class="form-label">Data de Início</label>
+              <input type="date" class="form-control" id="taskStartDate" formControlName="startDate">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="taskEndDate" class="form-label">Data de Fim</label>
+              <input type="date" class="form-control" id="taskEndDate" formControlName="endDate">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="goalsModal" tabindex="-1" aria-labelledby="goalsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>Metas:</h2>
+        <p>Todas as metas atribuídas para {{ person.name }}.</p>
+
+        <div class="mt-md-0 mt-sm-4">
+          <ul class="list-group minimal-list">
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>{{ task.description }}</span>
+                <span class="badge bg-primary rounded-pill">Início: {{ task.startDate | dateFormat }}</span>
+                <span class="badge bg-primary rounded-pill">Fim: {{ task.endDate | dateFormat }}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#goalsCreateModal2">
+          Cadastrar
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="goalsCreateModal2" tabindex="-1" aria-labelledby="goalsCreateModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>Nova Tarefa:</h2>
+        <p>Cadastre uma nova tarefa para {{ person.name }}.</p>
+
+        <form [formGroup]="formGoal" (ngSubmit)="onSubmitFormGoal()">
+          <div class="mb-3">
+            <label for="goalDescription" class="form-label">Descrição</label>
+            <textarea class="form-control" id="goalDescription" rows="3" formControlName="description" placeholder="Digite sua descrição aqui"></textarea>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="goalStartDate" class="form-label">Data de Início</label>
+              <input type="date" class="form-control" id="goalStartDate" formControlName="startDate">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="goalEndDate" class="form-label">Data de Fim</label>
+              <input type="date" class="form-control" id="goalEndDate" formControlName="endDate">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<mat-card class="card mat-elevation-z8">
+  <div class="wrapper">
+    <div class="item">
+      <mat-card-header>
+        <mat-card-title>Registrar Ocorrência</mat-card-title>
+        <mat-card-subtitle>Funcionário - {{ person.name }}</mat-card-subtitle>
+        <mat-card-subtitle>
+          <button mat-raised-button data-bs-toggle="modal" data-bs-target="#tasksModal">Tarefas</button>
+          <button mat-raised-button data-bs-toggle="modal" data-bs-target="#goalsModal">Metas</button>
+        </mat-card-subtitle>
+
+        <mat-card-subtitle
+          ><strong>Dia: {{ today }}</strong>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <div class="grid-first-container">
+        <mat-tab-group dynamicHeight [selectedIndex]="selectedTab.value" (selectedIndexChange)="selectedTab.setValue($event)">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon *ngIf="selectedTab.value == 0" class="example-tab-icon">arrow_right</mat-icon> Diária
+            </ng-template>
+
+            <section class="monthly-container mat-elevation-z2" tabindex="0">
+              <ul class="list-group minimal-list">
+                <li class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-column"></span>
+                    <div class="radio-group">
+                      <input *ngFor="let option of options;" type="radio" [name]="option.index" [value]="option" [id]="'radio' + option.index" [class]="'radio-' + option.color" checked />
+                    </div>
+                  </div>
+                </li>
+
+                <li *ngFor="let item of activitiesDailyResponse" class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-column">{{ item.name }}</span>
+                    <div class="radio-group">
+                      <input *ngFor="let tag of tags;" type="radio" [name]="'daily' + item.id" value="{{ tag.id }}" [ngClass]="tag.class" [checked]="tag.id == item.tag?.id" (click)="openConfirm(tag.id, item)" matTooltip="{{ tag.description }}" />
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </section>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon *ngIf="selectedTab.value == 1">arrow_right</mat-icon> Mensal
+            </ng-template>
+            <div class="grid-container">
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon *ngIf="selectedTab.value == 2">arrow_right</mat-icon> Trimestral
+            </ng-template>
+            <div class="grid-container">
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastTwoMonth" (click)="openDialog()" [minDate]="firstDayLastTwoMonth" [maxDate]="lastDayLastTwoMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastMonth" (click)="openDialog()" [minDate]="firstDayLastMonth" [maxDate]="lastDayLastMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon *ngIf="selectedTab.value == 3" class="example-tab-icon">arrow_right</mat-icon> Semestral
+            </ng-template>
+            <div class="grid-container">
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastFiveMonth" (click)="openDialog()" [minDate]="firstDayLastFiveMonth" [maxDate]="lastDayLastFiveMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastFourMonth" (click)="openDialog()" [minDate]="firstDayLastFourMonth" [maxDate]="lastDayLastFourMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastThreeMonth" (click)="openDialog()" [minDate]="firstDayLastThreeMonth" [maxDate]="lastDayLastThreeMonth"></mat-calendar>
+              </div>
+            </div>
+            <div class="grid-container">
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastTwoMonth" (click)="openDialog()" [minDate]="firstDayLastTwoMonth" [maxDate]="lastDayLastTwoMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassLastMonth" (click)="openDialog()" [minDate]="firstDayLastMonth" [maxDate]="lastDayLastMonth"></mat-calendar>
+              </div>
+              <div>
+                <mat-calendar [(selected)]="selected" [dateClass]="dateClassCurrentMonth" (click)="openDialog()" [minDate]="firstDay" [maxDate]="lastDay"></mat-calendar>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="column-container">
+        <div class="row-item">
+          <img [lazyLoad]="person.picture" [defaultImage]="s3DefaultImage" alt="" width="200" height="200" />
+          <h2>Nome: {{ person.name }}</h2>
+          <h2>Empresa: {{ person.office.fantasyName }}</h2>
+          <h2>Função: {{ person.responsibility.name }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

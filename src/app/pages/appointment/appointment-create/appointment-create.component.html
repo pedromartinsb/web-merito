@@ -1,0 +1,119 @@
+<mat-card class="card mat-elevation-z8">
+  <!-- Header -->
+  <mat-card-header>
+    <mat-card-title>Projeção Profissional</mat-card-title>
+    <mat-card-subtitle>Formulário de apontamento</mat-card-subtitle>
+  </mat-card-header>
+
+  <!-- Content -->
+  <mat-card-content>
+    <div class="container">
+      <div class="outer-grid" *ngFor="let outer of outerGrids">
+        <div class="inner-grid" *ngFor="let inner of innerGrids; let i = index">
+          <mat-form-field appearance="outline" *ngIf="i == 0">
+            <mat-label>Profissional</mat-label>
+            <mat-select
+              [(ngModel)]="personId"
+              name="person"
+              [formControl]="person"
+              required
+            >
+              <mat-option *ngFor="let person of persons" value="{{ person.id }}"
+                >{{ person.name }} - {{ person.office.fantasyName }}</mat-option
+              >
+            </mat-select>
+            <mat-hint *ngIf="!person.value" align="end" style="color: red"
+              >Campo obrigatório</mat-hint
+            >
+          </mat-form-field>
+          <button
+            *ngIf="i == 1"
+            (click)="search()"
+            [disabled]="!validateFields()"
+            class="success-button mat-elevation-z4"
+            mat-raised-button
+            extended
+            matTooltip="Pesquisar as Projeções Profissionais do Colaborador"
+          >
+            <mat-icon>check</mat-icon> PESQUISAR
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <mat-grid-list cols="4" rowHeight="100px">
+      <mat-grid-tile colspan="3">
+        <mat-form-field appearance="outline">
+          <mat-label>Profissional</mat-label>
+          <mat-select
+            [(ngModel)]="personId"
+            name="person"
+            [formControl]="person"
+            required
+          >
+            <mat-option *ngFor="let person of persons" value="{{ person.id }}"
+              >{{ person.name }} - {{ person.office.fantasyName }}</mat-option
+            >
+          </mat-select>
+          <mat-hint *ngIf="!person.value" align="end" style="color: red"
+            >Campo obrigatório</mat-hint
+          >
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list> -->
+
+    <!-- Divider -->
+    <mat-divider></mat-divider>
+
+    <!-- Table -->
+    <mat-tab-group
+      *ngIf="isSelected"
+      animationDuration="300ms"
+      (selectedTabChange)="onTabChange($event)"
+    >
+      <!-- Tab 1-->
+      <mat-tab label="Diária">
+        <div class="daily-appointments-wrapper">
+          <app-daily-appointment-list
+            [routines]="routines"
+            [isCurrentDay]="isCurrentDay(selectedDateMonthly)"
+            [tags]="tags"
+            (openDescriptionDialog)="openDescriptionDialog($event)"
+          >
+          </app-daily-appointment-list>
+        </div>
+        <div class="appointments-calendar-wrapper"></div>
+      </mat-tab>
+      <!-- Tab 2 - Mensal -->
+      <mat-tab label="Mensal">
+        <div></div>
+        <div class="appointments-calendar-wrapper"></div>
+      </mat-tab>
+
+      <!-- Tab 3 -->
+      <mat-tab label="Trimestral"> </mat-tab>
+
+      <!-- Tab 4 -->
+      <mat-tab label="Semestral"> </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+
+  <!-- Actions -->
+  <!-- <mat-card-actions align="end">
+    <button
+      (click)="search()"
+      [disabled]="!validateFields()"
+      class="success-button mat-elevation-z4"
+      mat-raised-button
+      extended
+      matTooltip="Salvar as informações preenchidas"
+    >
+      <mat-icon>check</mat-icon> PESQUISAR
+    </button>
+  </mat-card-actions> -->
+
+  <!-- Footer -->
+  <!-- <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isSaving"></mat-progress-bar>
+  </mat-card-footer> -->
+</mat-card>

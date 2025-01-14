@@ -1,74 +1,153 @@
-import { AuthInterceptorProvider } from './_helpers/auth.interceptor';
-import { HeaderComponent } from './components/header/header.component';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-// Para realizar requisições HTTP
-import { HttpClientModule } from '@angular/common/http';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-// Imports para componentes do Angular Material
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatCardModule } from '@angular/material/card';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { ToastrModule } from 'ngx-toastr';
+import {CommonModule, DatePipe, NgOptimizedImage} from '@angular/common';
+import {HttpClientModule} from '@angular/common/http';
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import {MatButtonModule} from '@angular/material/button';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCardModule} from '@angular/material/card';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatChipsModule} from '@angular/material/chips';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatTableModule} from '@angular/material/table';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {LazyLoadImageModule} from 'ng-lazyload-image';
+import {NgxFileDropModule} from 'ngx-file-drop';
+import {IConfig, NgxMaskModule} from 'ngx-mask';
+import {ToastrModule} from 'ngx-toastr';
 
-import { NavComponent } from './components/nav/nav.component';
-import { PersonListComponent } from './components/person/person-list/person-list.component';
-import { PersonFormComponent } from './components/person/person-form/person-form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CompanyListComponent } from './components/company/company-list/company-list.component';
-import { AppointmentListComponent } from './components/appointment/appointment-list/appointment-list.component';
-import { LoginComponent } from './components/login/login.component';
-import { CompanyFormComponent } from './components/company/company-form/company-form.component';
-import { DepartmentListComponent } from './components/department/department-list/department-list.component';
-import { DepartmentPersonListComponent } from './components/department/department-person-list/department-person-list.component';
-import { TaskListComponent } from './components/task/task-list/task-list.component';
-import { AssignmentListComponent } from './components/assignment/assignment-list/assignment-list.component';
-import { AppointmentCreateComponent } from './components/appointment/appointment-create/appointment-create.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { ResponsibilityListComponent } from './components/responsibility/responsibility-list/responsibility-list.component';
-import { ResponsibilityFormComponent } from './components/responsibility/responsibility-form/responsibility-form.component';
-import { DeleteConfirmationModalComponent } from './components/delete/delete-confirmation-modal';
-import { SegmentListComponent } from './components/segment/segment-list/segment-list.component';
-import { SegmentFormComponent } from './components/segment/segment-form/segment-form.component';
-import { HoldingListComponent } from './components/holding/holding-list/holding-list.component';
-import { HoldingFormComponent } from './components/holding/holding-form/holding-form.component';
-import { DepartmentFormComponent } from './components/department/department-form/department-form.component';
-import { AssignmentFormComponent } from './components/assignment/assignment-form/assignment-form.component';
-import { GoalListComponent } from './components/goal/goal-list/goal-list.component';
-import { GoalFormComponent } from './components/goal/goal-form/goal-form.component';
-import { TaskFormComponent } from './components/task/task-form/task-form.component';
-import { RoutineListComponent } from './components/routine/routine-list/routine-list.component';
-import { RoutineFormComponent } from './components/routine/routine-form/routine-form.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {CardComponent} from './components/card/card.component';
+import {DeleteConfirmationModalComponent} from './components/delete/delete-confirmation-modal';
+import {DescriptionModalComponent} from './components/description/description-modal';
+import {DialogOverviewComponent} from './components/dialog-overview/dialog-overview.component';
+import {FooterComponent} from './components/footer/footer.component';
+import {GridComponent} from './components/grid/grid.component';
+import {HeaderComponent} from './components/header/header.component';
+import {NavComponent} from './components/nav/nav.component';
+import {PrintPdfComponent} from './components/print-pdf/print-pdf.component';
+import {TableComponent} from './components/table/table.component';
+import {AuthInterceptorProvider} from './helpers/auth.interceptor';
+import {AppointmentCreateComponent} from './pages/appointment/appointment-create/appointment-create.component';
+import {
+  DailyAppointmentListComponent
+} from './pages/appointment/daily-appointment-list/daily-appointment-list.component';
+import {CompanyFormComponent} from './pages/company/company-form/company-form.component';
+import {CompanyListComponent} from './pages/company/company-list/company-list.component';
+import {DashboardComponent} from './pages/dashboard/dashboard.component';
+import {FirstAccessComponent} from './pages/first-access/first-access.component';
+import {GoalFormComponent} from './pages/goal/goal-form/goal-form.component';
+import {GoalListComponent} from './pages/goal/goal-list/goal-list.component';
+import {HoldingFormComponent} from './pages/holding/holding-form/holding-form.component';
+import {HoldingListComponent} from './pages/holding/holding-list/holding-list.component';
+import {HomeComponent} from './pages/home/home.component';
+import {LoginComponent} from './pages/login/login.component';
+import {OfficeFormComponent} from './pages/office/office-form/office-form.component';
+import {OfficeListComponent} from './pages/office/office-list/office-list.component';
+import {PermissionFormComponent} from './pages/permission/permission-form/permission-form.component';
+import {PersonAppointmentConfirmComponent} from './pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component';
+import {PersonAppointmentDialogComponent} from './pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog.component';
+import {PersonAppointmentComponent} from './pages/person/person-appointment/person-appointment.component';
+import {PersonListComponent} from './pages/person/person-list/person-list.component';
+import {ResponsibilityFormComponent} from './pages/responsibility/responsibility-form/responsibility-form.component';
+import {ResponsibilityListComponent} from './pages/responsibility/responsibility-list/responsibility-list.component';
+import {RoutineFormComponent} from './pages/routine/routine-form/routine-form.component';
+import {RoutineListComponent} from './pages/routine/routine-list/routine-list.component';
+import {SegmentFormComponent} from './pages/segment/segment-form/segment-form.component';
+import {SegmentListComponent} from './pages/segment/segment-list/segment-list.component';
+import {SuggestionFormComponent} from './pages/suggestion/suggestion-form/suggestion-form.component';
+import {SuggestionListComponent} from './pages/suggestion/suggestion-list/suggestion-list.component';
+import {CnpjPipe} from './pipe/cnpj.pipe';
+import {CpfPipe} from './pipe/cpf.pipe';
+import {PersonTypePipe} from './pipe/person-type.pipe';
+import {PhonePipe} from './pipe/phone.pipe';
+import {FormsComponent} from './components/forms/forms.component';
+import {CommunicationComponent} from './components/communication/communication.component';
+import {PersonAppointmentTaskComponent} from './pages/person/person-appointment/person-appointment-task/person-appointment-task.component';
+import {NgChartsModule} from "ng2-charts";
+import {ZebraTableComponent} from './components/zebra-table/zebra-table.component';
+import {ReusableFormComponent} from './components/reusable-form/reusable-form.component';
+import {EmployeeListComponent} from "./features/employees/components/employee-list/employee-list.component";
+import {EmployeeFormComponent} from "./features/employees/components/employee-form/employee-form.component";
+import {ZebraPersonTableComponent} from "./components/zebra-employee-table/zebra-employee-table.component";
+import {SuppliersListComponent} from './features/suppliers/components/suppliers-list/suppliers-list.component';
+import {SupplierRoutingModule} from "./features/suppliers/supplier-routing.module";
+import {SuppliersFormComponent} from './features/suppliers/components/suppliers-form/suppliers-form.component';
+import {ProfessionalsFormComponent} from './features/professionals/components/professionals-form/professionals-form.component';
+import {ProfessionalsListComponent} from './features/professionals/components/professionals-list/professionals-list.component';
+import {ProfessionalRoutingModule} from "./features/professionals/professional-routing.module";
+import {GoalsListComponent} from './features/goals/components/goals-list/goals-list.component';
+import {GoalsFormComponent} from './features/goals/components/goals-form/goals-form.component';
+import {GoalRoutingModule} from "./features/goals/goal-routing.module";
+import {TasksListComponent} from './features/tasks/components/tasks-list/tasks-list.component';
+import {TaskRoutingModule} from "./features/tasks/task-routing.module";
+import {EmployeeAppointmentComponent} from './features/employees/components/employee-appointment/employee-appointment.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {DateFormatPipe} from "./pipe/date-format.pipe";
+import {DashboardsComponent} from "./features/dashboards/components/dashboards.component";
+import {DashboardRoutingModule} from "./features/dashboards/dashboard-routing.module";
+import { GoalTaskTableComponent } from './components/goal-task-table/goal-task-table.component';
+import { ReportComponent } from './features/report/components/report.component';
+import { ReportRoutingModule } from './features/report/report-routing.module';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { DocumentsListComponent } from './features/documents/components/documents-list/documents-list.component';
+import { DocumentsRoutingModule } from './features/documents/documents-routing.module';
+import { DocumentsUploadComponent } from './features/documents/components/documents-upload/documents-upload.component';
+import { RoutinesListComponent } from './features/routines/components/routines-list/routines-list.component';
+import { RoutinesRoutingModule } from './features/routines/routines-routing.module';
+import { RoutinesTableComponent } from './components/routines-table/routines-table.component';
+import { ResponsibilitiesListComponent } from './features/responsibilities/components/responsibilities-list/responsibilities-list.component';
+import { ResponsibilitiesRoutingModule } from './features/responsibilities/responsibilities-routing.module';
+import { ResponsibilitiesTableComponent } from './components/responsibilities-table/responsibilities-table.component';
+import { ResponsibilitiesFormComponent } from './features/responsibilities/components/responsibilities-form/responsibilities-form.component';
+import { RoutinesFormComponent } from './features/routines/components/routines-form/routines-form.component';
+import { ChangePasswordFormComponent } from './features/change-password/components/change-password-form/change-password-form.component';
+import { EmployeeRoutingModule } from './features/employees/employee-routing.module';
+import { ChangePasswordRoutingModule } from './features/change-password/dashboard-routing.module';
+
+export const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 @NgModule({
   declarations: [
+    CnpjPipe,
+    PhonePipe,
+    CpfPipe,
+    PersonTypePipe,
+    DateFormatPipe,
+
     AppComponent,
     HomeComponent,
     NavComponent,
     HeaderComponent,
     PersonListComponent,
-    PersonFormComponent,
-    AppointmentListComponent,
+    DailyAppointmentListComponent,
     LoginComponent,
     CompanyListComponent,
     CompanyFormComponent,
@@ -76,55 +155,136 @@ import { RoutineFormComponent } from './components/routine/routine-form/routine-
     ResponsibilityFormComponent,
     GoalListComponent,
     GoalFormComponent,
-    DepartmentListComponent,
-    DepartmentFormComponent,
-    DepartmentPersonListComponent,
-    TaskListComponent,
-    TaskFormComponent,
     RoutineListComponent,
     RoutineFormComponent,
-    AssignmentListComponent,
-    AssignmentFormComponent,
     AppointmentCreateComponent,
     SegmentListComponent,
     SegmentFormComponent,
     HoldingListComponent,
     HoldingFormComponent,
-    DeleteConfirmationModalComponent
+    DeleteConfirmationModalComponent,
+    DescriptionModalComponent,
+    CardComponent,
+    PermissionFormComponent,
+    DialogOverviewComponent,
+    FirstAccessComponent,
+    DashboardComponent,
+    OfficeListComponent,
+    OfficeFormComponent,
+    GridComponent,
+    PersonAppointmentComponent,
+    PersonAppointmentDialogComponent,
+    PersonAppointmentConfirmComponent,
+    TableComponent,
+    FooterComponent,
+    SuggestionFormComponent,
+    SuggestionListComponent,
+    PrintPdfComponent,
+    FormsComponent,
+    CommunicationComponent,
+    PersonAppointmentTaskComponent,
+    ZebraTableComponent,
+    ZebraPersonTableComponent,
+    ReusableFormComponent,
+    EmployeeListComponent,
+    EmployeeFormComponent,
+    SuppliersListComponent,
+    SuppliersFormComponent,
+    ProfessionalsFormComponent,
+    ProfessionalsListComponent,
+    GoalsListComponent,
+    GoalsFormComponent,
+    TasksListComponent,
+    EmployeeAppointmentComponent,
+    DashboardsComponent,
+    GoalTaskTableComponent,
+    ReportComponent,
+    SpinnerComponent,
+    DocumentsListComponent,
+    DocumentsUploadComponent,
+    RoutinesListComponent,
+    RoutinesTableComponent,
+    ResponsibilitiesListComponent,
+    ResponsibilitiesTableComponent,
+    ResponsibilitiesFormComponent,
+    RoutinesFormComponent,
+    ChangePasswordFormComponent,
   ],
-  imports: [
-    BrowserModule,
-    // Forms
-    FormsModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatFormFieldModule,
-    MatPaginatorModule,
-    MatCheckboxModule,
-    MatSnackBarModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatInputModule,
-    MatRadioModule,
-    MatTableModule,
-    MatIconModule,
-    MatListModule,
-    MatCardModule,
-    MatTabsModule,
-    MatGridListModule,
-    MatDialogModule,
-    MatExpansionModule,
-    ToastrModule.forRoot({
-      timeOut: 4000,
-      closeButton: true,
-      progressBar: true
-    }),
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+
+        AppRoutingModule,
+        EmployeeRoutingModule,
+        SupplierRoutingModule,
+        ProfessionalRoutingModule,
+        GoalRoutingModule,
+        TaskRoutingModule,
+        DashboardRoutingModule,
+        ReportRoutingModule,
+        DocumentsRoutingModule,
+        RoutinesRoutingModule,
+        ResponsibilitiesRoutingModule,
+        ChangePasswordRoutingModule,
+
+        BrowserAnimationsModule,
+        CommonModule,
+        HttpClientModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+        MatCheckboxModule,
+        MatSnackBarModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        MatSidenavModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatInputModule,
+        MatRadioModule,
+        MatTableModule,
+        MatIconModule,
+        MatListModule,
+        MatCardModule,
+        MatTabsModule,
+        MatGridListModule,
+        MatDialogModule,
+        MatExpansionModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+        MatButtonToggleModule,
+        NgxFileDropModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatSlideToggleModule,
+        MatMenuModule,
+        MatBadgeModule,
+        NgxChartsModule,
+        MatChipsModule,
+        MatBottomSheetModule,
+        LazyLoadImageModule,
+        MatStepperModule,
+        NgChartsModule,
+        ToastrModule.forRoot({
+            timeOut: 3000,
+            closeButton: true,
+            progressBar: true,
+            progressAnimation: 'increasing',
+            tapToDismiss: true,
+            positionClass: 'toast-top-right',
+        }),
+        NgxMaskModule.forRoot(maskConfig),
+        NgbModule,
+        NgOptimizedImage,
+    ],
+  providers: [
+    AuthInterceptorProvider,
+    DatePipe,
+    {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
   ],
-  providers: [AuthInterceptorProvider],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [
+    ZebraTableComponent
+  ]
 })
-export class AppModule { }
+export class AppModule {}

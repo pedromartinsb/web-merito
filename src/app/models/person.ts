@@ -1,29 +1,28 @@
-import { Department } from "./department";
-import { Responsibility } from "./responsibility";
-import { Role } from "./role";
-import { Routine } from "./routine";
-import { Task } from "./task";
+import { Office } from './office';
+import { Responsibility } from './responsibility';
+import { Role } from './role';
 
 export interface Person {
   id?: string;
   personType: number | string;
   name: string;
-  cpf: string;
-
-  departments: Department[];
-  departmentsId: string;
+  cpfCnpj: string;
+  gender: string;
+  birthdate: string;
+  contractType: string;
+  picture: string;
+  office: Office;
+  officeId: string;
+  officeFantasyName: string
   responsibility: Responsibility;
   responsibilityId: string;
-
   user: User;
+  supervisor: string;
+  accessType: string;
+  managerId: string;
+  supervisorId: string;
   address: Address;
-
-  tasks: Task[];
-  taskId: string;
-
-  routine: Routine[];
-  routineId: string;
-
+  contact: Contact;
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
@@ -36,6 +35,12 @@ export interface User {
   password: string;
 }
 
+export interface UserResponse {
+  id: string;
+  username: string;
+  roles: Role[];
+}
+
 export interface Address {
   cep: string;
   streetName: string;
@@ -45,8 +50,44 @@ export interface Address {
   complement: string;
 }
 
+export interface Contact {
+  phone: string;
+  cellphone: string;
+}
+
+export interface AddressSearch {
+  cep: string;
+  logradouro: string;
+  complemento: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
+  ibge: string;
+  gia: string;
+  ddd: string;
+  siafi: string;
+}
+
 export enum Roles {
-  ROLE_USERS = "ROLE_USERS",
-  ROLE_ADMIN = "ROLE_ADMIN",
-  ROLE_MODERADOR = "ROLE_MODERADOR"
+  ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN',
+  ROLE_ADMIN = 'ROLE_ADMIN',
+  ROLE_SUPERVISOR = 'ROLE_SUPERVISOR',
+  ROLE_MANAGER = 'ROLE_MANAGER',
+  ROLE_USER = 'ROLE_USER',
+}
+
+export enum Gender {
+  MALE = 'Masculino',
+  FEMALE = 'Feminino',
+}
+
+export enum ContractType {
+  CLT = 'Clt',
+  AUTONOMO = 'Autônomo',
+  SUPPLIER = 'Fornecedor',
+}
+
+export enum PersonType {
+  EMPLOYEE = 'EMPLOYEE',
+  SUPERVISOR = 'SUPERVISOR',
 }

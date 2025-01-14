@@ -5,37 +5,58 @@ import { Config } from '../config/api.config';
 import { Routine } from '../models/routine';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoutineService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  findAll(): Observable<Routine[]> {
-    return this.http.get<Routine[]>(`${Config.webApiUrl}/routine`);
+  public findAll(): Observable<Routine[]> {
+    return this.http.get<Routine[]>(`${Config.webApiUrl}/v1/routine`);
   }
 
-  findById(id: any): Observable<Routine> {
-    return this.http.get<Routine>(`${Config.webApiUrl}/routine/${id}`);
+  public findAllByPerson(personId: string): Observable<Routine[]> {
+    return this.http.get<Routine[]>(
+      `${Config.webApiUrl}/v1/routine/person/${personId}`
+    );
   }
 
-  findAllByTask(idTask: string): Observable<Routine[]> {
-    return this.http.get<Routine[]>(`${Config.webApiUrl}/routine/task/${idTask}`);
+  public findById(id: any): Observable<Routine> {
+    return this.http.get<Routine>(`${Config.webApiUrl}/v1/routine/${id}`);
   }
 
-  findAllByPerson(idPerson: string): Observable<Routine[]> {
-    return this.http.get<Routine[]>(`${Config.webApiUrl}/routine/person/${idPerson}`);
+  public findByName(name: any): Observable<Array<Routine>> {
+    return this.http.get<Array<Routine>>(
+      `${Config.webApiUrl}/v1/routine/name/${name}`
+    );
   }
 
-  create(routine: Routine): Observable<Routine> {
-    return this.http.post<Routine>(`${Config.webApiUrl}/routine`, routine);
+  public create(routine: Routine): Observable<Routine> {
+    return this.http.post<Routine>(`${Config.webApiUrl}/v1/routine`, routine);
   }
 
-  update(id: string, routine: Routine): Observable<Routine> {
-    return this.http.put<Routine>(`${Config.webApiUrl}/routine/${id}`, routine);
+  public update(id: string, routine: Routine): Observable<Routine> {
+    return this.http.put<Routine>(
+      `${Config.webApiUrl}/v1/routine/${id}`,
+      routine
+    );
   }
 
-  delete(id: string): Observable<Routine> {
-    return this.http.delete<Routine>(`${Config.webApiUrl}/routine/${id}`);
+  public updateByName(id: string, routine: Routine): Observable<Routine> {
+    return this.http.put<Routine>(
+      `${Config.webApiUrl}/v1/routine/name/${id}`,
+      routine
+    );
+  }
+
+  public delete(id: string): Observable<Routine> {
+    return this.http.delete<Routine>(`${Config.webApiUrl}/v1/routine/${id}`);
+  }
+
+  public findAllByResponsibility(
+    responsibilityId: string
+  ): Observable<Routine[]> {
+    return this.http.get<Routine[]>(
+      `${Config.webApiUrl}/v1/routine/${responsibilityId}/responsibility`
+    );
   }
 }

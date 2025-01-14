@@ -1,60 +1,72 @@
 import { Observable } from 'rxjs';
 import { AuthService } from './../services/auth.service';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
+  isAdmin: boolean = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toast: ToastrService,
+    private toast: ToastrService
   ) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    // return this.checkUserLogin(route, state);
-
-    // TODO: alterar essa chamada
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     let authenticated = this.authService.isAuthenticated();
 
-    if(authenticated) {
-      return true;
-    } else {
-      this.toast.error('Usuário não está logado no sistema.');
-      this.router.navigate(['login']);
-      return false
-    }
-
-  }
-
-  checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
-    if (this.authService.isAuthenticated()) {
+    if (authenticated) {
       const userRole = this.authService.getRole();
+      var roleExists = false;
       var roleArray = new Array();
       roleArray.push(route.data.role);
-
-      var roleExists = false;
-      roleArray.forEach(role => {
-        if (userRole.includes(role)) {
-          roleExists = true;
-        }
-      })
+      roleArray.forEach((role: any) => {
+        role.forEach((element: any) => {
+          if (userRole == element) {
+            roleExists = true;
+          }
+        });
+      });
 
       if (!roleExists) {
         this.router.navigate(['/home']);
-        this.toast.error('Você não tem permissão para acessar essa página.');
+        this.toast.error('Você não tem permissão para acessar ou a página não existe.');
         return false;
       }
       return true;
-    }
 
-    this.router.navigate(['/login']);
-    this.toast.error('Usuário não logado no sistema.');
-    return false;
+    } else {
+      this.toast.error('Usuário não está logado no sistema.');
+      this.router.navigate(['login']);
+      return false;
+    }
   }
 
+  checkIsAdmin(): boolean {
+    this.isAdmin = false;
+    const userRole = this.authService.getRole();
+    userRole.forEach((role) => {
+      if (role === 'ROLE_ADMIN') {
+        this.isAdmin = true;
+      }
+    });
+    return this.isAdmin;
+  }
 }

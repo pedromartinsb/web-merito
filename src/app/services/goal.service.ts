@@ -1,33 +1,46 @@
 import { Config } from './../config/api.config';
-import { Goal } from './../models/goal';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Goal } from '../features/employees/components/employee-appointment/employee-appointment.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GoalService {
+  officeId: string;
 
-  constructor(private http: HttpClient) { }
-
-  findAll(): Observable<Goal[]> {
-    return this.http.get<Goal[]>(`${Config.webApiUrl}/goal`);
+  constructor(private http: HttpClient) {
+    this.officeId = localStorage.getItem('officeId');
   }
 
-  findById(id: any): Observable<Goal> {
-    return this.http.get<Goal>(`${Config.webApiUrl}/goal/${id}`);
+  public findAllByOffice(): Observable<Goal[]> {
+    return this.http.get<Goal[]>(`${Config.webApiUrl}/v1/goal/office/${this.officeId}`);
   }
 
-  create(goal: Goal): Observable<Goal> {
-    return this.http.post<Goal>(`${Config.webApiUrl}/goal`, goal);
+  public findAllByPerson(personId: string): Observable<Goal[]> {
+    return this.http.get<Goal[]>(
+      `${Config.webApiUrl}/v1/goal/person/${personId}`
+    );
   }
 
-  update(id: string, goal: Goal): Observable<Goal> {
-    return this.http.put<Goal>(`${Config.webApiUrl}/goal/${id}`, goal);
+  public findById(id: any): Observable<Goal> {
+    return this.http.get<Goal>(`${Config.webApiUrl}/v1/goal/${id}`);
   }
 
-  delete(id: string): Observable<Goal> {
-    return this.http.delete<Goal>(`${Config.webApiUrl}/goal/${id}`);
+  public create(goal: Goal): Observable<Goal> {
+    return this.http.post<Goal>(`${Config.webApiUrl}/v1/goal`, goal);
+  }
+
+  public update(id: string, goal: Goal): Observable<Goal> {
+    return this.http.put<Goal>(`${Config.webApiUrl}/v1/goal/${id}`, goal);
+  }
+
+  public updateByName(id: string, goal: Goal): Observable<Goal> {
+    return this.http.put<Goal>(`${Config.webApiUrl}/v1/goal/name/${id}`, goal);
+  }
+
+  public delete(id: string): Observable<Goal> {
+    return this.http.delete<Goal>(`${Config.webApiUrl}/v1/goal/${id}`);
   }
 }

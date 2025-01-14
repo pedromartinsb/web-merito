@@ -1,0 +1,26 @@
+section {
+  display: table;
+}
+
+mat-divider {
+  margin-top: 30px;
+}
+
+mat-form-field {
+  width: 500px;
+}
+
+.success-button {
+  background-color: var(--success);
+  color: var(--white);
+}
+
+.cancel-button {
+  background-color: var(--cancel);
+  color: var(--white);
+}
+
+.delete-button {
+  background-color: var(--delete);
+  color: var(--white);
+}

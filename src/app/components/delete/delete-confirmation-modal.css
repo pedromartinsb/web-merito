@@ -1,0 +1,10 @@
+.confirm {
+  background-color: var(--success);
+  color: var(--white);
+}
+
+.cancel {
+  background-color: var(--warn);
+  color: var(--white);
+  margin-left: 8px;
+}

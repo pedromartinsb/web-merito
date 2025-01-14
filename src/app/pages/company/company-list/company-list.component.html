@@ -1,0 +1,280 @@
+<mat-card class="card mat-elevation-z8">
+  <mat-card-header>
+    <mat-card-title>Empresas</mat-card-title>
+    <mat-card-subtitle>Listagem</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- Divider -->
+    <mat-divider></mat-divider>
+
+    <!-- Colunas -->
+    <mat-grid-list cols="4" rowHeight="100px">
+      <!-- Coluna 1 -->
+      <mat-grid-tile colspan="2">
+        <mat-form-field appearance="standard">
+          <mat-label>Consulte a Empresa</mat-label>
+          <input matInput (keyup)="applyFilter($event)" #input />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Coluna 2 -->
+      <mat-grid-tile colspan="1"></mat-grid-tile>
+
+      <!-- Coluna 3 -->
+      <mat-grid-tile colspan="1">
+        <button routerLink="create" mat-raised-button color="primary">
+          Cadastrar Empresa
+        </button>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <!-- Divider -->
+    <mat-divider></mat-divider>
+
+    <!-- Tabela -->
+    <div class="container">
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <!-- Nome Fantasia -->
+          <ng-container matColumnDef="fantasyName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Nome Fantasia
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+              (click)="editCompany(element.id)"
+            >
+              {{ element.fantasyName }}
+            </td>
+          </ng-container>
+
+          <!-- CNPJ -->
+          <ng-container matColumnDef="cnpj">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CNPJ</th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+              (click)="editCompany(element.id)"
+            >
+              {{ element.cnpj | cnpj }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="offices">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Unidades</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                (click)="findOfficesByCompany(element.id)"
+                aria-label="Example icon-button with a menu"
+                matTooltip="Visualize todas as Unidades"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="persons">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Colaboradores
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                (click)="findPersonsByCompany(element.id)"
+                aria-label="Example icon-button with a menu"
+                matTooltip="Visualize todos os Colaboradores"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Ações</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu"
+                matTooltip="Editar ou Desativar a Empresa"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item routerLink="edit/{{ element.id }}">
+                  <mat-icon>edit</mat-icon>
+                  <span>Editar</span>
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="
+                    openDeleteConfirmationModal(element.id);
+                    $event.stopPropagation()
+                  "
+                >
+                  <mat-icon>delete</mat-icon>
+                  <span>Desativar</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">
+              Não existem dados cadastrados até o momento!
+            </td>
+          </tr>
+        </table>
+
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20, 50, 100]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
+
+<!-- <div class="container">
+  <button
+    routerLink="create"
+    class="mat-elevation-z8"
+    mat-stroked-button
+    color="primary"
+  >
+    Nova unidade
+  </button>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Ex. ium"
+      #input
+    />
+  </mat-form-field>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="fantasyName">
+        <th mat-header-cell *matHeaderCellDef>Nome Fantasia</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          (click)="editCompany(element.id)"
+        >
+          {{ element.fantasyName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="corporateReason">
+        <th mat-header-cell *matHeaderCellDef>Razão Social</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          (click)="editCompany(element.id)"
+        >
+          {{ element.corporateReason }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cnpj">
+        <th mat-header-cell *matHeaderCellDef>CNPJ</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          (click)="editCompany(element.id)"
+        >
+          {{ element.cnpj }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="companyType">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          (click)="editCompany(element.id)"
+        >
+          {{ getCompanyTypeLabel(element.companyType) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="holding">
+        <th mat-header-cell *matHeaderCellDef>Rede de Empresa</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          (click)="editCompany(element.id)"
+        >
+          {{ element.holding.fantasyName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef>Telefone</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          (click)="editCompany(element.id)"
+        >
+          {{ element.contact.phone }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="segment">
+        <th mat-header-cell *matHeaderCellDef>Segmento</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          (click)="editCompany(element.id)"
+        >
+          {{ element.holding.segment.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          (click)="editCompany(element.id)"
+        >
+          <div class="mat-cell-wrapper">
+            <a routerLink="edit/{{ element.id }}">
+              <i class="material-icons edit">edit</i>
+            </a>
+            <a
+              (click)="
+                openDeleteConfirmationModal(element.id);
+                $event.stopPropagation()
+              "
+            >
+              <i class="material-icons delete">delete</i>
+            </a>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 2, 10, 20, 50, 100]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div> -->

@@ -1,0 +1,618 @@
+mat-card {
+  max-width: 100%; /* Limita a largura do card para 100% da largura da tela */
+  max-height: 90vh; /* Limita a altura máxima para 90% da altura da tela */
+  overflow: auto; /* Adiciona barra de rolagem se o conteúdo for maior que o card */
+  box-sizing: border-box; /* Garante que padding e bordas sejam incluídos no tamanho total */
+}
+
+mat-card-content {
+  white-space: normal; /* Permite que o texto faça quebra de linha */
+  word-wrap: break-word; /* Quebra linhas longas */
+}
+
+.grid-first-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 10px;
+}
+
+.grid-item {
+  text-align: center;
+}
+
+.grid-item-column {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+table {
+  border-collapse: collapse;
+  background: white;
+  color: black;
+}
+
+th,
+td {
+  font-weight: bold;
+}
+
+.calendar-title {
+  text-align: center;
+  color: black;
+}
+
+.calendar-table {
+  background-color: whitesmoke;
+  text-align: center;
+}
+
+.calendar-table-th {
+  background-color: darkgrey;
+  color: black;
+  border: solid 1px;
+}
+
+.calendar-table-td-yellow {
+  background-color: yellow;
+  color: white;
+  border: solid 1px;
+}
+
+.calendar-table-td-red {
+  background-color: red;
+  color: white;
+  border: solid 1px;
+}
+
+.calendar-table-td-orange {
+  background-color: orange;
+  color: white;
+  border: solid 1px;
+}
+
+.calendar-table-td-green {
+  background-color: green;
+  color: white;
+  border: solid 1px;
+}
+
+.calendar-table-td-blue {
+  background-color: blue;
+  color: white;
+  border: solid 1px;
+}
+
+.demo-inline-calendar-card {
+  width: fit-content;
+  height: fit-content;
+  align-items: start;
+}
+
+.mat-calendar {
+  align-items: start;
+  align-content: start;
+  align-self: self-start;
+}
+
+.mat-calendar-body-disabled {
+  pointer-events: none; /* Evita interação */
+  cursor: not-allowed;
+}
+
+::ng-deep .gray-background .mat-calendar-body-cell-content {
+  border-color: var(--gray-border-calendar) !important;
+  color: var(--white) !important;
+  background-color: var(--gray-border-calendar);
+  pointer-events: none; /* Evita interação */
+  cursor: not-allowed;
+}
+
+::ng-deep .purple-background .mat-calendar-body-cell-content {
+  border-color: var(--purple-border-calendar) !important;
+  color: var(--white) !important;
+  background-color: var(--purple-border-calendar);
+}
+
+::ng-deep .green-background .mat-calendar-body-cell-content {
+  border-color: var(--green-border-calendar) !important;
+  color: var(--white) !important;
+  background-color: var(--green-border-calendar);
+}
+
+::ng-deep .green-light-background .mat-calendar-body-cell-content {
+  border-color: var(--black) !important;
+  color: var(--black) !important;
+  background-color: var(--white);
+}
+
+::ng-deep .blue-background .mat-calendar-body-cell-content {
+  border-color: blue !important;
+  color: white !important;
+  background-color: blue;
+}
+
+::ng-deep .orange-background .mat-calendar-body-cell-content {
+  border-color: orange !important;
+  color: black !important;
+  background-color: orange;
+}
+
+::ng-deep .yellow-background .mat-calendar-body-cell-content {
+  border-color: yellow !important;
+  color: black !important;
+  background-color: yellow;
+}
+
+::ng-deep .red-background .mat-calendar-body-cell-content {
+  border-color: var(--red-appointment) !important;
+  color: white !important;
+  background-color: var(--red-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.blue-background .mat-radio-outer-circle {
+  border-color: var(--blue-appointment);
+}
+::ng-deep .mat-radio-button.mat-accent.blue-background .mat-radio-inner-circle {
+  background-color: var(--blue-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.green-background .mat-radio-outer-circle {
+  border-color: var(--green-appointment);
+}
+::ng-deep .mat-radio-button.mat-accent.green-background .mat-radio-inner-circle {
+  background-color: var(--green-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.yellow-background .mat-radio-outer-circle {
+  border-color: var(--yellow-appointment);
+}
+::ng-deep .mat-radio-button.mat-accent.yellow-background .mat-radio-inner-circle {
+  background-color: var(--yellow-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.orange-background .mat-radio-outer-circle {
+  border-color: var(--orange-appointment);
+}
+::ng-deep .mat-radio-button.mat-accent.orange-background .mat-radio-inner-circle {
+  background-color: var(--orange-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.red-background .mat-radio-outer-circle {
+  border-color: var(--red-appointment);
+}
+::ng-deep .mat-radio-button.mat-accent.red-background .mat-radio-inner-circle {
+  background-color: var(--red-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.purple-background .mat-radio-outer-circle {
+  border-color: var(--purple-appointment);
+}
+::ng-deep .mat-radio-button.mat-accent.purple-background .mat-radio-inner-circle {
+  background-color: var(--purple-appointment);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked.gray-background .mat-radio-outer-circle {
+  border-color: var(--gray-appointment);
+}
+::ng-deep .mat-radio-button.mat-accent.gray-background .mat-radio-inner-circle {
+  background-color: var(--gray-appointment);
+}
+
+.item {
+  flex-grow: 1;
+  flex-basis: 100px;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.monthly-container {
+  height: 350px;
+  width: 600px; /* tamanho do card na aba Diário */
+  max-width: 100%;
+  overflow: auto;
+  margin: 40px 20px;
+}
+
+table {
+  width: 100%;
+}
+
+:host ::ng-deep thead {
+  display: none;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.grid-container > div {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: auto;
+  justify-content: space-between;
+  justify-items: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.item {
+  padding: 20px;
+}
+
+mat-divider {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+mat-card-title {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+mat-card-subtitle {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+mat-card-subtitle > button {
+  color: var(--white);
+  background-color: var(--primary);
+  margin-right: 10px;
+}
+
+::ng-deep .mat-dialog-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+.success-button {
+  background-color: var(--success);
+  color: var(--white);
+  margin-left: 15px;
+}
+
+.radio-buttons {
+  margin-left: 5%;
+  margin-top: 20px;
+}
+
+.text-column {
+  flex: 1;
+  /*white-space: nowrap;*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.radio-group input {
+  margin-right: 10px;
+  transform: scale(1.5);
+}
+
+.radio-group div {
+  margin-right: 10px;
+  transform: scale(1.5);
+}
+
+.radio-group label {
+  margin-right: 15px;
+}
+
+/* RADIO BUTTON COLOR */
+.radio-group .radio-red {
+  accent-color: #FF0000;
+  cursor: pointer;
+}
+.radio-group .radio-orange {
+  accent-color: #FFA500;
+  cursor: pointer;
+}
+.radio-group .radio-yellow {
+  accent-color: yellow;
+  cursor: pointer;
+}
+.radio-group .radio-green {
+  accent-color: green;
+  cursor: pointer;
+}
+.radio-group .radio-purple {
+  accent-color: var(--purple-border-calendar);
+  cursor: pointer;
+}
+
+/* RADIO BUTTON BACKGROUND COLOR */
+/*.radio-button_red-background {
+  accent-color: #FF0000;
+  cursor: pointer;
+}
+.radio-button_green-background {
+  accent-color: var(--green-border-calendar);
+  cursor: pointer;
+}
+.radio-button_blue-background {
+  accent-color: blue;
+  cursor: pointer;
+}
+.radio-button_orange-background {
+  accent-color: #FFA500;
+  cursor: pointer;
+}
+.radio-button_yellow-background {
+  accent-color: yellow;
+  cursor: pointer;
+}
+.radio-button_purple-background {
+  accent-color: var(--purple-border-calendar);
+  cursor: pointer;
+} */
+
+.radio-button_column-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  max-width: 300px;
+}
+
+.row-item {
+  padding: 10px 0;
+}
+
+h2 {
+  margin: 0;
+}
+
+h3 {
+  margin: 0;
+}
+
+span {
+  font-size: 1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  border: 8px solid var(--primary);
+  border-top: 8px solid var(--white);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-round {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spacing-item {
+  margin-bottom: 20px;
+}
+
+.custom-modal {
+  max-width: 75%;  /* Define a largura máxima do modal */
+  width: 75%; /* Controla a largura do modal */
+}
+
+.align-left {
+  text-align: left;
+}
+
+.btn-options {
+  background-color: #3498db; /* Cor do botão */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-options:hover {
+  background-color: #2980b9; /* Cor do botão ao passar o mouse */
+}
+
+.card {
+  border: 1px solid #dee2e6;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+}
+
+.empty {
+  width: 100px;
+  height: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+/* Estilo padrão do radio button */
+.radio-button_red-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--red-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_red-background:hover {
+  border-color: var(--red-radiobutton-appointment);
+  background-color: var(--red-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_red-background.checked {
+  background-color: var(--red-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--red-radiobutton-appointment);
+}
+
+/* Estilo padrão do radio button */
+.radio-button_orange-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--orange-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_orange-background:hover {
+  border-color: var(--orange-radiobutton-appointment);
+  background-color: var(--orange-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_orange-background.checked {
+  background-color: var(--orange-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--orange-radiobutton-appointment);
+}
+
+/* Estilo padrão do radio button */
+.radio-button_yellow-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--yellow-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_yellow-background:hover {
+  border-color: var(--yellow-radiobutton-appointment);
+  background-color: var(--yellow-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_yellow-background.checked {
+  background-color: var(--yellow-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--yellow-radiobutton-appointment);
+}
+
+/* Estilo padrão do radio button */
+.radio-button_green-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--green-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_green-background:hover {
+  border-color: var(--green-radiobutton-appointment);
+  background-color: var(--green-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_green-background.checked {
+  background-color: var(--green-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--green-radiobutton-appointment);
+}
+
+/* Estilo padrão do radio button */
+.radio-button_blue-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--blue-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_blue-background:hover {
+  border-color: var(--blue-radiobutton-appointment);
+  background-color: var(--blue-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_blue-background.checked {
+  background-color: var(--blue-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--blue-radiobutton-appointment);
+}
+
+
+/* Estilo padrão do radio button */
+.radio-button_purple-background {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--purple-radiobutton-appointment);
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: white; /* Fundo padrão */
+  transition: all 0.3s ease; /* Animação suave */
+}
+/* Estilo ao passar o mouse */
+.radio-button_purple-background:hover {
+  border-color: var(--purple-radiobutton-appointment);
+  background-color: var(--purple-radiobutton-appointment); /* Cor de hover */
+}
+/* Estilo quando está marcado */
+.radio-button_purple-background.checked {
+  background-color: var(--purple-radiobutton-appointment); /* Cor do estado checked */
+  border-color: var(--purple-radiobutton-appointment);
+}
+

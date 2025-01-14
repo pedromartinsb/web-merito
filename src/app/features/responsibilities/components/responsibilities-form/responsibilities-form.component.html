@@ -1,0 +1,68 @@
+<div class="container my-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <li class="breadcrumb-item"><a routerLink="/responsibilities">Cargos</a></li>
+      <li *ngIf="formGroup.get('id').value != ''" class="breadcrumb-item active" aria-current="page">Alterar</li>
+      <li *ngIf="formGroup.get('id').value == ''" class="breadcrumb-item active" aria-current="page">Adicionar Novo</li>
+    </ol>
+  </nav>
+
+  <h1>Cadastro de Cargo</h1>
+
+  <div *ngIf="isSaving" class="backdrop">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Salvando as Informações...</span>
+    </div>
+  </div>
+
+  <div id="fullPageContent" class="container my-5">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <section class="mb-4">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="name" class="form-label">Nome do Cargo</label>
+            <input type="text" id="name" formControlName="name" class="form-control" placeholder="Seu nome"
+                   [ngClass]="{'is-invalid': formGroup.get('name')?.invalid && formGroup.get('name')?.touched,
+                   'is-valid': formGroup.get('name')?.valid && formGroup.get('name')?.touched}" />
+            <div *ngIf="formGroup.get('name')?.invalid && formGroup.get('name')?.touched" class="invalid-feedback">
+              O nome é obrigatório.
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="officeId" class="form-label">Empresa</label>
+            <select id="officeId" class="form-select" formControlName="officeId" (change)="onOfficeChange($event)"
+                    [ngClass]="{'is-invalid': formGroup.get('officeId')?.invalid && formGroup.get('officeId')?.touched,
+                   'is-valid': formGroup.get('officeId')?.valid && formGroup.get('officeId')?.touched}">
+              <option value="" disabled selected>Selecione a Empresa</option>
+              <option *ngFor="let office of offices" [value]="office['id']">{{office['name']}}</option>
+            </select>
+            <div *ngIf="formGroup.get('officeId')?.invalid && formGroup.get('officeId')?.touched" class="invalid-feedback">
+              A empresa é obrigatória.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="d-grid gap-2" *ngIf="!isSaving">
+        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Salvar</button>
+      </div>
+
+      <div *ngIf="isSaving" class="spinner-container">
+        <div class="spinner"></div>
+      </div>
+    </form>
+
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show mt-4 mb-4" role="alert">
+      {{ successMessage }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show mt-4 mb-4" role="alert">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+
+</div>

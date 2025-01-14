@@ -1,0 +1,13 @@
+mat-form-field {
+  width: 300px;
+}
+
+.success-button {
+  background-color: var(--success);
+  color: var(--white);
+}
+
+.cancel-button {
+  background-color: var(--warn);
+  color: var(--white);
+}

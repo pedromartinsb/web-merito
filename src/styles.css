@@ -1,5 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '../node_modules/ngx-toastr/toastr.css';
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import "../node_modules/ngx-toastr/toastr.css";
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+  --primary: #5585b5;
+  --accent: #ff4081;
+  --warn: yellow;
+  --success: #008000;
+  --cancel: #ff0000;
+  --delete: #ff4500;
+
+  --white: #fff;
+  --black: #333;
+
+  --red-appointment: #ff0000;
+  --orange-appointment: #ff4500;
+  --yellow-appointment: #ffd700;
+  --green-appointment: #008000;
+  --gray-appointment: gray;
+  --blue-appointment: #0000ff;
+
+  --green-border-calendar: #008000;
+  --green-color-calendar: #006400;
+  --gray-border-calendar: gray;
+  --purple-border-calendar: purple;
+
+  --red-radiobutton-appointment: #ff0000;
+  --orange-radiobutton-appointment: #ff4500;
+  --yellow-radiobutton-appointment: #ffd700;
+  --green-radiobutton-appointment: #006400;
+  --blue-radiobutton-appointment: #0000ff;
+  --purple-radiobutton-appointment: purple;
+  --gray-radiobutton-appointment: gray;
+}

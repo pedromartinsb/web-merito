@@ -1,0 +1,52 @@
+.mat-radio-group {
+  margin-bottom: 20px;
+  flex-direction: row;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+  margin-bottom: 25px;
+}
+
+.mat-typography {
+  margin-top: 25px;
+}
+
+.mat-divider {
+  margin-top: 15px;
+}
+
+.example-container {
+  height: fit-content;
+  width: fit-content;
+  max-width: 100%;
+  overflow: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+:host ::ng-deep thead {
+  display: none;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+input {
+  border: 0;
+  outline: 0;
+  pointer-events: none;
+}
+input:focus {
+  outline: none !important;
+}

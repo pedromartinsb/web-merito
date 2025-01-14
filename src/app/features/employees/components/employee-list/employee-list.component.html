@@ -1,0 +1,42 @@
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Funcionários</li>
+    </ol>
+  </nav>
+
+  <div *ngIf="deleting" class="backdrop">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Salvando as Informações...</span>
+    </div>
+  </div>
+
+  <h1>Lista de Funcionários</h1>
+
+  <div class="text-end mb-3" *ngIf="!loading && isAdmin">
+    <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
+      Criar Novo Funcionário
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="alert alert-info">
+    Carregando funcionários...
+  </div>
+
+  <app-zebra-employee-table *ngIf="!loading && employeeData.length != 0"
+    [headers]="employeeHeaders"
+    [data]="employeeData"
+    [itemsPerPage]="5"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+    (view)="onView($event)"></app-zebra-employee-table>
+
+  <div *ngIf="!loading && employeeData.length == 0">
+    <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+    <h4>Nenhum funcionário cadastrado.</h4>
+    <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
+      Criar Novo Funcionário
+    </button>
+  </div>
+</div>

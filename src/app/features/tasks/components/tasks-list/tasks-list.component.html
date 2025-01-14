@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Tarefas</li>
+    </ol>
+  </nav>
+
+  <h1>Lista de Tarefas</h1>
+
+  <div class="text-end mb-3" *ngIf="!loading && taskData.length != 0 && isAdmin">
+    <button class="btn btn-primary" (click)="router.navigate(['/goals/create'])">
+      Criar Nova Meta
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="alert alert-info">
+    Carregando tarefas...
+  </div>
+
+  <app-goal-task-table
+    *ngIf="!loading && taskData.length > 0"
+    [headers]="taskHeaders"
+    [data]="taskData"
+    [itemsPerPage]="5"
+    (finish)="onFinish($event)"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"></app-goal-task-table>
+
+  <div *ngIf="!loading && taskData.length == 0">
+    <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+    <h4 *ngIf="isAdmin">Nenhuma tarefa cadastrada.</h4>
+    <h4 *ngIf="!isAdmin">Nenhuma tarefa cadastrada para você.</h4>
+    <button *ngIf="isAdmin" class="btn btn-primary" (click)="router.navigate(['/tasks/create'])">
+      Criar Nova Tarefa
+    </button>
+  </div>
+</div>

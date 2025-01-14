@@ -5,29 +5,37 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HoldingService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  findAll(): Observable<Holding[]> {
-    return this.http.get<Holding[]>(`${Config.webApiUrl}/holding`);
+  public findAll(): Observable<Holding[]> {
+    return this.http.get<Holding[]>(`${Config.webApiUrl}/v1/holding`);
   }
 
-  findById(id: any): Observable<Holding> {
-    return this.http.get<Holding>(`${Config.webApiUrl}/holding/${id}`);
+  public findAllBySegment(segmentId: string): Observable<Holding[]> {
+    return this.http.get<Holding[]>(
+      `${Config.webApiUrl}/v1/holding/segment/${segmentId}`
+    );
   }
 
-  create(holding: Holding): Observable<Holding> {
-    return this.http.post<Holding>(`${Config.webApiUrl}/holding`, holding);
+  public findById(id: any): Observable<Holding> {
+    return this.http.get<Holding>(`${Config.webApiUrl}/v1/holding/${id}`);
   }
 
-  update(id: string, holding: Holding): Observable<Holding> {
-    return this.http.put<Holding>(`${Config.webApiUrl}/holding/${id}`, holding);
+  public create(holding: Holding): Observable<Holding> {
+    return this.http.post<Holding>(`${Config.webApiUrl}/v1/holding`, holding);
   }
 
-  delete(id: string): Observable<Holding> {
-    return this.http.delete<Holding>(`${Config.webApiUrl}/holding/${id}`);
+  public update(id: string, holding: Holding): Observable<Holding> {
+    return this.http.put<Holding>(
+      `${Config.webApiUrl}/v1/holding/${id}`,
+      holding
+    );
+  }
+
+  public delete(id: string): Observable<Holding> {
+    return this.http.delete<Holding>(`${Config.webApiUrl}/v1/holding/${id}`);
   }
 }
