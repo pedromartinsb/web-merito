@@ -13,12 +13,12 @@ export class TasksService {
     this.officeId = localStorage.getItem('officeId');
   }
 
-  public findAllByOffice(): Observable<any[]> {
-    return this.http.get<any[]>(`${Config.webApiUrl}/v1/task/office/${this.officeId}`);
-  }
-
   public findAll(): Observable<any[]> {
     return this.http.get<any[]>(`${Config.webApiUrl}/v1/task`);
+  }
+
+  public findAllByOffice(): Observable<any[]> {
+    return this.http.get<any[]>(`${Config.webApiUrl}/v1/task/office/${this.officeId}`);
   }
 
   public finish(id: string): Observable<any> {

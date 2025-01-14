@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {finalize} from "rxjs";
 import {AppointmentService} from "../../services/appointment.service";
 import {Router} from "@angular/router";
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-zebra-employee-table',
@@ -33,7 +34,19 @@ export class ZebraPersonTableComponent implements OnInit {
   lastFourMonth: any;
   lastFiveMonth: any;
 
-  constructor(private appointmentService: AppointmentService, private router: Router) {
+  userRole: string[] = [];
+  isAdmin: boolean = false;
+  isSupervisor: boolean = false;
+  isManager: boolean = false;
+  isUser: boolean = false;
+
+  constructor(
+    private appointmentService: AppointmentService,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.userRole = this.authService.getRole();
+    this.checkPermission();
   }
 
   ngOnInit(): void {
@@ -56,6 +69,27 @@ export class ZebraPersonTableComponent implements OnInit {
       this.currentPage = page;
       this.calculatePagination();
     }
+  }
+
+  private checkPermission(): void {
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_MANAGER':
+          this.isManager = true;
+          break;
+        case 'ROLE_USER':
+          this.isUser = true;
+          break;
+        default:
+          this.isUser = true;
+      }
+    });
   }
 
   // Método de busca

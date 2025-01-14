@@ -1,4 +1,28 @@
-<div class="login-container">
+<!-- XSmall-->
+<div *ngIf="isXSmallScreenSize">
+  <div class="mb-4" style="text-align: center; font-weight: 700;">
+    <span style="color: var(--primary);">Projeção</span>Profissional
+  </div>
+
+  <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" [formGroup]="credentials">
+    <div class="input-group mb-0">
+      <input class="xsmall__input" type="text" id="username" [disabled]="!isLoggin" formControlName="username" placeholder="Digite seu usuário" required />
+    </div>
+    <div class="input-group">
+      <input class="xsmall__input" type="password" id="username" [disabled]="!isLoggin" formControlName="password" placeholder="Digite sua senha" required />
+    </div>
+    <button *ngIf="!isLoggin" type="submit" class="login-btn" (click)="onSubmit()">
+      Entrar
+    </button>
+  </form>
+
+  <div *ngIf="isLoggin" class="spinner-container">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<!-- Small, Medium, Large, XLarge -->
+<div class="login-container" *ngIf="!isXSmallScreenSize">
   <div class="login-card">
     <div class="login-column">
       <div style="text-align: left; font-weight: 700;">

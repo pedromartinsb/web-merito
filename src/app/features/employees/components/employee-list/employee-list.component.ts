@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EmployeeService} from "../../services/employee.service";
 import {ToastrService} from "ngx-toastr";
 import { Urls } from 'src/app/config/urls.config';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -20,12 +21,19 @@ export class EmployeeListComponent implements OnInit {
   ];
   employeeData = [];
 
+  userRole: string[] = [];
+  isAdmin: boolean = false;
+  isSupervisor: boolean = false;
+  isManager: boolean = false;
+  isUser: boolean = false;
+
   userForm: FormGroup;
   loading: boolean = true; // Estado de carregamento
   deleting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
+    private authService: AuthService,
     private employeeService: EmployeeService,
     public router: Router,
     private toast: ToastrService
@@ -37,6 +45,8 @@ export class EmployeeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userRole = this.authService.getRole();
+    this._checkPermission();
     this.employeeService.findAllEmployees()
       .subscribe({
         next: (employees) => {
@@ -61,6 +71,27 @@ export class EmployeeListComponent implements OnInit {
           this.loading = false;
         },
       });
+  }
+
+  private _checkPermission(): void {
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_MANAGER':
+          this.isManager = true;
+          break;
+        case 'ROLE_USER':
+          this.isUser = true;
+          break;
+        default:
+          this.isUser = true;
+      }
+    });
   }
 
   onEdit(employee: any) {

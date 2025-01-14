@@ -3,6 +3,7 @@ import {ProfessionalsService} from "../../services/professionals.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {Urls} from "../../../../config/urls.config";
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-professionals-list',
@@ -21,10 +22,44 @@ export class ProfessionalsListComponent implements OnInit {
   loading: boolean = true;
   deleting: boolean = false;
 
-  constructor(private professionalService: ProfessionalsService, private toast: ToastrService, public router: Router) { }
+  userRole: string[] = [];
+  isAdmin: boolean = false;
+  isSupervisor: boolean = false;
+  isManager: boolean = false;
+  isUser: boolean = false;
+
+  constructor(
+    private professionalService: ProfessionalsService,
+    private toast: ToastrService,
+    private authService: AuthService,
+    public router: Router
+  ) { }
 
   ngOnInit(): void {
+    this._checkPermission();
     this._professionals();
+  }
+
+  private _checkPermission(): void {
+    this.userRole = this.authService.getRole();
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_MANAGER':
+          this.isManager = true;
+          break;
+        case 'ROLE_USER':
+          this.isUser = true;
+          break;
+        default:
+          this.isUser = true;
+      }
+    });
   }
 
   private _professionals() {

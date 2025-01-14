@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-routines-table',
@@ -21,9 +22,43 @@ export class RoutinesTableComponent implements OnInit {
 
   filteredData: any[][] = []; // Dados filtrados para a busca e filtro
 
+  userRole: string[] = [];
+  isAdmin: boolean = false;
+  isSupervisor: boolean = false;
+  isManager: boolean = false;
+  isUser: boolean = false;
+
+  constructor(
+    private authService: AuthService
+  ) {
+    this.userRole = this.authService.getRole();
+    this._checkPermission();
+  }
+
   ngOnInit(): void {
     this.filteredData = this.data;
     this.calculatePagination();
+  }
+
+  private _checkPermission(): void {
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_MANAGER':
+          this.isManager = true;
+          break;
+        case 'ROLE_USER':
+          this.isUser = true;
+          break;
+        default:
+          this.isUser = true;
+      }
+    });
   }
 
   // Método para calcular a paginação

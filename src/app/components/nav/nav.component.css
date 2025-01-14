@@ -12,7 +12,7 @@ body {
 
 .sidebar {
   width: 250px;
-  background-color: #fff; /* Fundo branco */
+  background-color: #f1f1f1; /* Fundo branco */
   padding: 20px;
   position: fixed;
   height: 100vh;

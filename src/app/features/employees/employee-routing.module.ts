@@ -11,31 +11,30 @@ const routes: Routes = [
   {
     path: 'employees',
     component: NavComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
         canActivate: [AuthGuard],
         component: EmployeeListComponent,
-        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
+        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_SUPERVISOR, Roles.ROLE_MANAGER,]}
       },
       {
         path: 'create',
         canActivate: [AuthGuard],
         component: EmployeeFormComponent,
-        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
+        data: {role: [Roles.ROLE_ADMIN]}
       },
       {
         path: 'edit/:id',
         canActivate: [AuthGuard],
         component: EmployeeFormComponent,
-        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
+        data: {role: [Roles.ROLE_ADMIN]}
       },
       {
         path: 'appointment/:id',
         canActivate: [AuthGuard],
         component: EmployeeAppointmentComponent,
-        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
+        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_SUPERVISOR, Roles.ROLE_MANAGER,]}
       }
     ]
   }

@@ -3,6 +3,7 @@ import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {GoalsService} from "../../services/goals.service";
 import { Goal } from 'src/app/models/goal';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-goals-list',
@@ -21,18 +22,75 @@ export class GoalsListComponent implements OnInit {
   goalData = [];
   loading: boolean = true; // Estado de carregamento
 
-  constructor(private goalsService: GoalsService, private toast: ToastrService, public router: Router) { }
+  userRole: string[] = [];
+  isAdmin: boolean = false;
+  isSupervisor: boolean = false;
+  isManager: boolean = false;
+  isUser: boolean = false;
+
+  constructor(
+    private goalsService: GoalsService,
+    private toast: ToastrService,
+    private authService: AuthService,
+    public router: Router
+  ) { }
 
   ngOnInit(): void {
-    this._goals();
+    this.userRole = this.authService.getRole();
+    this._checkPermission();
   }
 
-  _goals() {
+  private _checkPermission(): void {
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          this._findGoalsByOffice();
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_MANAGER':
+          this.isManager = true;
+          break;
+        case 'ROLE_USER':
+          this.isUser = true;
+          this._findGoalsByUser();
+          break;
+        default:
+          this.isUser = true;
+      }
+    });
+  }
+
+  private _findGoalsByUser(): void {
+    this.goalsService.findAll().subscribe({
+      next: (goals) => {
+        if (goals != null) {
+          goals.forEach((response) => {
+            const goal = [
+              response.id,
+              response.title,
+              response.person.id,
+              response.person.name,
+              response.person.responsibility.name,
+              response.status,
+            ];
+            this.goalData.push(goal);
+          });
+          this.loading = false;
+        }
+      },
+      error: (ex) => this._handleErrors(ex),
+      complete: () => this.loading = false
+    });
+  }
+
+  private _findGoalsByOffice() {
     this.goalsService.findAllByOffice().subscribe({
       next: (goals) => {
         if (goals != null) {
           goals.forEach((response) => {
-            console.log(response)
             const goal = [
               response.id,
               response.title,

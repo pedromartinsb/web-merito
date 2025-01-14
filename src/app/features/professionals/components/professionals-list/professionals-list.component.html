@@ -15,7 +15,7 @@
   <h1 *ngIf="!loading">Lista de Profissionais Autônomos</h1>
 
   <!-- Botão para Criar Novo Usuário -->
-  <div class="text-end mb-3" *ngIf="!loading && professionalsData.length > 0">
+  <div class="text-end mb-3" *ngIf="!loading && isAdmin">
     <button class="btn btn-primary" (click)="router.navigate(['/professionals/create'])">
       Criar Novo Profissional
     </button>

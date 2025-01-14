@@ -96,12 +96,13 @@ export class PersonService {
     );
   }
 
-  public changePassword(id: string, newPassword: string): Observable<Person> {
+  public changePassword(currentPassword: string, newPassword: string): Observable<Person> {
     const formData = new FormData();
+    formData.append('currentPassword', currentPassword);
     formData.append('newPassword', newPassword);
 
-    return this.http.put<Person>(
-      `${Config.webApiUrl}/v1/person/${id}/change-password`,
+    return this.http.patch<Person>(
+      `${Config.webApiUrl}/v1/person/change-password`,
       formData
     );
   }

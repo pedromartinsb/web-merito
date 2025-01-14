@@ -1,6 +1,5 @@
 <!-- Botão de menu (hambúrguer) para dispositivos móveis -->
-<div class="menu-toggle" (click)="toggleSidebar()">☰ Menu</div>
-
+<div class="menu-toggle" (click)="toggleSidebar()">☰</div>
 
 <div class="sidebar" [ngClass]="{ 'active': isSidebarActive }">
   <div class="sidebar-header">
@@ -12,57 +11,55 @@
     <span>Página Inicial</span>
   </div>
 
-  <div class="menu-item" routerLink="/employees" routerLinkActive="active" *ngIf="isAdmin || isSupervisor">
+  <div class="menu-item" routerLink="/employees" routerLinkActive="active" *ngIf="isAdmin || isManager || isSupervisor">
     <i class="fas fa-users"></i>
     <span>Funcionários</span>
   </div>
 
-  <div class="menu-item" routerLink="/professionals" routerLinkActive="active" *ngIf="isAdmin || isSupervisor">
+  <div class="menu-item" routerLink="/professionals" routerLinkActive="active" *ngIf="isAdmin || isManager || isSupervisor">
     <i class="fas fa-user-tie"></i>
     <span>Profissionais</span>
   </div>
 
-  <div class="menu-item" routerLink="/suppliers" routerLinkActive="active" *ngIf="isAdmin || isSupervisor">
+  <div class="menu-item" routerLink="/suppliers" routerLinkActive="active" *ngIf="isAdmin || isManager || isSupervisor">
     <i class="fas fa-truck-field"></i>
     <span>Fornecedores</span>
   </div>
 
-  <div class="menu-item" routerLink="/responsibilities" routerLinkActive="active" *ngIf="isAdmin || isSupervisor">
+  <div class="menu-item" routerLink="/responsibilities" routerLinkActive="active" *ngIf="isAdmin">
     <i class="fas fa-suitcase"></i>
     <span>Cargos</span>
   </div>
 
-  <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isAdmin || isSupervisor">
+  <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isAdmin">
     <i class="fas fa-list-check"></i>
     <span>Rotinas</span>
-  </div>
-
-  <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isUser">
-    <i class="fas fa-bullseye"></i>
-    <span>Minhas Metas</span>
-  </div>
-
-  <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isUser">
-    <i class="fas fa-list-check"></i>
-    <span>Minhas Tarefas</span>
   </div>
 
   <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isUser">
     <i class="fas fa-briefcase"></i>
     <span>Minhas Rotinas</span>
   </div>
+  <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isUser">
+    <i class="fas fa-bullseye"></i>
+    <span>Minhas Metas</span>
+  </div>
+  <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isUser">
+    <i class="fas fa-list-check"></i>
+    <span>Minhas Tarefas</span>
+  </div>
 
-  <div class="menu-item" routerLink="/documents" routerLinkActive="active" *ngIf="isSupervisor || isUser">
+  <div class="menu-item" routerLink="/documents" routerLinkActive="active" *ngIf="isManager || isSupervisor || isUser">
     <i class="fas fa-folder-open"></i>
     <span>Documentos</span>
   </div>
 
-  <div class="menu-item" routerLink="/reports" routerLinkActive="active" *ngIf="isSupervisor">
+  <div class="menu-item" routerLink="/reports" routerLinkActive="active" *ngIf="isManager || isSupervisor">
     <i class="fas fa-chart-pie"></i>
     <span>Relatórios</span>
   </div>
 
-  <div class="menu-item" routerLink="/configurations" routerLinkActive="active" *ngIf="isSupervisor || isUser">
+  <div class="menu-item" routerLink="/change-password" routerLinkActive="active" *ngIf="isManager || isSupervisor || isUser">
     <i class="fas fa-user-gear"></i>
     <span>Configurações</span>
   </div>
@@ -80,7 +77,7 @@
 </div>
 
 <!-- Modal para alterar as Empresas -->
-<div class="floating-btn">
+<div class="floating-btn" *ngIf="isAdmin || isManager || isSupervisor">
   <div class="btn-group dropup">
     <button type="button" class="btn btn-primary dropdown-toggle" (click)="toggleDropdown()">{{firstOffice.fantasyName}}</button>
     <ul class="dropdown-menu dropdown-menu-center custom-dropup" [class.show]="isDropdownOpen">
@@ -92,8 +89,8 @@
 </div>
 
 <!-- Botão Flutuante de Homologacão -->
-<div class="floating-homolog">
-  <span>HOMOLOG</span>
+<div *ngIf="isStaging" class="floating-homolog">
+  <span>Homologação</span>
 </div>
 
 <!-- Botão Flutuante de Chat -->

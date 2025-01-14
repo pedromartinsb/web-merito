@@ -15,7 +15,7 @@
   <h1 *ngIf="!loading">Lista de Fornecedores</h1>
 
   <!-- Botão para Criar Novo Usuário -->
-  <div class="text-end mb-3" *ngIf="!loading && suppliersData.length > 0">
+  <div class="text-end mb-3" *ngIf="!loading && isAdmin">
     <button class="btn btn-primary" (click)="router.navigate(['/suppliers/create'])">
       Criar Novo Fornecedor
     </button>

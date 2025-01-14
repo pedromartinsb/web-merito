@@ -28,7 +28,8 @@
             {{ header }}
           </ng-template>
         </th>
-        <th>Ações</th>
+        <th></th>
+        <!-- <th>Ações</th> -->
       </tr>
       </thead>
       <tbody>
@@ -39,13 +40,14 @@
           <span *ngIf="i!==0 && i!==1">{{ col }}</span>
         </td>
         <td>
-          <button class="btn btn-primary btn-sm" (click)="onEdit(row)">
+          <!-- <button *ngIf="isManager || isSupervisor" class="btn btn-secondary btn-sm mx-1" (click)="openAppointments(row)">
+            <i class="bi bi-card-text"></i>
+          </button> -->
+          <span class="span__appointment" *ngIf="isManager || isSupervisor" (click)="openAppointments(row)">Avaliacão</span>
+          <button *ngIf="isAdmin" class="btn btn-primary btn-sm mx-1" (click)="onEdit(row)">
             <i class="bi bi-pencil-fill"></i>
           </button>
-          <button class="btn btn-secondary btn-sm mx-1" (click)="openAppointments(row)">
-            <i class="bi bi-card-text"></i>
-          </button>
-          <button class="btn btn-danger btn-sm" (click)="onDelete(row)">
+          <button *ngIf="isAdmin" class="btn btn-danger btn-sm" (click)="onDelete(row)">
             <i class="bi bi-trash-fill"></i>
           </button>
         </td>

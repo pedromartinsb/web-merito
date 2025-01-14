@@ -14,7 +14,7 @@
 
   <h1>Lista de Funcionários</h1>
 
-  <div class="text-end mb-3" *ngIf="!loading && employeeData.length != 0">
+  <div class="text-end mb-3" *ngIf="!loading && isAdmin">
     <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
       Criar Novo Funcionário
     </button>

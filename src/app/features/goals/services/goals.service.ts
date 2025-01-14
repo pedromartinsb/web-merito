@@ -13,6 +13,10 @@ export class GoalsService {
     this.officeId = localStorage.getItem('officeId');
   }
 
+  public findAll(): Observable<any[]> {
+    return this.http.get<any[]>(`${Config.webApiUrl}/v1/goal`);
+  }
+
   public findAllByOffice(): Observable<any[]> {
     return this.http.get<any[]>(`${Config.webApiUrl}/v1/goal/office/${this.officeId}`);
   }

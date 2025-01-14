@@ -146,3 +146,12 @@ button {
   color: #666;
   outline: none;
 }
+
+.xsmall__input {
+  outline: 2px solid black;
+  outline-offset: 2px;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  background-color: rgb(243 244 246);
+  flex: 1 1 0;
+}

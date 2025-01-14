@@ -15,7 +15,14 @@ const routes: Routes = [
         path: '',
         canActivate: [AuthGuard],
         component: DashboardsComponent,
-        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
+        data: {
+          role: [
+            Roles.ROLE_ADMIN,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
+            Roles.ROLE_USER,
+          ]
+        }
       },
     ]
   }

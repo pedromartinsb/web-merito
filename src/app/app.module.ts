@@ -89,11 +89,9 @@ import {PhonePipe} from './pipe/phone.pipe';
 import {FormsComponent} from './components/forms/forms.component';
 import {CommunicationComponent} from './components/communication/communication.component';
 import {PersonAppointmentTaskComponent} from './pages/person/person-appointment/person-appointment-task/person-appointment-task.component';
-import {ChangePasswordComponent} from './pages/person/change-password/change-password.component';
 import {NgChartsModule} from "ng2-charts";
 import {ZebraTableComponent} from './components/zebra-table/zebra-table.component';
 import {ReusableFormComponent} from './components/reusable-form/reusable-form.component';
-import {EmployeeRoutingModule} from "./features/employees/employee-routing.module";
 import {EmployeeListComponent} from "./features/employees/components/employee-list/employee-list.component";
 import {EmployeeFormComponent} from "./features/employees/components/employee-form/employee-form.component";
 import {ZebraPersonTableComponent} from "./components/zebra-employee-table/zebra-employee-table.component";
@@ -128,6 +126,9 @@ import { ResponsibilitiesRoutingModule } from './features/responsibilities/respo
 import { ResponsibilitiesTableComponent } from './components/responsibilities-table/responsibilities-table.component';
 import { ResponsibilitiesFormComponent } from './features/responsibilities/components/responsibilities-form/responsibilities-form.component';
 import { RoutinesFormComponent } from './features/routines/components/routines-form/routines-form.component';
+import { ChangePasswordFormComponent } from './features/change-password/components/change-password-form/change-password-form.component';
+import { EmployeeRoutingModule } from './features/employees/employee-routing.module';
+import { ChangePasswordRoutingModule } from './features/change-password/dashboard-routing.module';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -182,7 +183,6 @@ export const maskConfig: Partial<IConfig> = {
     FormsComponent,
     CommunicationComponent,
     PersonAppointmentTaskComponent,
-    ChangePasswordComponent,
     ZebraTableComponent,
     ZebraPersonTableComponent,
     ReusableFormComponent,
@@ -208,6 +208,7 @@ export const maskConfig: Partial<IConfig> = {
     ResponsibilitiesTableComponent,
     ResponsibilitiesFormComponent,
     RoutinesFormComponent,
+    ChangePasswordFormComponent,
   ],
     imports: [
         BrowserModule,
@@ -225,6 +226,7 @@ export const maskConfig: Partial<IConfig> = {
         DocumentsRoutingModule,
         RoutinesRoutingModule,
         ResponsibilitiesRoutingModule,
+        ChangePasswordRoutingModule,
 
         BrowserAnimationsModule,
         CommonModule,

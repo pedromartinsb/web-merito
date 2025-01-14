@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { Subject } from 'rxjs';
-import { AuthGuard } from 'src/app/auth/auth.guard';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChartDataset, ChartOptions, ChartType } from "chart.js";
 import { Label } from "chartist";
@@ -9,6 +8,12 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { HomeService } from 'src/app/services/home.service';
+import { Routine } from 'src/app/features/routines/routine.model';
+import { RoutinesService } from 'src/app/features/routines/services/routines.service';
+import { TasksService } from 'src/app/features/tasks/services/tasks.service';
+import { Task } from 'src/app/features/tasks/task.model';
+import { Goal } from 'src/app/features/goals/goal.model';
+import { GoalsService } from 'src/app/features/goals/services/goals.service';
 
 @Component({
   selector: 'app-home',
@@ -60,6 +65,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   isAdmin: boolean = false;
   isSupervisor: boolean = false;
+  isManager: boolean = false;
   isUser: boolean = false;
 
   userRole: string[] = [];
@@ -70,16 +76,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     { name: 'Item 3', value: '30' },
     { name: 'Item 4', value: '40' },
   ];
+  routines: Routine[] = [];
+  tasks: Task[] = [];
+  goals: Goal[] = [];
 
   formGroup: FormGroup;
 
-  constructor(private authGuard: AuthGuard, private homeService: HomeService,
-    private authService: AuthService, private fb: FormBuilder) {
-    this.isAdmin = this.authGuard.checkIsAdmin();
-
+  constructor(
+    private homeService: HomeService,
+    private authService: AuthService,
+    private routinesService: RoutinesService,
+    private tasksService: TasksService,
+    private goalsService: GoalsService,
+    private fb: FormBuilder
+  ) {
     this._checkPermission();
-    this.fetchChartData();
-
+    this._fetchChartData();
     this.formGroup = this.fb.group({
       texto: []
     });
@@ -170,7 +182,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         colors: ['#00308F', '#006A4E', '#E25822', '#FFD700', '#FF033E'],
       },
     };
-
     const chart = new ApexCharts(document.querySelector('#chart'), options);
     chart.render();
   }
@@ -180,7 +191,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  fetchChartData(): void {
+  private _fetchChartData(): void {
     this.homeService.getDashboard().subscribe((datasets) => {
       // Atualiza apenas os datasets dinamicamente
       if (datasets['week']) {
@@ -193,7 +204,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  _checkPermission(): void {
+  private _checkPermission(): void {
     this.userRole = this.authService.getRole();
     this.userRole.map((role) => {
       switch (role) {
@@ -203,12 +214,45 @@ export class HomeComponent implements OnInit, OnDestroy {
         case 'ROLE_SUPERVISOR':
           this.isSupervisor = true;
           break;
+        case 'ROLE_MANAGER':
+          this.isManager = true;
+          break;
         case 'ROLE_USER':
           this.isUser = true;
+          this._findRoutines();
+          this._findTasks();
+          this._findGoals();
           break;
         default:
           this.isUser = true;
-          break;
+      }
+    });
+  }
+
+  private _findRoutines(): void {
+    this.routinesService.findAll().subscribe({
+      next: (response: Routine[]) => {
+        this.routines = response;
+      }
+    });
+  }
+
+  private _findTasks(): void {
+    this.tasksService.findAll().subscribe({
+      next: (response: Task[]) => {
+        if (response != null) {
+          this.tasks = response;
+        }
+      }
+    });
+  }
+
+  private _findGoals(): void {
+    this.goalsService.findAll().subscribe({
+      next: (response: Goal[]) => {
+        if (response != null) {
+          this.goals = response;
+        }
       }
     });
   }

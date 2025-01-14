@@ -7,6 +7,7 @@ import {MatDrawerMode, MatSidenav} from '@angular/material/sidenav';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Subject, takeUntil} from 'rxjs';
 import {OfficeResponse} from 'src/app/models/office';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-nav',
@@ -31,8 +32,10 @@ export class NavComponent implements OnInit, OnDestroy {
 
   isAdmin: boolean = false;
   isSupervisor: boolean = false;
+  isManager: boolean = false;
   isUser: boolean = false;
   isDropdownOpen = false;
+  isStaging: boolean = true;
 
   personName: string;
   personRole: string;
@@ -67,12 +70,9 @@ export class NavComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
-            if (
-              this.displayNameMap.get(query) === 'Small' ||
-              this.displayNameMap.get(query) === 'XSmall'
-            ) {
+            if (this.displayNameMap.get(query) === 'Small' ||this.displayNameMap.get(query) === 'XSmall') {
               this.currentScreenSize = this.displayNameMap.get(query);
-              this.modeNavMenu = 'side';
+              this.modeNavMenu = 'over';
             }
           }
         }
@@ -87,7 +87,8 @@ export class NavComponent implements OnInit, OnDestroy {
     this.personName = localStorage.getItem('personName');
     this.personPicture = localStorage.getItem('personPicture');
 
-    this.checkPermission();
+    this._checkPermission();
+    this._isStaging();
 
     this.updateCurrentTime();
     setInterval(() => {
@@ -105,7 +106,7 @@ export class NavComponent implements OnInit, OnDestroy {
     this.currentTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   }
 
-  private checkPermission(): void {
+  private _checkPermission(): void {
     this.userRole.map((role) => {
       switch (role) {
         case 'ROLE_ADMIN':
@@ -116,12 +117,22 @@ export class NavComponent implements OnInit, OnDestroy {
           this.isSupervisor = true;
           this.personRole = "Supervisor";
           break;
+        case 'ROLE_MANAGER':
+          this.isManager = true;
+          this.personRole = "Gerente";
+          break;
         case 'ROLE_USER':
           this.isUser = true;
           this.personRole = "Usuário";
           break;
       }
     });
+  }
+
+  private _isStaging() {
+    if (environment.production) {
+      this.isStaging = false;
+    }
   }
 
   logout() {

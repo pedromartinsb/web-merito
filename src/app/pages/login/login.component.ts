@@ -7,6 +7,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PersonService } from 'src/app/services/person.service';
 import { Urls } from 'src/app/config/urls.config';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +22,22 @@ export class LoginComponent implements OnInit {
   };
   isLoggedIn = false;
   isLoginFailed = false;
+
+  isXSmallScreenSize: boolean = false;
+  isSmallScreenSize: boolean = false;
+  isMediumScreenSize: boolean = false;
+  isLargeScreenSize: boolean = false;
+  isXLargeScreenSize: boolean = false;
+
+  destroyed = new Subject<void>();
+  currentScreenSize: string;
+  displayNameMap = new Map([
+    [Breakpoints.XSmall, 'XSmall'],
+    [Breakpoints.Small, 'Small'],
+    [Breakpoints.Medium, 'Medium'],
+    [Breakpoints.Large, 'Large'],
+    [Breakpoints.XLarge, 'XLarge'],
+  ]);
 
   login: Login = {
     username: '',
@@ -38,7 +56,7 @@ export class LoginComponent implements OnInit {
 
   identifier: FormControl = new FormControl(null, [Validators.required]);
   username: FormControl = new FormControl(null, [Validators.required]);
-  password: FormControl = new FormControl(null, [Validators.required]);
+  password: FormControl = new FormControl(null, [Validators.required, Validators.min(3)]);
 
   public isLoggin: boolean = false;
   public hide: boolean = true;
@@ -51,8 +69,55 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private toast: ToastrService,
-    private personService: PersonService
-  ) {}
+    private personService: PersonService,
+    breakpointObserver: BreakpointObserver
+  ) {
+    breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((result) => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            // if (
+            //   this.displayNameMap.get(query) === 'Small' ||
+            //   this.displayNameMap.get(query) === 'XSmall'
+            // ) {
+            //   this.currentScreenSize = this.displayNameMap.get(query);
+            //   console.log(this.currentScreenSize)
+            // }
+
+            this.isXSmallScreenSize = false;
+            this.isSmallScreenSize = false;
+            this.isMediumScreenSize = false;
+            this.isLargeScreenSize = false;
+            this.isXLargeScreenSize = false;
+            switch (this.displayNameMap.get(query)) {
+              case 'XSmall':
+                this.isXSmallScreenSize = true;
+                break;
+              case 'Small':
+                this.isSmallScreenSize = true;
+                break;
+              case 'Medium':
+                this.isMediumScreenSize = true;
+                break;
+              case 'Large':
+                this.isLargeScreenSize = true;
+                break;
+              case 'XLarge':
+                this.isXLargeScreenSize = true;
+                break;
+            }
+          }
+        }
+      });
+  }
 
   ngOnInit(): void {}
 
@@ -78,8 +143,10 @@ export class LoginComponent implements OnInit {
         this.credentials.get('password').value == '') {
       this.isLoggin = false;
       this.toast.error("Usuário e Senha precisam estar preenchidos.");
-    } else {
-      this.authService.authenticate(this.credentials.get('username').value, this.credentials.get('password').value)
+      return;
+    }
+
+    this.authService.authenticate(this.credentials.get('username').value, this.credentials.get('password').value)
         .subscribe({
           next: (data) => {
             this.cleanFields();
@@ -92,11 +159,9 @@ export class LoginComponent implements OnInit {
             this.personService.findByRequest().subscribe({
               next: (person) => {
                 localStorage.setItem('personName', person.name);
-                if (person.picture != null) {
-                  localStorage.setItem('personPicture', Urls.getS3() + person.picture);
-                } else {
-                  localStorage.setItem('personPicture', Urls.getDefaultPictureS3());
-                }
+                person.picture != null
+                  ? localStorage.setItem('personPicture', person.picture)
+                  : localStorage.setItem('personPicture', Urls.getDefaultPictureS3());
                 this.isLoggin = false;
                 this.router.navigate(['home']);
                 this.toast.success('Login realizado com sucesso', 'Login');
@@ -112,7 +177,6 @@ export class LoginComponent implements OnInit {
             this._handleErrors(err);
           }
         });
-    }
   }
 
   _handleErrors(ex): void {

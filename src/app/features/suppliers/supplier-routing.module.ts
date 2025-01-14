@@ -10,25 +10,24 @@ const routes: Routes = [
   {
     path: 'suppliers',
     component: NavComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
         canActivate: [AuthGuard],
         component: SuppliersListComponent,
-        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
+        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_SUPERVISOR, Roles.ROLE_MANAGER,]}
       },
       {
         path: 'create',
         canActivate: [AuthGuard],
         component: SuppliersFormComponent,
-        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
+        data: {role: [Roles.ROLE_ADMIN,]}
       },
       {
         path: 'edit/:id',
         canActivate: [AuthGuard],
         component: SuppliersFormComponent,
-        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL, Roles.ROLE_ADMIN_COMPANY, Roles.ROLE_ADMIN_OFFICE]}
+        data: {role: [Roles.ROLE_ADMIN,]}
       }
     ]
   }

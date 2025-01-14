@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TasksService} from "../../services/tasks.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -20,13 +21,73 @@ export class TasksListComponent implements OnInit {
   taskData = [];
   loading: boolean = true; // Estado de carregamento
 
-  constructor(private tasksService: TasksService, private toast: ToastrService, public router: Router) { }
+  userRole: string[] = [];
+  isAdmin: boolean = false;
+  isSupervisor: boolean = false;
+  isManager: boolean = false;
+  isUser: boolean = false;
+
+  constructor(
+    private tasksService: TasksService,
+    private toast: ToastrService,
+    private authService: AuthService,
+    public router: Router
+  ) { }
 
   ngOnInit(): void {
-    this._tasks();
+    this.userRole = this.authService.getRole();
+    this._checkPermission();
   }
 
-  _tasks() {
+  private _checkPermission(): void {
+    this.userRole.map((role) => {
+      switch (role) {
+        case 'ROLE_ADMIN':
+          this.isAdmin = true;
+          this._findTasksByOffice();
+          break;
+        case 'ROLE_SUPERVISOR':
+          this.isSupervisor = true;
+          break;
+        case 'ROLE_MANAGER':
+          this.isManager = true;
+          break;
+        case 'ROLE_USER':
+          this.isUser = true;
+          this._findTasksByUser();
+          break;
+        default:
+          this.isUser = true;
+      }
+    });
+  }
+
+  private _findTasksByUser() {
+    this.tasksService.findAll().subscribe({
+      next: (tasks) => {
+        if (tasks != null) {
+          tasks.forEach((response) => {
+            const task = [
+              response.id,
+              response.title,
+              response.person.id,
+              response.person.name,
+              response.person.responsibility.name,
+              response.status,
+            ];
+            this.taskData.push(task);
+          });
+        }
+        this.loading = false;
+      },
+      error: (ex) => {
+        this._handleErrors(ex);
+        this.loading = false;
+      },
+    });
+  }
+
+  private _findTasksByOffice() {
     this.tasksService.findAllByOffice().subscribe({
       next: (tasks) => {
         if (tasks != null) {

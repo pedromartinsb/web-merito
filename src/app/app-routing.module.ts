@@ -5,18 +5,12 @@ import { AuthGuard } from './auth/auth.guard';
 import { NavComponent } from './components/nav/nav.component';
 import { Roles } from './models/person';
 import { AppointmentCreateComponent } from './pages/appointment/appointment-create/appointment-create.component';
-import { CompanyFormComponent } from './pages/company/company-form/company-form.component';
-import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { FirstAccessComponent } from './pages/first-access/first-access.component';
 import { GoalFormComponent } from './pages/goal/goal-form/goal-form.component';
 import { GoalListComponent } from './pages/goal/goal-list/goal-list.component';
-import { HoldingFormComponent } from './pages/holding/holding-form/holding-form.component';
-import { HoldingListComponent } from './pages/holding/holding-list/holding-list.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
-import { OfficeFormComponent } from './pages/office/office-form/office-form.component';
-import { OfficeListComponent } from './pages/office/office-list/office-list.component';
 import { PermissionFormComponent } from './pages/permission/permission-form/permission-form.component';
 import { PersonAppointmentComponent } from './pages/person/person-appointment/person-appointment.component';
 import { PersonListComponent } from './pages/person/person-list/person-list.component';
@@ -24,19 +18,14 @@ import { ResponsibilityFormComponent } from './pages/responsibility/responsibili
 import { ResponsibilityListComponent } from './pages/responsibility/responsibility-list/responsibility-list.component';
 import { RoutineFormComponent } from './pages/routine/routine-form/routine-form.component';
 import { RoutineListComponent } from './pages/routine/routine-list/routine-list.component';
-import { SegmentFormComponent } from './pages/segment/segment-form/segment-form.component';
-import { SegmentListComponent } from './pages/segment/segment-list/segment-list.component';
-import { SuggestionFormComponent } from './pages/suggestion/suggestion-form/suggestion-form.component';
-import { SuggestionListComponent } from './pages/suggestion/suggestion-list/suggestion-list.component';
-import {ChangePasswordComponent} from "./pages/person/change-password/change-password.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: '', component: LoginComponent },
 
   {
     path: '',
     component: NavComponent,
-    canActivate: [AuthGuard],
     children: [
       // APPOINTMENT
       {
@@ -45,61 +34,9 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
           ],
-        },
-      },
-
-      // CHANGE PASSWORD
-      {
-        path: 'change-password',
-        component: ChangePasswordComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-            Roles.ROLE_USER_OFFICE,
-          ],
-        },
-      },
-
-      // COMPANY
-      {
-        path: 'company',
-        component: CompanyListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL],
-        },
-      },
-      {
-        path: 'company/create',
-        component: CompanyFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL],
-        },
-      },
-      {
-        path: 'company/holding/:holdingId',
-        component: CompanyListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL],
-        },
-      },
-      {
-        path: 'company/edit/:id',
-        component: CompanyFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN, Roles.ROLE_ADMIN_GERAL],
         },
       },
 
@@ -110,10 +47,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
           ],
         },
       },
@@ -126,10 +61,9 @@ const routes: Routes = [
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-            Roles.ROLE_USER_OFFICE,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
+            Roles.ROLE_USER,
           ],
         },
       },
@@ -141,10 +75,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
           ],
         },
       },
@@ -154,10 +86,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
           ],
         },
       },
@@ -167,10 +97,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
           ],
         },
       },
@@ -180,109 +108,23 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
           ],
-        },
-      },
-
-      // HOLDING
-      {
-        path: 'holding',
-        component: HoldingListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN],
-        },
-      },
-      {
-        path: 'holding/segment/:segmentId',
-        component: HoldingListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN],
-        },
-      },
-      {
-        path: 'holding/create',
-        component: HoldingFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN],
-        },
-      },
-      {
-        path: 'holding/edit/:id',
-        component: HoldingFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN],
         },
       },
 
       // HOME
-      { path: 'home', component: HomeComponent },
-
-      // OFFICE
       {
-        path: 'office',
-        component: OfficeListComponent,
+        path: 'home',
+        component: HomeComponent,
         canActivate: [AuthGuard],
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-          ],
-        },
-      },
-      {
-        path: 'office/holding/:holdingId',
-        component: OfficeListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-          ],
-        },
-      },
-      {
-        path: 'office/company/:companyId',
-        component: OfficeListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-          ],
-        },
-      },
-      {
-        path: 'office/create',
-        component: OfficeFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-          ],
-        },
-      },
-      {
-        path: 'office/edit/:id',
-        component: OfficeFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
+            Roles.ROLE_USER,
           ],
         },
       },
@@ -305,48 +147,8 @@ const routes: Routes = [
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-          ],
-        },
-      },
-      {
-        path: 'person/holding/:holdingId',
-        component: PersonListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-          ],
-        },
-      },
-      {
-        path: 'person/company/:companyId',
-        component: PersonListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-          ],
-        },
-      },
-      {
-        path: 'person/office/:officeId',
-        component: PersonListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
           ],
         },
       },
@@ -357,22 +159,8 @@ const routes: Routes = [
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-          ],
-        },
-      },
-      {
-        path: 'person/:idPerson/routine/create',
-        component: RoutineFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
+            Roles.ROLE_SUPERVISOR,
+            Roles.ROLE_MANAGER,
           ],
         },
       },
@@ -385,9 +173,6 @@ const routes: Routes = [
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
           ],
         },
       },
@@ -398,9 +183,6 @@ const routes: Routes = [
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
           ],
         },
       },
@@ -411,9 +193,6 @@ const routes: Routes = [
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
           ],
         },
       },
@@ -426,9 +205,6 @@ const routes: Routes = [
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
           ],
         },
       },
@@ -439,9 +215,6 @@ const routes: Routes = [
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
           ],
         },
       },
@@ -452,9 +225,6 @@ const routes: Routes = [
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
           ],
         },
       },
@@ -465,76 +235,6 @@ const routes: Routes = [
         data: {
           role: [
             Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-          ],
-        },
-      },
-
-      // SEGMENT
-      {
-        path: 'segment',
-        component: SegmentListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN],
-        },
-      },
-      {
-        path: 'segment/create',
-        component: SegmentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN],
-        },
-      },
-      {
-        path: 'segment/edit/:id',
-        component: SegmentFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN],
-        },
-      },
-
-      // SUGGESTION
-      {
-        path: 'suggestion',
-        component: SuggestionListComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-          ],
-        },
-      },
-      {
-        path: 'suggestion/create',
-        component: SuggestionFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
-          ],
-        },
-      },
-      {
-        path: 'suggestion/edit/:id',
-        component: SuggestionFormComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [
-            Roles.ROLE_ADMIN,
-            Roles.ROLE_ADMIN_GERAL,
-            Roles.ROLE_ADMIN_COMPANY,
-            Roles.ROLE_ADMIN_OFFICE,
           ],
         },
       },

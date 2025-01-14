@@ -3,30 +3,23 @@ import { RouterModule, Routes } from '@angular/router';
 import {AuthGuard} from "../../auth/auth.guard";
 import {Roles} from "../../models/person";
 import {NavComponent} from "../../components/nav/nav.component";
-import { DocumentsListComponent } from './components/documents-list/documents-list.component';
-import { DocumentsUploadComponent } from './components/documents-upload/documents-upload.component';
+import { ChangePasswordFormComponent } from './components/change-password-form/change-password-form.component';
 
 const routes: Routes = [
   {
-    path: 'documents',
+    path: 'change-password',
     component: NavComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
         canActivate: [AuthGuard],
-        component: DocumentsListComponent,
-        data: {}
-      },
-      {
-        path: 'upload',
-        canActivate: [AuthGuard],
-        component: DocumentsUploadComponent,
+        component: ChangePasswordFormComponent,
         data: {
           role: [
-            Roles.ROLE_SUPERVISOR,
             Roles.ROLE_ADMIN,
+            Roles.ROLE_SUPERVISOR,
             Roles.ROLE_MANAGER,
+            Roles.ROLE_USER,
           ]
         }
       },
@@ -38,4 +31,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DocumentsRoutingModule { }
+export class ChangePasswordRoutingModule { }
