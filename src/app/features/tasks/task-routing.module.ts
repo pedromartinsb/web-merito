@@ -15,19 +15,19 @@ const routes: Routes = [
         path: '',
         canActivate: [AuthGuard],
         component: TasksListComponent,
-        data: {role: [Roles.ROLE_ADMIN, Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR, Roles.ROLE_USER]}
+        data: {role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR, Roles.ROLE_USER]}
       },
       {
         path: 'create',
         canActivate: [AuthGuard],
         component: EmployeeFormComponent,
-        data: {role: [Roles.ROLE_ADMIN,]}
+        data: {role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR]}
       },
       {
         path: 'edit/:id',
         canActivate: [AuthGuard],
         component: EmployeeFormComponent,
-        data: {role: [Roles.ROLE_ADMIN,]}
+        data: {role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR]}
       }
     ]
   }

@@ -36,29 +36,28 @@ export class GoalsListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.userRole = this.authService.getRole();
     this._checkPermission();
   }
 
   private _checkPermission(): void {
+    this.userRole = this.authService.getRole();
     this.userRole.map((role) => {
       switch (role) {
         case 'ROLE_ADMIN':
           this.isAdmin = true;
-          this._findGoalsByOffice();
           break;
         case 'ROLE_SUPERVISOR':
           this.isSupervisor = true;
+          this._findGoalsByOffice();
           break;
         case 'ROLE_MANAGER':
           this.isManager = true;
+          this._findGoalsByOffice();
           break;
         case 'ROLE_USER':
           this.isUser = true;
           this._findGoalsByUser();
           break;
-        default:
-          this.isUser = true;
       }
     });
   }

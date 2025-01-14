@@ -35,34 +35,34 @@ export class TasksListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.userRole = this.authService.getRole();
     this._checkPermission();
   }
 
   private _checkPermission(): void {
+    this.userRole = this.authService.getRole();
     this.userRole.map((role) => {
       switch (role) {
         case 'ROLE_ADMIN':
           this.isAdmin = true;
-          this._findTasksByOffice();
           break;
         case 'ROLE_SUPERVISOR':
           this.isSupervisor = true;
+          this._findTasksByOffice();
           break;
         case 'ROLE_MANAGER':
           this.isManager = true;
+          this._findTasksByOffice();
           break;
         case 'ROLE_USER':
           this.isUser = true;
           this._findTasksByUser();
           break;
-        default:
-          this.isUser = true;
       }
     });
   }
 
   private _findTasksByUser() {
+    this.loading = true;
     this.tasksService.findAll().subscribe({
       next: (tasks) => {
         if (tasks != null) {

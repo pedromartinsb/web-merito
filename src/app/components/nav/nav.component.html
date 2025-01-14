@@ -36,6 +36,16 @@
     <span>Rotinas</span>
   </div>
 
+  <div class="menu-item" routerLink="/tasks" routerLinkActive="active" *ngIf="isManager || isSupervisor">
+    <i class="fas fa-list-check"></i>
+    <span>Tarefas</span>
+  </div>
+
+  <div class="menu-item" routerLink="/goals" routerLinkActive="active" *ngIf="isManager || isSupervisor">
+    <i class="fas fa-bullseye"></i>
+    <span>Metas</span>
+  </div>
+
   <div class="menu-item" routerLink="/routines" routerLinkActive="active" *ngIf="isUser">
     <i class="fas fa-briefcase"></i>
     <span>Minhas Rotinas</span>
