@@ -1,16 +1,36 @@
-# Editor configuration, see https://editorconfig.org
+# EditorConfig, padrão para formatação de código
 root = true
 
 [*]
-charset = utf-8
+# Identação: 2 ou 4 espaços
 indent_style = space
 indent_size = 2
-insert_final_newline = true
+
+# Final de linha
+end_of_line = lf
+
+# Codificação
+charset = utf-8
+
+# Remover espaços em branco no final de linhas
 trim_trailing_whitespace = true
 
-[*.ts]
-quote_type = single
+# Adicionar nova linha no final de arquivos
+insert_final_newline = true
+
+# Máximo de largura de linha (opcional, útil para Markdown)
+max_line_length = 120
 
 [*.md]
-max_line_length = off
+# Markdown geralmente utiliza largura de linha maior e permite espaços no final
 trim_trailing_whitespace = false
+
+
+[*.js]
+indent_size = 2
+
+[*.html]
+indent_size = 2
+
+[*.py]
+indent_size = 4

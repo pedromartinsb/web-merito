@@ -4,15 +4,10 @@
   padding: 0;
 }
 
-body {
-  display: flex;
-  min-height: 100vh;
-  background-color: #f7f7f7; /* Cor de fundo clara */
-}
-
 .sidebar {
   width: 250px;
-  background-color: #f1f1f1; /* Fundo branco */
+  /* background-color: #f1f1f1; */
+  background-color: var(--white);
   padding: 20px;
   position: fixed;
   height: 100vh;
@@ -102,10 +97,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(100% - 250px);
   margin-left: 200px;
   min-height: 100vh;
-  padding-top: 20px;
+  background-color: var(--white);
 }
 
 .content {
@@ -162,9 +156,7 @@ p {
   bottom: 80px;
   right: 20px;
   z-index: 1000;
-  transform: translateY(
-    -4px
-  ); /* Opcional: cria um pequeno espaço entre o botão e o dropdown */
+  transform: translateY(-4px); /* Opcional: cria um pequeno espaço entre o botão e o dropdown */
 }
 
 .floating-chat-btn {
@@ -240,7 +232,6 @@ p {
   border-radius: 10px;
 }
 
-
 /* Responsividade para sidebar */
 @media (max-width: 768px) {
   .sidebar {
@@ -297,4 +288,3 @@ p {
     display: flex; /* Exibe o botão apenas em telas menores */
   }
 }
-
