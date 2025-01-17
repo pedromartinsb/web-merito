@@ -129,6 +129,8 @@ import { RoutinesFormComponent } from './features/routines/components/routines-f
 import { ChangePasswordFormComponent } from './features/change-password/components/change-password-form/change-password-form.component';
 import { EmployeeRoutingModule } from './features/employees/employee-routing.module';
 import { ChangePasswordRoutingModule } from './features/change-password/dashboard-routing.module';
+import { DashComponent } from './pages/dash/dash.component';
+import { LayoutModule } from '@angular/cdk/layout';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -209,6 +211,7 @@ export const maskConfig: Partial<IConfig> = {
     ResponsibilitiesFormComponent,
     RoutinesFormComponent,
     ChangePasswordFormComponent,
+    DashComponent,
   ],
     imports: [
         BrowserModule,
@@ -276,6 +279,7 @@ export const maskConfig: Partial<IConfig> = {
         NgxMaskModule.forRoot(maskConfig),
         NgbModule,
         NgOptimizedImage,
+        LayoutModule,
     ],
   providers: [
     AuthInterceptorProvider,

@@ -1,36 +1,35 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import * as ApexCharts from 'apexcharts';
-import { Subject } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import * as ApexCharts from "apexcharts";
+import { Subject } from "rxjs";
+import { AuthService } from "src/app/services/auth.service";
 import { ChartDataset, ChartOptions, ChartType } from "chart.js";
 import { Label } from "chartist";
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { HomeService } from 'src/app/services/home.service';
-import { Routine } from 'src/app/features/routines/routine.model';
-import { RoutinesService } from 'src/app/features/routines/services/routines.service';
-import { TasksService } from 'src/app/features/tasks/services/tasks.service';
-import { Task } from 'src/app/features/tasks/task.model';
-import { Goal } from 'src/app/features/goals/goal.model';
-import { GoalsService } from 'src/app/features/goals/services/goals.service';
+import { HomeService } from "src/app/services/home.service";
+import { Routine } from "src/app/features/routines/routine.model";
+import { RoutinesService } from "src/app/features/routines/services/routines.service";
+import { TasksService } from "src/app/features/tasks/services/tasks.service";
+import { Task } from "src/app/features/tasks/task.model";
+import { Goal } from "src/app/features/goals/goal.model";
+import { GoalsService } from "src/app/features/goals/services/goals.service";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-
-  public barChartLabels: Label[] = ['Segunda', 'Terca', 'Quarta', 'Quinta', 'Sexta'];
-  public barChartType: ChartType = 'bar';
+  public barChartLabels: Label[] = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta"];
+  public barChartType: ChartType = "bar";
   public barChartLegend = true;
-  public barChartData: ChartDataset<'bar'>[] = [];
+  public barChartData: ChartDataset<"bar">[] = [];
 
-  public lineChartLabels: Label[] = ['Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-  public lineChartType: ChartType = 'line';
+  public lineChartLabels: Label[] = ["Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+  public lineChartType: ChartType = "line";
   public lineChartLegend = true;
-  public lineChartData: ChartDataset<'line'>[] = [];
+  public lineChartData: ChartDataset<"line">[] = [];
 
   public pieChartOptions: ChartOptions = {
     responsive: true,
@@ -39,28 +38,26 @@ export class HomeComponent implements OnInit, OnDestroy {
     plugins: {
       legend: {
         labels: {
-          color: 'black',
-        }
-      }
+          color: "black",
+        },
+      },
     },
     elements: {
       arc: {
         backgroundColor: [
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(153, 102, 255, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
+          "rgba(255, 99, 132, 0.6)",
+          "rgba(153, 102, 255, 0.6)",
+          "rgba(255, 206, 86, 0.6)",
+          "rgba(75, 192, 192, 0.6)",
+          "rgba(54, 162, 235, 0.6)",
         ],
-      }
+      },
     },
   };
-  public pieChartLabels: Label[] = ['Vermelho', 'Laranja', 'Amarelo', 'Verde', 'Azul'];
-  public pieChartType: ChartType = 'pie';
+  public pieChartLabels: Label[] = ["Vermelho", "Laranja", "Amarelo", "Verde", "Azul"];
+  public pieChartType: ChartType = "pie";
   public pieChartLegend = true;
-  public pieChartData: ChartDataset<'pie'>[] = [
-    { data: [300, 50, 100, 80, 150], label: 'Distribuição' }
-  ];
+  public pieChartData: ChartDataset<"pie">[] = [{ data: [300, 50, 100, 80, 150], label: "Distribuição" }];
   destroyed = new Subject<void>();
 
   isAdmin: boolean = false;
@@ -71,10 +68,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   userRole: string[] = [];
 
   items = [
-    { name: 'Item 1', value: '10' },
-    { name: 'Item 2', value: '20' },
-    { name: 'Item 3', value: '30' },
-    { name: 'Item 4', value: '40' },
+    { name: "Item 1", value: "10" },
+    { name: "Item 2", value: "20" },
+    { name: "Item 3", value: "30" },
+    { name: "Item 4", value: "40" },
   ];
   routines: Routine[] = [];
   tasks = [];
@@ -93,7 +90,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._checkPermission();
     this._fetchChartData();
     this.formGroup = this.fb.group({
-      texto: []
+      texto: [],
     });
   }
 
@@ -101,29 +98,29 @@ export class HomeComponent implements OnInit, OnDestroy {
     const options = {
       series: [
         {
-          name: 'Registro Azul',
+          name: "Registro Azul",
           data: [44, 55, 41, 67, 22, 43],
         },
         {
-          name: 'Registro Verde',
+          name: "Registro Verde",
           data: [13, 23, 20, 8, 13, 27],
         },
         {
-          name: 'Registro Laranja',
+          name: "Registro Laranja",
           data: [11, 17, 15, 15, 21, 14],
         },
         {
-          name: 'Registro Amarelo',
+          name: "Registro Amarelo",
           data: [21, 7, 25, 13, 22, 8],
         },
         {
-          name: 'Registro Vermelho',
+          name: "Registro Vermelho",
           data: [21, 7, 25, 13, 22, 8],
         },
       ],
-      colors: ['#00308F', '#006A4E', '#E25822', '#FFD700', '#FF033E'],
+      colors: ["#00308F", "#006A4E", "#E25822", "#FFD700", "#FF033E"],
       chart: {
-        type: 'bar',
+        type: "bar",
         height: 350,
         stacked: false,
         toolbar: {
@@ -138,7 +135,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           breakpoint: 480,
           options: {
             legend: {
-              position: 'bottom',
+              position: "bottom",
               offsetX: -10,
               offsetY: 0,
             },
@@ -149,13 +146,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         bar: {
           horizontal: false,
           borderRadius: 1,
-          borderRadiusApplication: 'end',
-          borderRadiusWhenStacked: 'last',
+          borderRadiusApplication: "end",
+          borderRadiusWhenStacked: "last",
           dataLabels: {
             total: {
               enabled: true,
               style: {
-                fontSize: '15px',
+                fontSize: "15px",
                 fontWeight: 900,
               },
             },
@@ -163,26 +160,26 @@ export class HomeComponent implements OnInit, OnDestroy {
         },
       },
       xaxis: {
-        type: 'datetime',
+        type: "datetime",
         categories: [
-          '01/01/2024 GMT',
-          '01/02/2024 GMT',
-          '01/03/2024 GMT',
-          '01/04/2024 GMT',
-          '01/05/2024 GMT',
-          '01/06/2024 GMT',
+          "01/01/2024 GMT",
+          "01/02/2024 GMT",
+          "01/03/2024 GMT",
+          "01/04/2024 GMT",
+          "01/05/2024 GMT",
+          "01/06/2024 GMT",
         ],
       },
       legend: {
-        position: 'left',
+        position: "left",
         offsetY: 100,
       },
       fill: {
         opacity: 0.8,
-        colors: ['#00308F', '#006A4E', '#E25822', '#FFD700', '#FF033E'],
+        colors: ["#00308F", "#006A4E", "#E25822", "#FFD700", "#FF033E"],
       },
     };
-    const chart = new ApexCharts(document.querySelector('#chart'), options);
+    const chart = new ApexCharts(document.querySelector("#chart"), options);
     chart.render();
   }
 
@@ -194,12 +191,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _fetchChartData(): void {
     this.homeService.getDashboard().subscribe((datasets) => {
       // Atualiza apenas os datasets dinamicamente
-      if (datasets['week']) {
-        this.barChartData = datasets['week'];
+      if (datasets["week"]) {
+        this.barChartData = datasets["week"];
       }
 
-      if (datasets['month']) {
-        this.lineChartData = datasets['month'];
+      if (datasets["month"]) {
+        this.lineChartData = datasets["month"];
       }
     });
   }
@@ -208,16 +205,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userRole = this.authService.getRole();
     this.userRole.map((role) => {
       switch (role) {
-        case 'ROLE_ADMIN':
+        case "ROLE_ADMIN":
           this.isAdmin = true;
           break;
-        case 'ROLE_SUPERVISOR':
+        case "ROLE_SUPERVISOR":
           this.isSupervisor = true;
           break;
-        case 'ROLE_MANAGER':
+        case "ROLE_MANAGER":
           this.isManager = true;
           break;
-        case 'ROLE_USER':
+        case "ROLE_USER":
           this.isUser = true;
           this._findRoutines();
           this._findTasks();
@@ -233,7 +230,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.routinesService.findAll().subscribe({
       next: (response: Routine[]) => {
         this.routines = response;
-      }
+      },
     });
   }
 
@@ -243,7 +240,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (tasks != null) {
           this.tasks = tasks;
         }
-      }
+      },
     });
   }
 
@@ -253,7 +250,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (goals != null) {
           this.goals = goals;
         }
-      }
+      },
     });
   }
 
