@@ -9,7 +9,11 @@
 
     <!-- Lista de Empresas -->
     <mat-form-field class="company-select">
-      <mat-select [(value)]="selectedCompany" (selectionChange)="editCompany($event)" matTooltip="{{ selectedCompany.fantasyName }}">
+      <mat-select
+        [(value)]="selectedCompany"
+        (selectionChange)="editCompany($event)"
+        matTooltip="{{ selectedCompany.fantasyName }}"
+      >
         <mat-option *ngFor="let company of officeResponses" [value]="company">
           <span (click)="changeCurrentOffice(company)">{{ company.fantasyName }}</span>
         </mat-option>

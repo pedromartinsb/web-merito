@@ -90,8 +90,6 @@ export class ZebraPersonTableComponent implements OnInit {
         case "ROLE_USER":
           this.isUser = true;
           break;
-        default:
-          this.isUser = true;
       }
     });
   }

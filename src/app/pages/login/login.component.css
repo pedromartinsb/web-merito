@@ -61,19 +61,19 @@ form {
 }
 
 .input-group {
-  padding: .5rem;
+  padding: 0.5rem;
   background-color: rgb(243 244 246);
   align-items: center;
   width: 16rem;
   display: flex;
-  margin-bottom: .75rem;
+  margin-bottom: 0.75rem;
   position: relative;
 }
 
 input {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  font-size: .875rem;
+  font-size: 0.875rem;
   line-height: 1.25rem;
   background-color: rgb(243 244 246);
   flex: 1 1 0;
@@ -82,7 +82,7 @@ input {
 .login-btn {
   color: var(--primary);
   font-weight: 600;
-  padding: .5rem 3rem;
+  padding: 0.5rem 3rem;
   border-color: var(--primary);
   border-width: 2px;
   border-radius: 9999px;
@@ -103,7 +103,7 @@ p {
 .sign-up {
   color: var(--white);
   font-weight: 600;
-  padding: .5rem 3rem;
+  padding: 0.5rem 3rem;
   border-color: var(--white);
   border-width: 2px;
   border-radius: 9999px;
@@ -150,8 +150,14 @@ button {
 .xsmall__input {
   outline: 2px solid black;
   outline-offset: 2px;
-  font-size: .875rem;
+  font-size: 0.875rem;
   line-height: 1.25rem;
   background-color: rgb(243 244 246);
   flex: 1 1 0;
+}
+
+.logo {
+  width: 100px; /* Largura do logo */
+  height: 100px; /* Altura do logo */
+  border-radius: 5px; /* Bordas arredondadas */
 }

@@ -19,6 +19,7 @@ import { Task } from "../../../../pages/person/person-appointment/person-appoint
 import { Modal } from "bootstrap";
 import { DatePipe, Location } from "@angular/common";
 import { GoalService } from "src/app/services/goal.service";
+import Swal from "sweetalert2";
 
 export interface Goal {
   id?: string;
@@ -1238,14 +1239,24 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     });
   }
 
-  _handleErrors(ex: any): void {
+  _handleErrors(ex): void {
     if (ex.error.errors) {
       ex.error.errors.forEach((element) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: element.message,
+        });
         this.toast.error(element.message);
       });
-    } else {
-      this.toast.error(ex.error.message);
+      return;
     }
+
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: ex.error.message,
+    });
   }
 
   formatTodayDates(date1: string, date2: string): { formattedDate1: string; formattedDate2: string } {

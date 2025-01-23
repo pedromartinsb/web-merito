@@ -1,10 +1,10 @@
 <!-- Botão de menu (hambúrguer) para dispositivos móveis -->
 <div class="menu-toggle" (click)="toggleSidebar()">☰</div>
 
-<div class="sidebar" [ngClass]="{ 'active': isSidebarActive }">
-  <div class="sidebar-header">
+<div class="sidebar" [ngClass]="{ active: isSidebarActive }">
+  <!-- <div class="sidebar-header">
     <img src="assets/img/logo-projecao-profissional.svg" alt="Logo" class="logo" />
-  </div>
+  </div> -->
 
   <div class="menu-item" routerLink="/home" routerLinkActive="active">
     <i class="fas fa-home"></i>
@@ -16,7 +16,12 @@
     <span>Funcionários</span>
   </div>
 
-  <div class="menu-item" routerLink="/professionals" routerLinkActive="active" *ngIf="isAdmin || isManager || isSupervisor">
+  <div
+    class="menu-item"
+    routerLink="/professionals"
+    routerLinkActive="active"
+    *ngIf="isAdmin || isManager || isSupervisor"
+  >
     <i class="fas fa-user-tie"></i>
     <span>Profissionais</span>
   </div>
@@ -69,7 +74,12 @@
     <span>Relatórios</span>
   </div>
 
-  <div class="menu-item" routerLink="/change-password" routerLinkActive="active" *ngIf="isManager || isSupervisor || isUser">
+  <div
+    class="menu-item"
+    routerLink="/change-password"
+    routerLinkActive="active"
+    *ngIf="isManager || isSupervisor || isUser"
+  >
     <i class="fas fa-user-gear"></i>
     <span>Configurações</span>
   </div>
@@ -77,7 +87,7 @@
   <div class="sidebar-footer">
     <div *ngIf="!this.isAdmin">
       <img [src]="personPicture" alt="photo" class="img-thumbnail" width="40" height="40" />
-      <br/>
+      <br />
       <span>Usuário: {{ personName }}</span>
     </div>
     <span>Permissão: {{ personRole }}</span>
@@ -89,7 +99,9 @@
 <!-- Modal para alterar as Empresas -->
 <div class="floating-btn" *ngIf="isAdmin || isManager || isSupervisor">
   <div class="btn-group dropup">
-    <button type="button" class="btn btn-primary dropdown-toggle" (click)="toggleDropdown()">{{firstOffice.fantasyName}}</button>
+    <button type="button" class="btn btn-primary dropdown-toggle" (click)="toggleDropdown()">
+      {{ firstOffice.fantasyName }}
+    </button>
     <ul class="dropdown-menu dropdown-menu-center custom-dropup" [class.show]="isDropdownOpen">
       <li *ngFor="let company of officeResponses">
         <a class="dropdown-item text-center" (click)="changeCurrentOffice(company)">{{ company.fantasyName }}</a>
@@ -132,7 +144,6 @@
     <input type="text" [(ngModel)]="newMessage" placeholder="Digite sua mensagem..." class="form-control" (keydown.enter)="sendMessage()"/>
   </div>
 </div> -->
-
 
 <div class="content-wrapper">
   <div class="content">
