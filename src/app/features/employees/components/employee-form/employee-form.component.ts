@@ -47,8 +47,8 @@ export class EmployeeFormComponent implements OnInit {
       id: [""],
       username: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
-      password: ["", Validators.minLength(6)],
-      confirmPassword: ["", Validators.minLength(6)],
+      password: [""],
+      confirmPassword: [""],
       cep: [""],
       city: [""],
       complement: [""],
@@ -82,7 +82,6 @@ export class EmployeeFormComponent implements OnInit {
     if (id) {
       this.personService.findById(id).subscribe({
         next: (response) => {
-          console.log(response);
           this.formGroup.get("id").patchValue(id);
           this.formGroup.get("name").patchValue(response.name);
           this.formGroup.get("email").patchValue(response.user.email);
