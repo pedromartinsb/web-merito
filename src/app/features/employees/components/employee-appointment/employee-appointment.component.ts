@@ -77,6 +77,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
   startDate = new Date();
   endDate = new Date();
   selectedTab = new FormControl(0);
+  maxLength = 255;
 
   abstinenceDocumentUrl: string | ArrayBuffer | null = null;
   vacationDocumentUrl: string | ArrayBuffer | null = null;
@@ -163,22 +164,22 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     this.formTask = new FormGroup({
       id: new FormControl(""),
       title: new FormControl(""),
-      description: new FormControl(""),
+      description: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
       startDate: new FormControl(""),
       endDate: new FormControl(""),
     });
     this.formGoal = new FormGroup({
       id: new FormControl(""),
       title: new FormControl(""),
-      description: new FormControl(""),
+      description: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
       startDate: new FormControl(""),
       endDate: new FormControl(""),
     });
     this.formAppointment = new FormGroup({
       id: new FormControl(""),
       personId: new FormControl(""),
-      description: new FormControl(""),
-      justification: new FormControl(""),
+      description: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
+      justification: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
       activityType: new FormControl(""),
       tagId: new FormControl(""),
       activityId: new FormControl(""),
@@ -187,7 +188,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     this.formAbstinence = new FormGroup({
       id: new FormControl(""),
       personId: new FormControl(""),
-      description: new FormControl(""),
+      description: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
       document: new FormControl(null, Validators.required),
       startDate: new FormControl("", Validators.required),
       endDate: new FormControl("", Validators.required),
@@ -195,7 +196,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     this.formVacation = new FormGroup({
       id: new FormControl(""),
       personId: new FormControl(""),
-      description: new FormControl(""),
+      description: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
       document: new FormControl(null, Validators.required),
       startDate: new FormControl("", Validators.required),
       endDate: new FormControl("", Validators.required),
@@ -217,6 +218,30 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     this._getLastThreeMonthTags();
     this._getLastFourMonthTags();
     this._getLastFiveMonthTags();
+  }
+
+  get taskDescription() {
+    return this.formTask.get("description");
+  }
+
+  get goalDescription() {
+    return this.formGoal.get("description");
+  }
+
+  get abstinenceDescription() {
+    return this.formAbstinence.get("description");
+  }
+
+  get vacationDescription() {
+    return this.formVacation.get("description");
+  }
+
+  get appointmentDescription() {
+    return this.formAppointment.get("description");
+  }
+
+  get appointmentJustification() {
+    return this.formAppointment.get("justification");
   }
 
   private _initializeTasks() {

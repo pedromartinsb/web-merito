@@ -71,6 +71,10 @@
               formControlName="description"
               placeholder="Digite sua descrição aqui"
             ></textarea>
+            <div *ngIf="taskDescription?.errors?.maxlength">
+              Máximo de letras excedido! Por favor, o limite de letras é de {{ maxLength }}.
+            </div>
+            <div>Letras restantes: {{ maxLength - (taskDescription?.value?.length || 0) }}</div>
           </div>
           <div class="row">
             <div class="col-md-6 mb-3">
@@ -82,7 +86,14 @@
               <input type="date" class="form-control" id="taskEndDate" formControlName="endDate" />
             </div>
           </div>
-          <button *ngIf="!isSavingTask" type="submit" class="btn btn-primary w-100">Salvar</button>
+          <button
+            *ngIf="!isSavingTask"
+            [disabled]="!formTask.get('description').valid && formTask.get('description').value != null"
+            type="submit"
+            class="btn btn-primary w-100"
+          >
+            Salvar
+          </button>
         </form>
         <div *ngIf="isSavingTask" class="spinner-container">
           <div class="spinner"></div>
@@ -168,6 +179,10 @@
               formControlName="description"
               placeholder="Digite sua descrição aqui"
             ></textarea>
+            <div *ngIf="goalDescription?.errors?.maxlength">
+              Máximo de letras excedido! Por favor, o limite de letras é de {{ maxLength }}.
+            </div>
+            <div>Letras restantes: {{ maxLength - (goalDescription?.value?.length || 0) }}</div>
           </div>
           <div class="row">
             <div class="col-md-6 mb-3">
@@ -179,7 +194,14 @@
               <input type="date" class="form-control" id="goalEndDate" formControlName="endDate" />
             </div>
           </div>
-          <button *ngIf="!isSavingGoal" type="submit" class="btn btn-primary w-100">Salvar</button>
+          <button
+            *ngIf="!isSavingGoal"
+            [disabled]="!formGoal.get('description').valid && formGoal.get('description').value != null"
+            type="submit"
+            class="btn btn-primary w-100"
+          >
+            Salvar
+          </button>
         </form>
         <div *ngIf="isSavingGoal" class="spinner-container">
           <div class="spinner"></div>
@@ -277,7 +299,7 @@
             <input class="form-control" id="id" formControlName="id" />
           </div>
           <div class="mb-3">
-            <label for="description" class="form-label">Observação</label>
+            <label for="description" class="form-label">Observação *</label>
             <textarea
               class="form-control"
               id="description"
@@ -285,6 +307,10 @@
               formControlName="description"
               placeholder="Digite a sua observaçao aqui"
             ></textarea>
+            <div *ngIf="appointmentDescription?.errors?.maxlength">
+              Máximo de letras excedido! Por favor, o limite de letras é de {{ maxLength }}.
+            </div>
+            <div>Letras restantes: {{ maxLength - (appointmentDescription?.value?.length || 0) }}</div>
           </div>
           <div class="mb-3">
             <label for="justification" class="form-label">Justificativa</label>
@@ -295,8 +321,22 @@
               formControlName="justification"
               placeholder="Digite a justificativa do funcionário aqui"
             ></textarea>
+            <div *ngIf="appointmentJustification?.errors?.maxlength">
+              Máximo de letras excedido! Por favor, o limite de letras é de {{ maxLength }}.
+            </div>
+            <div>Letras restantes: {{ maxLength - (appointmentJustification?.value?.length || 0) }}</div>
           </div>
-          <button *ngIf="!isSavingAppointment" type="submit" class="btn btn-primary w-100">Salvar</button>
+          <button
+            *ngIf="!isSavingAppointment"
+            [disabled]="
+              !formAppointment.get('description').valid ||
+              (!formAppointment.get('justification').valid && formAppointment.get('justification').value != null)
+            "
+            type="submit"
+            class="btn btn-primary w-100"
+          >
+            Salvar
+          </button>
         </form>
         <div *ngIf="isSavingAppointment" class="spinner-container">
           <div class="spinner"></div>
@@ -402,6 +442,10 @@
                 formControlName="description"
                 placeholder="Digite a observação"
               ></textarea>
+              <div *ngIf="abstinenceDescription?.errors?.maxlength">
+                Máximo de letras excedido! Por favor, o limite de letras é de {{ maxLength }}.
+              </div>
+              <div>Letras restantes: {{ maxLength - (abstinenceDescription?.value?.length || 0) }}</div>
             </div>
             <div class="mb-3">
               <label for="description" class="form-label">Documento</label>
@@ -418,7 +462,14 @@
               />
             </div>
           </div>
-          <button *ngIf="!isSavingAbstinence" type="submit" class="btn btn-primary w-100">Salvar</button>
+          <button
+            *ngIf="!isSavingAbstinence"
+            [disabled]="!formAbstinence.get('description').valid && formAbstinence.get('description').value != null"
+            type="submit"
+            class="btn btn-primary w-100"
+          >
+            Salvar
+          </button>
         </form>
         <div *ngIf="isSavingAbstinence" class="spinner-container">
           <div class="spinner"></div>
@@ -506,6 +557,10 @@
                 formControlName="description"
                 placeholder="Digite a observação"
               ></textarea>
+              <div *ngIf="vacationDescription?.errors?.maxlength">
+                Máximo de letras excedido! Por favor, o limite de letras é de {{ maxLength }}.
+              </div>
+              <div>Letras restantes: {{ maxLength - (vacationDescription?.value?.length || 0) }}</div>
             </div>
             <div class="mb-3">
               <label for="description" class="form-label">Documento</label>
@@ -522,7 +577,14 @@
               />
             </div>
           </div>
-          <button *ngIf="!isSavingVacation" type="submit" class="btn btn-primary w-100">Salvar</button>
+          <button
+            *ngIf="!isSavingVacation"
+            [disabled]="!formVacation.get('description').valid && formVacation.get('description').value != null"
+            type="submit"
+            class="btn btn-primary w-100"
+          >
+            Salvar
+          </button>
         </form>
         <div *ngIf="isSavingVacation" class="spinner-container">
           <div class="spinner"></div>
