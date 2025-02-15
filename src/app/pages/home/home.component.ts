@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public barChartType: ChartType = "bar";
   public barChartLegend = true;
   public barChartData: ChartDataset<"bar">[] = [];
+  public barChartMonthData: ChartDataset<"bar">[] = [];
 
   public lineChartLabels: Label[] = ["Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
   public lineChartType: ChartType = "line";
@@ -189,16 +190,33 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private _fetchChartData(): void {
-    this.homeService.getDashboard().subscribe((datasets) => {
-      // Atualiza apenas os datasets dinamicamente
-      if (datasets["week"]) {
-        this.barChartData = datasets["week"];
-      }
-
-      if (datasets["month"]) {
-        this.lineChartData = datasets["month"];
-      }
+    this.homeService.getDashboardByWeek().subscribe({
+      next: (response) => {
+        this.barChartData = response;
+      },
     });
+
+    // TODO: criar o gráfico para o mês
+
+    // this.homeService.getDashboardByMonth().subscribe({
+    //   next: (response) => {
+    //     console.log(response);
+    //     this.barChartMonthData = response;
+    //   },
+    // });
+
+    // this.homeService.getDashboard().subscribe((datasets) => {
+    //   console.log(datasets["week"]);
+
+    //   // Atualiza apenas os datasets dinamicamente
+    //   if (datasets["week"]) {
+    //     this.barChartData = datasets["week"];
+    //   }
+
+    //   if (datasets["month"]) {
+    //     this.lineChartData = datasets["month"];
+    //   }
+    // });
   }
 
   private _checkPermission(): void {
