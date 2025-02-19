@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-title>Chat</mat-card-title>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item *ngFor="let msg of messages">
+        <div>
+          <strong>{{ msg.username }}:</strong> {{ msg.content }}
+        </div>
+        <div class="timestamp">{{ msg.timestamp }}</div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Digite sua mensagem" [(ngModel)]="messageText" (keyup.enter)="sendMessage()" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="sendMessage()">Enviar</button>
+    <!-- Botão para iniciar a simulação -->
+    <button mat-raised-button color="accent" (click)="simulateConversation()">Simular Conversa</button>
+  </mat-card-actions>
+</mat-card>

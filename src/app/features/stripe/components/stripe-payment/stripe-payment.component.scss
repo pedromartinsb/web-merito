@@ -1,3 +1,9 @@
+.container {
+  max-width: 960px;
+  margin: 0 auto; // Centraliza horizontalmente
+  padding: 0 15px; // Espaçamento lateral opcional
+}
+
 .subscription-container {
   max-width: 600px;
   margin: 0 auto;

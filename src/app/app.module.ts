@@ -133,7 +133,16 @@ import { ChatComponent } from "./features/chat/components/chat.component";
 import { ChatRoutingModule } from "./features/chat/chat-routing.module";
 import { StripePaymentComponent } from "./features/stripe/components/stripe-payment/stripe-payment.component";
 import { StripeRoutingModule } from "./features/stripe/stripe-routing.module";
-import { PaymentSuccessComponent } from './features/stripe/components/payment-success/payment-success.component';
+import { PaymentSuccessComponent } from "./features/stripe/components/payment-success/payment-success.component";
+import { LandingPageComponent } from "./pages/landing-page/landing-page.component";
+import { FooterLandingPageComponent } from "./components/footer-landing-page/footer-landing-page.component";
+import { HeaderLandingPageComponent } from "./components/header-landing-page/header-landing-page.component";
+import { SigninComponent } from "./pages/sign-in/sign-in.component";
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { NavHeaderComponent } from './components/nav-header/nav-header.component';
+import { SelectCompanyComponent } from './pages/select-company/select-company.component';
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -218,6 +227,15 @@ export const maskConfig: Partial<IConfig> = {
     ChatComponent,
     StripePaymentComponent,
     PaymentSuccessComponent,
+    LandingPageComponent,
+    HeaderLandingPageComponent,
+    FooterLandingPageComponent,
+    SigninComponent,
+    ForgotPasswordComponent,
+    NavbarComponent,
+    MainLayoutComponent,
+    NavHeaderComponent,
+    SelectCompanyComponent,
   ],
   imports: [
     BrowserModule,

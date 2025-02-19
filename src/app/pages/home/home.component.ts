@@ -18,7 +18,7 @@ import { GoalsService } from "src/app/features/goals/services/goals.service";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.css"],
+  styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public barChartLabels: Label[] = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta"];

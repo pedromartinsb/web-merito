@@ -1,33 +1,39 @@
-<div class="subscription-container">
-  <h2>Escolha seu Plano</h2>
-  <div class="plan-selection">
-    <div
-      *ngFor="let plan of plans"
-      class="plan-card"
-      [class.selected]="selectedPlanId === plan.id"
-      (click)="selectPlan(plan.id)"
-      [class.disabled]="isLoading"
-    >
-      <h3>{{ plan.name }}</h3>
-      <p>{{ plan.description }}</p>
-      <p><strong>Preço:</strong> {{ plan.price / 100 | currency : "BRL" }}</p>
+<div class="container">
+  <app-header-landing-page></app-header-landing-page>
+
+  <div class="subscription-container">
+    <h2>Escolha seu Plano</h2>
+    <div class="plan-selection">
+      <div
+        *ngFor="let plan of plans"
+        class="plan-card"
+        [class.selected]="selectedPlanId === plan.id"
+        (click)="selectPlan(plan.id)"
+        [class.disabled]="isLoading"
+      >
+        <h3>{{ plan.name }}</h3>
+        <p>{{ plan.description }}</p>
+        <p><strong>Preço:</strong> {{ plan.price / 100 | currency : "BRL" }}</p>
+      </div>
+    </div>
+
+    <div class="payment-form">
+      <h2>Dados do Pagamento</h2>
+      <!-- Campo para o nome do cliente -->
+      <input type="text" [(ngModel)]="name" placeholder="Digite seu nome" [disabled]="isLoading" />
+      <input type="email" [(ngModel)]="email" placeholder="Digite seu e-mail" [disabled]="isLoading" />
+
+      <!-- Card estilizado -->
+      <div class="card-container">
+        <div id="card-element"></div>
+      </div>
+
+      <!-- Indicador de Loading -->
+      <div *ngIf="isLoading" class="loading-indicator">Processando pagamento, por favor aguarde...</div>
+
+      <button (click)="handleSubscribe()" [disabled]="isLoading">Assinar</button>
     </div>
   </div>
 
-  <div class="payment-form">
-    <h2>Dados do Pagamento</h2>
-    <!-- Campo para o nome do cliente -->
-    <input type="text" [(ngModel)]="name" placeholder="Digite seu nome" [disabled]="isLoading" />
-    <input type="email" [(ngModel)]="email" placeholder="Digite seu e-mail" [disabled]="isLoading" />
-
-    <!-- Card estilizado -->
-    <div class="card-container">
-      <div id="card-element"></div>
-    </div>
-
-    <!-- Indicador de Loading -->
-    <div *ngIf="isLoading" class="loading-indicator">Processando pagamento, por favor aguarde...</div>
-
-    <button (click)="handleSubscribe()" [disabled]="isLoading">Assinar</button>
-  </div>
+  <app-footer-landing-page></app-footer-landing-page>
 </div>

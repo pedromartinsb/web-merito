@@ -1,8 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-
 import { AuthGuard } from "./auth/auth.guard";
-import { NavComponent } from "./components/nav/nav.component";
 import { Roles } from "./models/person";
 import { AppointmentCreateComponent } from "./pages/appointment/appointment-create/appointment-create.component";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
@@ -19,15 +17,32 @@ import { ResponsibilityListComponent } from "./pages/responsibility/responsibili
 import { RoutineFormComponent } from "./pages/routine/routine-form/routine-form.component";
 import { RoutineListComponent } from "./pages/routine/routine-list/routine-list.component";
 import { DashComponent } from "./pages/dash/dash.component";
+import { LandingPageComponent } from "./pages/landing-page/landing-page.component";
+import { SigninComponent } from "./pages/sign-in/sign-in.component";
+import { ForgotPasswordComponent } from "./pages/forgot-password/forgot-password.component";
+import { NavbarComponent } from "./components/navbar/navbar.component";
+import { SelectCompanyComponent } from "./pages/select-company/select-company.component";
+import { CompanySelectedGuard } from "./middlewares/company-selected.guard";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
-  { path: "", component: LoginComponent },
+  { path: "", component: LandingPageComponent },
+  { path: "sign-in", component: SigninComponent },
+  { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "dash", component: DashComponent },
 
   {
+    path: "select-company",
+    component: SelectCompanyComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: [Roles.ROLE_ADMIN, Roles.ROLE_SUPERVISOR, Roles.ROLE_MANAGER, Roles.ROLE_USER],
+    },
+  },
+
+  {
     path: "",
-    component: NavComponent,
+    component: NavbarComponent,
     children: [
       // APPOINTMENT
       {
@@ -97,7 +112,7 @@ const routes: Routes = [
       {
         path: "home",
         component: HomeComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, CompanySelectedGuard],
         data: {
           role: [Roles.ROLE_ADMIN, Roles.ROLE_SUPERVISOR, Roles.ROLE_MANAGER, Roles.ROLE_USER],
         },

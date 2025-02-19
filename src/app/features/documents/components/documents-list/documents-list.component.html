@@ -9,10 +9,50 @@
 
   <h1 class="mb-4">Todos os Documentos Disponíveis</h1>
 
-  <div class="text-center mb-4">
+  <!-- <div class="text-center mb-4">
     <button class="btn btn-primary" (click)="router.navigate(['/documents/upload'])">
       Novo Documento
     </button>
+  </div> -->
+
+  <div id="fullPageContent" class="container my-5">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmitForm()">
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <label for="employeeId" class="form-label">Cargo</label>
+          <select
+            id="responsibilityId"
+            class="form-select"
+            formControlName="responsibilityId"
+            (change)="onResponsibilityChange($event)"
+            [ngClass]="{
+              'is-invalid': formGroup.get('responsibilityId')?.invalid && formGroup.get('responsibilityId')?.touched,
+              'is-valid': formGroup.get('responsibilityId')?.valid && formGroup.get('responsibilityId')?.touched
+            }"
+          >
+            <option value="" disabled selected>Selecione</option>
+            <option value="all" selected>Todos os Cargos</option>
+            <option *ngFor="let responsibility of responsibilities" [value]="responsibility.id">
+              {{ responsibility.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="formGroup.get('responsibilityId')?.invalid && formGroup.get('responsibilityId')?.touched"
+            class="invalid-feedback"
+          >
+            O cargo é obrigatório.
+          </div>
+        </div>
+        <div class="col-md-12 mb-3">
+          <button *ngIf="!isLoading" type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">
+            Pesquisar
+          </button>
+          <div *ngIf="isLoading" class="spinner-container">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 
   <div class="row">

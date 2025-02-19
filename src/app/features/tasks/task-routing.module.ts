@@ -1,40 +1,41 @@
-import {RouterModule, Routes} from "@angular/router";
-import {NavComponent} from "../../components/nav/nav.component";
-import {AuthGuard} from "../../auth/auth.guard";
-import {Roles} from "../../models/person";
-import {EmployeeFormComponent} from "../employees/components/employee-form/employee-form.component";
-import {NgModule} from "@angular/core";
-import {TasksListComponent} from "./components/tasks-list/tasks-list.component";
+import { RouterModule, Routes } from "@angular/router";
+import { NavComponent } from "../../components/nav/nav.component";
+import { AuthGuard } from "../../auth/auth.guard";
+import { Roles } from "../../models/person";
+import { EmployeeFormComponent } from "../employees/components/employee-form/employee-form.component";
+import { NgModule } from "@angular/core";
+import { TasksListComponent } from "./components/tasks-list/tasks-list.component";
+import { NavbarComponent } from "src/app/components/navbar/navbar.component";
 
 const routes: Routes = [
   {
-    path: 'tasks',
-    component: NavComponent,
+    path: "tasks",
+    component: NavbarComponent,
     children: [
       {
-        path: '',
+        path: "",
         canActivate: [AuthGuard],
         component: TasksListComponent,
-        data: {role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR, Roles.ROLE_USER]}
+        data: { role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR, Roles.ROLE_USER] },
       },
       {
-        path: 'create',
+        path: "create",
         canActivate: [AuthGuard],
         component: EmployeeFormComponent,
-        data: {role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR]}
+        data: { role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR] },
       },
       {
-        path: 'edit/:id',
+        path: "edit/:id",
         canActivate: [AuthGuard],
         component: EmployeeFormComponent,
-        data: {role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR]}
-      }
-    ]
-  }
-]
+        data: { role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR] },
+      },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class TaskRoutingModule { }
+export class TaskRoutingModule {}

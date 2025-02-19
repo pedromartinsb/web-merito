@@ -6,11 +6,12 @@ import { AuthGuard } from "../../auth/auth.guard";
 import { Roles } from "../../models/person";
 import { NavComponent } from "../../components/nav/nav.component";
 import { EmployeeAppointmentComponent } from "./components/employee-appointment/employee-appointment.component";
+import { NavbarComponent } from "src/app/components/navbar/navbar.component";
 
 const routes: Routes = [
   {
     path: "employees",
-    component: NavComponent,
+    component: NavbarComponent,
     children: [
       {
         path: "",

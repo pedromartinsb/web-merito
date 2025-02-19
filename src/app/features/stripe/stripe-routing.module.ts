@@ -8,18 +8,15 @@ import { PaymentSuccessComponent } from "./components/payment-success/payment-su
 
 const routes: Routes = [
   {
-    path: "stripe",
-    component: NavComponent,
+    path: "subscription",
     children: [
       {
-        path: "subscription",
-        canActivate: [AuthGuard],
+        path: "",
         component: StripePaymentComponent,
         data: { role: [Roles.ROLE_ADMIN, Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR, Roles.ROLE_USER] },
       },
       {
         path: "success",
-        canActivate: [AuthGuard],
         component: PaymentSuccessComponent,
         data: { role: [Roles.ROLE_ADMIN, Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR, Roles.ROLE_USER] },
       },

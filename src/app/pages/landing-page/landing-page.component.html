@@ -1,0 +1,49 @@
+<div class="container">
+  <app-header-landing-page></app-header-landing-page>
+
+  <div class="landing-page">
+    <!-- Seção Hero -->
+    <section class="hero">
+      <h1>{{ headline }}</h1>
+      <p>{{ subheadline }}</p>
+      <div class="hero-actions">
+        <button class="btn primary" (click)="goToPlans()">Contrate Agora</button>
+        <button class="btn secondary" (click)="goToLogin()">Login</button>
+      </div>
+    </section>
+
+    <!-- Seção de Funcionalidades -->
+    <section class="features">
+      <h2>Funcionalidades</h2>
+      <div class="features-list">
+        <div class="feature-item" *ngFor="let feature of features">
+          <h3>{{ feature.title }}</h3>
+          <p>{{ feature.description }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção de Testemunhos -->
+    <section class="testimonials">
+      <h2>O que nossos clientes dizem</h2>
+      <div class="testimonials-list">
+        <div class="testimonial-item" *ngFor="let testimonial of testimonials">
+          <img [src]="testimonial.image" alt="{{ testimonial.name }}" />
+          <blockquote>{{ testimonial.testimonial }}</blockquote>
+          <p class="client-info">{{ testimonial.name }} - {{ testimonial.title }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chamada para Ação no Rodapé -->
+    <section class="cta-footer">
+      <p>Pronto para transformar sua gestão de talentos?</p>
+      <div class="cta-actions">
+        <button class="btn primary" (click)="goToPlans()">Contrate Agora</button>
+        <button class="btn secondary" (click)="goToLogin()">Login</button>
+      </div>
+    </section>
+  </div>
+
+  <app-footer-landing-page></app-footer-landing-page>
+</div>

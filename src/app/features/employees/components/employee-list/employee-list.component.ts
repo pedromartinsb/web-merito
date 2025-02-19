@@ -39,8 +39,11 @@ export class EmployeeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._cleanEmployeeData();
+
     this.userRole = this.authService.getRole();
     this._checkPermission();
+
     this.employeeService.findAllEmployees().subscribe({
       next: (employees) => {
         if (employees != null) {
@@ -65,6 +68,10 @@ export class EmployeeListComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  private _cleanEmployeeData() {
+    this.employeeData = [];
   }
 
   private _checkPermission(): void {

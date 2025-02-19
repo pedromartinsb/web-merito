@@ -84,6 +84,11 @@
     <span>Configurações</span>
   </div>
 
+  <div class="menu-item" routerLink="/chat" routerLinkActive="active" *ngIf="isManager || isSupervisor || isUser">
+    <i class="fas fa-comments"></i>
+    <span>Chat</span>
+  </div>
+
   <div class="sidebar-footer">
     <div *ngIf="!this.isAdmin">
       <img [src]="personPicture" alt="photo" class="img-thumbnail" width="40" height="40" />
