@@ -109,7 +109,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.navItems.push(
       { label: "Home", icon: "fas fa-home", route: "/home" },
       { label: "Funcionários", icon: "fas fa-users", route: "/employees" },
-      { label: "Professional", icon: "fas fa-user-tie", route: "/professionals" },
+      { label: "Profissionais", icon: "fas fa-user-tie", route: "/professionals" },
       { label: "Fornecedores", icon: "fas fa-truck-field", route: "/suppliers" },
       { label: "Cargos", icon: "fas fa-suitcase", route: "/responsibilities" },
       { label: "Rotinas", icon: "fas fa-list-check", route: "/routines" },
@@ -122,7 +122,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.navItems.push(
       { label: "Home", icon: "fas fa-home", route: "/home" },
       { label: "Funcionários", icon: "fas fa-users", route: "/employees" },
-      { label: "Professional", icon: "fas fa-user-tie", route: "/professionals" },
+      { label: "Profissionais", icon: "fas fa-user-tie", route: "/professionals" },
       { label: "Fornecedores", icon: "fas fa-truck-field", route: "/suppliers" },
       { label: "Tarefas", icon: "fas fa-list-check", route: "/tasks" },
       { label: "Metas", icon: "fas fa-bullseye", route: "/goals" },
@@ -139,7 +139,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.navItems.push(
       { label: "Home", icon: "fas fa-home", route: "/home" },
       { label: "Funcionários", icon: "fas fa-users", route: "/employees" },
-      { label: "Professional", icon: "fas fa-user-tie", route: "/professionals" },
+      { label: "Profissionais", icon: "fas fa-user-tie", route: "/professionals" },
       { label: "Fornecedores", icon: "fas fa-truck-field", route: "/suppliers" },
       { label: "Tarefas", icon: "fas fa-list-check", route: "/tasks" },
       { label: "Metas", icon: "fas fa-bullseye", route: "/goals" },

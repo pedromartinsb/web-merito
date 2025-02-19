@@ -72,6 +72,11 @@ export class SigninComponent {
               ? localStorage.setItem("personPicture", person.picture)
               : localStorage.setItem("personPicture", Urls.getDefaultPictureS3());
             this.isLoading = false;
+
+            if (person.user.firstAccess) {
+              this.router.navigate(["first-access"]);
+              return;
+            }
             this.router.navigate(["select-company"]);
           },
           error: (err: HttpErrorResponse) => {

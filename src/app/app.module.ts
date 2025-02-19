@@ -138,11 +138,12 @@ import { LandingPageComponent } from "./pages/landing-page/landing-page.componen
 import { FooterLandingPageComponent } from "./components/footer-landing-page/footer-landing-page.component";
 import { HeaderLandingPageComponent } from "./components/header-landing-page/header-landing-page.component";
 import { SigninComponent } from "./pages/sign-in/sign-in.component";
-import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
-import { NavHeaderComponent } from './components/nav-header/nav-header.component';
-import { SelectCompanyComponent } from './pages/select-company/select-company.component';
+import { ForgotPasswordComponent } from "./pages/forgot-password/forgot-password.component";
+import { NavbarComponent } from "./components/navbar/navbar.component";
+import { MainLayoutComponent } from "./components/main-layout/main-layout.component";
+import { NavHeaderComponent } from "./components/nav-header/nav-header.component";
+import { SelectCompanyComponent } from "./pages/select-company/select-company.component";
+import { PageNotFoundComponent } from "./pages/page-not-found/page-not-found.component";
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -236,13 +237,13 @@ export const maskConfig: Partial<IConfig> = {
     MainLayoutComponent,
     NavHeaderComponent,
     SelectCompanyComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
 
-    AppRoutingModule,
     EmployeeRoutingModule,
     SupplierRoutingModule,
     ProfessionalRoutingModule,
@@ -256,6 +257,8 @@ export const maskConfig: Partial<IConfig> = {
     ChangePasswordRoutingModule,
     ChatRoutingModule,
     StripeRoutingModule,
+
+    AppRoutingModule,
 
     BrowserAnimationsModule,
     CommonModule,

@@ -23,6 +23,7 @@ import { ForgotPasswordComponent } from "./pages/forgot-password/forgot-password
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { SelectCompanyComponent } from "./pages/select-company/select-company.component";
 import { CompanySelectedGuard } from "./middlewares/company-selected.guard";
+import { PageNotFoundComponent } from "./pages/page-not-found/page-not-found.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -34,6 +35,15 @@ const routes: Routes = [
   {
     path: "select-company",
     component: SelectCompanyComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: [Roles.ROLE_ADMIN, Roles.ROLE_SUPERVISOR, Roles.ROLE_MANAGER, Roles.ROLE_USER],
+    },
+  },
+
+  {
+    path: "first-access",
+    component: FirstAccessComponent,
     canActivate: [AuthGuard],
     data: {
       role: [Roles.ROLE_ADMIN, Roles.ROLE_SUPERVISOR, Roles.ROLE_MANAGER, Roles.ROLE_USER],
@@ -61,16 +71,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           role: [Roles.ROLE_SUPERVISOR, Roles.ROLE_MANAGER],
-        },
-      },
-
-      // FIRST ACCESS
-      {
-        path: "first-access",
-        component: FirstAccessComponent,
-        canActivate: [AuthGuard],
-        data: {
-          role: [Roles.ROLE_ADMIN, Roles.ROLE_SUPERVISOR, Roles.ROLE_MANAGER, Roles.ROLE_USER],
         },
       },
 
@@ -207,6 +207,9 @@ const routes: Routes = [
       },
     ],
   },
+
+  // Rota curinga: qualquer caminho não definido redireciona para a página de erro
+  { path: "**", component: PageNotFoundComponent },
 ];
 
 @NgModule({
