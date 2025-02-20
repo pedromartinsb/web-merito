@@ -1,5 +1,11 @@
+import { ForgotPasswordService } from "./../../services/forgot-password.service";
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+
+export interface ForgotPassword {
+  email: string;
+}
 
 @Component({
   selector: "app-forgot-password",
@@ -12,9 +18,13 @@ export class ForgotPasswordComponent {
   message: string = "";
   errorMessage: string = "";
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private forgotPasswordService: ForgotPasswordService,
+    private toast: ToastrService
+  ) {}
 
-  resetPassword(): void {
+  forgotPassword(): void {
     if (!this.email) {
       this.message = "";
       this.errorMessage = "Por favor, informe seu e-mail.";
@@ -24,15 +34,14 @@ export class ForgotPasswordComponent {
       return;
     }
     this.isLoading = true;
-    // Simulação do envio de instruções para redefinir a senha
-    setTimeout(() => {
-      this.isLoading = false;
-      this.errorMessage = "";
-      this.message =
-        "Instruções para redefinir sua senha foram enviadas para seu e-mail. Você será redirecionado para tela de Login...";
-      setTimeout(() => {
+
+    const forgotPassword: ForgotPassword = { email: this.email };
+    this.forgotPasswordService.forgotPassword(forgotPassword).subscribe({
+      next: () => {
+        this.toast.success("Instruções para redefinir sua senha foram enviadas para seu e-mail.");
         this.router.navigate(["/sign-in"]);
-      }, 2000);
-    }, 2000);
+      },
+      error: (err) => this.toast.error("Ocorreu um erro para enviar e-mail."),
+    });
   }
 }

@@ -24,6 +24,7 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { SelectCompanyComponent } from "./pages/select-company/select-company.component";
 import { CompanySelectedGuard } from "./middlewares/company-selected.guard";
 import { PageNotFoundComponent } from "./pages/page-not-found/page-not-found.component";
+import { ResetPasswordComponent } from "./pages/reset-password/reset-password.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: "sign-in", component: SigninComponent },
   { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "dash", component: DashComponent },
+  { path: "reset-password", component: ResetPasswordComponent },
 
   {
     path: "select-company",

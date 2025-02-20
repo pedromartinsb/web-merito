@@ -1,7 +1,7 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { catchError, retry, throwError } from "rxjs";
+import { retry } from "rxjs";
 
 import { Config } from "../config/api.config";
 import { Login } from "./../models/login";
