@@ -34,6 +34,15 @@ export class DocumentsService {
     return this.http.get<PdfDocumentResponse[]>(`${Config.webApiUrl}/v1/document/${responsibilityId}/responsibility`);
   }
 
+  findDocumentsByResponsibilityIdAndDocumentType(
+    responsibilityId: string,
+    documentType: string
+  ): Observable<PdfDocumentResponse> {
+    return this.http.get<PdfDocumentResponse>(
+      `${Config.webApiUrl}/v1/document/${responsibilityId}/responsibility/${documentType}/document-type`
+    );
+  }
+
   upload(pdfDocument: PdfDocumentRequest, file: File): Observable<PdfDocumentResponse> {
     const formData = new FormData();
     formData.append("file", file);

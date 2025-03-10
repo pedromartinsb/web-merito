@@ -19,7 +19,7 @@ import { Task } from "../../../../pages/person/person-appointment/person-appoint
 import { Modal } from "bootstrap";
 import { DatePipe, Location } from "@angular/common";
 import { GoalService } from "src/app/services/goal.service";
-import Swal from "sweetalert2";
+import { DocumentsService } from "src/app/features/documents/services/documents.service";
 
 export interface Goal {
   id?: string;
@@ -146,7 +146,8 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     private taskService: TaskService,
     private location: Location,
     private datePipe: DatePipe,
-    private goalService: GoalService
+    private goalService: GoalService,
+    private documentsService: DocumentsService
   ) {
     this._initializeFormsGroup();
     this._initializePerson();
@@ -156,6 +157,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     this._initializeAbstinenceList();
     this._initializeVacationList();
   }
+
   ngOnInit(): void {
     this._initializeTags();
   }
@@ -274,7 +276,6 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     this.appointmentService.findAbstinencesByPerson(this.personId).subscribe({
       next: (response) => {
         if (response != null) {
-          console.log(response);
           this.abstinences = response;
         }
       },
@@ -314,13 +315,14 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  // _getPersonId(): void {
-  //   this.personId = this.route.snapshot.params['id'];
-  // }
-
   _getPersonById(): void {
-    this.personService.findById(this.personId).subscribe((response) => {
-      this.person = response;
+    this.personService.findById(this.personId).subscribe({
+      next: (person) => {
+        this.person = person;
+      },
+      error: (err) => {
+        this._handleErrors(err);
+      },
     });
   }
 
@@ -815,7 +817,6 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     this.formAppointment.get("tagId").patchValue(tag.id);
     this.formAppointment.get("activityId").patchValue(activity.id);
 
-    console.log("this.selected", this.selected);
     if (this.selected == undefined) {
       this.selected = new Date();
     }
@@ -1173,8 +1174,6 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
       endDate: this.formAbstinence.get("endDate")?.value,
     };
 
-    console.log(this.formAbstinence.value);
-
     if (this.formAbstinence.get("id").value != null) {
       // update
       return;
@@ -1267,21 +1266,11 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
   _handleErrors(ex): void {
     if (ex.error.errors) {
       ex.error.errors.forEach((element) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: element.message,
-        });
         this.toast.error(element.message);
       });
       return;
     }
-
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: ex.error.message,
-    });
+    this.toast.error(ex.error.message);
   }
 
   formatTodayDates(date1: string, date2: string): { formattedDate1: string; formattedDate2: string } {
@@ -1331,5 +1320,31 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  openConductByResponsibility() {
+    console.log(this.person.responsibilityId);
+    this.documentsService
+      .findDocumentsByResponsibilityIdAndDocumentType(this.person.responsibilityId, "conduct")
+      .subscribe({
+        next: (response) => {
+          this.toast.success("Documento encontrado com sucesso.");
+          window.open(response.url, "_blank");
+        },
+        error: (err) => this._handleErrors(err),
+      });
+  }
+
+  openManualByResponsibility() {
+    console.log(this.person.responsibilityId);
+    this.documentsService
+      .findDocumentsByResponsibilityIdAndDocumentType(this.person.responsibilityId, "manual")
+      .subscribe({
+        next: (response) => {
+          this.toast.success("Documento encontrado com sucesso.");
+          window.open(response.url, "_blank");
+        },
+        error: (err) => this._handleErrors(err),
+      });
   }
 }
