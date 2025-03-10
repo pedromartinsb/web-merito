@@ -144,7 +144,8 @@ import { MainLayoutComponent } from "./components/main-layout/main-layout.compon
 import { NavHeaderComponent } from "./components/nav-header/nav-header.component";
 import { SelectCompanyComponent } from "./pages/select-company/select-company.component";
 import { PageNotFoundComponent } from "./pages/page-not-found/page-not-found.component";
-import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { ResetPasswordComponent } from "./pages/reset-password/reset-password.component";
+import { NgxExtendedPdfViewerModule } from "ngx-extended-pdf-viewer";
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -311,6 +312,7 @@ export const maskConfig: Partial<IConfig> = {
     NgbModule,
     NgOptimizedImage,
     LayoutModule,
+    NgxExtendedPdfViewerModule,
   ],
   providers: [AuthInterceptorProvider, DatePipe, { provide: MAT_DATE_LOCALE, useValue: "pt-BR" }],
   bootstrap: [AppComponent],

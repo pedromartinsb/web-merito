@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import Swal from "sweetalert2";
+import { ToastrService } from "ngx-toastr";
 
 interface Company {
   id: string;
@@ -18,7 +18,7 @@ export class SelectCompanyComponent {
   selectedCompanyId: string | null = null;
   errorMessage: string = "";
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private toast: ToastrService) {
     const companiesResponses = JSON.parse(localStorage.getItem("officeResponses"));
     companiesResponses.forEach((response: any) => {
       const company: Company = {
@@ -38,18 +38,10 @@ export class SelectCompanyComponent {
   proceed(): void {
     if (this.selectedCompanyId === null) {
       this.errorMessage = "Selecione uma empresa para avançar.";
+      this.toast.error("Selecione uma empresa para avançar.");
       return;
     }
-
-    Swal.fire({
-      icon: "success",
-      title: "Login efetuado com sucesso!",
-      backdrop: `
-                  rgba(77,77,77,0.4)
-                  left top
-                  no-repeat
-                `,
-    });
+    this.toast.success("Login efetuado com sucesso!");
 
     // Navegue para a tela home e passe o ID da empresa selecionada, se necessário
     this.router.navigate(["/home"]);

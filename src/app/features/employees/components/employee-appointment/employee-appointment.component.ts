@@ -4,7 +4,7 @@ import { MatCalendarCellClassFunction } from "@angular/material/datepicker";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { catchError, finalize, switchMap, tap } from "rxjs";
+import { finalize } from "rxjs";
 import { Activity, Appointment } from "src/app/models/appointment";
 import { Person } from "src/app/models/person";
 import { monthlyTag, Tag } from "src/app/models/tag";

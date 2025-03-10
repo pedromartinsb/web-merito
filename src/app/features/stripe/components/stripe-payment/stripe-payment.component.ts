@@ -100,7 +100,7 @@ export class StripePaymentComponent implements OnInit {
               } else {
                 console.log("Pagamento confirmado e assinatura ativa!", result.paymentIntent);
                 // Aqui você pode atualizar a interface ou notificar o usuário
-                this.router.navigate(["/stripe/success"], { state: { paymentId: result.paymentIntent.id } });
+                this.router.navigate(["/subscription/success"], { state: { paymentId: result.paymentIntent.id } });
               }
               this.isLoading = false;
             },

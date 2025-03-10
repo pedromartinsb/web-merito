@@ -1,23 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {TasksService} from "../../services/tasks.service";
-import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
-import { AuthService } from 'src/app/services/auth.service';
+import { Component, OnInit } from "@angular/core";
+import { TasksService } from "../../services/tasks.service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { AuthService } from "src/app/services/auth.service";
+import { formatDate } from "@angular/common";
 
 @Component({
-  selector: 'app-tasks-list',
-  templateUrl: './tasks-list.component.html',
-  styleUrls: ['./tasks-list.component.css']
+  selector: "app-tasks-list",
+  templateUrl: "./tasks-list.component.html",
+  styleUrls: ["./tasks-list.component.css"],
 })
 export class TasksListComponent implements OnInit {
-  taskHeaders = [
-    'Id',
-    'Título',
-    'PersonId',
-    'Funcionário',
-    'Cargo',
-    'Status'
-  ];
+  taskHeaders = ["Id", "Título", "PersonId", "Funcionário", "Cargo", "Status", "Data"];
   taskData = [];
   loading: boolean = true; // Estado de carregamento
 
@@ -32,7 +26,7 @@ export class TasksListComponent implements OnInit {
     private toast: ToastrService,
     private authService: AuthService,
     public router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this._checkPermission();
@@ -42,20 +36,23 @@ export class TasksListComponent implements OnInit {
     this.userRole = this.authService.getRole();
     this.userRole.map((role) => {
       switch (role) {
-        case 'ROLE_ADMIN':
+        case "ROLE_ADMIN":
           this.isAdmin = true;
           break;
-        case 'ROLE_SUPERVISOR':
+        case "ROLE_SUPERVISOR":
           this.isSupervisor = true;
           this._findTasksByOffice();
+          this.taskData.sort((a, b) => a.startDate.localeCompare(b.startDate));
           break;
-        case 'ROLE_MANAGER':
+        case "ROLE_MANAGER":
           this.isManager = true;
           this._findTasksByOffice();
+          this.taskData.sort((a, b) => a.startDate.localeCompare(b.startDate));
           break;
-        case 'ROLE_USER':
+        case "ROLE_USER":
           this.isUser = true;
           this._findTasksByUser();
+          this.taskData.sort((a, b) => a.startDate.localeCompare(b.startDate));
           break;
       }
     });
@@ -74,6 +71,7 @@ export class TasksListComponent implements OnInit {
               response.person.name,
               response.person.responsibility.name,
               response.status,
+              formatDate(response.startDate, "dd/MM/yyyy", "en-US"),
             ];
             this.taskData.push(task);
           });
@@ -99,6 +97,7 @@ export class TasksListComponent implements OnInit {
               response.person.name,
               response.person.responsibility.name,
               response.status,
+              formatDate(response.startDate, "dd/MM/yyyy", "en-US"),
             ];
             this.taskData.push(task);
           });
@@ -117,7 +116,7 @@ export class TasksListComponent implements OnInit {
     this.tasksService.finish(row[0]).subscribe({
       next: () => {
         window.location.reload();
-        this.toast.success('Tarefa concluída com sucesso.');
+        this.toast.success("Tarefa concluída com sucesso.");
       },
       error: (error: Error) => {
         this._handleErrors(error);
@@ -133,7 +132,7 @@ export class TasksListComponent implements OnInit {
     this.tasksService.cancel(row[0]).subscribe({
       next: () => {
         window.location.reload();
-        this.toast.success('Tarefa cancelada com sucesso.');
+        this.toast.success("Tarefa cancelada com sucesso.");
       },
       error: (error: Error) => {
         this._handleErrors(error);
@@ -150,5 +149,4 @@ export class TasksListComponent implements OnInit {
       this.toast.error(ex.error.message);
     }
   }
-
 }

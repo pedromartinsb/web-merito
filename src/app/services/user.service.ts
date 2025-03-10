@@ -17,8 +17,4 @@ export class UserService {
   addPermissions(id: string, userResponse: UserResponse): Observable<UserResponse> {
     return this.http.put<UserResponse>(`${Config.webApiUrl}/v1/user/${id}`, userResponse);
   }
-
-  createPassword(createPasswordRequest: any): Observable<UserResponse> {
-    return this.http.put<UserResponse>(`${Config.webApiUrl}/v1/user/create-password`, createPasswordRequest);
-  }
 }

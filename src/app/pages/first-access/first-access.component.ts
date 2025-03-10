@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { UserService } from "src/app/services/user.service";
-import Swal from "sweetalert2";
+import { ToastrService } from "ngx-toastr";
+import { FirstAccessService } from "src/app/services/first-access.service";
 
 @Component({
   selector: "app-first-access",
@@ -16,7 +16,7 @@ export class FirstAccessComponent {
   hidePassword: boolean = true;
   hideNewPassword: boolean = true;
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private firstAccessService: FirstAccessService, private toast: ToastrService) {}
 
   savePassword(): void {
     this.errorMessage = "";
@@ -34,19 +34,20 @@ export class FirstAccessComponent {
     // Se tudo estiver correto, inicia o loading e simula a atualização da senha
     this.isLoading = true;
     // Suponha que updatePassword retorne um Observable ou Promise
-    this.userService
+    this.firstAccessService
       .createPassword({
         password: this.newPassword,
       })
       .subscribe({
         next: () => {
           this.isLoading = false;
-          Swal.fire("Sucesso!", "Senha cadastrada com sucesso.", "success");
-          this.router.navigate(["/home"]);
+          this.toast.success("Senha cadastrada com sucesso.");
+          this.router.navigate(["/select-company"]);
         },
         error: (err) => {
           this.isLoading = false;
           this.errorMessage = "Erro ao criar a senha. Tente novamente.";
+          this.toast.error("Erro ao criar a senha. Tente novamente.");
         },
       });
   }

@@ -9,11 +9,9 @@
 
   <h1 class="mb-4">Todos os Documentos Disponíveis</h1>
 
-  <!-- <div class="text-center mb-4">
-    <button class="btn btn-primary" (click)="router.navigate(['/documents/upload'])">
-      Novo Documento
-    </button>
-  </div> -->
+  <div class="text-start mb-4">
+    <button class="btn btn-primary" (click)="router.navigate(['/documents/upload'])">Novo Documento</button>
+  </div>
 
   <div id="fullPageContent" class="container my-5">
     <form [formGroup]="formGroup" (ngSubmit)="onSubmitForm()">
@@ -44,9 +42,7 @@
           </div>
         </div>
         <div class="col-md-12 mb-3">
-          <button *ngIf="!isLoading" type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">
-            Pesquisar
-          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Pesquisar</button>
           <div *ngIf="isLoading" class="spinner-container">
             <div class="spinner"></div>
           </div>
@@ -55,14 +51,19 @@
     </form>
   </div>
 
-  <div class="row">
+  <div class="row" *ngIf="pdfDocuments.length == 0">
+    <div class="col-md-4">Não há documentos para esse cargo específico.</div>
+  </div>
+
+  <div class="row" *ngIf="pdfDocuments.length != 0">
     <div class="col-md-4" *ngFor="let pdf of pdfDocuments">
       <div class="card mb-4 hover-grow-card">
-        <div class="card-img-container">
+        <!-- <div class="card-img-container">
           <img [src]="pdf.url" class="card-img-top hover-grow-img" alt="PDF Cover" />
-        </div>
+        </div> -->
         <div class="card-body">
-          <h3 class="card-title">Título: {{ pdf.key }}</h3>
+          <h3 class="card-title">Título: {{ pdf.name }}</h3>
+          <h3 class="card-title">Tipo: {{ pdf.type }}</h3>
           <h4 class="card-title">Cargo: {{ pdf.responsibilityName }}</h4>
           <a [href]="pdf.url" class="btn btn-primary" target="_blank">Ver PDF</a>
         </div>
@@ -71,4 +72,4 @@
   </div>
 </div>
 
-<app-spinner [isLoading]="isLoading"></app-spinner>
+<!-- <app-spinner [isLoading]="isLoading"></app-spinner> -->

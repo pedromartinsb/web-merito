@@ -39,6 +39,7 @@ export class ReportComponent implements OnInit {
     this._suppliers();
     this._professionals();
     this._employees();
+    this.employees.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   _cleanFields(): void {
