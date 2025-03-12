@@ -239,16 +239,6 @@
                 <div class="d-flex justify-content-between align-items-center gap-5" style="flex-wrap: nowrap">
                   <span class="text-nowrap">{{ activity.name }}</span>
                   <div class="radio-group">
-                    <!-- <input
-                      *ngFor="let tag of tags;"
-                      type="radio"
-                      [name]="'daily' + activity.id"
-                      value="{{ tag.id }}"
-                      [ngClass]="'radio-button_' + tag.class"
-                      [checked]="tag.id == activity.tag?.id"
-                      (click)="openAppointmentCreateModal(activity, tag)"
-                      matTooltip="{{ tag.description }}"
-                    /> -->
                     <div
                       *ngFor="let tag of tags"
                       [ngClass]="['radio-button_' + tag.class, tag.id === activity.tag?.id ? 'checked' : '']"
@@ -268,12 +258,6 @@
           <h4>Nenhuma rotina cadastrada para o cargo.</h4>
         </div>
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentsCreateModal">
-          Cadastrar
-        </button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
-      </div> -->
     </div>
   </div>
 </div>
@@ -502,6 +486,22 @@
                   >Início: {{ vacation.startDate | dateFormat }}</span
                 >
                 <span class="badge bg-primary rounded-pill text-nowrap">Fim: {{ vacation.endDate | dateFormat }}</span>
+                <a
+                  *ngIf="vacation.document != null"
+                  [href]="vacation.document"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Documento</a
+                >
+                <a
+                  *ngIf="vacation.document == null"
+                  [href]="'javascript:void(0)'"
+                  (click)="$event.preventDefault()"
+                  [class.disabled]="vacation.document == null"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Indisponível</a
+                >
                 <button class="btn btn-outline-warning btn-round" (click)="onEditVacation(vacation)">
                   <i class="fas fa-pencil-alt"></i>
                 </button>
@@ -566,12 +566,12 @@
               <label for="description" class="form-label">Documento</label>
               <input
                 type="file"
-                id="picture"
-                formControlName="picture"
+                id="document"
+                formControlName="document"
                 class="form-control"
                 (change)="onVacationFileSelected($event)"
                 [ngClass]="{
-                  'is-invalid': formVacation.get('picture')?.invalid && formVacation.get('document')?.touched,
+                  'is-invalid': formVacation.get('document')?.invalid && formVacation.get('document')?.touched,
                   'is-valid': formVacation.get('document')?.valid && formVacation.get('document')?.touched
                 }"
               />

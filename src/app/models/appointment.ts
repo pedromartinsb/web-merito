@@ -27,6 +27,7 @@ export interface Activity {
   tagId: string;
   createdAt: string;
   appointmentId: string;
+  reviewerId?: string;
 }
 
 export interface PersonAppointmentRoutineTask {

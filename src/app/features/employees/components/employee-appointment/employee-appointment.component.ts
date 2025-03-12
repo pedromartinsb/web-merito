@@ -151,7 +151,6 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
   ) {
     this._initializeFormsGroup();
     this._initializePerson();
-    // this._initializeTags();
     this._initializeTasks();
     this._initializeGoals();
     this._initializeAbstinenceList();
@@ -548,23 +547,6 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
         }
       }
     }
-    // for (let i = 0; i < this.daysOfLastMonth.length; i++) {
-    //   if (this.daysOfLastMonth[i] == cellDate.getDate()) {
-    //     if (this.lastMonthTags[i].tag == 'Green') {
-    //       return 'green-background';
-    //     } else if (this.lastMonthTags[i].tag == 'Red') {
-    //       return 'red-background';
-    //     } else if (this.lastMonthTags[i].tag == 'Blue') {
-    //       return 'blue-background';
-    //     } else if (this.lastMonthTags[i].tag == 'Orange') {
-    //       return 'orange-background';
-    //     } else if (this.lastMonthTags[i].tag == 'Yellow') {
-    //       return 'yellow-background';
-    //     } else {
-    //       return 'green-background';
-    //     }
-    //   }
-    // }
   };
 
   public dateClassLastTwoMonth: MatCalendarCellClassFunction<Date> = (cellDate, _) => {
@@ -591,23 +573,6 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
         }
       }
     }
-    // for (let i = 0; i < this.daysOfLastTwoMonth.length; i++) {
-    //   if (this.daysOfLastTwoMonth[i] == cellDate.getDate()) {
-    //     if (this.lastTwoMonthTags[i].tag == 'Green') {
-    //       return 'green-background';
-    //     } else if (this.lastTwoMonthTags[i].tag == 'Red') {
-    //       return 'red-background';
-    //     } else if (this.lastTwoMonthTags[i].tag == 'Blue') {
-    //       return 'blue-background';
-    //     } else if (this.lastTwoMonthTags[i].tag == 'Orange') {
-    //       return 'orange-background';
-    //     } else if (this.lastTwoMonthTags[i].tag == 'Yellow') {
-    //       return 'yellow-background';
-    //     } else {
-    //       return 'green-background';
-    //     }
-    //   }
-    // }
   };
 
   public dateClassLastThreeMonth: MatCalendarCellClassFunction<Date> = (cellDate, _) => {
@@ -634,23 +599,6 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
         }
       }
     }
-    // for (let i = 0; i < this.daysOfLastThreeMonth.length; i++) {
-    //   if (this.daysOfLastThreeMonth[i] == cellDate.getDate()) {
-    //     if (this.lastThreeMonthTags[i].tag == 'Green') {
-    //       return 'green-background';
-    //     } else if (this.lastThreeMonthTags[i].tag == 'Red') {
-    //       return 'red-background';
-    //     } else if (this.lastThreeMonthTags[i].tag == 'Blue') {
-    //       return 'blue-background';
-    //     } else if (this.lastThreeMonthTags[i].tag == 'Orange') {
-    //       return 'orange-background';
-    //     } else if (this.lastThreeMonthTags[i].tag == 'Yellow') {
-    //       return 'yellow-background';
-    //     } else {
-    //       return 'green-background';
-    //     }
-    //   }
-    // }
   };
 
   public dateClassLastFourMonth: MatCalendarCellClassFunction<Date> = (cellDate, _) => {
@@ -677,23 +625,6 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
         }
       }
     }
-    // for (let i = 0; i < this.daysOfLastFourMonth.length; i++) {
-    //   if (this.daysOfLastFourMonth[i] == cellDate.getDate()) {
-    //     if (this.lastFourMonthTags[i].tag == 'Green') {
-    //       return 'green-background';
-    //     } else if (this.lastFourMonthTags[i].tag == 'Red') {
-    //       return 'red-background';
-    //     } else if (this.lastFourMonthTags[i].tag == 'Blue') {
-    //       return 'blue-background';
-    //     } else if (this.lastFourMonthTags[i].tag == 'Orange') {
-    //       return 'orange-background';
-    //     } else if (this.lastFourMonthTags[i].tag == 'Yellow') {
-    //       return 'yellow-background';
-    //     } else {
-    //       return 'green-background';
-    //     }
-    //   }
-    // }
   };
 
   public dateClassLastFiveMonth: MatCalendarCellClassFunction<Date> = (cellDate, _) => {
@@ -720,23 +651,6 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
         }
       }
     }
-    // for (let i = 0; i < this.daysOfLastFiveMonth.length; i++) {
-    //   if (this.daysOfLastFiveMonth[i] == cellDate.getDate()) {
-    //     if (this.lastFiveMonthTags[i].tag == 'Green') {
-    //       return 'green-background';
-    //     } else if (this.lastFiveMonthTags[i].tag == 'Red') {
-    //       return 'red-background';
-    //     } else if (this.lastFiveMonthTags[i].tag == 'Blue') {
-    //       return 'blue-background';
-    //     } else if (this.lastFiveMonthTags[i].tag == 'Orange') {
-    //       return 'orange-background';
-    //     } else if (this.lastFiveMonthTags[i].tag == 'Yellow') {
-    //       return 'yellow-background';
-    //     } else {
-    //       return 'green-background';
-    //     }
-    //   }
-    // }
   };
 
   public openDialog() {
@@ -806,6 +720,13 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
   }
 
   openAppointmentCreateModal(activity: Activity, tag: Tag): void {
+    console.log("activity", activity.reviewerId);
+    console.log("person id", this.person.user.id);
+    if (activity.reviewerId != this.person.user.id) {
+      this.toast.error("Você não pode abrir uma Avaliacão de outra pessoa.");
+      return;
+    }
+
     this.formAppointment.reset();
     if (activity.appointmentId != undefined) {
       this.formAppointment.get("id").patchValue(activity.appointmentId);
@@ -1224,32 +1145,22 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
 
   onSubmitFormVacation() {
     this.isSavingVacation = true;
-    this.vacation = this.formVacation.value;
-    this.vacation.personId = this.personId;
+    const vacation = {
+      personId: this.personId,
+      description: this.formVacation.get("description")?.value,
+      startDate: this.formVacation.get("startDate")?.value,
+      endDate: this.formVacation.get("endDate")?.value,
+    };
 
-    if (this.vacation.id) {
+    if (this.formVacation.get("id").value != null) {
       // update
-      this.taskService.update(this.task.id, this.task).subscribe({
-        next: () => {
-          this.toast.success("Férias alteradas com sucesso", "Cadastro");
-          setTimeout(() => {
-            this.isSavingVacation = false;
-            this.closeVacationCreateModal();
-            this.location.back();
-          }, 2000);
-        },
-        error: (ex) => {
-          this.isSavingVacation = false;
-          this._handleErrors(ex);
-        },
-      });
       return;
     }
 
     // create
-    this.appointmentService.createVacation(this.vacation).subscribe({
+    this.appointmentService.createVacation(vacation, this.selectedVacationFile).subscribe({
       next: () => {
-        this.toast.success("Férias cadastradas com sucesso", "Cadastro");
+        this.toast.success("Férias cadastrada com sucesso", "Cadastro");
         setTimeout(() => {
           this.isSavingVacation = false;
           this.closeVacationCreateModal();

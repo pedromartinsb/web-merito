@@ -81,6 +81,7 @@ export class AppointmentService {
   findAbstinencesByPerson(personId: string): Observable<any> {
     return this.http.get<any>(`${Config.webApiUrl}/v1/appointment/abstinence/${personId}/person`);
   }
+
   createAbstinence(abstinence: any, file: File): Observable<any> {
     const formData = new FormData();
     formData.append("file", file);
@@ -88,6 +89,7 @@ export class AppointmentService {
 
     return this.http.post<any>(`${Config.webApiUrl}/v1/appointment/abstinence`, formData);
   }
+
   updateAbstinence(id: string, abstinence: any): Observable<any> {
     return this.http.put<any>(`${Config.webApiUrl}/v1/appointment/abstinence/${id}`, abstinence);
   }
@@ -95,9 +97,15 @@ export class AppointmentService {
   findVacationsByPerson(personId: string): Observable<any> {
     return this.http.get<any>(`${Config.webApiUrl}/v1/appointment/vacation/${personId}/person`);
   }
-  createVacation(vacation: any): Observable<any> {
-    return this.http.post<any>(`${Config.webApiUrl}/v1/appointment/vacation`, vacation);
+
+  createVacation(vacation: any, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("vacationRequest", JSON.stringify(vacation));
+
+    return this.http.post<any>(`${Config.webApiUrl}/v1/appointment/vacation`, formData);
   }
+
   updateVacation(id: string, vacation: any): Observable<any> {
     return this.http.put<any>(`${Config.webApiUrl}/v1/appointment/vacation/${id}`, vacation);
   }
