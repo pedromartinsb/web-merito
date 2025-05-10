@@ -106,13 +106,12 @@
 /*  height: auto;*/
 /*}*/
 
-
 * {
   box-sizing: border-box;
 }
 
 body {
-  background-color: #f4f4f4;
+  background-color: #364152;
 }
 
 .dashboard-navigation {
@@ -181,7 +180,6 @@ body {
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
-
 .minimal-list {
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -211,7 +209,6 @@ body {
   padding: 8px 12px;
 }
 
-
 #pdfContent {
   overflow: visible;
   height: auto;
@@ -220,4 +217,8 @@ body {
 #fullPageContent {
   padding: 20px;
   background-color: white;
+}
+
+.bg-green {
+  background-color: green;
 }

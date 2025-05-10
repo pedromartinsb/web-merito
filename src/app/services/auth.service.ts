@@ -1,14 +1,14 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { catchError, retry, throwError } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { retry } from "rxjs";
 
-import { Config } from '../config/api.config';
-import { Login } from './../models/login';
-import { OfficeResponse } from '../models/office';
+import { Config } from "../config/api.config";
+import { Login } from "./../models/login";
+import { OfficeResponse } from "../models/office";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthService {
   roleAs: string[] = [];
@@ -26,33 +26,29 @@ export class AuthService {
           password,
         },
         {
-          observe: 'response',
+          observe: "response",
         }
       )
       .pipe(
-        retry(3), // retry a failed request up to 3 times
+        retry(3) // retry a failed request up to 3 times
       );
   }
 
-  successfulLogin(
-    authToken: string,
-    role: string[],
-    officeResponse: OfficeResponse[]
-  ) {
-    localStorage.setItem('token', authToken);
+  successfulLogin(authToken: string, role: string[], officeResponse: OfficeResponse[]) {
+    localStorage.setItem("token", authToken);
     this.roleAs = role;
-    localStorage.setItem('role', JSON.stringify(this.roleAs));
+    localStorage.setItem("role", JSON.stringify(this.roleAs));
     let companies = [];
     officeResponse.map((office) => {
       companies.push(office.fantasyName);
     });
-    localStorage.setItem('companies', JSON.stringify(companies));
-    localStorage.setItem('officeResponses', JSON.stringify(officeResponse));
-    localStorage.setItem('officeId', officeResponse[0].id);
+    localStorage.setItem("companies", JSON.stringify(companies));
+    localStorage.setItem("officeResponses", JSON.stringify(officeResponse));
+    // localStorage.setItem('officeId', officeResponse[0].id);
   }
 
   isAuthenticated() {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     if (token != null) {
       return !this.jwtService.isTokenExpired(token);
     }
@@ -65,7 +61,7 @@ export class AuthService {
   }
 
   getRole(): string[] {
-    this.roleAs = JSON.parse(localStorage.getItem('role'));
+    this.roleAs = JSON.parse(localStorage.getItem("role"));
     return this.roleAs;
   }
 }

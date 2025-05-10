@@ -1,19 +1,33 @@
 <!-- XSmall-->
 <div *ngIf="isXSmallScreenSize">
-  <div class="mb-4" style="text-align: center; font-weight: 700;">
-    <span style="color: var(--primary);">Projeção</span>Profissional
+  <div class="mb-4" style="text-align: center; font-weight: 700">
+    <span style="color: var(--primary)">Projeção</span>Profissional
   </div>
 
   <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" [formGroup]="credentials">
     <div class="input-group mb-0">
-      <input class="xsmall__input" type="text" id="username" [disabled]="!isLoggin" formControlName="username" placeholder="Digite seu usuário" required />
+      <input
+        class="xsmall__input"
+        type="text"
+        id="username"
+        [disabled]="!isLoggin"
+        formControlName="username"
+        placeholder="Digite seu usuário"
+        required
+      />
     </div>
     <div class="input-group">
-      <input class="xsmall__input" type="password" id="username" [disabled]="!isLoggin" formControlName="password" placeholder="Digite sua senha" required />
+      <input
+        class="xsmall__input"
+        type="password"
+        id="username"
+        [disabled]="!isLoggin"
+        formControlName="password"
+        placeholder="Digite sua senha"
+        required
+      />
     </div>
-    <button *ngIf="!isLoggin" type="submit" class="login-btn" (click)="onSubmit()">
-      Entrar
-    </button>
+    <button *ngIf="!isLoggin" type="submit" class="login-btn" (click)="onSubmit()">Entrar</button>
   </form>
 
   <div *ngIf="isLoggin" class="spinner-container">
@@ -25,17 +39,25 @@
 <div class="login-container" *ngIf="!isXSmallScreenSize">
   <div class="login-card">
     <div class="login-column">
-      <div style="text-align: left; font-weight: 700;">
-        <span style="color: var(--primary);">Projeção</span>Profissional
+      <div style="text-align: left; font-weight: 700">
+        <span style="color: var(--primary)">Projeção</span>Profissional
       </div>
-      <div style="padding-top: 2.5rem; padding-bottom: .5rem;">
+      <div style="padding-top: 2.5rem; padding-bottom: 0.5rem">
         <h2>Acesse sua conta:</h2>
-        <div style="border-color: var(--primary); border-width: 2px; width: 2.5rem; display: inline-block; margin-bottom: 2.5rem;"></div>
+        <div
+          style="
+            border-color: var(--primary);
+            border-width: 2px;
+            width: 2.5rem;
+            display: inline-block;
+            margin-bottom: 2.5rem;
+          "
+        ></div>
         <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" [formGroup]="credentials">
           <div class="input-group">
             <input type="text" id="username" formControlName="username" placeholder="Digite seu usuário" required />
           </div>
-          <div class="input-group" style="margin-bottom: 2.5rem;">
+          <div class="input-group" style="margin-bottom: 2.5rem">
             <input
               id="password"
               [type]="isPasswordVisible ? 'text' : 'password'"
@@ -46,15 +68,21 @@
             <button
               type="button"
               (click)="togglePasswordVisibility()"
-              style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;"
+              style="
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                cursor: pointer;
+              "
             >
               <span *ngIf="isPasswordVisible">🙈</span>
               <span *ngIf="!isPasswordVisible">👁️</span>
             </button>
           </div>
-          <a *ngIf="!isLoggin" type="submit" class="login-btn" (click)="onSubmit()">
-            Entrar
-          </a>
+          <a *ngIf="!isLoggin" type="submit" class="login-btn" (click)="onSubmit()"> Entrar </a>
         </form>
 
         <div *ngIf="isLoggin" class="spinner-container">
@@ -64,8 +92,19 @@
     </div>
 
     <div class="signup-column">
-      <h2 style="color: var(--white); font-weight: 600;">Seja Bem-Vindo</h2>
-      <div style="border-color: var(--white); border-width: 2px; width: 2.5rem; display: inline-block; margin-bottom: .5rem"></div>
+      <div class="sidebar-header">
+        <img src="assets/img/logo-projecao-profissional.svg" alt="Logo" class="logo" />
+      </div>
+      <h2 style="color: var(--white); font-weight: 600">Seja Bem-Vindo</h2>
+      <div
+        style="
+          border-color: var(--white);
+          border-width: 2px;
+          width: 2.5rem;
+          display: inline-block;
+          margin-bottom: 0.5rem;
+        "
+      ></div>
       <p>A maior e mais completa plataforma para a sua empresa controlar a Meritocracia.</p>
       <!-- <p>Não tem uma conta? Cadastre-se agora para ter acesso completo.</p> -->
       <!-- <a type="submit" class="sign-up">Cadastrar</a> -->

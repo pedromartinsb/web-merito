@@ -1,18 +1,18 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
-import {Config} from '../config/api.config';
-import {AddressSearch, Person} from '../models/person';
+import { Config } from "../config/api.config";
+import { AddressSearch, Person } from "../models/person";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class PersonService {
   officeId: string;
 
   constructor(private http: HttpClient) {
-    this.officeId = localStorage.getItem('officeId');
+    this.officeId = localStorage.getItem("officeId");
   }
 
   public findAll(): Observable<Person[]> {
@@ -32,21 +32,15 @@ export class PersonService {
   }
 
   public findAllByHolding(holdingId: string): Observable<Person[]> {
-    return this.http.get<Person[]>(
-      `${Config.webApiUrl}/v1/person/holding/${holdingId}`
-    );
+    return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person/holding/${holdingId}`);
   }
 
   public findAllByCompany(companyId: string): Observable<Person[]> {
-    return this.http.get<Person[]>(
-      `${Config.webApiUrl}/v1/person/company/${companyId}`
-    );
+    return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person/company/${companyId}`);
   }
 
   public findAllByOffice(officeId: string): Observable<Person[]> {
-    return this.http.get<Person[]>(
-      `${Config.webApiUrl}/v1/person/office/${[officeId]}`
-    );
+    return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person/office/${[officeId]}`);
   }
 
   public findAllByResponsibility(responsibilityId: string): Observable<Person[]> {
@@ -54,9 +48,7 @@ export class PersonService {
   }
 
   public findAllByContractType(contractType: string): Observable<Person[]> {
-    return this.http.get<Person[]>(
-      `${Config.webApiUrl}/v1/person/${this.officeId}/${contractType}/contract-type`
-    );
+    return this.http.get<Person[]>(`${Config.webApiUrl}/v1/person/${this.officeId}/${contractType}/contract-type`);
   }
 
   public findById(id: any): Observable<Person> {
@@ -69,42 +61,33 @@ export class PersonService {
 
   public create(person: Person, file: File): Observable<Person> {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('personRequest', JSON.stringify(person));
+    formData.append("file", file);
+    formData.append("personRequest", JSON.stringify(person));
 
     return this.http.post<Person>(`${Config.webApiUrl}/v1/person`, formData);
   }
 
   public update(id: string, person: Person, file: File): Observable<Person> {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('personRequest', JSON.stringify(person));
+    formData.append("file", file);
+    formData.append("personRequest", JSON.stringify(person));
 
-    return this.http.put<Person>(
-      `${Config.webApiUrl}/v1/person/${id}`,
-      formData
-    );
+    return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}`, formData);
   }
 
   public updateWithoutFile(id: string, person: Person): Observable<Person> {
     const formData = new FormData();
-    formData.append('personRequest', JSON.stringify(person));
+    formData.append("personRequest", JSON.stringify(person));
 
-    return this.http.put<Person>(
-      `${Config.webApiUrl}/v1/person/${id}/no-picture`,
-      formData
-    );
+    return this.http.put<Person>(`${Config.webApiUrl}/v1/person/${id}/no-picture`, formData);
   }
 
   public changePassword(currentPassword: string, newPassword: string): Observable<Person> {
     const formData = new FormData();
-    formData.append('currentPassword', currentPassword);
-    formData.append('newPassword', newPassword);
+    formData.append("currentPassword", currentPassword);
+    formData.append("newPassword", newPassword);
 
-    return this.http.patch<Person>(
-      `${Config.webApiUrl}/v1/person/change-password`,
-      formData
-    );
+    return this.http.patch<Person>(`${Config.webApiUrl}/v1/person/change-password`, formData);
   }
 
   public deactivate(id: string): Observable<Person> {
@@ -112,8 +95,6 @@ export class PersonService {
   }
 
   public findAddress(cep: string): Observable<AddressSearch> {
-    return this.http.get<AddressSearch>(
-      `${Config.webApiUrl}/v1/district/${cep}/cep`
-    );
+    return this.http.get<AddressSearch>(`${Config.webApiUrl}/v1/district/${cep}/cep`);
   }
 }

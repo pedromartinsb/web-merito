@@ -1,154 +1,163 @@
-<!-- MANAGER/SUPERVISOR -->
-<div class="dashboard-navigation" *ngIf="isManager || isSupervisor">
-  <div class="nav-dashboard-card">
-    <h3>Avaliacões na Semana</h3>
-    <canvas baseChart
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="{ responsive: true }"
-          [legend]="barChartLegend"
-          [type]="barChartType">
-    </canvas>
-  </div>
-
-  <div class="nav-dashboard-card">
-    <h3>Avaliacões por Mês</h3>
-    <canvas baseChart
-            [datasets]="lineChartData"
-            [labels]="lineChartLabels"
-            [options]="{ responsive: true }"
-            [legend]="lineChartLegend"
-            [type]="lineChartType">
-    </canvas>
-  </div>
-</div>
-
-<div class="home-navigation">
-  <!-- ADMIN -->
-  <div class="nav-card" *ngIf="isAdmin">
-    <i class="fas fa-users"></i>
-    <h3>Funcionários</h3>
-    <a href="/employees" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isAdmin">
-    <i class="fas fa-user-tie"></i>
-    <h3>Profissionais</h3>
-    <a href="/professionals" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isAdmin">
-    <i class="fas fa-truck-field"></i>
-    <h3>Fornecedores</h3>
-    <a href="/suppliers" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isAdmin">
-    <i class="fas fa-suitcase"></i>
-    <h3>Cargos</h3>
-    <a href="/responsibilities" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isAdmin">
-    <i class="fas fa-briefcase"></i>
-    <h3>Rotinas</h3>
-    <a href="/routines" class="btn">Acessar</a>
-  </div>
-
+<div class="container">
   <!-- MANAGER/SUPERVISOR -->
-  <div class="nav-card" *ngIf="isManager || isSupervisor">
-    <i class="fas fa-users"></i>
-    <h3>Funcionários</h3>
-    <a href="/employees" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isManager || isSupervisor">
-    <i class="fas fa-user-tie"></i>
-    <h3>Profissionais</h3>
-    <a href="/professionals" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isManager || isSupervisor">
-    <i class="fas fa-truck-field"></i>
-    <h3>Fornecedores</h3>
-    <a href="/suppliers" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isManager || isSupervisor">
-    <i class="fas fa-bullseye"></i>
-    <h3>Metas</h3>
-    <a href="/goals" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isManager || isSupervisor">
-    <i class="fas fa-list-check"></i>
-    <h3>Tarefas</h3>
-    <a href="/tasks" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isManager || isSupervisor">
-    <i class="fas fa-chart-pie"></i>
-    <h3>Relatórios</h3>
-    <a href="/reports" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isManager || isSupervisor">
-    <i class="fas fa-folder-open"></i>
-    <h3>Documentos</h3>
-    <a href="/document" class="btn">Acessar</a>
+  <div class="dashboard-navigation" *ngIf="isManager || isSupervisor">
+    <div class="nav-dashboard-card">
+      <h3>Avaliacões na Semana</h3>
+      <canvas
+        baseChart
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="{ responsive: true }"
+        [legend]="barChartLegend"
+        [type]="barChartType"
+      >
+      </canvas>
+    </div>
+
+    <div class="nav-dashboard-card" hidden>
+      <h3>Avaliacões por Mês</h3>
+      <canvas
+        baseChart
+        [datasets]="lineChartData"
+        [labels]="lineChartLabels"
+        [options]="{ responsive: true }"
+        [legend]="lineChartLegend"
+        [type]="lineChartType"
+      >
+      </canvas>
+    </div>
   </div>
 
-  <!-- USER -->
-  <div class="container mb-5" *ngIf="isUser">
+  <div class="home-navigation">
+    <!-- ADMIN -->
+    <div class="nav-card" *ngIf="isAdmin">
+      <i class="fas fa-users"></i>
+      <h3>Funcionários</h3>
+      <a href="/employees" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card" *ngIf="isAdmin">
+      <i class="fas fa-user-tie"></i>
+      <h3>Profissionais</h3>
+      <a href="/professionals" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card" *ngIf="isAdmin">
+      <i class="fas fa-truck-field"></i>
+      <h3>Fornecedores</h3>
+      <a href="/suppliers" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card" *ngIf="isAdmin">
+      <i class="fas fa-suitcase"></i>
+      <h3>Cargos</h3>
+      <a href="/responsibilities" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card" *ngIf="isAdmin">
+      <i class="fas fa-briefcase"></i>
+      <h3>Rotinas</h3>
+      <a href="/routines" class="btn">Acessar</a>
+    </div>
+
+    <!-- MANAGER/SUPERVISOR -->
+    <div class="nav-card" *ngIf="isManager || isSupervisor">
+      <i class="fas fa-users"></i>
+      <h3>Funcionários</h3>
+      <a href="/employees" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card" *ngIf="isManager || isSupervisor">
+      <i class="fas fa-user-tie"></i>
+      <h3>Profissionais</h3>
+      <a href="/professionals" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card" *ngIf="isManager || isSupervisor">
+      <i class="fas fa-truck-field"></i>
+      <h3>Fornecedores</h3>
+      <a href="/suppliers" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card" *ngIf="isManager || isSupervisor">
+      <i class="fas fa-bullseye"></i>
+      <h3>Metas</h3>
+      <a href="/goals" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card" *ngIf="isManager || isSupervisor">
+      <i class="fas fa-list-check"></i>
+      <h3>Tarefas</h3>
+      <a href="/tasks" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card" *ngIf="isManager || isSupervisor">
+      <i class="fas fa-chart-pie"></i>
+      <h3>Relatórios</h3>
+      <a href="/reports" class="btn">Acessar</a>
+    </div>
+    <div class="nav-card" *ngIf="isManager || isSupervisor">
+      <i class="fas fa-folder-open"></i>
+      <h3>Documentos</h3>
+      <a href="/documents" class="btn">Acessar</a>
+    </div>
+
+    <!-- USER -->
+    <div class="container mb-5" *ngIf="isUser">
+      <div class="row">
+        <div class="col-md-4 mt-md-0 mt-sm-4">
+          <h2>Rotinas:</h2>
+          <ul class="list-group minimal-list">
+            <li *ngFor="let routine of routines" class="list-group-item">
+              <span class="badge bg-success rounded-pill">{{ routine.name }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-4 mt-md-0 mt-sm-4">
+          <h2>Tarefas:</h2>
+          <ul class="list-group minimal-list" *ngIf="tasks.length != 0">
+            <li *ngFor="let task of tasks" class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>{{ task.title }}</span>
+                <span *ngIf="task.status == 'CREATED'" class="badge bg-primary rounded-pill">CRIADA</span>
+                <span *ngIf="task.status == 'CANCELLED'" class="badge bg-danger rounded-pill">CANCELADA</span>
+                <span *ngIf="task.status == 'FINISHED'" class="badge bg-green rounded-pill">FINALIZADA</span>
+              </div>
+            </li>
+          </ul>
+          <span *ngIf="tasks.length == 0">Não há Tarefas para você.</span>
+        </div>
+
+        <div class="col-md-4 mt-md-0 mt-sm-4">
+          <h2>Metas:</h2>
+          <ul class="list-group minimal-list" *ngIf="goals.length != 0">
+            <li *ngFor="let goal of goals" class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>{{ goal.title }}</span>
+                <span *ngIf="goal.status == 'CREATED'" class="badge bg-primary rounded-pill">CRIADA</span>
+                <span *ngIf="goal.status == 'CANCELLED'" class="badge bg-danger rounded-pill">CANCELADA</span>
+                <span *ngIf="goal.status == 'FINISHED'" class="badge bg-green rounded-pill">FINALIZADA</span>
+              </div>
+            </li>
+          </ul>
+          <span *ngIf="goals.length == 0">Não há Metas para você.</span>
+        </div>
+      </div>
+    </div>
+
     <div class="row">
-      <div class="col-md-4 mt-md-0 mt-sm-4">
-        <h2>Rotinas:</h2>
-        <ul class="list-group minimal-list">
-          <li *ngFor="let routine of routines" class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="badge bg-primary rounded-pill">{{ routine.name }}</span>
-              <span>{{ routine.responsibility.name }}</span>
-            </div>
-          </li>
-        </ul>
+      <div class="nav-card mx-3 mb-3" *ngIf="isUser">
+        <i class="fas fa-briefcase"></i>
+        <h3>Minhas Rotinas</h3>
+        <a href="/routines" class="btn">Acessar</a>
       </div>
-
-      <div class="col-md-4 mt-md-0 mt-sm-4">
-        <h2>Tarefas:</h2>
-        <ul class="list-group minimal-list" *ngIf="tasks.length != 0">
-          <li *ngFor="let task of tasks" class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center">
-              <span>{{ task.title }}</span>
-              <span class="badge bg-primary rounded-pill">{{ task.status }}</span>
-            </div>
-          </li>
-        </ul>
-        <span *ngIf="tasks.length == 0">Não há Tarefas para você.</span>
+      <div class="nav-card mx-3 mb-3" *ngIf="isUser">
+        <i class="fas fa-bullseye"></i>
+        <h3>Minhas Metas</h3>
+        <a href="/goals" class="btn">Acessar</a>
       </div>
-
-      <div class="col-md-4 mt-md-0 mt-sm-4">
-        <h2>Metas:</h2>
-        <ul class="list-group minimal-list" *ngIf="goals.length != 0">
-          <li *ngFor="let goal of goals" class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center">
-              <span>{{ goal.title }}</span>
-              <span class="badge bg-primary rounded-pill">{{ goal.status }}</span>
-            </div>
-          </li>
-        </ul>
-        <span *ngIf="goals.length == 0">Não há Metas para você.</span>
+      <div class="nav-card mx-3 mb-3" *ngIf="isUser">
+        <i class="fas fa-list-check"></i>
+        <h3>Minhas Tarefas</h3>
+        <a href="/tasks" class="btn">Acessar</a>
+      </div>
+      <div class="nav-card mx-3 mb-3" *ngIf="isUser">
+        <i class="fas fa-folder-open"></i>
+        <h3>Meus Documentos</h3>
+        <a href="/documents" class="btn">Acessar</a>
       </div>
     </div>
   </div>
-  <div class="nav-card" *ngIf="isUser">
-    <i class="fas fa-briefcase"></i>
-    <h3>Minhas Rotinas</h3>
-    <a href="/routines" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isUser">
-    <i class="fas fa-bullseye"></i>
-    <h3>Minhas Metas</h3>
-    <a href="/goals" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isUser">
-    <i class="fas fa-list-check"></i>
-    <h3>Minhas Tarefas</h3>
-    <a href="/tasks" class="btn">Acessar</a>
-  </div>
-  <div class="nav-card" *ngIf="isUser">
-    <i class="fas fa-folder-open"></i>
-    <h3>Meus Documentos</h3>
-    <a href="/document" class="btn">Acessar</a>
-  </div>
-
 </div>

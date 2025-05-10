@@ -321,11 +321,11 @@ mat-form-field {
 
 /* RADIO BUTTON COLOR */
 .radio-group .radio-red {
-  accent-color: #FF0000;
+  accent-color: #ff0000;
   cursor: pointer;
 }
 .radio-group .radio-orange {
-  accent-color: #FFA500;
+  accent-color: #ffa500;
   cursor: pointer;
 }
 .radio-group .radio-yellow {
@@ -436,7 +436,7 @@ span {
 }
 
 .custom-modal {
-  max-width: 75%;  /* Define a largura máxima do modal */
+  max-width: 75%; /* Define a largura máxima do modal */
   width: 75%; /* Controla a largura do modal */
 }
 
@@ -468,14 +468,11 @@ span {
   height: 100px;
 }
 
-
-
-
-
-
-
-
-
+a.disabled {
+  pointer-events: none;
+  color: gray;
+  text-decoration: none;
+}
 
 /* Estilo padrão do radio button */
 .radio-button_red-background {
@@ -592,7 +589,6 @@ span {
   border-color: var(--blue-radiobutton-appointment);
 }
 
-
 /* Estilo padrão do radio button */
 .radio-button_purple-background {
   position: relative;
@@ -615,4 +611,3 @@ span {
   background-color: var(--purple-radiobutton-appointment); /* Cor do estado checked */
   border-color: var(--purple-radiobutton-appointment);
 }
-

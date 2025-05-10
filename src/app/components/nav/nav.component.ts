@@ -1,32 +1,32 @@
-import {ToastrService} from 'ngx-toastr';
-import {AuthService} from '../../services/auth.service';
-import {StorageService} from '../../services/storage.service';
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {MatDrawerMode, MatSidenav} from '@angular/material/sidenav';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {Subject, takeUntil} from 'rxjs';
-import {OfficeResponse} from 'src/app/models/office';
-import { environment } from 'src/environments/environment';
+import { ToastrService } from "ngx-toastr";
+import { AuthService } from "../../services/auth.service";
+import { StorageService } from "../../services/storage.service";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { MatDrawerMode, MatSidenav } from "@angular/material/sidenav";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { Subject, takeUntil } from "rxjs";
+import { OfficeResponse } from "src/app/models/office";
+import { environment } from "src/environments/environment";
 
 @Component({
-  selector: 'app-nav',
-  templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.css'],
+  selector: "app-nav",
+  templateUrl: "./nav.component.html",
+  styleUrls: ["./nav.component.css"],
 })
 export class NavComponent implements OnInit, OnDestroy {
   @Input() inputSideNav: MatSidenav;
   @Input() inputLogout: InputEvent;
   destroyed = new Subject<void>();
-  modeNavMenu: MatDrawerMode = 'side';
+  modeNavMenu: MatDrawerMode = "side";
   userRole: string[] = [];
   currentScreenSize: string;
   displayNameMap = new Map([
-    [Breakpoints.XSmall, 'XSmall'],
-    [Breakpoints.Small, 'Small'],
-    [Breakpoints.Medium, 'Medium'],
-    [Breakpoints.Large, 'Large'],
-    [Breakpoints.XLarge, 'XLarge'],
+    [Breakpoints.XSmall, "XSmall"],
+    [Breakpoints.Small, "Small"],
+    [Breakpoints.Medium, "Medium"],
+    [Breakpoints.Large, "Large"],
+    [Breakpoints.XLarge, "XLarge"],
   ]);
   isSidebarActive = false;
 
@@ -46,10 +46,10 @@ export class NavComponent implements OnInit, OnDestroy {
 
   chatOpen = false;
   messages = [
-    { content: 'Olá! Como posso ajudar?', sent: false },
-    { content: 'Olá! Preciso de suporte.', sent: true }
+    { content: "Olá! Como posso ajudar?", sent: false },
+    { content: "Olá! Preciso de suporte.", sent: true },
   ];
-  newMessage = '';
+  newMessage = "";
 
   constructor(
     private storageService: StorageService,
@@ -59,20 +59,14 @@ export class NavComponent implements OnInit, OnDestroy {
     breakpointObserver: BreakpointObserver
   ) {
     breakpointObserver
-      .observe([
-        Breakpoints.XSmall,
-        Breakpoints.Small,
-        Breakpoints.Medium,
-        Breakpoints.Large,
-        Breakpoints.XLarge,
-      ])
+      .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
       .pipe(takeUntil(this.destroyed))
       .subscribe((result) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
-            if (this.displayNameMap.get(query) === 'Small' ||this.displayNameMap.get(query) === 'XSmall') {
+            if (this.displayNameMap.get(query) === "Small" || this.displayNameMap.get(query) === "XSmall") {
               this.currentScreenSize = this.displayNameMap.get(query);
-              this.modeNavMenu = 'over';
+              this.modeNavMenu = "over";
             }
           }
         }
@@ -80,12 +74,12 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.officeResponses = JSON.parse(localStorage.getItem('officeResponses'));
-    const officeId = localStorage.getItem('officeId');
+    this.officeResponses = JSON.parse(localStorage.getItem("officeResponses"));
+    const officeId = localStorage.getItem("officeId");
     this.firstOffice = this.officeResponses.filter((o) => o.id === officeId)[0];
     this.userRole = this.authService.getRole();
-    this.personName = localStorage.getItem('personName');
-    this.personPicture = localStorage.getItem('personPicture');
+    this.personName = localStorage.getItem("personName");
+    this.personPicture = localStorage.getItem("personPicture");
 
     this._checkPermission();
     this._isStaging();
@@ -103,25 +97,25 @@ export class NavComponent implements OnInit, OnDestroy {
 
   updateCurrentTime() {
     const now = new Date();
-    this.currentTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    this.currentTime = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
   }
 
   private _checkPermission(): void {
     this.userRole.map((role) => {
       switch (role) {
-        case 'ROLE_ADMIN':
+        case "ROLE_ADMIN":
           this.isAdmin = true;
           this.personRole = "Administrador";
           break;
-        case 'ROLE_SUPERVISOR':
+        case "ROLE_SUPERVISOR":
           this.isSupervisor = true;
           this.personRole = "Supervisor";
           break;
-        case 'ROLE_MANAGER':
+        case "ROLE_MANAGER":
           this.isManager = true;
           this.personRole = "Gerente";
           break;
-        case 'ROLE_USER':
+        case "ROLE_USER":
           this.isUser = true;
           this.personRole = "Usuário";
           break;
@@ -139,8 +133,8 @@ export class NavComponent implements OnInit, OnDestroy {
     this.authService.logout().subscribe({
       next: () => {
         this.storageService.clean();
-        this.toast.info('Logout realizado com sucesso', 'Logout');
-        this.router.navigate(['login']);
+        this.toast.info("Logout realizado com sucesso", "Logout");
+        this.router.navigate(["/sign-in"]);
       },
       error: (ex: any) => {
         this._handleErrors(ex);
@@ -150,7 +144,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
   changeCurrentOffice(element: OfficeResponse) {
     this.firstOffice = element;
-    localStorage.setItem('officeId', element.id);
+    localStorage.setItem("officeId", element.id);
     window.location.reload();
   }
 
@@ -161,9 +155,9 @@ export class NavComponent implements OnInit, OnDestroy {
   sendMessage() {
     if (this.newMessage.trim()) {
       this.messages.push({ content: this.newMessage, sent: true });
-      this.newMessage = '';
+      this.newMessage = "";
       setTimeout(() => {
-        this.messages.push({ content: 'Resposta automática', sent: false });
+        this.messages.push({ content: "Resposta automática", sent: false });
       }, 1000);
     }
   }
@@ -178,7 +172,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
   private _handleErrors(ex: any): void {
     if (ex.error.errors) {
-      ex.error.errors.forEach((element: { message: string; }) => {
+      ex.error.errors.forEach((element: { message: string }) => {
         this.toast.error(element.message);
       });
     } else {

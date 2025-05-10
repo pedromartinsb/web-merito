@@ -1,0 +1,54 @@
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .nav-left {
+    .logo {
+      height: 40px;
+    }
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .user-photo {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .user-name {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #333;
+      }
+    }
+
+    .logout-btn {
+      background-color: #e74c3c;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background-color: #c0392b;
+      }
+    }
+  }
+}

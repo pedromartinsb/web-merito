@@ -1,4 +1,4 @@
-import { Tag } from './tag';
+import { Tag } from "./tag";
 
 export interface Appointment {
   id?: string;
@@ -27,12 +27,14 @@ export interface Activity {
   tagId: string;
   createdAt: string;
   appointmentId: string;
+  reviewerId?: string;
 }
 
 export interface PersonAppointmentRoutineTask {
   id: number;
   user_id: string;
   name: string;
+  picture: string;
   description: string;
   justification: string;
   tag: string;

@@ -1,14 +1,24 @@
 <div class="container my-3">
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchQuery" (input)="search()"/>
-    </div>
+  <div *ngIf="!isUser">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchQuery" (input)="search()"/>
+      </div>
 
-    <div class="col-md-6">
-      <select class="form-select" [(ngModel)]="selectedJobTitle" (change)="filterByJobTitle()">
-        <option value="">Todos os Cargos</option>
-        <option *ngFor="let job of getUniqueJobTitles()" [value]="job">{{ job }}</option>
-      </select>
+      <div class="col-md-6">
+        <select class="form-select" [(ngModel)]="selectedJobTitle" (change)="filterByJobTitle()">
+          <option value="">Todos os Cargos</option>
+          <option *ngFor="let job of getUniqueJobTitles()" [value]="job">{{ job }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isUser">
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchQuery" (input)="search()"/>
+      </div>
     </div>
   </div>
 
@@ -22,7 +32,7 @@
             {{ header }}
           </ng-template>
         </th>
-        <th>Ações</th>
+        <th *ngIf="!isUser">Ações</th>
       </tr>
       </thead>
       <tbody>
@@ -36,7 +46,7 @@
             <span *ngIf="i==5 && col == 'FINISHED'" class="badge bg-green rounded-pill">FINALIZADA</span>
           </ng-template>
         </td>
-        <td>
+        <td *ngIf="!isUser">
           <button *ngIf="row[5] == 'CREATED'" class="btn me-1 btn-primary btn-sm" (click)="onFinish(row)">
             ✅Concluir
           </button>

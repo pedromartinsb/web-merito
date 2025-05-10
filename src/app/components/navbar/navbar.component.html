@@ -1,0 +1,37 @@
+<div class="sidebar-layout">
+  <!-- Sidebar: Barra lateral -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="user-info">
+        <img [src]="personPicture" alt="Foto do Usuário" class="user-photo" />
+        <div *ngIf="personName" class="user-details">
+          <span class="user-name">{{ personName }}</span>
+          <span>{{ currentTime }}</span>
+        </div>
+      </div>
+      <!-- Botão Hamburger visível apenas em dispositivos responsivos -->
+      <button class="hamburger" (click)="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Itens de navegação; em mobile, aparecem quando isMenuOpen é true -->
+    <nav class="sidebar-nav" [ngClass]="{ open: isMenuOpen }">
+      <ul>
+        <li *ngFor="let item of navItems">
+          <a [routerLink]="item.route" (click)="toggleMenu()">
+            <i class="{{ item.icon }}"></i>
+            <span>{{ item.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <button class="btn logout-btn" (click)="logout()">Sair</button>
+  </aside>
+
+  <!-- Conteúdo principal renderizado via router-outlet -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

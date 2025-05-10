@@ -8,44 +8,48 @@
 
   <h1>Gráficos</h1>
 
-  <div *ngIf="loading" class="alert alert-info">
-    Carregando gráficos...
-  </div>
+  <div *ngIf="loading" class="alert alert-info">Carregando gráficos...</div>
 
-  <div class="container my-3" *ngIf="!loading && isSupervisor">
+  <div class="container my-3" *ngIf="!loading">
     <div class="row mb-3">
       <div class="col-md-12">
-        <div style="flex: 1; margin: 10px; padding: 20px;">
-          <canvas baseChart
-                  [datasets]="barChartData"
-                  [labels]="barChartLabels"
-                  [options]="barChartOptions"
-                  [legend]="barChartLegend"
-                  [type]="barChartType">
+        <div style="flex: 1; margin: 10px; padding: 20px">
+          <canvas
+            baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [type]="barChartType"
+          >
           </canvas>
         </div>
 
         <div class="col-md-12">
-          <div style="flex: 1; margin: 10px; padding: 20px;">
-            <canvas baseChart
-                    [datasets]="lineChartData"
-                    [labels]="lineChartLabels"
-                    [options]="lineChartOptions"
-                    [legend]="lineChartLegend"
-                    [type]="lineChartType">
+          <div style="flex: 1; margin: 10px; padding: 20px">
+            <canvas
+              baseChart
+              [datasets]="lineChartData"
+              [labels]="lineChartLabels"
+              [options]="lineChartOptions"
+              [legend]="lineChartLegend"
+              [type]="lineChartType"
+            >
             </canvas>
           </div>
         </div>
 
         <div class="col-md-12">
-          <div style="flex: 1; margin: 10px; padding: 20px;">
-            <div style="width: 100%; height: 300px; margin: 0 auto;">
-              <canvas baseChart
-                      [datasets]="pieChartData"
-                      [labels]="pieChartLabels"
-                      [options]="pieChartOptions"
-                      [legend]="pieChartLegend"
-                      [type]="pieChartType">
+          <div style="flex: 1; margin: 10px; padding: 20px">
+            <div style="width: 100%; height: 300px; margin: 0 auto">
+              <canvas
+                baseChart
+                [datasets]="pieChartData"
+                [labels]="pieChartLabels"
+                [options]="pieChartOptions"
+                [legend]="pieChartLegend"
+                [type]="pieChartType"
+              >
               </canvas>
             </div>
           </div>

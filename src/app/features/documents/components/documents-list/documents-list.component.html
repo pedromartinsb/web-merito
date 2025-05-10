@@ -9,20 +9,61 @@
 
   <h1 class="mb-4">Todos os Documentos Disponíveis</h1>
 
-  <div class="text-center mb-4">
-    <button class="btn btn-primary" (click)="router.navigate(['/documents/upload'])">
-      Novo Documento
-    </button>
+  <div class="text-start mb-4">
+    <button class="btn btn-primary" (click)="router.navigate(['/documents/upload'])">Novo Documento</button>
   </div>
 
-  <div class="row">
+  <div id="fullPageContent" class="container my-5">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmitForm()">
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <label for="employeeId" class="form-label">Cargo</label>
+          <select
+            id="responsibilityId"
+            class="form-select"
+            formControlName="responsibilityId"
+            (change)="onResponsibilityChange($event)"
+            [ngClass]="{
+              'is-invalid': formGroup.get('responsibilityId')?.invalid && formGroup.get('responsibilityId')?.touched,
+              'is-valid': formGroup.get('responsibilityId')?.valid && formGroup.get('responsibilityId')?.touched
+            }"
+          >
+            <option value="" disabled selected>Selecione</option>
+            <option value="all" selected>Todos os Cargos</option>
+            <option *ngFor="let responsibility of responsibilities" [value]="responsibility.id">
+              {{ responsibility.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="formGroup.get('responsibilityId')?.invalid && formGroup.get('responsibilityId')?.touched"
+            class="invalid-feedback"
+          >
+            O cargo é obrigatório.
+          </div>
+        </div>
+        <div class="col-md-12 mb-3">
+          <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Pesquisar</button>
+          <div *ngIf="isLoading" class="spinner-container">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row" *ngIf="pdfDocuments.length == 0">
+    <div class="col-md-4">Não há documentos para esse cargo específico.</div>
+  </div>
+
+  <div class="row" *ngIf="pdfDocuments.length != 0">
     <div class="col-md-4" *ngFor="let pdf of pdfDocuments">
       <div class="card mb-4 hover-grow-card">
-        <div class="card-img-container">
+        <!-- <div class="card-img-container">
           <img [src]="pdf.url" class="card-img-top hover-grow-img" alt="PDF Cover" />
-        </div>
+        </div> -->
         <div class="card-body">
-          <h3 class="card-title">Título: {{ pdf.key }}</h3>
+          <h3 class="card-title">Título: {{ pdf.name }}</h3>
+          <h3 class="card-title">Tipo: {{ pdf.type }}</h3>
           <h4 class="card-title">Cargo: {{ pdf.responsibilityName }}</h4>
           <a [href]="pdf.url" class="btn btn-primary" target="_blank">Ver PDF</a>
         </div>
@@ -31,4 +72,4 @@
   </div>
 </div>
 
-<app-spinner [isLoading]="isLoading"></app-spinner>
+<!-- <app-spinner [isLoading]="isLoading"></app-spinner> -->

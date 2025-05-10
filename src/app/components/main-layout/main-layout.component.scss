@@ -1,0 +1,17 @@
+// .content-container {
+//   padding: 20px;
+//   max-width: 1200px;
+//   margin: 0 auto;
+// }
+
+.layout-container {
+  display: flex;
+  height: calc(100vh - 60px); // Assumindo que o nav header tenha 60px de altura
+}
+
+.content-container {
+  flex-grow: 1;
+  background-color: #ecf0f1;
+  padding: 20px;
+  overflow-y: auto;
+}

@@ -1,6 +1,6 @@
-import { Office } from './office';
-import { Responsibility } from './responsibility';
-import { Role } from './role';
+import { Office } from "./office";
+import { Responsibility } from "./responsibility";
+import { Role } from "./role";
 
 export interface Person {
   id?: string;
@@ -13,7 +13,7 @@ export interface Person {
   picture: string;
   office: Office;
   officeId: string;
-  officeFantasyName: string
+  officeFantasyName: string;
   responsibility: Responsibility;
   responsibilityId: string;
   user: User;
@@ -29,16 +29,19 @@ export interface Person {
 }
 
 export interface User {
+  id?: string;
   username: string;
   email: string;
   roles: Role[];
   password: string;
+  firstAccess?: boolean;
 }
 
 export interface UserResponse {
   id: string;
   username: string;
   roles: Role[];
+  firstAccess?: boolean;
 }
 
 export interface Address {
@@ -69,25 +72,25 @@ export interface AddressSearch {
 }
 
 export enum Roles {
-  ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN',
-  ROLE_ADMIN = 'ROLE_ADMIN',
-  ROLE_SUPERVISOR = 'ROLE_SUPERVISOR',
-  ROLE_MANAGER = 'ROLE_MANAGER',
-  ROLE_USER = 'ROLE_USER',
+  ROLE_SUPER_ADMIN = "ROLE_SUPER_ADMIN",
+  ROLE_ADMIN = "ROLE_ADMIN",
+  ROLE_SUPERVISOR = "ROLE_SUPERVISOR",
+  ROLE_MANAGER = "ROLE_MANAGER",
+  ROLE_USER = "ROLE_USER",
 }
 
 export enum Gender {
-  MALE = 'Masculino',
-  FEMALE = 'Feminino',
+  MALE = "Masculino",
+  FEMALE = "Feminino",
 }
 
 export enum ContractType {
-  CLT = 'Clt',
-  AUTONOMO = 'Autônomo',
-  SUPPLIER = 'Fornecedor',
+  CLT = "Clt",
+  AUTONOMO = "Autônomo",
+  SUPPLIER = "Fornecedor",
 }
 
 export enum PersonType {
-  EMPLOYEE = 'EMPLOYEE',
-  SUPERVISOR = 'SUPERVISOR',
+  EMPLOYEE = "EMPLOYEE",
+  SUPERVISOR = "SUPERVISOR",
 }
