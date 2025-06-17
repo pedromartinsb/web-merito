@@ -28,6 +28,25 @@
     </div>
   </div>
 
+  <!-- ADMIN -->
+  <div class="home-navigation" *ngIf="isAdmin">
+    <div class="employees-professionals-suppliers-count" *ngIf="isAdmin">
+      <i class="fas fa-users"></i>
+      <h3>Funcionários</h3>
+      <h2>10 ativos</h2>
+    </div>
+    <div class="employees-professionals-suppliers-count" *ngIf="isAdmin">
+      <i class="fas fa-users"></i>
+      <h3>Profissionais Autônomos</h3>
+      <h2>8 ativos</h2>
+    </div>
+    <div class="employees-professionals-suppliers-count" *ngIf="isAdmin">
+      <i class="fas fa-users"></i>
+      <h3>Prestadores de Serviços</h3>
+      <h2>34 ativos</h2>
+    </div>
+  </div>
+
   <div class="home-navigation">
     <!-- ADMIN -->
     <div class="nav-card" *ngIf="isAdmin">

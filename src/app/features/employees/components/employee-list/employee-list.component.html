@@ -14,29 +14,32 @@
 
   <h1>Lista de Funcionários</h1>
 
-  <div class="text-end mb-3" *ngIf="!loading && isAdmin">
-    <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
-      Criar Novo Funcionário
-    </button>
+  <div class="text-end mb-3" *ngIf="employeeData.length > 0 && !loading && isAdmin">
+    <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">Criar Novo Funcionário</button>
   </div>
 
-  <div *ngIf="loading" class="alert alert-info">
-    Carregando funcionários...
-  </div>
+  <div *ngIf="loading" class="alert alert-info">Carregando funcionários...</div>
 
-  <app-zebra-employee-table *ngIf="!loading && employeeData.length != 0"
+  <app-zebra-employee-table
+    *ngIf="!loading && employeeData.length != 0"
     [headers]="employeeHeaders"
     [data]="employeeData"
     [itemsPerPage]="5"
     (edit)="onEdit($event)"
     (delete)="onDelete($event)"
-    (view)="onView($event)"></app-zebra-employee-table>
+    (view)="onView($event)"
+  ></app-zebra-employee-table>
 
   <div *ngIf="!loading && employeeData.length == 0">
     <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
     <h4>Nenhum funcionário cadastrado.</h4>
-    <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">
-      Criar Novo Funcionário
-    </button>
+
+    <ng-container *ngIf="!isAdmin; then askAdminToCreate; else showCreateEmployeeButton"></ng-container>
+    <ng-template #askAdminToCreate>
+      <p>Peça ao Administrador para cadastrar!</p>
+    </ng-template>
+    <ng-template #showCreateEmployeeButton>
+      <button class="btn btn-primary" (click)="router.navigate(['/employees/create'])">Criar Novo Funcionário</button>
+    </ng-template>
   </div>
 </div>

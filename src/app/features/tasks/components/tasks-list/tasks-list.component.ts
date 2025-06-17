@@ -101,8 +101,8 @@ export class TasksListComponent implements OnInit {
             ];
             this.taskData.push(task);
           });
-          this.loading = false;
         }
+        this.loading = false;
       },
       error: (ex) => {
         this._handleErrors(ex);

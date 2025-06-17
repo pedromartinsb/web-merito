@@ -42,7 +42,6 @@ import { ToastrModule } from "ngx-toastr";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { CardComponent } from "./components/card/card.component";
 import { DeleteConfirmationModalComponent } from "./components/delete/delete-confirmation-modal";
 import { DescriptionModalComponent } from "./components/description/description-modal";
 import { DialogOverviewComponent } from "./components/dialog-overview/dialog-overview.component";
@@ -146,6 +145,7 @@ import { SelectCompanyComponent } from "./pages/select-company/select-company.co
 import { PageNotFoundComponent } from "./pages/page-not-found/page-not-found.component";
 import { ResetPasswordComponent } from "./pages/reset-password/reset-password.component";
 import { NgxExtendedPdfViewerModule } from "ngx-extended-pdf-viewer";
+import { ValidationMessageComponent } from "./shared/validation-message.component";
 
 export const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -181,7 +181,6 @@ export const maskConfig: Partial<IConfig> = {
     HoldingFormComponent,
     DeleteConfirmationModalComponent,
     DescriptionModalComponent,
-    CardComponent,
     PermissionFormComponent,
     DialogOverviewComponent,
     FirstAccessComponent,
@@ -241,6 +240,7 @@ export const maskConfig: Partial<IConfig> = {
     SelectCompanyComponent,
     PageNotFoundComponent,
     ResetPasswordComponent,
+    ValidationMessageComponent,
   ],
   imports: [
     BrowserModule,

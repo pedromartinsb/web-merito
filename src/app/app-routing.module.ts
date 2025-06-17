@@ -28,7 +28,8 @@ import { ResetPasswordComponent } from "./pages/reset-password/reset-password.co
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
-  { path: "", component: LandingPageComponent },
+  // { path: "", component: LandingPageComponent },
+  { path: "", component: SigninComponent },
   { path: "sign-in", component: SigninComponent },
   { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "dash", component: DashComponent },

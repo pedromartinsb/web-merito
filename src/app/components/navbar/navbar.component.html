@@ -1,25 +1,32 @@
 <div class="sidebar-layout">
-  <!-- Sidebar: Barra lateral -->
-  <aside class="sidebar">
+  <!-- Sidebar -->
+  <aside class="sidebar" role="navigation" aria-label="Menu de navegação">
+    <!-- Cabeçalho do Sidebar -->
     <div class="sidebar-header">
-      <div class="user-info">
+      <div class="user-info" *ngIf="personPicture && personName">
         <img [src]="personPicture" alt="Foto do Usuário" class="user-photo" />
-        <div *ngIf="personName" class="user-details">
+        <div class="user-details">
           <span class="user-name">{{ personName }}</span>
-          <span>{{ currentTime }}</span>
+          <p class="user-role">{{ personRole }}</p>
         </div>
       </div>
-      <!-- Botão Hamburger visível apenas em dispositivos responsivos -->
-      <button class="hamburger" (click)="toggleMenu()">
+
+      <!-- Botão Hamburguer (Mobile) -->
+      <button class="hamburger" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen" aria-label="Abrir/Fechar Menu">
         <i class="fas fa-bars"></i>
       </button>
     </div>
 
-    <!-- Itens de navegação; em mobile, aparecem quando isMenuOpen é true -->
+    <!-- Menu de navegação -->
     <nav class="sidebar-nav" [ngClass]="{ open: isMenuOpen }">
       <ul>
         <li *ngFor="let item of navItems">
-          <a [routerLink]="item.route" (click)="toggleMenu()">
+          <a
+            [routerLink]="item.route"
+            (click)="closeMenuOnNavigate()"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
             <i class="{{ item.icon }}"></i>
             <span>{{ item.label }}</span>
           </a>
@@ -27,10 +34,13 @@
       </ul>
     </nav>
 
-    <button class="btn logout-btn" (click)="logout()">Sair</button>
+    <!-- Botão de Logout -->
+    <button class="btn logout-btn" (click)="logout()" aria-label="Sair da aplicação">
+      <i class="fas fa-sign-out-alt"></i> Sair
+    </button>
   </aside>
 
-  <!-- Conteúdo principal renderizado via router-outlet -->
+  <!-- Área principal de conteúdo -->
   <main class="main-content">
     <router-outlet></router-outlet>
   </main>

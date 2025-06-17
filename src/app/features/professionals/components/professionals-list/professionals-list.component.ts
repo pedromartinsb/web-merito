@@ -1,23 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import {ProfessionalsService} from "../../services/professionals.service";
-import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
-import {Urls} from "../../../../config/urls.config";
-import { AuthService } from 'src/app/services/auth.service';
+import { Component, OnInit } from "@angular/core";
+import { ProfessionalsService } from "../../services/professionals.service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { Urls } from "../../../../config/urls.config";
+import { AuthService } from "src/app/services/auth.service";
 
 @Component({
-  selector: 'app-professionals-list',
-  templateUrl: './professionals-list.component.html',
-  styleUrls: ['./professionals-list.component.css']
+  selector: "app-professionals-list",
+  templateUrl: "./professionals-list.component.html",
+  styleUrls: ["./professionals-list.component.css"],
 })
 export class ProfessionalsListComponent implements OnInit {
-  professionalsHeaders = [
-    'Id',
-    'Foto',
-    'Nome',
-    'Cargo',
-    'Permissão'
-  ];
+  professionalsHeaders = ["Id", "Foto", "Nome", "Cargo", "Permissão"];
   professionalsData = [];
   loading: boolean = true;
   deleting: boolean = false;
@@ -33,7 +27,7 @@ export class ProfessionalsListComponent implements OnInit {
     private toast: ToastrService,
     private authService: AuthService,
     public router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this._checkPermission();
@@ -44,16 +38,16 @@ export class ProfessionalsListComponent implements OnInit {
     this.userRole = this.authService.getRole();
     this.userRole.map((role) => {
       switch (role) {
-        case 'ROLE_ADMIN':
+        case "ROLE_ADMIN":
           this.isAdmin = true;
           break;
-        case 'ROLE_SUPERVISOR':
+        case "ROLE_SUPERVISOR":
           this.isSupervisor = true;
           break;
-        case 'ROLE_MANAGER':
+        case "ROLE_MANAGER":
           this.isManager = true;
           break;
-        case 'ROLE_USER':
+        case "ROLE_USER":
           this.isUser = true;
           break;
         default:
@@ -68,13 +62,14 @@ export class ProfessionalsListComponent implements OnInit {
         if (professionals != null) {
           professionals.forEach((response) => {
             response.picture = response.picture == null ? Urls.getDefaultPictureS3() : response.picture;
-            let accessType = (response.accessType == "Manager") ? ("Gerente") : ((response.accessType == "User") ? ("Usuário") : ("Supervisor"));
+            let accessType =
+              response.accessType == "Manager" ? "Gerente" : response.accessType == "User" ? "Usuário" : "Supervisor";
             const professional = [
               response.id,
               response.picture,
               response.name,
               response.responsibilityName,
-              accessType
+              accessType,
             ];
             this.professionalsData.push(professional);
           });
@@ -92,15 +87,14 @@ export class ProfessionalsListComponent implements OnInit {
   onEdit(professional: any) {
     console.log(professional);
     const id = professional[0];
-    this.router.navigate(['/professionals/edit/', id]);
+    this.router.navigate(["/professionals/edit/", id]);
   }
 
   onDelete(row: any) {
     this.deleting = true;
-    this.professionalService.delete(row[0])
-    .subscribe({
+    this.professionalService.delete(row[0]).subscribe({
       next: () => {
-        this.toast.success('Profissional desativado com sucesso!');
+        this.toast.success("Profissional desativado com sucesso!");
         this.loading = false;
         window.location.reload();
         this.deleting = false;
@@ -125,5 +119,4 @@ export class ProfessionalsListComponent implements OnInit {
       this.toast.error(ex.error.message);
     }
   }
-
 }

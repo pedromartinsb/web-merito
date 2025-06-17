@@ -59,7 +59,7 @@ export class EmployeeFormComponent implements OnInit {
       cellphone: [""],
       name: ["", Validators.required],
       cpfCnpj: ["", Validators.required],
-      picture: [null],
+      picture: [null, Validators.required],
       birthdate: ["", Validators.required],
       gender: ["", Validators.required],
       contractType: [""],

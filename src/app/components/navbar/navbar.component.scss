@@ -103,6 +103,11 @@
     &:hover {
       background-color: #c0392b;
     }
+
+    /* Em desktop, o menu pode estar sempre visível; em mobile, será controlado */
+    &.open {
+      display: block;
+    }
   }
 }
 
@@ -127,6 +132,7 @@
 
     .hamburger {
       display: block; /* Exibe o botão hamburger em mobile */
+      margin-bottom: 10px;
     }
 
     .sidebar-nav {

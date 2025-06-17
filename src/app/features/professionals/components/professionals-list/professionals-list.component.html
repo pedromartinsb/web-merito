@@ -15,7 +15,7 @@
   <h1 *ngIf="!loading">Lista de Profissionais Autônomos</h1>
 
   <!-- Botão para Criar Novo Usuário -->
-  <div class="text-end mb-3" *ngIf="!loading && isAdmin">
+  <div class="text-end mb-3" *ngIf="professionalsData.length > 0 && !loading && isAdmin">
     <button class="btn btn-primary" (click)="router.navigate(['/professionals/create'])">
       Criar Novo Profissional
     </button>
@@ -30,16 +30,25 @@
   <div *ngIf="!loading && professionalsData.length == 0">
     <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
     <h4>Nenhum profissional cadastrado.</h4>
-    <button class="btn btn-primary" (click)="router.navigate(['/professionals/create'])">
-      Criar Novo Profissional
-    </button>
+
+    <ng-container *ngIf="!isAdmin; then askAdminToCreate; else showCreateProfessionalButton"></ng-container>
+    <ng-template #askAdminToCreate>
+      <p>Peça ao Administrador para cadastrar!</p>
+    </ng-template>
+    <ng-template #showCreateProfessionalButton>
+      <button class="btn btn-primary" (click)="router.navigate(['/professionals/create'])">
+        Criar Novo Profissional
+      </button>
+    </ng-template>
   </div>
 
-  <app-zebra-employee-table *ngIf="!loading && professionalsData.length > 0"
-                            [headers]="professionalsHeaders"
-                            [data]="professionalsData"
-                            [itemsPerPage]="5"
-                            (edit)="onEdit($event)"
-                            (delete)="onDelete($event)"
-                            (view)="onView($event)"></app-zebra-employee-table>
+  <app-zebra-employee-table
+    *ngIf="!loading && professionalsData.length > 0"
+    [headers]="professionalsHeaders"
+    [data]="professionalsData"
+    [itemsPerPage]="5"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+    (view)="onView($event)"
+  ></app-zebra-employee-table>
 </div>

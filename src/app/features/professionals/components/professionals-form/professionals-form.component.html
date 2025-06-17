@@ -3,12 +3,10 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
       <li class="breadcrumb-item"><a routerLink="/professionals">Profissionais Autônomos</a></li>
-      <li *ngIf="formGroup.get('id').value" class="breadcrumb-item active" aria-current="page">Alterar</li>
-      <li *ngIf="formGroup.get('id').value == ''" class="breadcrumb-item active" aria-current="page">Adicionar Novo</li>
+      <li *ngIf="id.value" class="breadcrumb-item active" aria-current="page">Alterar</li>
+      <li *ngIf="id.value == ''" class="breadcrumb-item active" aria-current="page">Adicionar Novo</li>
     </ol>
   </nav>
-
-  <h1>Cadastro de Profissional</h1>
 
   <div *ngIf="isSaving" class="backdrop">
     <div class="spinner-border text-light" role="status">
@@ -16,153 +14,268 @@
     </div>
   </div>
 
-  <div class="container my-5">
+  <div class="containe py-4">
+    <h1>Cadastro de Profissional</h1>
+
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <div class="row mb-4">
+        <div class="col-12">
+          <h5>Dados Pessoais</h5>
+        </div>
+
+        <!-- Nome -->
+        <div class="col-12 col-md-6 mb-3">
+          <label for="name" class="form-label">Nome Completo</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-control"
+            placeholder="Seu nome"
+            [ngClass]="{
+              'is-invalid': name?.invalid && name?.touched,
+              'is-valid': name?.valid && name?.touched
+            }"
+          />
+          <app-validation-message [control]="name"></app-validation-message>
+        </div>
+
+        <!-- Email -->
+        <div class="col-12 col-md-6 mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="seu@email.com"
+            [ngClass]="{
+              'is-invalid': email?.invalid && email?.touched,
+              'is-valid': email?.valid && email?.touched
+            }"
+          />
+          <app-validation-message [control]="email"></app-validation-message>
+        </div>
+      </div>
+
       <section class="mb-4">
         <h5 class="border-bottom pb-2">Informações Pessoais</h5>
 
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="name" class="form-label">Nome Completo</label>
-            <input type="text" id="name" formControlName="name" class="form-control" placeholder="Seu nome"
-                   [ngClass]="{'is-invalid': formGroup.get('name')?.invalid && formGroup.get('name')?.touched,
-                   'is-valid': formGroup.get('name')?.valid && formGroup.get('name')?.touched}" />
-            <div *ngIf="formGroup.get('name')?.invalid && formGroup.get('name')?.touched" class="invalid-feedback">
-              O nome é obrigatório.
-            </div>
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              class="form-control"
+              placeholder="Seu nome"
+              [ngClass]="{
+                'is-invalid': name?.invalid && name?.touched,
+                'is-valid': name?.valid && name?.touched
+              }"
+            />
+            <app-validation-message [control]="name"></app-validation-message>
           </div>
           <div class="col-md-4 mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" formControlName="email" class="form-control" placeholder="Seu email"
-                   [ngClass]="{'is-invalid': formGroup.get('email')?.invalid && formGroup.get('email')?.touched,
-                   'is-valid': formGroup.get('email')?.valid && formGroup.get('email')?.touched}" />
-            <div *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched" class="invalid-feedback">
-              O email é obrigatório.
-            </div>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              class="form-control"
+              placeholder="Seu email"
+              [ngClass]="{
+                'is-invalid': email?.invalid && email?.touched,
+                'is-valid': email?.valid && email?.touched
+              }"
+            />
+            <app-validation-message [control]="email"></app-validation-message>
           </div>
           <div class="col-md-4 mb-3">
             <label for="cpfCnpj" class="form-label">CNPJ</label>
-            <input type="text" id="cpfCnpj" formControlName="cpfCnpj" class="form-control" placeholder="00.000.000/0000-00" mask="00.000.000/0000-00"
-                   [ngClass]="{'is-invalid': formGroup.get('cpfCnpj')?.invalid && formGroup.get('cpfCnpj')?.touched,
-                   'is-valid': formGroup.get('cpfCnpj')?.valid && formGroup.get('cpfCnpj')?.touched}" />
-            <div *ngIf="formGroup.get('cpfCnpj')?.invalid && formGroup.get('cpfCnpj')?.touched" class="invalid-feedback">
-              O CNPJ é obrigatório.
-            </div>
+            <input
+              type="text"
+              id="cpfCnpj"
+              formControlName="cpfCnpj"
+              class="form-control"
+              placeholder="00.000.000/0000-00"
+              mask="00.000.000/0000-00"
+              [ngClass]="{
+                'is-invalid': cpfCnpj?.invalid && cpfCnpj?.touched,
+                'is-valid': cpfCnpj?.valid && cpfCnpj?.touched
+              }"
+            />
+            <app-validation-message [control]="cpfCnpj"></app-validation-message>
           </div>
 
           <div class="col-md-6 mb-3">
             <label for="username" class="form-label">Nome de usuário</label>
-            <input type="text" id="username" formControlName="username" (input)="onInputChange()" class="form-control" placeholder="Seu usuário de acesso"
-                   [ngClass]="{'is-invalid': formGroup.get('username')?.invalid && formGroup.get('username')?.touched,
-                   'is-valid': formGroup.get('username')?.valid && formGroup.get('username')?.touched}" />
-            <div *ngIf="formGroup.get('username')?.invalid && formGroup.get('username')?.touched" class="invalid-feedback">
-              O nome de usuário é obrigatório.
-            </div>
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              (input)="onInputChange()"
+              class="form-control"
+              placeholder="Seu usuário de acesso"
+              [ngClass]="{
+                'is-invalid': username?.invalid && username?.touched,
+                'is-valid': username?.valid && username?.touched
+              }"
+            />
+            <app-validation-message [control]="username"></app-validation-message>
           </div>
           <div class="col-md-3 mb-3">
             <label for="password" class="form-label">Senha</label>
-            <input type="password" id="password" formControlName="password" class="form-control"
-                   [ngClass]="{'is-invalid': formGroup.get('password')?.invalid && formGroup.get('password')?.touched,
-                   'is-valid': formGroup.get('password')?.valid && formGroup.get('password')?.touched}" />
-            <div *ngIf="formGroup.get('password')?.invalid && formGroup.get('password')?.touched" class="invalid-feedback">
-              A senha é obrigatória.
-            </div>
-            <div *ngIf="formGroup.get('password')?.errors?.minlength && formGroup.get('password')?.touched" class="invalid-feedback">
-              A senha deve ter no mínimo 6 dígitos.
-            </div>
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': password?.invalid && password?.touched,
+                'is-valid': password?.valid && password?.touched
+              }"
+            />
+            <app-validation-message [control]="password"></app-validation-message>
           </div>
           <div class="col-md-3 mb-3">
             <label for="password" class="form-label">Confirme a Senha</label>
-            <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control"
-                   [ngClass]="{'is-invalid': formGroup.get('confirmPassword')?.invalid && formGroup.get('confirmPassword')?.touched,
-                   'is-valid': formGroup.get('confirmPassword')?.valid && formGroup.get('confirmPassword')?.touched}" />
-            <div *ngIf="formGroup.get('confirmPassword')?.invalid && formGroup.get('confirmPassword')?.touched" class="invalid-feedback">
-              Confirmar a senha é obrigatório.
-            </div>
-            <div *ngIf="formGroup.get('confirmPassword')?.errors?.minlength && formGroup.get('confirmPassword')?.touched" class="invalid-feedback">
-              Confirmar senha deve ter no mínimo 6 dígitos.
-            </div>
+            <input
+              type="password"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': confirmPassword?.invalid && confirmPassword?.touched,
+                'is-valid': confirmPassword?.valid && confirmPassword?.touched
+              }"
+            />
+            <app-validation-message [control]="confirmPassword"></app-validation-message>
           </div>
 
           <div class="col-md-5 mb-3">
             <label for="officeId" class="form-label">Empresa</label>
-            <select id="officeId" class="form-select" formControlName="officeId" (change)="onOfficeChange($event)"
-                    [ngClass]="{'is-invalid': formGroup.get('officeId')?.invalid && formGroup.get('officeId')?.touched,
-                   'is-valid': formGroup.get('officeId')?.valid && formGroup.get('officeId')?.touched}">
+
+            <select
+              id="officeId"
+              class="form-select"
+              formControlName="officeId"
+              (change)="onOfficeChange($event)"
+              [disabled]="professionalsState.isLoadingOffices$ | async"
+              [ngClass]="{
+                'is-invalid': officeId?.invalid && officeId?.touched,
+                'is-valid': officeId?.valid && officeId?.touched
+              }"
+            >
               <option value="" disabled selected>Selecione</option>
-              <option *ngFor="let office of offices" [value]="office['id']">{{office['name']}}</option>
+              <option *ngFor="let office of professionalsState.offices$ | async" [value]="office.id">
+                {{ office.name }}
+              </option>
             </select>
-            <div *ngIf="formGroup.get('officeId')?.invalid && formGroup.get('officeId')?.touched" class="invalid-feedback">
-              A empresa é obrigatória.
+
+            <app-validation-message [control]="officeId"></app-validation-message>
+
+            <div *ngIf="professionalsState.isLoadingOffices$ | async" class="form-text text-muted">
+              Carregando empresas...
             </div>
           </div>
           <div class="col-md-5 mb-3">
             <label for="responsibilityId" class="form-label">Cargo</label>
-            <select id="responsibilityId" class="form-select" formControlName="responsibilityId" (change)="onResponsibilityChange($event)"
-                  [ngClass]="{'is-invalid': formGroup.get('responsibilityId')?.invalid && formGroup.get('responsibilityId')?.touched,
-                  'is-valid': formGroup.get('responsibilityId')?.valid && formGroup.get('responsibilityId')?.touched}">
+            <select
+              id="responsibilityId"
+              class="form-select"
+              formControlName="responsibilityId"
+              (change)="onResponsibilityChange($event)"
+              [ngClass]="{
+                'is-invalid': responsibilityId?.invalid && responsibilityId?.touched,
+                'is-valid': responsibilityId?.valid && responsibilityId?.touched
+              }"
+            >
               <option value="" disabled selected>Selecione</option>
-              <option *ngFor="let responsibility of responsibilities" [value]="responsibility['id']">{{responsibility['name']}}</option>
+              <option *ngFor="let responsibility of responsibilities" [value]="responsibility['id']">
+                {{ responsibility["name"] }}
+              </option>
             </select>
-            <div *ngIf="formGroup.get('responsibilityId')?.invalid && formGroup.get('responsibilityId')?.touched" class="invalid-feedback">
-              O cargo é obrigatório.
-            </div>
+            <app-validation-message [control]="responsibilityId"></app-validation-message>
           </div>
 
           <div class="col-md-5 mb-3">
             <label for="accessType" class="form-label">Tipo de Acesso</label>
-            <select id="accessType" formControlName="accessType" class="form-select"
-                    [ngClass]="{'is-invalid': formGroup.get('accessType')?.invalid && formGroup.get('accessType')?.touched,
-                   'is-valid': formGroup.get('accessType')?.valid && formGroup.get('accessType')?.touched}">
+            <select
+              id="accessType"
+              formControlName="accessType"
+              class="form-select"
+              [ngClass]="{
+                'is-invalid': accessType?.invalid && accessType?.touched,
+                'is-valid': accessType?.valid && accessType?.touched
+              }"
+            >
               <option value="" disabled selected>Selecione</option>
               <option value="User">Usuário Comum</option>
               <option value="Supervisor">Supervisor</option>
               <option value="Manager">Gerente</option>
             </select>
-            <div *ngIf="formGroup.get('accessType')?.invalid && formGroup.get('accessType')?.touched" class="invalid-feedback">
-              O tipo de acesso é obrigatório.
-            </div>
+            <app-validation-message [control]="accessType"></app-validation-message>
           </div>
-          <div class="col-md-5 mb-3" [hidden]="formGroup.get('accessType').value != 'User'">
+          <div class="col-md-5 mb-3" [hidden]="accessType.value != 'User'">
             <label for="supervisorId" class="form-label">Supervisor</label>
-            <select id="supervisorId" class="form-select" formControlName="supervisorId" (change)="onSupervisorChange($event)"
-                    [ngClass]="{'is-invalid': formGroup.get('supervisorId')?.invalid && formGroup.get('supervisorId')?.touched,
-                  'is-valid': formGroup.get('supervisorId')?.valid && formGroup.get('supervisorId')?.touched}">
+            <select
+              id="supervisorId"
+              class="form-select"
+              formControlName="supervisorId"
+              (change)="onSupervisorChange($event)"
+              [ngClass]="{
+                'is-invalid': supervisorId?.invalid && supervisorId?.touched,
+                'is-valid': supervisorId?.valid && supervisorId?.touched
+              }"
+            >
               <option value="" disabled selected>Selecione</option>
-              <option *ngFor="let supervisor of supervisors" [value]="supervisor['id']">{{supervisor['name']}}</option>
+              <option *ngFor="let supervisor of supervisors" [value]="supervisor['id']">
+                {{ supervisor["name"] }}
+              </option>
             </select>
-            <div *ngIf="formGroup.get('supervisorId')?.invalid && formGroup.get('supervisorId')?.touched" class="invalid-feedback">
-              O supervisor é obrigatório.
-            </div>
+            <app-validation-message [control]="supervisorId"></app-validation-message>
           </div>
-          <div class="col-md-5 mb-3" [hidden]="formGroup.get('accessType').value != 'Supervisor'">
+          <div class="col-md-5 mb-3" [hidden]="accessType.value != 'Supervisor'">
             <label for="managerId" class="form-label">Gerente</label>
-            <select id="managerId" class="form-select" formControlName="managerId" (change)="onManagerChange($event)"
-                    [ngClass]="{'is-invalid': formGroup.get('managerId')?.invalid && formGroup.get('managerId')?.touched,
-                  'is-valid': formGroup.get('managerId')?.valid && formGroup.get('managerId')?.touched}">
+            <select
+              id="managerId"
+              class="form-select"
+              formControlName="managerId"
+              (change)="onManagerChange($event)"
+              [ngClass]="{
+                'is-invalid': managerId?.invalid && managerId?.touched,
+                'is-valid': managerId?.valid && managerId?.touched
+              }"
+            >
               <option value="" disabled selected>Selecione</option>
-              <option *ngFor="let manager of managers" [value]="manager['id']">{{manager['name']}}</option>
+              <option *ngFor="let manager of managers" [value]="manager['id']">{{ manager["name"] }}</option>
             </select>
-            <div *ngIf="formGroup.get('managerId')?.invalid && formGroup.get('managerId')?.touched" class="invalid-feedback">
-              O gerente é obrigatório.
-            </div>
+            <app-validation-message [control]="managerId"></app-validation-message>
           </div>
 
           <div>
             <div class="col-md-5 mb-3">
               <label for="picture" class="form-label">Selecione a Foto</label>
-              <input type="file" id="picture" formControlName="picture" class="form-control" (change)="onFileSelected($event)"
-                     [ngClass]="{'is-invalid': formGroup.get('picture')?.invalid && formGroup.get('picture')?.touched,
-                     'is-valid': formGroup.get('picture')?.valid && formGroup.get('picture')?.touched}">
-              <div *ngIf="formGroup.get('picture')?.invalid && formGroup.get('picture')?.touched" class="invalid-feedback">
-                A foto é obrigatória.
-              </div>
+              <input
+                type="file"
+                id="picture"
+                formControlName="picture"
+                class="form-control"
+                (change)="onFileSelected($event)"
+                [ngClass]="{
+                  'is-invalid': picture?.invalid && picture?.touched,
+                  'is-valid': picture?.valid && picture?.touched
+                }"
+              />
+              <app-validation-message [control]="picture"></app-validation-message>
             </div>
           </div>
 
           <div>
             <div class="col-md-5 mb-3">
-              <img [src]="imageUrl" alt="Foto do Colaborador" class="img-thumbnail" width="150">
+              <img [src]="imageUrl" alt="Foto do Colaborador" class="img-thumbnail" width="150" />
             </div>
           </div>
         </div>
@@ -174,11 +287,25 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="cellphone" class="form-label">Celular</label>
-            <input type="text" id="cellphone" formControlName="cellphone" class="form-control" placeholder="(00) 00000-0000" mask="(00) 00000-0000">
+            <input
+              type="text"
+              id="cellphone"
+              formControlName="cellphone"
+              class="form-control"
+              placeholder="(00) 00000-0000"
+              mask="(00) 00000-0000"
+            />
           </div>
           <div class="col-md-4 mb-3">
             <label for="phone" class="form-label">Fixo</label>
-            <input type="text" id="phone" formControlName="phone" class="form-control" placeholder="(00) 0000-0000" mask="(00) 0000-0000">
+            <input
+              type="text"
+              id="phone"
+              formControlName="phone"
+              class="form-control"
+              placeholder="(00) 0000-0000"
+              mask="(00) 0000-0000"
+            />
           </div>
         </div>
       </section>
@@ -189,51 +316,54 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="cep" class="form-label">CEP</label>
-            <input type="text" id="cep" formControlName="cep" class="form-control" placeholder="00.000-000" mask="00.000-000">
+            <input
+              type="text"
+              id="cep"
+              formControlName="cep"
+              class="form-control"
+              placeholder="00.000-000"
+              mask="00.000-000"
+            />
           </div>
           <div class="col-md-4 mb-3">
             <label for="uf" class="form-label">Estado</label>
-            <input type="text" id="uf" formControlName="uf" class="form-control">
+            <input type="text" id="uf" formControlName="uf" class="form-control" />
           </div>
           <div class="col-md-4 mb-3">
             <label for="city" class="form-label">Cidade</label>
-            <input type="text" id="city" formControlName="city" class="form-control">
+            <input type="text" id="city" formControlName="city" class="form-control" />
           </div>
 
           <div class="col-md-4 mb-3">
             <label for="streetName" class="form-label">Rua</label>
-            <input type="text" id="streetName" formControlName="streetName" class="form-control">
+            <input type="text" id="streetName" formControlName="streetName" class="form-control" />
           </div>
           <div class="col-md-4 mb-3">
             <label for="neighborhood" class="form-label">Bairro</label>
-            <input type="text" id="neighborhood" formControlName="neighborhood" class="form-control">
+            <input type="text" id="neighborhood" formControlName="neighborhood" class="form-control" />
           </div>
           <div class="col-md-4 mb-3">
             <label for="complement" class="form-label">Complemento</label>
-            <input type="text" id="complement" formControlName="complement" class="form-control">
+            <input type="text" id="complement" formControlName="complement" class="form-control" />
           </div>
         </div>
       </section>
 
-      <div class="d-grid gap-2" *ngIf="!isSaving">
+      <div class="row">
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">
+            {{ isSaving ? "Salvando..." : "Salvar" }}
+          </button>
+        </div>
+      </div>
+
+      <!-- <div class="d-grid gap-2" *ngIf="!isSaving">
         <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Salvar</button>
       </div>
 
       <div *ngIf="isSaving" class="spinner-container">
         <div class="spinner"></div>
-      </div>
+      </div> -->
     </form>
-
-    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show mt-4 mb-4" role="alert">
-      {{ successMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show mt-4 mb-4" role="alert">
-      {{ errorMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
   </div>
-
-
 </div>
