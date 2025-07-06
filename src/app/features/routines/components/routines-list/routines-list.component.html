@@ -9,29 +9,27 @@
   <h1>Lista de Rotinas</h1>
 
   <div class="text-end mb-3" *ngIf="!loading && routinesData.length != 0 && isAdmin">
-    <button class="btn btn-primary" (click)="router.navigate(['/routines/create'])">
-      Criar Nova Rotina
-    </button>
+    <button class="btn btn-primary" (click)="router.navigate(['/routines/create'])">Criar Nova Rotina</button>
   </div>
 
-  <div *ngIf="loading" class="alert alert-info">
-    Carregando rotinas...
-  </div>
+  <div *ngIf="loading" class="alert alert-info">Carregando rotinas...</div>
 
   <app-routines-table
     *ngIf="!loading && routinesData.length > 0"
     [headers]="routinesHeaders"
     [data]="routinesData"
-    [itemsPerPage]="5"
+    [itemsPerPage]="10"
+    [isAdmin]="isAdmin"
+    [isManager]="isManager"
+    [isSupervisor]="isSupervisor"
+    [isUser]="isUser"
     (edit)="onEdit($event)"
-    (delete)="onDelete($event)"></app-routines-table>
+    (delete)="onDelete($event)"
+  ></app-routines-table>
 
   <div *ngIf="!loading && routinesData.length == 0">
     <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
     <h4>Nenhuma rotina cadastrada.</h4>
-    <button class="btn btn-primary" (click)="router.navigate(['/routines/create'])">
-      Criar Nova Rotina
-    </button>
+    <button class="btn btn-primary" (click)="router.navigate(['/routines/create'])">Criar Nova Rotina</button>
   </div>
-
 </div>

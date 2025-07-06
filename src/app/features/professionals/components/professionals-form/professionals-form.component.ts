@@ -20,6 +20,7 @@ import { ProfessionalsStateService } from "../../store/professionals.state.servi
   styleUrls: ["./professionals-form.component.css"],
 })
 export class ProfessionalsFormComponent implements OnInit, OnDestroy {
+  isLoading: boolean = false;
   isSaving = false;
   isLoadingOffices = false;
   isLoadingResponsibilities = false;
@@ -85,7 +86,34 @@ export class ProfessionalsFormComponent implements OnInit, OnDestroy {
     private errorHandler: ErrorHandlerService,
     private professionalService: ProfessionalsService,
     public professionalsState: ProfessionalsStateService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.params["id"];
+    if (id) {
+      this.professionalsState.loadPersonById(id);
+    }
+
+    this.professionalsState.person$.pipe(take(1)).subscribe((person) => {
+      if (person) {
+        this._patchForm(person.id, person);
+      }
+    });
+
+    this.professionalsState.loadOfficesData();
+    this.buildFormGroup();
+
+    // TODO: mover para dentro do State
+    this.loadManagersData();
+    this.loadSupervisorsData();
+    this.cepSubscription();
+  }
+
+  ngOnDestroy(): void {
+    this.cepValueChangesSubscription?.unsubscribe();
+  }
+
+  private buildFormGroup(): void {
     this.formGroup = this.fb.group({
       id: [""],
       username: ["", Validators.required],
@@ -115,31 +143,7 @@ export class ProfessionalsFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.params["id"];
-    if (id) {
-      this.professionalsState.loadPersonById(id);
-    }
-
-    this.professionalsState.person$.pipe(take(1)).subscribe((person) => {
-      if (person) {
-        this._patchForm(person.id, person);
-      }
-    });
-
-    this.professionalsState.loadOfficesData();
-
-    // TODO: mover para dentro do State
-    this._loadManagersData();
-    this._loadSupervisorsData();
-    this._cepSubscription();
-  }
-
-  ngOnDestroy(): void {
-    this.cepValueChangesSubscription?.unsubscribe();
-  }
-
-  private _cepSubscription() {
+  private cepSubscription(): void {
     this.cepValueChangesSubscription = this.formGroup.get("cep").valueChanges.subscribe((newCep: string) => {
       if (newCep && newCep.length === 8) {
         this._searchAddress();
@@ -167,9 +171,9 @@ export class ProfessionalsFormComponent implements OnInit, OnDestroy {
     this._loadResponsibilitiesData(response.officeId);
     this.formGroup.get("responsibilityId").patchValue(response.responsibilityId);
     this.formGroup.get("accessType").patchValue(response.accessType);
-    this._loadManagersData();
+    this.loadManagersData();
     this.formGroup.get("managerId").patchValue(response.managerId);
-    this._loadSupervisorsData();
+    this.loadSupervisorsData();
     this.formGroup.get("supervisorId").patchValue(response.supervisorId);
     this.imageUrl = response.picture;
   }
@@ -221,11 +225,11 @@ export class ProfessionalsFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const professional = this._buildProfessionalRequest();
-    this._saveProfessional(professional);
+    const professional = this.buildProfessionalRequest();
+    this.saveProfessional(professional);
   }
 
-  private _buildProfessionalRequest(): ProfessionalRequest {
+  private buildProfessionalRequest(): ProfessionalRequest {
     const address: Address = {
       cep: this.formGroup.get("cep")?.value,
       uf: this.formGroup.get("uf")?.value,
@@ -255,7 +259,7 @@ export class ProfessionalsFormComponent implements OnInit, OnDestroy {
       supervisorId: this.formGroup.get("supervisorId")?.value,
       accessType: this.formGroup.get("accessType")?.value,
       personType: this.formGroup.get("personType")?.value,
-      contractType: ContractType.PROFESSIONAL,
+      contractType: ContractType.SUPPLIER,
       address: address,
       contact: contact,
       user: user,
@@ -284,14 +288,14 @@ export class ProfessionalsFormComponent implements OnInit, OnDestroy {
       supervisorId: this.formGroup.get("supervisorId")?.value,
       accessType: this.formGroup.get("accessType")?.value,
       personType: this.formGroup.get("personType")?.value,
-      contractType: ContractType.PROFESSIONAL,
+      contractType: ContractType.SUPPLIER,
       address: address,
       contact: contact,
       user: user,
     };
   }
 
-  private _saveProfessional(professional: ProfessionalRequest): void {
+  private saveProfessional(professional: ProfessionalRequest): void {
     const isNew = !this.formGroup.get("id").value;
 
     const saveObservable = isNew
@@ -341,17 +345,21 @@ export class ProfessionalsFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private _loadManagersData(): void {
-    this.personService.findAllManagers().subscribe({
+  private loadManagersData(): void {
+    this.isLoading = true;
+    this.personService.findManagers().subscribe({
       next: (response: any[]) => (this.managers = response),
       error: (error) => this.errorHandler.handle(error, "Erro ao carregar gerentes."),
+      complete: () => (this.isLoading = false),
     });
   }
 
-  private _loadSupervisorsData(): void {
-    this.personService.findAllSupervisors().subscribe({
+  private loadSupervisorsData(): void {
+    this.isLoading = true;
+    this.personService.findSupervisors().subscribe({
       next: (response: any[]) => (this.supervisors = response),
       error: (error) => this.errorHandler.handle(error, "Erro ao carregar supervisores."),
+      complete: () => (this.isLoading = false),
     });
   }
 

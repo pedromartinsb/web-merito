@@ -1,0 +1,49 @@
+.goals-manager-container {
+  padding: 24px;
+
+  .goals-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .goals-filters {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    gap: 16px;
+    // margin-bottom: 24px;
+  }
+
+  .goals-list {
+    display: grid;
+    gap: 16px;
+  }
+
+  .goal-card {
+    span.CREATED {
+      color: orange;
+    }
+    span.IN_PROGRESS {
+      color: dodgerblue;
+    }
+    span.DONE {
+      color: green;
+    }
+  }
+
+  .clear-filters {
+    align-self: flex-end;
+    font-size: 0.875rem;
+    color: #1976d2; /* azul Material */
+    cursor: pointer;
+    margin-bottom: 24px;
+    text-decoration: underline;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #0d47a1; /* azul mais escuro no hover */
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 400px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  input[type="file"] {
+    margin-top: 4px;
+  }
+
+  small {
+    color: #666;
+    font-style: italic;
+  }
+}

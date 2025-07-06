@@ -62,7 +62,6 @@ export class ResetPasswordComponent implements OnInit {
         this.router.navigate(["/sign-in"]);
       },
       error: (err) => {
-        console.log(err);
         this.toast.error("Erro ao redefinir a senha. Token inválido ou expirado.");
       },
     });

@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { ResponsibilitiesService } from "../../services/responsibilities.service";
 import Swal from "sweetalert2";
+import { ErrorHandlerService } from "src/app/shared/error-handler.service";
 
 @Component({
   selector: "app-responsibilities-list",
@@ -12,87 +13,69 @@ import Swal from "sweetalert2";
 export class ResponsibilitiesListComponent implements OnInit {
   responsibilitiesHeaders = ["Id", "Nome do Cargo", "Empresa"];
   responsibilitiesData = [];
-  loading: boolean = true; // Estado de carregamento
-  officeId: string;
+  loading: boolean = true;
 
   constructor(
     private responsibilitiesService: ResponsibilitiesService,
     private toast: ToastrService,
-    public router: Router
+    public router: Router,
+    private errorHandlerService: ErrorHandlerService
   ) {}
 
   ngOnInit(): void {
-    this.officeId = localStorage.getItem("officeId");
-    this._responsibilities();
+    this.loadResponsibilitiesData();
   }
 
-  _responsibilities() {
-    this.responsibilitiesService.findByOffice(this.officeId).subscribe({
+  private loadResponsibilitiesData(): void {
+    this.responsibilitiesService.findAll().subscribe({
       next: (responsibilities) => {
         if (responsibilities != null) {
           responsibilities.forEach((response) => {
             const responsibility = [response.id, response.name, response.officeFantasyName];
             this.responsibilitiesData.push(responsibility);
           });
-          this.loading = false;
         }
+        this.toast.success("Pesquisa realizada com sucesso.");
+        this.loading = false;
       },
-      error: (ex) => this._handleErrors(ex),
-      complete: () => (this.loading = false),
+      error: (error) => {
+        this.loading = false;
+        this.errorHandlerService.handle(error, "Erro ao buscar Cargos");
+      },
     });
   }
 
-  onEdit(row: any) {
-    this.router.navigate(["/responsibilities/edit/", row[0]]);
+  onEdit(row: any): void {
+    const id = row[0];
+    this.router.navigate(["/responsibilities/edit/", id]);
   }
 
-  onDelete(row: any) {
+  onDelete(row: any): void {
+    const id = row[0];
+    const name = row[1];
     Swal.fire({
-      title: "Tem certeza que deseja desativar?",
+      title: `Tem certeza que deseja desativar o cargo \"${name}\"?`,
       text: "Você não poderá voltar atrás após desativar!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "green",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sim, desativar agora!",
     }).then((result) => {
       if (result.isConfirmed) {
         this.loading = true;
-        this.responsibilitiesService.delete(row[0]).subscribe({
+        this.responsibilitiesService.delete(id).subscribe({
           next: () => {
-            Swal.fire({
-              title: "Desativado!",
-              text: "O registro foi desativado com sucesso.",
-              icon: "success",
-            });
+            this.toast.success(`O cargo ${name} foi desativado com sucesso.`);
             this.loading = false;
+            window.location.reload();
           },
-          error: (ex) => {
+          error: (error) => {
             this.loading = false;
-            this._handleErrors(ex);
+            this.errorHandlerService.handle(error, "Erro ao deletar cargo selecionado.");
           },
         });
       }
-    });
-  }
-
-  _handleErrors(ex): void {
-    if (ex.error.errors) {
-      ex.error.errors.forEach((element) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: element.message,
-        });
-        this.toast.error(element.message);
-      });
-      return;
-    }
-
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: ex.error.message,
     });
   }
 }

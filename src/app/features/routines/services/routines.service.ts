@@ -1,17 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Config } from 'src/app/config/api.config';
-import { RoutineRequest } from '../routine.model';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { Config } from "src/app/config/api.config";
+import { RoutineRequest } from "../routine.model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class RoutinesService {
   officeId: string;
 
   constructor(private http: HttpClient) {
-    this.officeId = localStorage.getItem('officeId');
+    this.officeId = localStorage.getItem("officeId");
   }
 
   public findAll(): Observable<any[]> {
@@ -32,5 +32,9 @@ export class RoutinesService {
 
   public update(id: string, routineRequest: RoutineRequest): Observable<any> {
     return this.http.put<any>(`${Config.webApiUrl}/v1/routine/${id}`, routineRequest);
+  }
+
+  public delete(id: string): Observable<any> {
+    return this.http.delete<any>(`${Config.webApiUrl}/v1/routine/${id}`);
   }
 }

@@ -1,6 +1,5 @@
 import { RouterModule, Routes } from "@angular/router";
-import { NavComponent } from "../../components/nav/nav.component";
-import { AuthGuard } from "../../auth/auth.guard";
+import { AuthGuard } from "../../guards/auth.guard";
 import { Roles } from "../../models/person";
 import { EmployeeFormComponent } from "../employees/components/employee-form/employee-form.component";
 import { NgModule } from "@angular/core";
@@ -29,6 +28,18 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         component: EmployeeFormComponent,
         data: { role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR] },
+      },
+    ],
+  },
+  {
+    path: "tarefas",
+    component: NavbarComponent,
+    children: [
+      {
+        path: "",
+        canActivate: [AuthGuard],
+        component: TasksListComponent,
+        data: { role: [Roles.ROLE_MANAGER, Roles.ROLE_SUPERVISOR, Roles.ROLE_USER] },
       },
     ],
   },

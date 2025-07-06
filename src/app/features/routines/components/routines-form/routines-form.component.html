@@ -33,7 +33,7 @@
           <div class="col-md-6 mb-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Cargo</mat-label>
-              <mat-select formControlName="responsibilities" multiple>
+              <mat-select formControlName="responsibilities" multiple [disabled]="formGroup.get('id')?.value != ''">
                 <mat-option *ngFor="let responsibility of responsibilities" [value]="responsibility.id">
                   {{ responsibility.name }}
                 </mat-option>
@@ -57,16 +57,5 @@
         <div class="spinner"></div>
       </div>
     </form>
-
-    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show mt-4 mb-4" role="alert">
-      {{ successMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show mt-4 mb-4" role="alert">
-      {{ errorMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
   </div>
-
 </div>

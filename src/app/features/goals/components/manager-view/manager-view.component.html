@@ -1,0 +1,81 @@
+<div class="goals-manager-container">
+  <div class="goals-header">
+    <h1>🎯 Metas da Equipe</h1>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openCreateGoalDialog()"
+      [hidden]="selectedColaborador === '' && selectedAutonomo === '' && selectedPrestador === ''"
+    >
+      + Nova Meta
+    </button>
+  </div>
+
+  <div class="goals-filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Colaborador</mat-label>
+      <mat-select [(ngModel)]="selectedColaborador" [disabled]="selectedAutonomo !== '' || selectedPrestador !== ''">
+        <mat-option *ngFor="let user of colaboradores" [value]="user.id">
+          {{ user.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Profissional Autônomo</mat-label>
+      <mat-select [(ngModel)]="selectedAutonomo" [disabled]="selectedColaborador !== '' || selectedPrestador !== ''">
+        <mat-option *ngFor="let user of autonomos" [value]="user.id">
+          {{ user.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Prestador de Serviço</mat-label>
+      <mat-select [(ngModel)]="selectedPrestador" [disabled]="selectedColaborador !== '' || selectedAutonomo !== ''">
+        <mat-option *ngFor="let user of prestadores" [value]="user.id">
+          {{ user.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="selectedStatus">
+        <mat-option value="">Todos</mat-option>
+        <mat-option value="CREATED">Pendente</mat-option>
+        <mat-option value="IN_PROGRESS">Em andamento</mat-option>
+        <mat-option value="DONE">Concluída</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <p class="clear-filters" (click)="clearFilters()">Limpar filtros</p>
+
+  <mat-divider></mat-divider>
+
+  <div class="goals-list">
+    <ng-container *ngFor="let goal of filteredGoals">
+      <mat-card class="goal-card">
+        <mat-card-title>{{ goal.title }}</mat-card-title>
+        <mat-card-subtitle>
+          {{ goal.personName }} • {{ goal.endDate | date : "dd/MM/yyyy" }} •
+          <span [ngClass]="goal.status" *ngIf="goal.status === 'CREATED'">Pendente</span>
+          <span [ngClass]="goal.status" *ngIf="goal.status === 'IN_PROGRESS'">Em andamento</span>
+          <span [ngClass]="goal.status" *ngIf="goal.status === 'DONE'">Concluída</span>
+        </mat-card-subtitle>
+
+        <mat-progress-bar
+          *ngIf="goal.progress !== undefined"
+          [value]="goal.progress"
+          color="primary"
+        ></mat-progress-bar>
+
+        <mat-card-actions>
+          <button mat-button color="primary" (click)="editGoal(goal)">Editar</button>
+          <button mat-button color="warn" (click)="deleteGoal(goal)">Excluir</button>
+          <button mat-button (click)="viewDetails(goal)">Ver Detalhes</button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+  </div>
+</div>

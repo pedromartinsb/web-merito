@@ -2,7 +2,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Fornecedores</li>
+      <li class="breadcrumb-item active" aria-current="page">Prestadores de Serviço</li>
     </ol>
   </nav>
 
@@ -12,29 +12,29 @@
     </div>
   </div>
 
-  <h1 *ngIf="!loading">Lista de Fornecedores</h1>
+  <h1 *ngIf="!loading">Lista de Prestadores de Serviço</h1>
 
   <!-- Botão para Criar Novo Usuário -->
   <div class="text-end mb-3" *ngIf="suppliersData.length > 0 && !loading && isAdmin">
-    <button class="btn btn-primary" (click)="router.navigate(['/suppliers/create'])">Criar Novo Fornecedor</button>
+    <button class="btn btn-primary" (click)="router.navigate(['/suppliers/create'])">Criar Novo Prestador</button>
   </div>
 
   <!-- Exibe mensagem de carregamento enquanto os dados estão sendo buscados -->
   <div *ngIf="loading" class="spinner-container gap-2">
     <div class="spinner"></div>
-    <span>Carregando fornecedores...</span>
+    <span>Carregando prestadores...</span>
   </div>
 
   <div *ngIf="!loading && suppliersData.length == 0">
     <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
-    <h4>Nenhum fornecedor cadastrado.</h4>
+    <h4>Nenhum prestador cadastrado.</h4>
 
     <ng-container *ngIf="!isAdmin; then askAdminToCreate; else showCreateSupplierButton"></ng-container>
     <ng-template #askAdminToCreate>
       <p>Peça ao Administrador para cadastrar!</p>
     </ng-template>
     <ng-template #showCreateSupplierButton>
-      <button class="btn btn-primary" (click)="router.navigate(['/suppliers/create'])">Criar Novo Fornecedor</button>
+      <button class="btn btn-primary" (click)="router.navigate(['/suppliers/create'])">Criar Novo Prestador</button>
     </ng-template>
   </div>
 
@@ -43,6 +43,10 @@
     [headers]="suppliersHeaders"
     [data]="suppliersData"
     [itemsPerPage]="5"
+    [isAdmin]
+    [isManager]
+    [isSupervisor]
+    [isUser]
     (edit)="onEdit($event)"
     (delete)="onDelete($event)"
     (view)="onView($event)"

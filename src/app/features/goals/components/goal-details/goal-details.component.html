@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Detalhes da Meta</h1>
+
+<mat-dialog-content class="details-container">
+  <section class="header">
+    <h2>{{ goal.title }}</h2>
+    <p>
+      <strong>Status:</strong> <span [ngClass]="goal.status">{{ goal.status }}</span>
+    </p>
+    <p><strong>Colaborador:</strong> {{ goal.userName }}</p>
+    <p><strong>Prazo:</strong> {{ goal.dueDate | date }}</p>
+    <mat-progress-bar [value]="goal.progress" color="primary"></mat-progress-bar>
+  </section>
+
+  <section class="section">
+    <h3>📌 Entregáveis</h3>
+    <mat-list dense>
+      <mat-list-item *ngFor="let item of goal.deliverables">
+        <mat-checkbox [checked]="item.done" disabled>{{ item.label }}</mat-checkbox>
+      </mat-list-item>
+    </mat-list>
+  </section>
+
+  <section class="section">
+    <h3>🕓 Histórico</h3>
+    <mat-list dense>
+      <mat-list-item *ngFor="let entry of goal.history">
+        <mat-icon mat-list-icon>event</mat-icon>
+        <div mat-line>{{ entry.message }}</div>
+        <div mat-line class="secondary">{{ entry.timestamp | date : "short" }}</div>
+      </mat-list-item>
+    </mat-list>
+  </section>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Fechar</button>
+  <button mat-flat-button color="primary" (click)="edit()">Editar</button>
+</mat-dialog-actions>

@@ -1,0 +1,214 @@
+<div class="dashboard-container">
+  <!-- Cabeçalho -->
+  <div class="header">
+    <h2>📊 Relatórios e Indicadores</h2>
+    <p>Visualize o desempenho de sua equipe em tempo real</p>
+  </div>
+
+  <!-- Filtros -->
+  <section class="filters card">
+    <div class="filter-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Período</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Início" [(ngModel)]="filtros.start" />
+          <input matEndDate placeholder="Fim" [(ngModel)]="filtros.end" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Cargo</mat-label>
+        <mat-select [(ngModel)]="filtros.cargo">
+          <mat-option value="">Todos</mat-option>
+          <mat-option *ngFor="let cargo of cargos" [value]="cargo">{{ cargo }}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Colaborador</mat-label>
+        <input matInput placeholder="Nome" [(ngModel)]="filtros.nome" />
+      </mat-form-field> -->
+    </div>
+
+    <div class="filter-actions">
+      <button mat-flat-button color="primary" (click)="aplicarFiltros()">Aplicar Filtros</button>
+    </div>
+  </section>
+
+  <!-- Indicadores principais -->
+  <section class="kpi-section">
+    <mat-card class="kpi-card" *ngFor="let item of kpis">
+      <div class="kpi-icon">
+        <mat-icon>{{ item.icon }}</mat-icon>
+      </div>
+      <div class="kpi-info">
+        <p class="kpi-title">{{ item.label }}</p>
+        <h3 class="kpi-value">{{ item.value }}</h3>
+      </div>
+    </mat-card>
+  </section>
+
+  <!-- Indicadores de Tarefas -->
+  <section class="kpi-section">
+    <mat-card class="kpi-card" *ngFor="let item of kpisTasks">
+      <div class="kpi-icon">
+        <mat-icon>{{ item.icon }}</mat-icon>
+      </div>
+      <div class="kpi-info">
+        <p class="kpi-title">{{ item.label }}</p>
+        <h3 class="kpi-value">{{ item.value }}</h3>
+      </div>
+    </mat-card>
+  </section>
+
+  <!-- Gráficos -->
+  <section class="charts-section">
+    <mat-card class="chart-card">
+      <h3>Metas por Colaborador</h3>
+      <canvas baseChart [type]="'bar'" [data]="barChartData" [options]="barChartOptions"> </canvas>
+    </mat-card>
+
+    <mat-card class="chart-card">
+      <h3>Status de Leitura de Documentos</h3>
+      <canvas baseChart [data]="doughnutChartData" [type]="doughnutChartType" [options]="doughnutChartOptions">
+      </canvas>
+    </mat-card>
+  </section>
+
+  <!-- Tabela detalhada - Funcionário -->
+  <section class="table-section card">
+    <h3>📋 Desempenho por Colaborador</h3>
+    <h5 *ngIf="colaboradores.length == 0">Não há Colaboradores cadastrados.</h5>
+    <table mat-table *ngIf="colaboradores.length != 0" [dataSource]="colaboradores" class="mat-elevation-z2">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Colaborador</th>
+        <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="tipo">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let user">{{ user.tipo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cargo">
+        <th mat-header-cell *matHeaderCellDef>Cargo</th>
+        <td mat-cell *matCellDef="let user">{{ user.cargo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="metas">
+        <th mat-header-cell *matHeaderCellDef>Metas</th>
+        <td mat-cell *matCellDef="let user">{{ user.metas }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="tarefas">
+        <th mat-header-cell *matHeaderCellDef>Tarefas</th>
+        <td mat-cell *matCellDef="let user">{{ user.tarefas }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="docs">
+        <th mat-header-cell *matHeaderCellDef>Docs Lidos</th>
+        <td mat-cell *matCellDef="let user">{{ user.docsLidos }}%</td>
+      </ng-container>
+
+      <ng-container matColumnDef="acesso">
+        <th mat-header-cell *matHeaderCellDef>Último Acesso</th>
+        <td mat-cell *matCellDef="let user">{{ user.lastLogin | date : "dd/MM/yyyy HH:mm" }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+  </section>
+
+  <!-- Tabela detalhada - Profissionais -->
+  <section class="table-section card">
+    <h3>📋 Desempenho por Profissional Autônomo</h3>
+    <h5 *ngIf="autonomos.length == 0">Não há Profissionais Autônomos cadastrados.</h5>
+    <table mat-table *ngIf="autonomos.length != 0" [dataSource]="autonomos" class="mat-elevation-z2">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Profissional Autônomo</th>
+        <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="tipo">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let user">{{ user.tipo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cargo">
+        <th mat-header-cell *matHeaderCellDef>Cargo</th>
+        <td mat-cell *matCellDef="let user">{{ user.cargo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="metas">
+        <th mat-header-cell *matHeaderCellDef>Metas</th>
+        <td mat-cell *matCellDef="let user">{{ user.metas }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="tarefas">
+        <th mat-header-cell *matHeaderCellDef>Tarefas</th>
+        <td mat-cell *matCellDef="let user">{{ user.tarefas }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="docs">
+        <th mat-header-cell *matHeaderCellDef>Docs Lidos</th>
+        <td mat-cell *matCellDef="let user">{{ user.docsLidos }}%</td>
+      </ng-container>
+
+      <ng-container matColumnDef="acesso">
+        <th mat-header-cell *matHeaderCellDef>Último Acesso</th>
+        <td mat-cell *matCellDef="let user">{{ user.lastLogin | date : "dd/MM/yyyy HH:mm" }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+  </section>
+
+  <!-- Tabela detalhada - Prestadores de Serviço -->
+  <section class="table-section card">
+    <h3>📋 Desempenho por Prestador de Serviço</h3>
+    <h5 *ngIf="prestadores.length == 0">Não há Prestadores de Serviços cadastrados.</h5>
+    <table mat-table *ngIf="prestadores.length != 0" [dataSource]="prestadores" class="mat-elevation-z2">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Prestador de Serviço</th>
+        <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="tipo">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let user">{{ user.tipo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cargo">
+        <th mat-header-cell *matHeaderCellDef>Cargo</th>
+        <td mat-cell *matCellDef="let user">{{ user.cargo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="metas">
+        <th mat-header-cell *matHeaderCellDef>Metas</th>
+        <td mat-cell *matCellDef="let user">{{ user.metas }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="tarefas">
+        <th mat-header-cell *matHeaderCellDef>Tarefas</th>
+        <td mat-cell *matCellDef="let user">{{ user.tarefas }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="docs">
+        <th mat-header-cell *matHeaderCellDef>Docs Lidos</th>
+        <td mat-cell *matCellDef="let user">{{ user.docsLidos }}%</td>
+      </ng-container>
+
+      <ng-container matColumnDef="acesso">
+        <th mat-header-cell *matHeaderCellDef>Último Acesso</th>
+        <td mat-cell *matCellDef="let user">{{ user.lastLogin | date : "dd/MM/yyyy HH:mm" }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+  </section>
+</div>

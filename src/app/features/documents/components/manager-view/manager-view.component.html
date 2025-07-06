@@ -1,0 +1,38 @@
+<div class="documents-container">
+  <div class="header">
+    <h1>📄 Documentos Corporativos</h1>
+    <button mat-raised-button color="primary" (click)="openNewDocumentDialog()">+ Novo Documento</button>
+  </div>
+
+  <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Filtrar por Cargo</mat-label>
+      <mat-select [(ngModel)]="selectedCargo">
+        <mat-option value="">Todos</mat-option>
+        <mat-option *ngFor="let cargo of cargos" [value]="cargo">{{ cargo }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar por Nome</mat-label>
+      <input matInput [(ngModel)]="searchTerm" placeholder="Ex: Política de TI" />
+    </mat-form-field>
+  </div>
+
+  <div class="document-list">
+    <mat-card class="document-card" *ngFor="let doc of filteredDocuments">
+      <mat-card-title>{{ doc.name }}</mat-card-title>
+      <mat-card-subtitle>
+        Cargos: {{ doc.cargos.join(", ") }}<br />
+        Obrigatório: {{ doc.mandatory ? "Sim" : "Não" }} | Versão: {{ doc.version }}<br />
+        Validade: {{ doc.expiresAt ? (doc.expiresAt | date) : "Ilimitado" }}
+      </mat-card-subtitle>
+
+      <mat-card-actions>
+        <button mat-button (click)="viewDocument(doc)">Visualizar</button>
+        <button mat-button color="primary" (click)="editDocument(doc)">Editar</button>
+        <button mat-button color="warn" (click)="deleteDocument(doc)">Excluir</button>
+        <button mat-button (click)="viewReaders(doc)">Quem Leu</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

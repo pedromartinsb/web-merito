@@ -1,5 +1,12 @@
 <!-- Tarefas Modal -->
-<div class="modal fade" id="tasksModal" tabindex="-1" aria-labelledby="tasksModalLabel" aria-hidden="true">
+<div
+  *ngIf="person != null"
+  class="modal fade"
+  id="tasksModal"
+  tabindex="-1"
+  aria-labelledby="tasksModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: fit-content">
     <div class="modal-content">
       <div class="modal-header">
@@ -27,8 +34,8 @@
           </ul>
         </div>
 
-        <div class="mt-md-0 mt-sm-4" *ngIf="tasks.length == 0">
-          <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+        <div class="mt-4" *ngIf="tasks.length == 0">
+          <img src="../../../../../assets/img/empty-box.png" alt="empty" class="empty" />
           <h4>Nenhuma tarefa cadastrada.</h4>
         </div>
       </div>
@@ -36,12 +43,13 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="openTaskCreateModal()">
           Cadastrar
         </button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button> -->
       </div>
     </div>
   </div>
 </div>
 <div
+  *ngIf="person != null"
   class="modal fade"
   id="tasksCreateModal2"
   tabindex="-1"
@@ -86,12 +94,7 @@
               <input type="date" class="form-control" id="taskEndDate" formControlName="endDate" />
             </div>
           </div>
-          <button
-            *ngIf="!isSavingTask"
-            [disabled]="!formTask.get('description').valid && formTask.get('description').value != null"
-            type="submit"
-            class="btn btn-primary w-100"
-          >
+          <button *ngIf="!isSavingTask" [disabled]="formTask.invalid" type="submit" class="btn btn-primary w-100">
             Salvar
           </button>
         </form>
@@ -107,7 +110,14 @@
 </div>
 
 <!-- Metas Modal -->
-<div class="modal fade" id="goalsModal" tabindex="-1" aria-labelledby="goalsModalLabel" aria-hidden="true">
+<div
+  *ngIf="person != null"
+  class="modal fade"
+  id="goalsModal"
+  tabindex="-1"
+  aria-labelledby="goalsModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: fit-content">
     <div class="modal-content">
       <div class="modal-header">
@@ -135,8 +145,8 @@
           </ul>
         </div>
 
-        <div class="mt-md-0 mt-sm-4" *ngIf="goals.length == 0">
-          <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
+        <div class="mt-4" *ngIf="goals.length == 0">
+          <img src="../../../../../assets/img/empty-box.png" alt="empty" class="empty" />
           <h4>Nenhuma meta cadastrada.</h4>
         </div>
       </div>
@@ -144,12 +154,13 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="openGoalCreateModal()">
           Cadastrar
         </button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button> -->
       </div>
     </div>
   </div>
 </div>
 <div
+  *ngIf="person != null"
   class="modal fade"
   id="goalsCreateModal2"
   tabindex="-1"
@@ -194,12 +205,7 @@
               <input type="date" class="form-control" id="goalEndDate" formControlName="endDate" />
             </div>
           </div>
-          <button
-            *ngIf="!isSavingGoal"
-            [disabled]="!formGoal.get('description').valid && formGoal.get('description').value != null"
-            type="submit"
-            class="btn btn-primary w-100"
-          >
+          <button *ngIf="!isSavingGoal" [disabled]="formGoal.invalid" type="submit" class="btn btn-primary w-100">
             Salvar
           </button>
         </form>
@@ -262,6 +268,7 @@
   </div>
 </div>
 <div
+  *ngIf="person != null"
   class="modal fade"
   id="appointmentsCreateModal"
   tabindex="-1"
@@ -282,22 +289,24 @@
             <label for="id" class="form-label">ID</label>
             <input class="form-control" id="id" formControlName="id" />
           </div>
+
           <div class="mb-3">
-            <label for="description" class="form-label">Observação *</label>
+            <label for="description" class="form-label">Ocorrência *</label>
             <textarea
               class="form-control"
               id="description"
               rows="3"
               formControlName="description"
-              placeholder="Digite a sua observaçao aqui"
+              placeholder="Digite a ocorrência aqui"
             ></textarea>
             <div *ngIf="appointmentDescription?.errors?.maxlength">
               Máximo de letras excedido! Por favor, o limite de letras é de {{ maxLength }}.
             </div>
             <div>Letras restantes: {{ maxLength - (appointmentDescription?.value?.length || 0) }}</div>
           </div>
+
           <div class="mb-3">
-            <label for="justification" class="form-label">Justificativa</label>
+            <label for="justification" class="form-label">Justificativa do colaborador</label>
             <textarea
               class="form-control"
               id="justification"
@@ -310,12 +319,18 @@
             </div>
             <div>Letras restantes: {{ maxLength - (appointmentJustification?.value?.length || 0) }}</div>
           </div>
+
+          <div class="mb-3">
+            <mat-radio-group class="form-control" formControlName="type" aria-label="Selecione o tipo de avaliação">
+              <mat-radio-button value="1">Treinamento</mat-radio-button>
+              <mat-radio-button value="2">Pontualidade</mat-radio-button>
+              <mat-radio-button value="3">Assiduidade</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
           <button
             *ngIf="!isSavingAppointment"
-            [disabled]="
-              !formAppointment.get('description').valid ||
-              (!formAppointment.get('justification').valid && formAppointment.get('justification').value != null)
-            "
+            [disabled]="!formAppointment.valid"
             type="submit"
             class="btn btn-primary w-100"
           >
@@ -334,7 +349,14 @@
 </div>
 
 <!-- Atestados Médicos Modal -->
-<div class="modal fade" id="abstinencesModal" tabindex="-1" aria-labelledby="abstinencesModalLabel" aria-hidden="true">
+<div
+  *ngIf="person != null"
+  class="modal fade"
+  id="abstinencesModal"
+  tabindex="-1"
+  aria-labelledby="abstinencesModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: fit-content">
     <div class="modal-content">
       <div class="modal-header">
@@ -381,17 +403,24 @@
             </li>
           </ul>
         </div>
+
+        <div class="mt-4" *ngIf="abstinences.length == 0">
+          <img src="../../../../../assets/img/empty-box.png" alt="empty" class="empty" />
+          <h4>Nenhuma atestado médico cadastrado.</h4>
+        </div>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="openAbstinenceCreateModal()">
           Cadastrar
         </button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button> -->
       </div>
     </div>
   </div>
 </div>
 <div
+  *ngIf="person != null"
   class="modal fade"
   id="abstinencesCreateModal"
   tabindex="-1"
@@ -448,7 +477,7 @@
           </div>
           <button
             *ngIf="!isSavingAbstinence"
-            [disabled]="!formAbstinence.get('description').valid && formAbstinence.get('description').value != null"
+            [disabled]="formAbstinence.invalid"
             type="submit"
             class="btn btn-primary w-100"
           >
@@ -467,7 +496,14 @@
 </div>
 
 <!-- Férias -->
-<div class="modal fade" id="vacationsModal" tabindex="-1" aria-labelledby="vacationsModalLabel" aria-hidden="true">
+<div
+  *ngIf="person != null"
+  class="modal fade"
+  id="vacationsModal"
+  tabindex="-1"
+  aria-labelledby="vacationsModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: fit-content">
     <div class="modal-content">
       <div class="modal-header">
@@ -512,17 +548,24 @@
             </li>
           </ul>
         </div>
+
+        <div class="mt-4" *ngIf="vacations.length == 0">
+          <img src="../../../../../assets/img/empty-box.png" alt="empty" class="empty" />
+          <h4>Nenhuma férias cadastradas.</h4>
+        </div>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="openVacationCreateModal()">
           Cadastrar
         </button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button> -->
       </div>
     </div>
   </div>
 </div>
 <div
+  *ngIf="person != null"
   class="modal fade"
   id="vacationsCreateModal"
   tabindex="-1"
@@ -579,7 +622,7 @@
           </div>
           <button
             *ngIf="!isSavingVacation"
-            [disabled]="!formVacation.get('description').valid && formVacation.get('description').value != null"
+            [disabled]="formVacation.invalid"
             type="submit"
             class="btn btn-primary w-100"
           >
@@ -597,10 +640,14 @@
   </div>
 </div>
 
+<!-- Conteúdo principal -->
 <div class="container mt-4 mb-4">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+      <!-- <li class="breadcrumb-item">
+        <a routerLink="[pageBackLink]">{{ pageName }}</a>
+      </li> -->
       <li class="breadcrumb-item active" aria-current="page">Tabela de Avaliaçoes</li>
     </ol>
   </nav>
@@ -618,7 +665,7 @@
               </ng-template>
 
               <section class="monthly-container mat-elevation-z2" tabindex="0">
-                <ul class="list-group minimal-list">
+                <ul *ngIf="activitiesDailyResponse != null" class="list-group minimal-list">
                   <div *ngIf="activitiesDailyResponse.length > 0">
                     <li class="list-group-item">
                       <div class="d-flex justify-content-between align-items-center">
@@ -783,32 +830,103 @@
     <!-- Segunda Coluna -->
     <div class="col-md-4">
       <div class="card">
-        <div class="card-body">
+        <div *ngIf="person != null" class="card-body">
           <h2 class="card-title">📓 Registrar Ocorrência</h2>
-          <p *ngIf="person.contractType == 'Autônomo'" class="card-text mt-2">Profissional: {{ person.name }}</p>
-          <p *ngIf="person.contractType == 'Clt'" class="card-text mt-2">Funcionário: {{ person.name }}</p>
-          <p *ngIf="person.contractType == 'Fornecedor'" class="card-text mt-2">Fornecedor: {{ person.name }}</p>
-          <p class="card-text">Empresa: {{ person.officeFantasyName }}</p>
-          <p class="card-text">Data admissão: {{ person.createdAt | date }}</p>
+          <p [ngSwitch]="person.contractType" class="card-text mt-2">
+            <span *ngSwitchCase="'Autônomo'">Profissional: {{ person.name }}</span>
+            <span *ngSwitchCase="'Clt'">Funcionário: {{ person.name }}</span>
+            <span *ngSwitchCase="'Fornecedor'">Fornecedor: {{ person.name }}</span>
+          </p>
+
+          <p class="card-text">
+            <span>Empresa: {{ person.officeFantasyName }}</span>
+          </p>
           <p class="card-text">
             <img [lazyLoad]="person.picture" [defaultImage]="s3DefaultImage" alt="" width="200" height="200" />
           </p>
           <p class="card-text">
-            <button class="btn btn-link btn-sm me-1" (click)="openAbstinencesModal()">Atestado Médico</button>
-            <button class="btn btn-link btn-sm me-1" (click)="openVacationsModal()">Férias</button>
-          </p>
-          <p class="card-text gap-2 mb-2">
-            <button class="btn btn-options btn-primary me-2 mb-2" (click)="openConductByResponsibility()">
-              Código de Ética
+            <button class="btn btn-link btn-sm me-1" (click)="openAbstinencesModal()">
+              <span>Atestado Médico</span>
             </button>
-            <button class="btn btn-options btn-primary me-2 mb-2" (click)="openManualByResponsibility()">Manual</button>
+            <button class="btn btn-link btn-sm me-1" (click)="openVacationsModal()">
+              <span>Férias</span>
+            </button>
+          </p>
+          <!-- <p class="card-text gap-2 mb-2">
+            <button class="btn btn-options btn-primary me-2 mb-2" (click)="openConductByResponsibility()">
+              <span>Código de Ética</span>
+            </button>
+            <button class="btn btn-options btn-primary me-2 mb-2" (click)="openManualByResponsibility()">
+              <span>Manual</span>
+            </button>
           </p>
           <p class="card-text gap-2 mb-2">
-            <button class="btn btn-options btn-primary me-2 mb-2" (click)="openGoalsModal()">Metas</button>
-            <button class="btn btn-options btn-primary me-2 mb-2" (click)="openTasksModal()">Tarefas</button>
-          </p>
+            <button class="btn btn-options btn-primary me-2 mb-2" (click)="openGoalsModal()">
+              <span>Metas</span>
+            </button>
+            <button class="btn btn-options btn-primary me-2 mb-2" (click)="openTasksModal()">
+              <span>Tarefas</span>
+            </button>
+          </p> -->
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Chat -->
+  <!-- <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title mb-2">🗣️ Chat:</h2>
+
+          <form [formGroup]="chatForm" (ngSubmit)="sendMessage()" class="chat-input-container">
+            <mat-form-field appearance="outline" class="chat-input">
+              <mat-label>Digite sua mensagem</mat-label>
+              <input matInput formControlName="message" />
+              <mat-icon matSuffix>sms</mat-icon>
+              <mat-hint>escreva sua mensagem para {{ person.name }}</mat-hint>
+            </mat-form-field>
+
+            <button
+              mat-raised-button
+              color="primary"
+              class="chat-input-button"
+              type="submit"
+              [disabled]="chatForm.invalid"
+            >
+              Enviar
+            </button>
+          </form>
+
+          <div class="chat-list" (scroll)="onScrollTop()" style="overflow-y: auto; height: 400px">
+            <div *ngFor="let msg of messages">
+              <strong>{{ msg.senderId }}:</strong> {{ msg.content }}
+              <small>{{ msg.sentAt | date : "shortTime" }}</small>
+            </div>
+          </div>
+
+          <div class="chat-container">
+            <div class="col-md-12 mt-4">
+              <div class="card">
+                <div class="card-body chat-1"><strong class="chat">Você:</strong>Oi, Sebastiana. Tudo bem?</div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-4">
+              <div class="card">
+                <div class="card-body chat-2"><strong class="chat">Sebastiana:</strong> Tudo bem e com você?</div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-4">
+              <div class="card">
+                <div class="card-body chat-1"><strong class="chat">Você:</strong>Estou bem também</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
 </div>

@@ -611,3 +611,42 @@ a.disabled {
   background-color: var(--purple-radiobutton-appointment); /* Cor do estado checked */
   border-color: var(--purple-radiobutton-appointment);
 }
+
+.chat-input-container {
+  /* display: flex;
+  flex-direction: row;
+  gap: 4px; */
+}
+
+.chat-input-button {
+  background-color: #25d366;
+  color: white;
+
+  &:hover {
+    background-color: #0fa747;
+  }
+}
+
+.chat-container {
+  /* max-width: 70%; */
+}
+
+.chat-input {
+  margin-right: 10px;
+}
+
+.chat-1 {
+  background-color: #dcf8c6;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.chat-2 {
+  background-color: #f1f0f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+strong.chat {
+  margin-right: 8px; /* ou 0.5rem */
+}

@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Visualizar Documento</h1>
+
+<mat-dialog-content class="viewer-content">
+  <iframe *ngIf="docUrl" [src]="docUrl" width="100%" height="600px" frameborder="0"></iframe>
+
+  <div *ngIf="!docUrl" class="error">Não foi possível carregar o documento.</div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Fechar</button>
+  <a *ngIf="rawUrl" [href]="rawUrl" target="_blank">
+    <button mat-button color="primary">Abrir em nova aba</button>
+  </a>
+</mat-dialog-actions>

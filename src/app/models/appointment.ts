@@ -15,12 +15,13 @@ export interface Appointment {
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
+  type: number;
 }
 
 export interface Activity {
   id?: string;
   name: string;
-  type: string;
+  type: number;
   description: string;
   justification: string;
   tag: Tag;

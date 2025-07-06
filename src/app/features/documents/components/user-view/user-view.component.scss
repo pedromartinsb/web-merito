@@ -1,0 +1,22 @@
+.user-documents-container {
+  padding: 24px;
+
+  .document-section {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .doc-card {
+    width: 100%;
+  }
+
+  mat-chip {
+    font-weight: bold;
+  }
+
+  .my-2 {
+    margin: 16px 0;
+  }
+}

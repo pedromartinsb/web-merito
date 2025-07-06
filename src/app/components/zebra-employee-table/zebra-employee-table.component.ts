@@ -2,8 +2,17 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { finalize } from "rxjs";
 import { AppointmentService } from "../../services/appointment.service";
 import { Router } from "@angular/router";
-import { AuthService } from "src/app/services/auth.service";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/services/auth.service";
+import { ErrorHandlerService } from "src/app/shared/error-handler.service";
+
+interface Employee {
+  id: string;
+  photo: string;
+  name: string;
+  contractType: string;
+  accessType: string;
+}
 
 @Component({
   selector: "app-zebra-employee-table",
@@ -35,24 +44,23 @@ export class ZebraPersonTableComponent implements OnInit {
   lastFourMonth: any;
   lastFiveMonth: any;
 
-  userRole: string[] = [];
   personName: string;
-  isAdmin: boolean = false;
-  isSupervisor: boolean = false;
-  isManager: boolean = false;
-  isUser: boolean = false;
+  @Input() isAdmin: boolean;
+  @Input() isSupervisor: boolean;
+  @Input() isManager: boolean;
+  @Input() isUser: boolean;
 
   constructor(
     private appointmentService: AppointmentService,
-    private authService: AuthService,
     private router: Router,
-    private toast: ToastrService
-  ) {
-    this.personName = localStorage.getItem("personName");
-    this._checkPermission();
-  }
+    private toast: ToastrService,
+    private authService: AuthService,
+    private errorHandlerService: ErrorHandlerService
+  ) {}
 
   ngOnInit(): void {
+    // TODO: não mostrar o botão avaliação para o próprio usuário
+    this.personName = localStorage.getItem("personName");
     this.filteredData = this.data;
     this.calculatePagination();
   }
@@ -72,26 +80,6 @@ export class ZebraPersonTableComponent implements OnInit {
       this.currentPage = page;
       this.calculatePagination();
     }
-  }
-
-  private _checkPermission(): void {
-    this.userRole = this.authService.getRole();
-    this.userRole.map((role) => {
-      switch (role) {
-        case "ROLE_ADMIN":
-          this.isAdmin = true;
-          break;
-        case "ROLE_SUPERVISOR":
-          this.isSupervisor = true;
-          break;
-        case "ROLE_MANAGER":
-          this.isManager = true;
-          break;
-        case "ROLE_USER":
-          this.isUser = true;
-          break;
-      }
-    });
   }
 
   // Método de busca
@@ -134,27 +122,28 @@ export class ZebraPersonTableComponent implements OnInit {
   }
 
   openAppointments(row: any) {
-    if (row[2] == this.personName) {
+    const employee: Employee = this.buildEmployee(row);
+
+    if (this.canAccessAppointments(employee.id)) {
       this.toast.error("Você não pode gerar avaliação para você mesmo.");
       return;
     }
 
-    const personId = row[0];
     const date = new Date();
+    this.buildLastMonth(date, employee.id);
+    this.buildLastTwoMonth(date, employee.id);
+    this.buildLastThreeMonth(date, employee.id);
+    this.buildLastFourMonth(date, employee.id);
+    this.buildLastFiveMonth(date, employee.id);
 
-    this._getLastMonth(date, personId);
-    this._getLastTwoMonth(date, personId);
-    this._getLastThreeMonth(date, personId);
-    this._getLastFourMonth(date, personId);
-    this._getLastFiveMonth(date, personId);
+    const firstMonthDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastMonthDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     this.appointmentService
-      .getMonthlyTags(personId, firstDay, lastDay)
+      .getMonthlyTags(employee.id, firstMonthDay, lastMonthDay)
       .pipe(
         finalize(() => {
-          this.router.navigate(["/employees/appointment/", row[0]]);
+          this.router.navigate(["/employees/appointment/", employee.id]);
         })
       )
       .subscribe({
@@ -162,8 +151,23 @@ export class ZebraPersonTableComponent implements OnInit {
           this.tags = response;
           localStorage.setItem("currentMonth", JSON.stringify(response));
         },
-        error: (err) => console.log(err),
+        error: (error) =>
+          this.errorHandlerService.handle(error, "Não foi possível buscar as avaliações do usuário selecionado"),
       });
+  }
+
+  private buildEmployee(row: any): Employee {
+    return {
+      id: row[0],
+      photo: row[1],
+      name: row[2],
+      contractType: row[3],
+      accessType: row[4],
+    };
+  }
+
+  private canAccessAppointments(employeeId: string): boolean {
+    return this.authService.getCurrentUserId() === employeeId;
   }
 
   openAppointment(row: any): void {
@@ -243,6 +247,66 @@ export class ZebraPersonTableComponent implements OnInit {
   }
 
   _getLastFiveMonth(date: Date, personId: string): void {
+    const firstDayLastFiveMonth = new Date(date.getFullYear(), date.getMonth() - 5, 1);
+    const lastDayLastFiveMonth = new Date(date.getFullYear(), firstDayLastFiveMonth.getMonth() + 1, 0);
+    this.appointmentService.getMonthlyTags(personId, firstDayLastFiveMonth, lastDayLastFiveMonth).subscribe({
+      next: (response) => {
+        this.lastFiveMonth = response;
+        localStorage.setItem("lastFiveMonth", JSON.stringify(response));
+      },
+      error: (err) => console.log(err),
+    });
+  }
+
+  private buildLastMonth(date: Date, personId: string): void {
+    const firstDayLastMonth = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+    const lastDayLastMonth = new Date(date.getFullYear(), firstDayLastMonth.getMonth() + 1, 0);
+    this.appointmentService.getMonthlyTags(personId, firstDayLastMonth, lastDayLastMonth).subscribe({
+      next: (response) => {
+        this.lastMonth = response;
+        localStorage.setItem("lastMonth", JSON.stringify(response));
+      },
+      error: (err) => console.log(err),
+    });
+  }
+
+  private buildLastTwoMonth(date: Date, personId: string): void {
+    const firstDayLastTwoMonth = new Date(date.getFullYear(), date.getMonth() - 2, 1);
+    const lastDayLastTwoMonth = new Date(date.getFullYear(), firstDayLastTwoMonth.getMonth() + 1, 0);
+    this.appointmentService.getMonthlyTags(personId, firstDayLastTwoMonth, lastDayLastTwoMonth).subscribe({
+      next: (response) => {
+        this.lastTwoMonth = response;
+        localStorage.setItem("lastTwoMonth", JSON.stringify(response));
+      },
+      error: (err) => console.log(err),
+    });
+  }
+
+  private buildLastThreeMonth(date: Date, personId: string): void {
+    const firstDayLastThreeMonth = new Date(date.getFullYear(), date.getMonth() - 3, 1);
+    const lastDayLastThreeMonth = new Date(date.getFullYear(), firstDayLastThreeMonth.getMonth() + 1, 0);
+    this.appointmentService.getMonthlyTags(personId, firstDayLastThreeMonth, lastDayLastThreeMonth).subscribe({
+      next: (response) => {
+        this.lastThreeMonth = response;
+        localStorage.setItem("lastThreeMonth", JSON.stringify(response));
+      },
+      error: (err) => console.log(err),
+    });
+  }
+
+  private buildLastFourMonth(date: Date, personId: string): void {
+    const firstDayLastFourMonth = new Date(date.getFullYear(), date.getMonth() - 4, 1);
+    const lastDayLastFourMonth = new Date(date.getFullYear(), firstDayLastFourMonth.getMonth() + 1, 0);
+    this.appointmentService.getMonthlyTags(personId, firstDayLastFourMonth, lastDayLastFourMonth).subscribe({
+      next: (response) => {
+        this.lastFourMonth = response;
+        localStorage.setItem("lastFourMonth", JSON.stringify(response));
+      },
+      error: (err) => console.log(err),
+    });
+  }
+
+  private buildLastFiveMonth(date: Date, personId: string): void {
     const firstDayLastFiveMonth = new Date(date.getFullYear(), date.getMonth() - 5, 1);
     const lastDayLastFiveMonth = new Date(date.getFullYear(), firstDayLastFiveMonth.getMonth() + 1, 0);
     this.appointmentService.getMonthlyTags(personId, firstDayLastFiveMonth, lastDayLastFiveMonth).subscribe({

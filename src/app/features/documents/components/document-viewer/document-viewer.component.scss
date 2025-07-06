@@ -1,0 +1,17 @@
+.viewer-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin-top: 8px;
+
+  iframe {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .error {
+    padding: 16px;
+    color: red;
+    text-align: center;
+  }
+}

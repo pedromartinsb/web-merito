@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AuthGuard } from "../../auth/auth.guard";
+import { AuthGuard } from "../../guards/auth.guard";
 import { Roles } from "../../models/person";
 import { ChangePasswordFormComponent } from "./components/change-password-form/change-password-form.component";
 import { NavbarComponent } from "src/app/components/navbar/navbar.component";

@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>📊 Leitura do Documento</h1>
+
+<mat-dialog-content class="read-status-content">
+  <p><strong>Documento:</strong> {{ data.document.name }}</p>
+  <table mat-table [dataSource]="readStatuses" class="mat-elevation-z2">
+    <!-- Nome -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Colaborador</th>
+      <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+    </ng-container>
+
+    <!-- Cargo -->
+    <ng-container matColumnDef="cargo">
+      <th mat-header-cell *matHeaderCellDef>Cargo</th>
+      <td mat-cell *matCellDef="let user">{{ user.cargo }}</td>
+    </ng-container>
+
+    <!-- Status -->
+    <ng-container matColumnDef="read">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let user">
+        <mat-icon color="{{ user.read ? 'primary' : 'warn' }}">
+          {{ user.read ? "check_circle" : "hourglass_empty" }}
+        </mat-icon>
+        {{ user.read ? "Lido" : "Pendente" }}
+      </td>
+    </ng-container>
+
+    <!-- Data -->
+    <ng-container matColumnDef="readAt">
+      <th mat-header-cell *matHeaderCellDef>Data de Leitura</th>
+      <td mat-cell *matCellDef="let user">
+        {{ user.readAt ? (user.readAt | date : "dd/MM/yyyy HH:mm") : "-" }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+  </table>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Fechar</button>
+</mat-dialog-actions>

@@ -1,6 +1,4 @@
 import { RouterModule, Routes } from "@angular/router";
-import { NavComponent } from "../../components/nav/nav.component";
-import { AuthGuard } from "../../auth/auth.guard";
 import { Roles } from "../../models/person";
 import { NgModule } from "@angular/core";
 import { StripePaymentComponent } from "./components/stripe-payment/stripe-payment.component";

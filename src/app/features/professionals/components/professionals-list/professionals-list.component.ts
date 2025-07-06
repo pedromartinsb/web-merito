@@ -4,6 +4,8 @@ import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { Urls } from "../../../../config/urls.config";
 import { AuthService } from "src/app/services/auth.service";
+import Swal from "sweetalert2";
+import { ErrorHandlerService } from "src/app/shared/error-handler.service";
 
 @Component({
   selector: "app-professionals-list",
@@ -26,26 +28,27 @@ export class ProfessionalsListComponent implements OnInit {
     private professionalService: ProfessionalsService,
     private toast: ToastrService,
     private authService: AuthService,
-    public router: Router
+    public router: Router,
+    private errorHandlerService: ErrorHandlerService
   ) {}
 
   ngOnInit(): void {
-    this._checkPermission();
-    this._professionals();
+    this.getUserRoles();
+    this.loadProfessionalsData();
   }
 
-  private _checkPermission(): void {
-    this.userRole = this.authService.getRole();
-    this.userRole.map((role) => {
-      switch (role) {
+  private getUserRoles(): void {
+    this.authService.getUserRoles().forEach((role) => {
+      console.log(role.name);
+      switch (role.name) {
         case "ROLE_ADMIN":
           this.isAdmin = true;
           break;
-        case "ROLE_SUPERVISOR":
-          this.isSupervisor = true;
-          break;
         case "ROLE_MANAGER":
           this.isManager = true;
+          break;
+        case "ROLE_SUPERVISOR":
+          this.isSupervisor = true;
           break;
         case "ROLE_USER":
           this.isUser = true;
@@ -56,8 +59,8 @@ export class ProfessionalsListComponent implements OnInit {
     });
   }
 
-  private _professionals() {
-    this.professionalService.findAllProfessionals().subscribe({
+  private loadProfessionalsData(): void {
+    this.professionalService.findAllByContractType("Professional").subscribe({
       next: (professionals) => {
         if (professionals != null) {
           professionals.forEach((response) => {
@@ -90,19 +93,32 @@ export class ProfessionalsListComponent implements OnInit {
     this.router.navigate(["/professionals/edit/", id]);
   }
 
-  onDelete(row: any) {
-    this.deleting = true;
-    this.professionalService.delete(row[0]).subscribe({
-      next: () => {
-        this.toast.success("Profissional desativado com sucesso!");
-        this.loading = false;
-        window.location.reload();
-        this.deleting = false;
-      },
-      error: (ex) => {
-        this._handleErrors(ex);
-        this.deleting = false;
-      },
+  public onDelete(row: any): void {
+    const id = row[0];
+    const name = row[2];
+    Swal.fire({
+      title: `Tem certeza que deseja desativar o(a) profissional autônomo(a) \"${name}\"?`,
+      text: "Você não poderá voltar atrás após desativar!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "green",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sim, desativar agora!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleting = true;
+        this.professionalService.delete(id).subscribe({
+          next: () => {
+            this.toast.success(`O(A) profissional autônomo(a) ${name} foi desativado(a) com sucesso.`);
+            this.deleting = false;
+            window.location.reload();
+          },
+          error: (error) => {
+            this.deleting = false;
+            this.errorHandlerService.handle(error, "Erro ao deletar profissional autônomo(a) selecionado(a).");
+          },
+        });
+      }
     });
   }
 

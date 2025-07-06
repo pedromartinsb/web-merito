@@ -1,0 +1,15 @@
+.read-status-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 600px;
+
+  table {
+    width: 100%;
+  }
+
+  mat-icon {
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+}

@@ -1,0 +1,58 @@
+<div class="user-documents-container">
+  <h2>📁 Meus Documentos</h2>
+  <p>
+    Cargo: <strong>{{ cargo }}</strong>
+  </p>
+
+  <mat-divider class="my-2"></mat-divider>
+
+  <div class="document-section">
+    <h3>Obrigatórios</h3>
+    <ng-container *ngIf="obrigatorios.length; else emptyObrigatorios">
+      <mat-card class="doc-card" *ngFor="let doc of obrigatorios">
+        <mat-card-title>{{ doc.name }}</mat-card-title>
+        <mat-card-subtitle>
+          Versão {{ doc.version }} | Validade:
+          {{ doc.expiresAt ? (doc.expiresAt | date) : "Ilimitado" }}
+        </mat-card-subtitle>
+
+        <mat-card-content>
+          Status:
+          <mat-chip color="{{ doc.read ? 'primary' : 'warn' }}" selected>
+            {{ doc.read ? "Lido" : "Pendente" }}
+          </mat-chip>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-button (click)="visualizar(doc)">Visualizar</button>
+          <button mat-button color="primary" (click)="marcarComoLido(doc)" [disabled]="doc.read">
+            Marcar como lido
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+    <ng-template #emptyObrigatorios>
+      <p>Nenhum documento obrigatório encontrado.</p>
+    </ng-template>
+  </div>
+
+  <div class="document-section">
+    <h3>Opcionais</h3>
+    <ng-container *ngIf="opcionais.length; else emptyOpcionais">
+      <mat-card class="doc-card" *ngFor="let doc of opcionais">
+        <mat-card-title>{{ doc.name }}</mat-card-title>
+        <mat-card-subtitle>
+          Versão {{ doc.version }} | Validade:
+          {{ doc.expiresAt ? (doc.expiresAt | date) : "Ilimitado" }}
+        </mat-card-subtitle>
+
+        <mat-card-actions>
+          <button mat-button (click)="visualizar(doc)">Visualizar</button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+    <ng-template #emptyOpcionais>
+      <p>Nenhum documento opcional disponível.</p>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+.user-goals-container {
+  padding: 24px;
+
+  h1 {
+    margin-bottom: 16px;
+  }
+
+  mat-form-field {
+    width: 300px;
+    margin-bottom: 24px;
+  }
+
+  .goal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .goal-card {
+    span.PENDING {
+      color: orange;
+    }
+    span.IN_PROGRESS {
+      color: dodgerblue;
+    }
+    span.DONE {
+      color: green;
+    }
+  }
+}

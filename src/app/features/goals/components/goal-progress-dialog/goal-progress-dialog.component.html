@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Atualizar Progresso</h1>
+<form [formGroup]="progressForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="progress-content">
+    <p>
+      Atualize o progresso para <strong>{{ goal.title }}</strong>
+    </p>
+
+    <!-- Slider fora do mat-form-field -->
+    <label class="slider-label">Progresso</label>
+    <mat-slider
+      thumbLabel
+      tickInterval="10"
+      min="0"
+      max="100"
+      step="1"
+      formControlName="progress"
+      (change)="onSliderChange($event)"
+    ></mat-slider>
+
+    <!-- Input numérico sincronizado -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Valor (%)</mat-label>
+      <input matInput type="number" formControlName="progress" min="0" max="100" />
+      <mat-error *ngIf="progressForm.get('progress')?.hasError('min')"> Valor deve ser no mínimo 0. </mat-error>
+      <mat-error *ngIf="progressForm.get('progress')?.hasError('max')"> Valor deve ser no máximo 100. </mat-error>
+      <mat-error *ngIf="progressForm.get('progress')?.hasError('required')"> Obrigatório. </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" mat-dialog-close>Cancelar</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="progressForm.invalid">Atualizar</button>
+  </mat-dialog-actions>
+</form>

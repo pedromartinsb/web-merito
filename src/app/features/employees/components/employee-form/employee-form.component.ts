@@ -75,6 +75,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // FIXME: ajustar essa classe
     this._offices();
     this._managers();
     this._supervisors();

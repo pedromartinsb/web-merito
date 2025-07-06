@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Config } from "../../../config/api.config";
 import { Professional, ProfessionalRequest } from "../professional.model";
@@ -18,10 +18,15 @@ export class ProfessionalsService {
     return this.http.get<Professional[]>(`${Config.webApiUrl}/v1/person/${this.officeId}/Professional/contract-type`);
   }
 
+  public findAllByContractType(contractType: string): Observable<any[]> {
+    const params = new HttpParams().set("contractType", contractType);
+    return this.http.get<any[]>(`${Config.webApiUrl}/v1/person/contract-type`, { params });
+  }
+
   create(professional: ProfessionalRequest, file: File | null): Observable<any> {
     const formData = new FormData();
-    // formData.append("data", JSON.stringify(professional));
-    formData.append("personRequest", JSON.stringify(professional));
+    formData.append("data", JSON.stringify(professional));
+    // formData.append("personRequest", JSON.stringify(professional));
 
     if (file) {
       formData.append("file", file);

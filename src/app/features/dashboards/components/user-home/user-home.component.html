@@ -1,0 +1,68 @@
+<div class="user-home-container">
+  <!-- Boas-vindas -->
+  <div class="header">
+    <h2>Olá, {{ colaborador.nome }} 👋</h2>
+    <p>Esses são os seus dados de desempenho atual</p>
+  </div>
+
+  <!-- Indicadores pessoais -->
+  <section class="kpi-section">
+    <mat-card class="kpi-card">
+      <mat-icon>assignment_turned_in</mat-icon>
+      <div>
+        <p class="label">Metas Concluídas</p>
+        <h3>{{ kpis.metasConcluidas }}</h3>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <mat-icon>pending_actions</mat-icon>
+      <div>
+        <p class="label">Metas Pendentes</p>
+        <h3>{{ kpis.metasPendentes }}</h3>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <mat-icon>trending_up</mat-icon>
+      <div>
+        <p class="label">Progresso Médio</p>
+        <h3>{{ kpis.progresso }}%</h3>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <mat-icon>description</mat-icon>
+      <div>
+        <p class="label">Docs Lidos</p>
+        <h3>{{ kpis.docsLidos }}/{{ kpis.totalDocs }}</h3>
+      </div>
+    </mat-card>
+  </section>
+
+  <!-- Metas em andamento -->
+  <section class="metas-section card">
+    <h3>🎯 Suas Metas</h3>
+    <mat-card *ngFor="let meta of metas" class="meta-card">
+      <mat-card-title>{{ meta.titulo }}</mat-card-title>
+      <mat-progress-bar mode="determinate" [value]="meta.progresso"></mat-progress-bar>
+      <p>{{ meta.progresso }}% concluído</p>
+    </mat-card>
+  </section>
+
+  <!-- Documentos pendentes -->
+  <section class="documentos-section card">
+    <h3>📄 Documentos Pendentes</h3>
+    <div *ngIf="documentos.length; else todosLidos">
+      <mat-list>
+        <mat-list-item *ngFor="let doc of documentos">
+          {{ doc.nome }}
+          <button mat-button (click)="abrirDocumento(doc)">Ver</button>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <ng-template #todosLidos>
+      <p>✅ Todos os documentos foram lidos!</p>
+    </ng-template>
+  </section>
+</div>

@@ -4,7 +4,6 @@ import { MatCalendarCellClassFunction } from "@angular/material/datepicker";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { finalize } from "rxjs";
 import { Activity, Appointment } from "src/app/models/appointment";
 import { Person } from "src/app/models/person";
 import { monthlyTag, Tag } from "src/app/models/tag";
@@ -14,12 +13,15 @@ import { Urls } from "../../../../config/urls.config";
 import { AppointmentService } from "../../../../services/appointment.service";
 import { TaskService } from "../../../../services/task.service";
 import { PersonAppointmentDialogComponent } from "../../../../pages/person/person-appointment/person-appointment-dialog/person-appointment-dialog.component";
-import { PersonAppointmentConfirmComponent } from "../../../../pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component";
 import { Task } from "../../../../pages/person/person-appointment/person-appointment-task/person-appointment-task.component";
 import { Modal } from "bootstrap";
 import { DatePipe, Location } from "@angular/common";
 import { GoalService } from "src/app/services/goal.service";
 import { DocumentsService } from "src/app/features/documents/services/documents.service";
+import { ErrorHandlerService } from "src/app/shared/error-handler.service";
+import { AuthService } from "src/app/services/auth.service";
+import { ChatService, Message } from "../../services/chat.service";
+import { PersonAppointmentConfirmComponent } from "src/app/pages/person/person-appointment/person-appointment-confirm/person-appointment-confirm.component";
 
 export interface Goal {
   id?: string;
@@ -129,6 +131,15 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
   formAbstinence: FormGroup;
   formVacation: FormGroup;
 
+  chatForm!: FormGroup;
+
+  messages: Message[] = [];
+  page = 0;
+  size = 20;
+  loading = false;
+  userA = "user123";
+  userB = "user456";
+
   isSavingAppointment: boolean = false;
   isSavingTask: boolean = false;
   isSavingGoal: boolean = false;
@@ -147,32 +158,53 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     private location: Location,
     private datePipe: DatePipe,
     private goalService: GoalService,
-    private documentsService: DocumentsService
-  ) {
-    this._initializeFormsGroup();
-    this._initializePerson();
-    this._initializeTasks();
-    this._initializeGoals();
-    this._initializeAbstinenceList();
-    this._initializeVacationList();
-  }
+    private documentsService: DocumentsService,
+    private errorHandlerService: ErrorHandlerService,
+    private authService: AuthService,
+    private chatService: ChatService
+  ) {}
 
   ngOnInit(): void {
-    this._initializeTags();
+    this.loadPersonData();
+    this.loadMessages();
+    this.getAppointmentsByToday();
+    this.getActivities();
+    this.buildTagsData();
+    this.buildFormsGroup();
+    this.buildTasksData();
+    this.buildGoalsData();
+    this.buildAbstinenceList();
+    this.buildVacationList();
   }
 
-  _initializeFormsGroup() {
+  private loadMessages() {
+    if (this.loading) return;
+    this.loading = true;
+
+    this.chatService.getConversation(this.userA, this.userB, this.page, this.size).subscribe((pageData) => {
+      // Adiciona mensagens no início (mais antigas)
+      this.messages = [...pageData.content, ...this.messages];
+      this.page++;
+      this.loading = false;
+    });
+  }
+  // Chamado, por exemplo, ao rolar a lista para o topo (scroll infinito)
+  onScrollTop() {
+    this.loadMessages();
+  }
+
+  private buildFormsGroup() {
     this.formTask = new FormGroup({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
+      title: new FormControl("", Validators.required),
+      description: new FormControl("", Validators.maxLength(this.maxLength)),
       startDate: new FormControl(""),
       endDate: new FormControl(""),
     });
     this.formGoal = new FormGroup({
       id: new FormControl(""),
-      title: new FormControl(""),
-      description: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
+      title: new FormControl("", Validators.required),
+      description: new FormControl("", Validators.maxLength(this.maxLength)),
       startDate: new FormControl(""),
       endDate: new FormControl(""),
     });
@@ -180,16 +212,17 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
       id: new FormControl(""),
       personId: new FormControl(""),
       description: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
-      justification: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
+      justification: new FormControl("", [Validators.maxLength(this.maxLength)]),
       activityType: new FormControl(""),
       tagId: new FormControl(""),
       activityId: new FormControl(""),
       createdAt: new FormControl(""),
+      type: new FormControl(null),
     });
     this.formAbstinence = new FormGroup({
       id: new FormControl(""),
       personId: new FormControl(""),
-      description: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
+      description: new FormControl("", Validators.maxLength(this.maxLength)),
       document: new FormControl(null, Validators.required),
       startDate: new FormControl("", Validators.required),
       endDate: new FormControl("", Validators.required),
@@ -197,28 +230,30 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     this.formVacation = new FormGroup({
       id: new FormControl(""),
       personId: new FormControl(""),
-      description: new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
+      description: new FormControl("", Validators.maxLength(this.maxLength)),
       document: new FormControl(null, Validators.required),
       startDate: new FormControl("", Validators.required),
       endDate: new FormControl("", Validators.required),
     });
+    this.chatForm = new FormGroup({
+      message: new FormControl("", Validators.required),
+    });
   }
 
-  private _initializePerson() {
+  private loadPersonData() {
     this.personId = this.route.snapshot.params["id"];
-    this._getPersonById();
+    this.loadPersonById();
   }
 
-  private _initializeTags() {
-    this._setTagList();
-    this._getActivities();
-    this._getDateCalendar();
-    this._getCurrentMonthTags();
-    this._getLastMonthTags();
-    this._getLastTwoMonthTags();
-    this._getLastThreeMonthTags();
-    this._getLastFourMonthTags();
-    this._getLastFiveMonthTags();
+  private buildTagsData() {
+    this.buildTagList();
+    this.getDateCalendar();
+    this.getCurrentMonthTags();
+    this.getLastMonthTags();
+    this.getLastTwoMonthTags();
+    this.getLastThreeMonthTags();
+    this.getLastFourMonthTags();
+    this.getLastFiveMonthTags();
   }
 
   get taskDescription() {
@@ -245,55 +280,47 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     return this.formAppointment.get("justification");
   }
 
-  private _initializeTasks() {
+  private buildTasksData(): void {
     this.taskService.findAllByPersonId(this.personId).subscribe({
       next: (response) => {
         if (response != null) {
           this.tasks = response;
         }
       },
-      error: (ex) => {
-        this._handleErrors(ex);
-      },
+      error: (error) => this.errorHandlerService.handle(error),
     });
   }
 
-  private _initializeGoals() {
+  private buildGoalsData(): void {
     this.goalService.findAllByPerson(this.personId).subscribe({
       next: (response) => {
         if (response != null) {
           this.goals = response;
         }
       },
-      error: (ex) => {
-        this._handleErrors(ex);
-      },
+      error: (error) => this.errorHandlerService.handle(error),
     });
   }
 
-  private _initializeAbstinenceList() {
+  private buildAbstinenceList(): void {
     this.appointmentService.findAbstinencesByPerson(this.personId).subscribe({
       next: (response) => {
         if (response != null) {
           this.abstinences = response;
         }
       },
-      error: (ex) => {
-        this._handleErrors(ex);
-      },
+      error: (error) => this.errorHandlerService.handle(error),
     });
   }
 
-  private _initializeVacationList() {
+  private buildVacationList() {
     this.appointmentService.findVacationsByPerson(this.personId).subscribe({
       next: (response) => {
         if (response != null) {
           this.vacations = response;
         }
       },
-      error: (ex) => {
-        this._handleErrors(ex);
-      },
+      error: (error) => this.errorHandlerService.handle(error),
     });
   }
 
@@ -314,18 +341,16 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  _getPersonById(): void {
+  private loadPersonById(): void {
     this.personService.findById(this.personId).subscribe({
       next: (person) => {
         this.person = person;
       },
-      error: (err) => {
-        this._handleErrors(err);
-      },
+      error: (error) => this.errorHandlerService.handle(error),
     });
   }
 
-  _setTagList() {
+  private buildTagList(): void {
     this.tagService.findAll().subscribe((response) => {
       for (const tag of response) {
         if (tag.name != "Gray") {
@@ -336,16 +361,27 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     });
   }
 
-  _getActivities() {
-    this.startDate.setUTCHours(0, 0, 0, 0);
-    this.endDate.setUTCHours(23, 59, 59, 999);
+  private getActivities(): void {
+    const newStartDate = new Date(
+      this.startDate.getFullYear(),
+      this.startDate.getMonth(),
+      this.startDate.getDate(),
+      0,
+      0,
+      0,
+      0
+    );
+    const newEndDate = new Date(
+      this.startDate.getFullYear(),
+      this.startDate.getMonth(),
+      this.startDate.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
     this.appointmentService
-      .findActivitiesByPersonAndDate(this.personId, new Date(this.startDate), new Date(this.endDate))
-      .pipe(
-        finalize(() => {
-          this._getAppointmentsByToday();
-        })
-      )
+      .findActivitiesByPersonAndDate(this.personId, newStartDate, newEndDate)
       .subscribe((response) => {
         this.toast.success("Pesquisa realizada com sucesso.");
         this.activitiesDailyResponse = response;
@@ -353,19 +389,27 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
       });
   }
 
-  _getAppointmentsByToday() {
+  private getAppointmentsByToday(): void {
+    const hoje = new Date();
+    const inicioDoDia = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate(), 0, 0, 0, 0);
+    const fimDoDia = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate(), 23, 59, 59, 999);
+
     this.appointmentService
-      .findByPersonAndDate(this.personId, this.startDate, this.endDate)
+      .findByPersonAndDate(this.personId, inicioDoDia, fimDoDia)
       .subscribe((response: Appointment[]) => {
         if (response != null) {
           this.appointments = response;
           if (this.appointments && this.appointments.length > 0) {
             this.appointments.forEach((appointment) => {
+              console.log("appointment", appointment);
+              console.log("this.activitiesResponse", this.activitiesResponse);
               if (this.activitiesResponse != undefined) {
                 this.activitiesResponse.forEach((activity) => {
+                  console.log("activity", activity);
                   if (activity.id === appointment.routineId) {
                     activity.description = appointment.description;
                     activity.justification = appointment.justification;
+                    activity.type = appointment.type;
                   }
                 });
               }
@@ -375,7 +419,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
       });
   }
 
-  _getCurrentMonthTags() {
+  private getCurrentMonthTags(): void {
     this.currentMonthTags = JSON.parse(localStorage.getItem("currentMonth"));
     if (this.currentMonthTags != undefined) {
       const [todayDaySplit, monthSplit, yearSplit] = this.today.split("/");
@@ -393,7 +437,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  _getLastMonthTags(): void {
+  private getLastMonthTags(): void {
     this.lastMonthTags = JSON.parse(localStorage.getItem("lastMonth"));
     if (this.lastMonthTags != undefined) {
       this.lastMonthTags.map((month) => {
@@ -404,7 +448,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  _getLastTwoMonthTags(): void {
+  private getLastTwoMonthTags(): void {
     this.lastTwoMonthTags = JSON.parse(localStorage.getItem("lastTwoMonth"));
     if (this.lastTwoMonthTags != undefined) {
       this.lastTwoMonthTags.map((month) => {
@@ -415,7 +459,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  _getLastThreeMonthTags(): void {
+  private getLastThreeMonthTags(): void {
     this.lastThreeMonthTags = JSON.parse(localStorage.getItem("lastThreeMonth"));
     if (this.lastThreeMonthTags != undefined) {
       this.lastThreeMonthTags.map((month) => {
@@ -426,7 +470,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  _getLastFourMonthTags(): void {
+  private getLastFourMonthTags(): void {
     this.lastFourMonthTags = JSON.parse(localStorage.getItem("lastFourMonth"));
     if (this.lastFourMonthTags != undefined) {
       this.lastFourMonthTags.map((month) => {
@@ -437,7 +481,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  _getLastFiveMonthTags(): void {
+  private getLastFiveMonthTags(): void {
     this.lastFiveMonthTags = JSON.parse(localStorage.getItem("lastFiveMonth"));
     if (this.lastFiveMonthTags != undefined) {
       this.lastFiveMonthTags.map((month) => {
@@ -448,7 +492,7 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  _getDateCalendar() {
+  private getDateCalendar() {
     const date = new Date();
     this.firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     this.lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -500,24 +544,25 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
   public dateClassCurrentMonth: MatCalendarCellClassFunction<Date> = (cellDate, _) => {
     for (let i = 0; i < this.daysOfMonth.length; i++) {
       if (this.daysOfMonth[i] == cellDate.getDate()) {
-        if (this.currentMonthTags[i].tag == "Green") {
-          return "green-background";
-        } else if (this.currentMonthTags[i].tag == "Red") {
-          return "red-background";
-        } else if (this.currentMonthTags[i].tag == "Blue") {
-          return "blue-background";
-        } else if (this.currentMonthTags[i].tag == "Orange") {
-          return "orange-background";
-        } else if (this.currentMonthTags[i].tag == "Yellow") {
-          return "yellow-background";
-        } else if (this.currentMonthTags[i].tag == "Purple") {
-          return "purple-background";
-        } else if (this.currentMonthTags[i].tag == "Gray") {
-          return "gray-background";
-        } else if (this.currentMonthTags[i].tag == "Green-Light") {
-          return "green-light-background";
-        } else {
-          return "green-background";
+        switch (this.currentMonthTags[i].tag) {
+          case "Green":
+            return "green-background";
+          case "Red":
+            return "red-background";
+          case "Blue":
+            return "blue-background";
+          case "Orange":
+            return "orange-background";
+          case "Yellow":
+            return "yellow-background";
+          case "Purple":
+            return "purple-background";
+          case "Gray":
+            return "gray-background";
+          case "Green-Light":
+            return "green-light-background";
+          default:
+            return "green-background";
         }
       }
     }
@@ -656,12 +701,27 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
   public openDialog() {
     this.selectedDateMonthly = this.selected;
 
+    const startSelectedDateMonthly = new Date(
+      this.selectedDateMonthly.getFullYear(),
+      this.selectedDateMonthly.getMonth(),
+      this.selectedDateMonthly.getDate(),
+      0,
+      0,
+      0,
+      0
+    );
+    const endSelectedDateMonthly = new Date(
+      this.selectedDateMonthly.getFullYear(),
+      this.selectedDateMonthly.getMonth(),
+      this.selectedDateMonthly.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
+
     this.appointmentService
-      .findActivitiesByPersonAndDate(
-        this.personId,
-        new Date(this.selectedDateMonthly.setHours(0, 0, 0)),
-        new Date(this.selectedDateMonthly.setHours(20, 59, 59))
-      )
+      .findActivitiesByPersonAndDate(this.personId, startSelectedDateMonthly, endSelectedDateMonthly)
       .subscribe((response) => {
         this.activitiesResponse = response;
         this.toast.success("Pesquisa realizada com sucesso.");
@@ -702,12 +762,27 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
 
     this.selectedDateMonthly = this.selected;
 
+    const startSelectedDateMonthly = new Date(
+      this.selectedDateMonthly.getFullYear(),
+      this.selectedDateMonthly.getMonth(),
+      this.selectedDateMonthly.getDate(),
+      0,
+      0,
+      0,
+      0
+    );
+    const endSelectedDateMonthly = new Date(
+      this.selectedDateMonthly.getFullYear(),
+      this.selectedDateMonthly.getMonth(),
+      this.selectedDateMonthly.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
+
     this.appointmentService
-      .findActivitiesByPersonAndDate(
-        this.personId,
-        new Date(this.selectedDateMonthly.setHours(0, 0, 0)),
-        new Date(this.selectedDateMonthly.setHours(20, 59, 59))
-      )
+      .findActivitiesByPersonAndDate(this.personId, startSelectedDateMonthly, endSelectedDateMonthly)
       .subscribe((response) => {
         this.activitiesResponse = response;
         const modalElement = document.getElementById("appointmentsModal");
@@ -720,9 +795,8 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
   }
 
   openAppointmentCreateModal(activity: Activity, tag: Tag): void {
-    console.log("activity", activity.reviewerId);
-    console.log("person id", this.person.user.id);
-    if (activity.reviewerId != this.person.user.id) {
+    const currentUserId = this.authService.getCurrentUserId();
+    if (activity.reviewerId != null && activity.reviewerId != currentUserId) {
       this.toast.error("Você não pode abrir uma Avaliacão de outra pessoa.");
       return;
     }
@@ -738,10 +812,21 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     this.formAppointment.get("tagId").patchValue(tag.id);
     this.formAppointment.get("activityId").patchValue(activity.id);
 
-    if (this.selected == undefined) {
-      this.selected = new Date();
+    const today = new Date();
+    let dateSelected = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
+
+    if (this.selected != undefined) {
+      dateSelected = new Date(
+        this.selected.getFullYear(),
+        this.selected.getMonth(),
+        this.selected.getDate(),
+        0,
+        0,
+        0,
+        0
+      );
     }
-    this.formAppointment.get("createdAt").patchValue(this.selected.toISOString());
+    this.formAppointment.get("createdAt").patchValue(dateSelected);
 
     const modalElement = document.getElementById("appointmentsCreateModal");
     if (modalElement) {
@@ -771,21 +856,19 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
 
   onSubmitFormAppointment() {
     this.isSavingAppointment = true;
+    const id = this.formAppointment.get("id").value;
 
-    if (this.formAppointment.get("id").value != null) {
+    if (id) {
       // update
-      this.appointmentService.update(this.formAppointment.get("id").value, this.formAppointment.value).subscribe({
+      this.appointmentService.update(id, this.formAppointment.value).subscribe({
         next: () => {
           this.toast.success("Avaliação alterada com sucesso", "Alteração");
           this.closeAppointmentCreateModal();
           this.closeAppointmentsModal();
           this.location.back();
-          this.isSavingAppointment = false;
         },
-        error: (ex) => {
-          this.isSavingAppointment = false;
-          this._handleErrors(ex);
-        },
+        error: (error) => this.errorHandlerService.handle(error),
+        complete: () => (this.isSavingAppointment = false),
       });
       return;
     }
@@ -799,10 +882,8 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
         this.location.back();
         this.isSavingAppointment = false;
       },
-      error: (ex) => {
-        this.isSavingAppointment = false;
-        this._handleErrors(ex);
-      },
+      error: (error) => this.errorHandlerService.handle(error),
+      complete: () => (this.isSavingAppointment = false),
     });
   }
 
@@ -839,34 +920,42 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
 
     if (this.task.id) {
       // update
-      this.taskService.update(this.task.id, this.task).subscribe({
-        next: () => {
-          this.toast.success("Tarefa alterada com sucesso", "Cadastro");
-          setTimeout(() => {
-            this.isSavingTask = false;
-            window.location.reload();
-          }, 2000);
-        },
-        error: (ex) => {
-          this.isSavingTask = false;
-          this._handleErrors(ex);
-        },
-      });
+      this.updateTask(this.task.id);
       return;
     }
 
     // create
+    this.createTask();
+  }
+
+  private updateTask(taskId: string): void {
+    this.taskService.update(taskId, this.task).subscribe({
+      next: () => {
+        this.toast.success("Tarefa alterada com sucesso", "Cadastro");
+        setTimeout(() => {
+          this.isSavingTask = false;
+          window.location.reload();
+        }, 1000);
+      },
+      error: (error) => {
+        this.isSavingTask = false;
+        this.errorHandlerService.handle(error);
+      },
+    });
+  }
+
+  private createTask(): void {
     this.taskService.create(this.task).subscribe({
       next: () => {
         this.toast.success("Tarefa cadastrada com sucesso", "Cadastro");
         setTimeout(() => {
           this.isSavingTask = false;
           window.location.reload();
-        }, 2000);
+        }, 1000);
       },
-      error: (ex) => {
+      error: (error) => {
         this.isSavingTask = false;
-        this._handleErrors(ex);
+        this.errorHandlerService.handle(error);
       },
     });
   }
@@ -893,11 +982,11 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
         setTimeout(() => {
           this.isSavingTask = false;
           window.location.reload();
-        }, 1500);
+        }, 1000);
       },
-      error: (ex) => {
+      error: (error) => {
         this.isSavingTask = false;
-        this._handleErrors(ex);
+        this.errorHandlerService.handle(error);
       },
     });
   }
@@ -924,11 +1013,11 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
         setTimeout(() => {
           this.isSavingGoal = false;
           window.location.reload();
-        }, 1500);
+        }, 1000);
       },
-      error: (ex) => {
+      error: (error) => {
         this.isSavingGoal = false;
-        this._handleErrors(ex);
+        this.errorHandlerService.handle(error);
       },
     });
   }
@@ -955,11 +1044,11 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
         setTimeout(() => {
           this.isSavingAbstinence = false;
           window.location.reload();
-        }, 1500);
+        }, 1000);
       },
-      error: (ex) => {
+      error: (error) => {
+        this.errorHandlerService.handle(error);
         this.isSavingAbstinence = false;
-        this._handleErrors(ex);
       },
     });
   }
@@ -981,17 +1070,9 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
   onDeleteVacation(id: string) {
     this.isSavingVacation = true;
     this.taskService.delete(id).subscribe({
-      next: () => {
-        this.toast.success("Férias deletada com sucesso", "Exclusão");
-        setTimeout(() => {
-          this.isSavingVacation = false;
-          window.location.reload();
-        }, 1500);
-      },
-      error: (ex) => {
-        this.isSavingVacation = false;
-        this._handleErrors(ex);
-      },
+      next: () => this.toast.success("Férias deletada com sucesso", "Exclusão"),
+      error: (error) => this.errorHandlerService.handle(error),
+      complete: () => (this.isSavingVacation = false),
     });
   }
 
@@ -1021,41 +1102,49 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  onSubmitFormGoal() {
+  onSubmitFormGoal(): void {
     this.isSavingGoal = true;
     this.goal = this.formGoal.value;
     this.goal.personId = this.personId;
 
     if (this.goal.id) {
       // update
-      this.goalService.update(this.goal.id, this.goal).subscribe({
-        next: () => {
-          this.toast.success("Meta alterada com sucesso", "Cadastro");
-          setTimeout(() => {
-            this.isSavingGoal = false;
-            window.location.reload();
-          }, 2000);
-        },
-        error: (ex) => {
-          this.isSavingGoal = false;
-          this._handleErrors(ex);
-        },
-      });
+      this.updateGoal(this.goal.id);
       return;
     }
 
     // create
+    this.createGoal();
+  }
+
+  private updateGoal(goalId: string): void {
+    this.goalService.update(goalId, this.goal).subscribe({
+      next: () => {
+        this.toast.success("Meta alterada com sucesso", "Cadastro");
+        setTimeout(() => {
+          this.isSavingGoal = false;
+          window.location.reload();
+        }, 1000);
+      },
+      error: (error) => {
+        this.errorHandlerService.handle(error);
+        this.isSavingGoal = false;
+      },
+    });
+  }
+
+  private createGoal(): void {
     this.goalService.create(this.goal).subscribe({
       next: () => {
         this.toast.success("Meta cadastrada com sucesso", "Cadastro");
         setTimeout(() => {
           this.isSavingGoal = false;
           window.location.reload();
-        }, 2000);
+        }, 1000);
       },
-      error: (ex) => {
+      error: (error) => {
+        this.errorHandlerService.handle(error);
         this.isSavingGoal = false;
-        this._handleErrors(ex);
       },
     });
   }
@@ -1102,18 +1191,9 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
 
     // create
     this.appointmentService.createAbstinence(abstinence, this.selectedAbstinenceFile).subscribe({
-      next: () => {
-        this.toast.success("Atestado médico cadastrado com sucesso", "Cadastro");
-        setTimeout(() => {
-          this.isSavingAbstinence = false;
-          this.closeAbstinenceCreateModal();
-          this.location.back();
-        }, 2000);
-      },
-      error: (ex) => {
-        this.isSavingAbstinence = false;
-        this._handleErrors(ex);
-      },
+      next: () => this.toast.success("Atestado médico cadastrado com sucesso", "Cadastro"),
+      error: (error) => this.errorHandlerService.handle(error),
+      complete: () => (this.isSavingAbstinence = false),
     });
   }
 
@@ -1145,6 +1225,22 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
 
   onSubmitFormVacation() {
     this.isSavingVacation = true;
+    this.vacation = this.formVacation.value;
+    this.vacation.personId = this.personId;
+
+    if (this.vacation.id) {
+      // update
+      this.updateVacation(this.vacation.id);
+      return;
+    }
+
+    // create
+    this.createVacation();
+  }
+
+  private updateVacation(vacationId: string): void {}
+
+  private createVacation(): void {
     const vacation = {
       personId: this.personId,
       description: this.formVacation.get("description")?.value,
@@ -1152,36 +1248,19 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
       endDate: this.formVacation.get("endDate")?.value,
     };
 
-    if (this.formVacation.get("id").value != null) {
-      // update
-      return;
-    }
-
-    // create
     this.appointmentService.createVacation(vacation, this.selectedVacationFile).subscribe({
       next: () => {
         this.toast.success("Férias cadastrada com sucesso", "Cadastro");
         setTimeout(() => {
           this.isSavingVacation = false;
-          this.closeVacationCreateModal();
-          this.location.back();
-        }, 2000);
+          window.location.reload();
+        }, 1000);
       },
-      error: (ex) => {
+      error: (error) => {
+        this.errorHandlerService.handle(error);
         this.isSavingVacation = false;
-        this._handleErrors(ex);
       },
     });
-  }
-
-  _handleErrors(ex): void {
-    if (ex.error.errors) {
-      ex.error.errors.forEach((element) => {
-        this.toast.error(element.message);
-      });
-      return;
-    }
-    this.toast.error(ex.error.message);
   }
 
   formatTodayDates(date1: string, date2: string): { formattedDate1: string; formattedDate2: string } {
@@ -1234,7 +1313,6 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
   }
 
   openConductByResponsibility() {
-    console.log(this.person.responsibilityId);
     this.documentsService
       .findDocumentsByResponsibilityIdAndDocumentType(this.person.responsibilityId, "conduct")
       .subscribe({
@@ -1242,12 +1320,11 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
           this.toast.success("Documento encontrado com sucesso.");
           window.open(response.url, "_blank");
         },
-        error: (err) => this._handleErrors(err),
+        error: (error) => this.errorHandlerService.handle(error),
       });
   }
 
   openManualByResponsibility() {
-    console.log(this.person.responsibilityId);
     this.documentsService
       .findDocumentsByResponsibilityIdAndDocumentType(this.person.responsibilityId, "manual")
       .subscribe({
@@ -1255,7 +1332,18 @@ export class EmployeeAppointmentComponent implements OnInit, AfterViewInit, OnDe
           this.toast.success("Documento encontrado com sucesso.");
           window.open(response.url, "_blank");
         },
-        error: (err) => this._handleErrors(err),
+        error: (error) => this.errorHandlerService.handle(error),
       });
+  }
+
+  public sendMessage() {
+    if (this.chatForm.valid) {
+      const msg = this.chatForm.value.message;
+      console.log("Mensagem enviada:", msg);
+
+      // Aqui você pode chamar um serviço ou adicionar à lista de mensagens
+
+      this.chatForm.reset(); // limpa o input
+    }
   }
 }

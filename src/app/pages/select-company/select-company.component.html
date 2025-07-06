@@ -1,28 +1,24 @@
-<div class="select-company-container">
-  <h1 class="title">Selecione sua Empresa</h1>
-  <p class="subtitle">Por favor, escolha uma empresa para prosseguir.</p>
+<div class="select-company-page">
+  <div class="company-card">
+    <form (ngSubmit)="proceed()">
+      <fieldset>
+        <legend class="mb-4">Empresas disponíveis</legend>
 
-  <div class="company-list">
-    <div class="company-row" *ngFor="let company of companies">
-      <!-- Primeira coluna: radio button -->
-      <div class="radio-column">
-        <input
-          type="radio"
-          name="company"
-          [value]="company.id"
-          (change)="onSelect(company.id)"
-          [checked]="selectedCompanyId === company.id"
-        />
-      </div>
-      <!-- Segunda coluna: nome da empresa -->
-      <div class="name-column">
-        {{ company.name }}
-      </div>
-    </div>
+        <div class="company-list">
+          <label class="company-option" *ngFor="let office of offices" [class.selected]="selected === office.id">
+            <input
+              type="radio"
+              name="company"
+              [value]="office.id"
+              (change)="selectOffice(office.id)"
+              [checked]="selected === office.id"
+            />
+            <span>{{ office.name }}</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="btn primary">Avançar</button>
+    </form>
   </div>
-
-  <!-- Mensagem de erro se nenhuma empresa estiver selecionada -->
-  <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
-
-  <button class="btn primary" (click)="proceed()">Avançar</button>
 </div>

@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { AuthService } from "src/app/services/auth.service";
 
 @Component({
-  selector: 'app-routines-table',
-  templateUrl: './routines-table.component.html',
-  styleUrls: ['./routines-table.component.css']
+  selector: "app-routines-table",
+  templateUrl: "./routines-table.component.html",
+  styleUrls: ["./routines-table.component.css"],
 })
 export class RoutinesTableComponent implements OnInit {
   @Input() headers: string[] = [];
@@ -17,48 +17,21 @@ export class RoutinesTableComponent implements OnInit {
   paginatedData: any[][] = []; // Dados paginados
   totalPages: number = 1; // Total de páginas
 
-  searchQuery: string = ''; // Termo de busca
-  selectedJobTitle: string = ''; // Cargo selecionado para filtro
+  searchQuery: string = ""; // Termo de busca
+  selectedJobTitle: string = ""; // Cargo selecionado para filtro
 
   filteredData: any[][] = []; // Dados filtrados para a busca e filtro
 
-  userRole: string[] = [];
-  isAdmin: boolean = false;
-  isSupervisor: boolean = false;
-  isManager: boolean = false;
-  isUser: boolean = false;
+  @Input() isAdmin: boolean;
+  @Input() isSupervisor: boolean;
+  @Input() isManager: boolean;
+  @Input() isUser: boolean;
 
-  constructor(
-    private authService: AuthService
-  ) {
-    this.userRole = this.authService.getRole();
-    this._checkPermission();
-  }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.filteredData = this.data;
     this.calculatePagination();
-  }
-
-  private _checkPermission(): void {
-    this.userRole.map((role) => {
-      switch (role) {
-        case 'ROLE_ADMIN':
-          this.isAdmin = true;
-          break;
-        case 'ROLE_SUPERVISOR':
-          this.isSupervisor = true;
-          break;
-        case 'ROLE_MANAGER':
-          this.isManager = true;
-          break;
-        case 'ROLE_USER':
-          this.isUser = true;
-          break;
-        default:
-          this.isUser = true;
-      }
-    });
   }
 
   // Método para calcular a paginação
@@ -90,8 +63,8 @@ export class RoutinesTableComponent implements OnInit {
   // Método para aplicar os filtros de busca e cargo
   filterData() {
     const query = this.searchQuery.toLowerCase();
-    this.filteredData = this.data.filter(row => {
-      const matchesSearch = row.some(col => col.toString().toLowerCase().includes(query));
+    this.filteredData = this.data.filter((row) => {
+      const matchesSearch = row.some((col) => col.toString().toLowerCase().includes(query));
       const matchesJobTitle = this.selectedJobTitle ? row.includes(this.selectedJobTitle) : true;
       return matchesSearch && matchesJobTitle;
     });
@@ -109,10 +82,10 @@ export class RoutinesTableComponent implements OnInit {
   }
 
   getUniqueJobTitles(): string[] {
-    const jobIndex = this.headers.indexOf('Cargo');
+    const jobIndex = this.headers.indexOf("Cargo");
     if (jobIndex === -1) return [];
 
-    const jobs = this.data.map(row => row[jobIndex]);
+    const jobs = this.data.map((row) => row[jobIndex]);
     return [...new Set(jobs)]; // Remove duplicatas
   }
 }

@@ -6,33 +6,191 @@
     </ol>
   </nav>
 
-  <h1>Lista de Tarefas</h1>
+  <!-- Header da página -->
+  <div class="header_container">
+    <div class="header_container__col1">
+      <label>Selecionar usuário:</label>
+      <select (change)="handleLoadTasks($event)">
+        <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+      </select>
+    </div>
 
-  <div class="text-end mb-3" *ngIf="!loading && taskData.length != 0 && isAdmin">
-    <button class="btn btn-primary" (click)="router.navigate(['/goals/create'])">
-      Criar Nova Meta
-    </button>
+    <div class="header_container__col2">
+      <div class="toolbar mb-4">
+        <button mat-raised-button color="primary" (click)="openDialog()">Nova Tarefa</button>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="loading" class="alert alert-info">
-    Carregando tarefas...
+  <!-- Template do pop-up -->
+  <ng-template #createTaskDialog let-newTask>
+    <h2 mat-dialog-title>{{ newTask?.id ? "Editar Tarefa" : "Nova Tarefa" }}</h2>
+
+    <mat-dialog-content class="dialog_content">
+      <form class="dialog_content__task_form" autocomplete="off">
+        <input type="hidden" name="id" atInput [(ngModel)]="newTask.id" />
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Título</mat-label>
+          <input matInput [(ngModel)]="newTask.title" name="title" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="dialog_content__task_form__full_width">
+          <mat-label>Descrição</mat-label>
+          <textarea matInput rows="4" [(ngModel)]="newTask.description" name="description"></textarea>
+        </mat-form-field>
+      </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions *ngIf="!creating" align="end">
+      <button mat-button (click)="dialogRef.close()">Cancelar</button>
+      <button mat-flat-button color="primary" [disabled]="!newTask.title" (click)="onCreateTask()">Salvar</button>
+    </mat-dialog-actions>
+
+    <mat-dialog-actions *ngIf="creating" align="center">
+      <div class="backdrop">
+        <div class="spinner-border text-light" role="status">
+          <span class="visually-hidden">Salvando as Informações...</span>
+        </div>
+      </div>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <!-- Tarefas -->
+  <div *ngIf="!loading" class="tasks_container">
+    <div class="tasks_container__col1">
+      <h1>
+        <strong style="margin-right: 8px">📝 Tarefas para fazer</strong>
+        <span>({{ createdTasksData.length || 0 }})</span>
+      </h1>
+
+      <ng-container *ngIf="createdTasksData.length == 0; else createdTasksDataDataNotEmpty"
+        ><p>Não há tarefas criadas para você.</p></ng-container
+      >
+
+      <ng-template #createdTasksDataDataNotEmpty>
+        <mat-card *ngFor="let task of createdTasksData" class="tasks_container__col1__card"
+          ><div class="tasks_container__card__header">
+            <mat-card-subtitle (click)="onEditTask(task.id)" class="tasks_container__card__header__mat-card-subtitle"
+              >Editar</mat-card-subtitle
+            >
+            <mat-card-subtitle (click)="onCancelTask(task.id)" class="tasks_container__card__header__mat-card-subtitle"
+              >Cancelar</mat-card-subtitle
+            >
+          </div>
+          <mat-card-title>{{ task.title }}</mat-card-title>
+          <mat-card-subtitle>Tarefa ainda não iniciada.</mat-card-subtitle>
+          <mat-card-content>
+            <p>
+              {{ task.description }}
+            </p>
+            <p>
+              <strong>Criada em: {{ task.createdAt | dateFormat }}</strong>
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button
+              mat-raised-button
+              (click)="handleStartTask(task.id)"
+              matTooltip="Ao clicar você concorda que está dando início a tarefa."
+            >
+              COMEÇAR TAREFA
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-template>
+    </div>
+
+    <div class="tasks_container__col2">
+      <h1>
+        <strong style="margin-right: 8px">🚧 Tarefas em Andamento</strong>
+        <span>({{ inProgressTasksData.length || 0 }})</span>
+      </h1>
+
+      <ng-container *ngIf="inProgressTasksData.length == 0; else inProgressTasksDataNotEmpty"
+        ><p>Não há tarefas em andamento.</p></ng-container
+      >
+
+      <ng-template #inProgressTasksDataNotEmpty
+        ><mat-card *ngFor="let task of inProgressTasksData" class="tasks_container__col2__card">
+          <div class="tasks_container__card__header">
+            <mat-card-subtitle (click)="onEditTask(task.id)" class="tasks_container__card__header__mat-card-subtitle"
+              >Editar</mat-card-subtitle
+            >
+            <mat-card-subtitle (click)="onCancelTask(task.id)" class="tasks_container__card__header__mat-card-subtitle"
+              >Cancelar</mat-card-subtitle
+            >
+          </div>
+          <mat-card-title>{{ task.title }}</mat-card-title>
+          <mat-card-subtitle>Tarefa em execução no momento.</mat-card-subtitle>
+          <mat-card-content>
+            <p>
+              {{ task.description }}
+            </p>
+            <p>
+              <strong>Iniciada em: {{ task.startDate }}</strong>
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button
+              mat-raised-button
+              (click)="handleToDoTask(task.id)"
+              matTooltip="Ao clicar você concorda que essa tarefa não está sendo feita."
+            >
+              VOLTAR
+            </button>
+            <button
+              mat-raised-button
+              (click)="handleDoneTask(task.id)"
+              matTooltip="Ao clicar você concorda que essa tarefa foi concluída."
+            >
+              COMPLETAR A TAREFA
+            </button>
+          </mat-card-actions>
+        </mat-card></ng-template
+      >
+    </div>
+
+    <div class="tasks_container__col3">
+      <h1>
+        <strong style="margin-right: 8px">✅ Tarefas Concluídas</strong>
+        <span>({{ doneTasksData.length || 0 }})</span>
+      </h1>
+
+      <ng-container *ngIf="doneTasksData.length == 0; else doneTasksDataNotEmpty"
+        ><p>Não há tarefas finalizadas.</p></ng-container
+      >
+
+      <ng-template #doneTasksDataNotEmpty
+        ><mat-card *ngFor="let task of doneTasksData" class="tasks_container__col3__card">
+          <mat-card-title>{{ task.title }}</mat-card-title>
+          <mat-card-subtitle>Tarefa finalizada.</mat-card-subtitle>
+          <mat-card-content>
+            <p>
+              {{ task.description }}
+            </p>
+            <p>
+              <strong>Finalizada: {{ task.endDate }}</strong>
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button
+              mat-raised-button
+              (click)="handleStartTask(task.id)"
+              matTooltip="Ao clicar você estará voltando a sua tarefa para andamento."
+            >
+              VOLTAR PARA EM ANDAMENTO
+            </button>
+          </mat-card-actions>
+        </mat-card></ng-template
+      >
+    </div>
   </div>
 
-  <app-goal-task-table
-    *ngIf="!loading && taskData.length > 0"
-    [headers]="taskHeaders"
-    [data]="taskData"
-    [itemsPerPage]="5"
-    (finish)="onFinish($event)"
-    (edit)="onEdit($event)"
-    (delete)="onDelete($event)"></app-goal-task-table>
-
-  <div *ngIf="!loading && taskData.length == 0">
-    <img src="../../../../../assets/img/folder.png" alt="empty" class="empty" />
-    <h4 *ngIf="isAdmin">Nenhuma tarefa cadastrada.</h4>
-    <h4 *ngIf="!isAdmin">Nenhuma tarefa cadastrada para você.</h4>
-    <button *ngIf="isAdmin" class="btn btn-primary" (click)="router.navigate(['/tasks/create'])">
-      Criar Nova Tarefa
-    </button>
+  <!-- Carregando as tarefas do backend -->
+  <div *ngIf="loading" class="backdrop">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden"></span>
+    </div>
   </div>
 </div>

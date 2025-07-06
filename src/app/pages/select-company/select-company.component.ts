@@ -1,8 +1,11 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/services/auth.service";
+import { OfficeService } from "src/app/services/office.service";
+import { ErrorHandlerService } from "src/app/shared/error-handler.service";
 
-interface Company {
+interface Office {
   id: string;
   name: string;
 }
@@ -12,38 +15,56 @@ interface Company {
   templateUrl: "./select-company.component.html",
   styleUrls: ["./select-company.component.scss"],
 })
-export class SelectCompanyComponent {
-  companies: Company[] = [];
+export class SelectCompanyComponent implements OnInit {
+  offices: Office[] = [];
+  selected: string | null = null;
 
-  selectedCompanyId: string | null = null;
-  errorMessage: string = "";
+  constructor(
+    private router: Router,
+    private toast: ToastrService,
+    private errorHandler: ErrorHandlerService,
+    private officeService: OfficeService,
+    private authService: AuthService
+  ) {}
 
-  constructor(private router: Router, private toast: ToastrService) {
-    const companiesResponses = JSON.parse(localStorage.getItem("officeResponses"));
-    companiesResponses.forEach((response: any) => {
-      const company: Company = {
-        id: response.id,
-        name: response.fantasyName,
-      };
-      this.companies.push(company);
+  ngOnInit(): void {
+    this.loadOfficies();
+  }
+
+  private loadOfficies(): void {
+    this.officeService.findAll().subscribe({
+      next: (offices) => {
+        this.offices = offices;
+      },
+      error: (error) => this.errorHandler.handle(error, "Erro ao carregar lista de empresas."),
     });
   }
 
-  onSelect(companyId: string): void {
-    this.selectedCompanyId = companyId;
-    localStorage.setItem("officeId", companyId);
-    this.errorMessage = "";
+  selectOffice(currentCompanyId: string): void {
+    this.selected = currentCompanyId;
   }
 
-  proceed(): void {
-    if (this.selectedCompanyId === null) {
-      this.errorMessage = "Selecione uma empresa para avançar.";
+  public proceed(): void {
+    if (this.selected === null || this.selected === "") {
       this.toast.error("Selecione uma empresa para avançar.");
       return;
     }
+    this.authService.setCurrentCompanyIdToCurrentUser(this.selected);
+    const roles = this.authService.getUserRoles();
     this.toast.success("Login efetuado com sucesso!");
-
-    // Navegue para a tela home e passe o ID da empresa selecionada, se necessário
-    this.router.navigate(["/home"]);
+    roles.map((role) => {
+      switch (role.name) {
+        case "ROLE_ADMIN":
+        case "ROLE_MANAGER":
+        case "ROLE_SUPERVISOR":
+          this.router.navigate(["/inicio/gerente"]);
+          return;
+        case "ROLE_USER":
+          this.router.navigate(["/inicio/usuario"]);
+          return;
+        default:
+          this.router.navigate(["/inicio/usuario"]);
+      }
+    });
   }
 }

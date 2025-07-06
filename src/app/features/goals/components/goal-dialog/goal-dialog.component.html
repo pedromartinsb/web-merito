@@ -1,0 +1,39 @@
+<h1 mat-dialog-title>{{ data?.goal ? "Editar Meta" : "Nova Meta" }}</h1>
+
+<form [formGroup]="goalForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="dialog-content">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title" required />
+      <mat-error *ngIf="goalForm.get('title')?.invalid">Título obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status" required>
+        <mat-option value="CREATED">Pendente</mat-option>
+        <mat-option value="IN_PROGRESS">Em andamento</mat-option>
+        <mat-option value="DONE">Concluída</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Progresso (%)</mat-label>
+      <input matInput type="number" min="0" max="100" formControlName="progress" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Prazo</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="endDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" mat-dialog-close>Cancelar</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="goalForm.invalid">
+      {{ data?.goal ? "Salvar" : "Criar" }}
+    </button>
+  </mat-dialog-actions>
+</form>

@@ -1,24 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {SuppliersService} from "../../services/suppliers.service";
-import {Urls} from "../../../../config/urls.config";
-import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
-import { AuthService } from 'src/app/services/auth.service';
+import { Component, OnInit } from "@angular/core";
+import { SuppliersService } from "../../services/suppliers.service";
+import { Urls } from "../../../../config/urls.config";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { AuthService } from "src/app/services/auth.service";
+import { ErrorHandlerService } from "src/app/shared/error-handler.service";
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-suppliers-list',
-  templateUrl: './suppliers-list.component.html',
-  styleUrls: ['./suppliers-list.component.css']
+  selector: "app-suppliers-list",
+  templateUrl: "./suppliers-list.component.html",
+  styleUrls: ["./suppliers-list.component.css"],
 })
 export class SuppliersListComponent implements OnInit {
-  suppliersHeaders = [
-    'Id',
-    'Foto',
-    'Nome',
-    'Cargo',
-    'Permissão'
-  ];
+  suppliersHeaders = ["Id", "Foto", "Nome", "Cargo", "Permissão"];
   suppliersData = [];
+
   loading: boolean = true;
   deleting: boolean = false;
 
@@ -32,28 +29,29 @@ export class SuppliersListComponent implements OnInit {
     private supplierService: SuppliersService,
     private toast: ToastrService,
     private authService: AuthService,
-     public router: Router
-    ) { }
+    public router: Router,
+    private errorHandlerService: ErrorHandlerService
+  ) {}
 
   ngOnInit(): void {
-    this._checkPermission();
-    this._suppliers();
+    this.getUserRoles();
+    this.loadSuppliers();
   }
 
-  private _checkPermission(): void {
-    this.userRole = this.authService.getRole();
-    this.userRole.map((role) => {
-      switch (role) {
-        case 'ROLE_ADMIN':
+  private getUserRoles(): void {
+    this.authService.getUserRoles().forEach((role) => {
+      console.log(role.name);
+      switch (role.name) {
+        case "ROLE_ADMIN":
           this.isAdmin = true;
           break;
-        case 'ROLE_SUPERVISOR':
-          this.isSupervisor = true;
-          break;
-        case 'ROLE_MANAGER':
+        case "ROLE_MANAGER":
           this.isManager = true;
           break;
-        case 'ROLE_USER':
+        case "ROLE_SUPERVISOR":
+          this.isSupervisor = true;
+          break;
+        case "ROLE_USER":
           this.isUser = true;
           break;
         default:
@@ -62,69 +60,60 @@ export class SuppliersListComponent implements OnInit {
     });
   }
 
-  private _suppliers() {
-    this.supplierService.findAllSuppliers().subscribe({
+  private loadSuppliers(): void {
+    this.supplierService.findAllByContractType("Supplier").subscribe({
       next: (suppliers) => {
         if (suppliers != null) {
           suppliers.forEach((response) => {
             response.picture = response.picture == null ? Urls.getDefaultPictureS3() : response.picture;
-            let accessType = (response.accessType == "Manager") ? ("Gerente") : ((response.accessType == "User") ? ("Usuário") : ("Supervisor"));
-            const supplier = [
-              response.id,
-              response.picture,
-              response.name,
-              response.responsibilityName,
-              accessType
-            ];
+            let accessType =
+              response.accessType == "Manager" ? "Gerente" : response.accessType == "User" ? "Usuário" : "Supervisor";
+            const supplier = [response.id, response.picture, response.name, response.responsibilityName, accessType];
             this.suppliersData.push(supplier);
           });
         }
-        this.loading = false;
       },
-      error: (ex) => {
-        this._handleErrors(ex);
-        this.loading = false;
-      },
+      error: (error) => this.errorHandlerService.handle(error, "Erro ao carregar os Prestadores de Serviços"),
+      complete: () => (this.loading = false),
     });
   }
 
   // Métodos para emitir os eventos de ação
   onEdit(employee: any) {
     const id = employee[0];
-    this.router.navigate(['/suppliers/edit/', id]);
+    this.router.navigate(["/suppliers/edit/", id]);
   }
 
-  onDelete(row: any) {
-    this.deleting = true;
-    this.supplierService.delete(row[0])
-    .subscribe({
-      next: () => {
-        setTimeout(() => {
-          this.toast.success('Fornecedor desativado com sucesso!');
-          this.loading = false;
-          window.location.reload();
-          this.deleting = false;
-        }, 2000);
-      },
-      error: (ex) => {
-        this._handleErrors(ex);
-        this.deleting = false;
-      },
+  public onDelete(row: any): void {
+    const id = row[0];
+    const name = row[2];
+    Swal.fire({
+      title: `Tem certeza que deseja desativar o(a) fornecedor(a) \"${name}\"?`,
+      text: "Você não poderá voltar atrás após desativar!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "green",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sim, desativar agora!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleting = true;
+        this.supplierService.delete(id).subscribe({
+          next: () => {
+            this.toast.success(`O(A) fornecedor(a) ${name} foi desativado(a) com sucesso.`);
+            this.deleting = false;
+            window.location.reload();
+          },
+          error: (error) => {
+            this.deleting = false;
+            this.errorHandlerService.handle(error, "Erro ao deletar fornecedor(a) selecionado(a).");
+          },
+        });
+      }
     });
   }
 
   onView(row: any) {
     console.log(row);
   }
-
-  private _handleErrors(ex: any): void {
-    if (ex.error.errors) {
-      ex.error.errors.forEach((element) => {
-        this.toast.error(element.message);
-      });
-    } else {
-      this.toast.error(ex.error.message);
-    }
-  }
-
 }

@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { Activity, Appointment } from 'src/app/models/appointment';
-import { AppointmentService } from 'src/app/services/appointment.service';
-import { Location } from '@angular/common';
-import { AuthService } from 'src/app/services/auth.service';
+import { Component, Inject, OnInit } from "@angular/core";
+import { FormControl, Validators } from "@angular/forms";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ToastrService } from "ngx-toastr";
+import { Activity, Appointment } from "src/app/models/appointment";
+import { AppointmentService } from "src/app/services/appointment.service";
+import { Location } from "@angular/common";
+import { AuthService } from "src/app/services/auth.service";
 
 export interface DialogData {
   tagId: string;
@@ -20,26 +20,27 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-person-appointment-confirm',
-  templateUrl: './person-appointment-confirm.component.html',
-  styleUrls: ['./person-appointment-confirm.component.css'],
+  selector: "app-person-appointment-confirm",
+  templateUrl: "./person-appointment-confirm.component.html",
+  styleUrls: ["./person-appointment-confirm.component.css"],
 })
 export class PersonAppointmentConfirmComponent implements OnInit {
   appointment: Appointment = {
-    id: '',
-    name: '',
+    id: "",
+    name: "",
     person: null,
-    personId: '',
+    personId: "",
     tag: null,
-    tagId: '',
-    activityType: '',
-    description: '',
-    justification: '',
-    activityId: '',
-    routineId: '',
-    createdAt: '',
-    updatedAt: '',
-    deletedAt: '',
+    tagId: "",
+    activityType: "",
+    description: "",
+    justification: "",
+    activityId: "",
+    routineId: "",
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: "",
+    type: 0,
   };
   isAdmin: boolean = false;
   isAdminGeral: boolean = false;
@@ -68,7 +69,7 @@ export class PersonAppointmentConfirmComponent implements OnInit {
   }
 
   public save(): void {
-    console.log('aqui');
+    console.log("aqui");
 
     this.appointment.id = this.data.appointmentId;
     this.appointment.personId = this.data.personId;
@@ -78,7 +79,7 @@ export class PersonAppointmentConfirmComponent implements OnInit {
     this.appointment.createdAt = this.data.selected.toISOString();
     this.appointmentService.createByDate(this.appointment).subscribe({
       next: () => {
-        this.toast.success('Avaliação criada com sucesso', 'Cadastro');
+        this.toast.success("Avaliação criada com sucesso", "Cadastro");
         this.location.back();
       },
       error: (ex) => {
@@ -90,13 +91,11 @@ export class PersonAppointmentConfirmComponent implements OnInit {
   public delete(): void {
     this.appointmentService.delete(this.data.appointmentId).subscribe({
       next: () => {
-        this.toast.success('Avaliação desativada com sucesso');
+        this.toast.success("Avaliação desativada com sucesso");
         this.location.back();
       },
       error: (ex) => {
-        this.toast.error(
-          'Houve um erro no servidor para deletar a ocorrência.'
-        );
+        this.toast.error("Houve um erro no servidor para deletar a ocorrência.");
       },
     });
   }
@@ -119,22 +118,22 @@ export class PersonAppointmentConfirmComponent implements OnInit {
     this.userRole = this.authService.getRole();
     this.userRole.map((role) => {
       switch (role) {
-        case 'ROLE_ADMIN':
+        case "ROLE_ADMIN":
           this.isAdmin = true;
           break;
-        case 'ROLE_ADMIN_GERAL':
+        case "ROLE_ADMIN_GERAL":
           this.isAdminGeral = true;
           break;
-        case 'ROLE_ADMIN_COMPANY':
+        case "ROLE_ADMIN_COMPANY":
           this.isAdminEmpresa = true;
           break;
-        case 'ROLE_ADMIN_OFFICE':
+        case "ROLE_ADMIN_OFFICE":
           this.isAdminOffice = true;
           break;
-        case 'ROLE_SUPERVISOR':
+        case "ROLE_SUPERVISOR":
           this.isSupervisor = true;
           break;
-        case 'ROLE_USER_OFFICE':
+        case "ROLE_USER_OFFICE":
           this.isUserOffice = true;
           break;
         default:

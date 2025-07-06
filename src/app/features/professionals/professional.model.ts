@@ -1,6 +1,6 @@
-import {Office} from "../../models/office";
-import {Responsibility} from "../../models/responsibility";
-import {Role} from "../../models/role";
+import { Office } from "../../models/office";
+import { Responsibility } from "../../models/responsibility";
+import { Role } from "../../models/role";
 
 export interface Professional {
   id?: string;
@@ -79,17 +79,18 @@ export interface AddressSearch {
 }
 
 export enum Roles {
-  ROLE_ADMIN = 'ROLE_ADMIN',
-  ROLE_USER = 'ROLE_USE',
-  ROLE_SUPERVISOR = 'ROLE_SUPERVISOR',
+  ROLE_ADMIN = "ROLE_ADMIN",
+  ROLE_USER = "ROLE_USE",
+  ROLE_SUPERVISOR = "ROLE_SUPERVISOR",
 }
 
 export enum ContractType {
-  PROFESSIONAL = 'Autônomo',
+  PROFESSIONAL = "Autônomo",
+  SUPPLIER = "Prestador de Serviço",
 }
 
 export enum PersonType {
-  USER = 'Profissional',
-  SUPERVISOR = 'Supervisor',
-  MANAGER = 'Gerente',
+  USER = "Profissional",
+  SUPERVISOR = "Supervisor",
+  MANAGER = "Gerente",
 }

@@ -10,6 +10,10 @@ import { Responsibility, ResponsibilityRequest } from "../responsibility.model";
 export class ResponsibilitiesService {
   constructor(private http: HttpClient) {}
 
+  public findAll(): Observable<Responsibility[]> {
+    return this.http.get<Responsibility[]>(`${Config.webApiUrl}/v1/responsibility`);
+  }
+
   public findAllResponsibilities(): Observable<Responsibility[]> {
     return this.http.get<Responsibility[]>(`${Config.webApiUrl}/v1/responsibility`);
   }

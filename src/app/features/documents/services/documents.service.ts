@@ -22,8 +22,20 @@ export class DocumentsService {
     return this.http.post<PdfDocumentResponse>(`${Config.webApiUrl}/v1/documents`, formData);
   }
 
-  findAll(): Observable<PdfDocumentResponse[]> {
-    return this.http.get<PdfDocumentResponse[]>(`${Config.webApiUrl}/v1/document`);
+  createDocument(data: any, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("data", JSON.stringify(data));
+
+    return this.http.post<any>(`${Config.webApiUrl}/v1/document/${data.id}`, formData);
+  }
+
+  findAll(): Observable<any[]> {
+    return this.http.get<any[]>(`${Config.webApiUrl}/v1/document`);
+  }
+
+  getReaders(id: string): Observable<any[]> {
+    return this.http.get<any[]>(`${Config.webApiUrl}/v1/document/${id}/readers`);
   }
 
   findAllByOffice(): Observable<PdfDocumentResponse[]> {

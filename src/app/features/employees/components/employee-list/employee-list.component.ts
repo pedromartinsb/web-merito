@@ -5,6 +5,12 @@ import { EmployeeService } from "../../services/employee.service";
 import { ToastrService } from "ngx-toastr";
 import { Urls } from "src/app/config/urls.config";
 import { AuthService } from "src/app/services/auth.service";
+import { ErrorHandlerService } from "src/app/shared/error-handler.service";
+import Swal from "sweetalert2";
+
+interface RoleResponse {
+  name: string;
+}
 
 @Component({
   selector: "app-employee-list",
@@ -15,7 +21,7 @@ export class EmployeeListComponent implements OnInit {
   employeeHeaders = ["Id", "Foto", "Nome", "Cargo", "Permissão"];
   employeeData = [];
 
-  userRole: string[] = [];
+  userRoles: RoleResponse[] = [];
   isAdmin: boolean = false;
   isSupervisor: boolean = false;
   isManager: boolean = false;
@@ -30,7 +36,8 @@ export class EmployeeListComponent implements OnInit {
     private authService: AuthService,
     private employeeService: EmployeeService,
     public router: Router,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private errorHandlerService: ErrorHandlerService
   ) {
     this.userForm = this.fb.group({
       name: ["", Validators.required],
@@ -39,12 +46,33 @@ export class EmployeeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._cleanEmployeeData();
+    this.loadEmployeeData();
+    this.getUserRoles();
+  }
 
-    this.userRole = this.authService.getRole();
-    this._checkPermission();
+  private getUserRoles(): void {
+    this.authService.getUserRoles().forEach((role) => {
+      switch (role.name) {
+        case "ROLE_ADMIN":
+          this.isAdmin = true;
+          break;
+        case "ROLE_MANAGER":
+          this.isManager = true;
+          break;
+        case "ROLE_SUPERVISOR":
+          this.isSupervisor = true;
+          break;
+        case "ROLE_USER":
+          this.isUser = true;
+          break;
+        default:
+          this.isUser = true;
+      }
+    });
+  }
 
-    this.employeeService.findAllEmployees().subscribe({
+  private loadEmployeeData(): void {
+    this.employeeService.findAllByContractType("CLT").subscribe({
       next: (employees) => {
         if (employees != null) {
           employees.forEach((response) => {
@@ -61,35 +89,9 @@ export class EmployeeListComponent implements OnInit {
             this.employeeData.push(employee);
           });
         }
-        this.loading = false;
       },
-      error: (ex) => {
-        this._handleErrors(ex);
-        this.loading = false;
-      },
-    });
-  }
-
-  private _cleanEmployeeData() {
-    this.employeeData = [];
-  }
-
-  private _checkPermission(): void {
-    this.userRole.map((role) => {
-      switch (role) {
-        case "ROLE_ADMIN":
-          this.isAdmin = true;
-          break;
-        case "ROLE_SUPERVISOR":
-          this.isSupervisor = true;
-          break;
-        case "ROLE_MANAGER":
-          this.isManager = true;
-          break;
-        case "ROLE_USER":
-          this.isUser = true;
-          break;
-      }
+      error: (error) => this.errorHandlerService.handle(error, "Não foi possível buscar os funcionários"),
+      complete: () => (this.loading = false),
     });
   }
 
@@ -98,33 +100,36 @@ export class EmployeeListComponent implements OnInit {
     this.router.navigate(["/employees/edit/", id]);
   }
 
-  onDelete(row: any) {
-    this.deleting = true;
-    this.employeeService.delete(row[0]).subscribe({
-      next: () => {
-        this.toast.success("Funcionário desativado com sucesso!");
-        this.loading = false;
-        window.location.reload();
-        this.deleting = false;
-      },
-      error: (ex) => {
-        this._handleErrors(ex);
-        this.deleting = false;
-      },
+  public onDelete(row: any): void {
+    const id = row[0];
+    const name = row[2];
+    Swal.fire({
+      title: `Tem certeza que deseja desativar o(a) funcionário(a) \"${name}\"?`,
+      text: "Você não poderá voltar atrás após desativar!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "green",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sim, desativar agora!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleting = true;
+        this.employeeService.delete(id).subscribe({
+          next: () => {
+            this.toast.success(`O(A) funcionário(a) ${name} foi desativado(a) com sucesso.`);
+            this.deleting = false;
+            window.location.reload();
+          },
+          error: (error) => {
+            this.deleting = false;
+            this.errorHandlerService.handle(error, "Erro ao deletar funcionário(a) selecionado(a).");
+          },
+        });
+      }
     });
   }
 
   onView(row: any) {
     console.log(row);
-  }
-
-  private _handleErrors(ex: any): void {
-    if (ex.error.errors) {
-      ex.error.errors.forEach((element) => {
-        this.toast.error(element.message);
-      });
-    } else {
-      this.toast.error(ex.error.message);
-    }
   }
 }

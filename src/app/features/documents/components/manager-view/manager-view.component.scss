@@ -1,0 +1,29 @@
+.documents-container {
+  padding: 24px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .filters {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .document-list {
+    display: grid;
+    gap: 16px;
+  }
+
+  .document-card {
+    span.obrigatorio {
+      color: red;
+      font-weight: bold;
+    }
+  }
+}
